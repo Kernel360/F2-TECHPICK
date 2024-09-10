@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/nextjs';
+
 import { join, dirname } from 'path';
 
 /**
@@ -10,25 +11,18 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-
   addons: [
     getAbsolutePath('@storybook/addon-onboarding'),
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-interactions'),
-    getAbsolutePath('@storybook/addon-mdx-gfm'),
   ],
-
   framework: {
     name: getAbsolutePath('@storybook/nextjs'),
     options: {},
   },
-
-  docs: {},
-
-  typescript: {
-    reactDocgen: 'react-docgen-typescript',
+  docs: {
+    autodocs: 'tag',
   },
 };
 export default config;
