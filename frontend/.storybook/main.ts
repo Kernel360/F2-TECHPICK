@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/nextjs';
-
 import { join, dirname } from 'path';
 
 /**
