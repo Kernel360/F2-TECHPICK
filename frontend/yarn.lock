@@ -2474,6 +2474,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/eslint-plugin-next@npm:^14.2.10":
+  version: 14.2.10
+  resolution: "@next/eslint-plugin-next@npm:14.2.10"
+  dependencies:
+    glob: "npm:10.3.10"
+  checksum: 10c0/6efc2de33b749dd2340ead4facc83c0dc9ffc9de69a9c96665917b22767a5eff5bcf2e8f3d05607fc0daf5c370a7459ccbd01a82637113d9b131a7af5ee4bb9d
+  languageName: node
+  linkType: hard
+
 "@next/swc-darwin-arm64@npm:14.2.9":
   version: 14.2.9
   resolution: "@next/swc-darwin-arm64@npm:14.2.9"
@@ -7036,6 +7045,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "eslint-config-prettier@npm:9.1.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 10c0/6d332694b36bc9ac6fdb18d3ca2f6ac42afa2ad61f0493e89226950a7091e38981b66bac2b47ba39d15b73fff2cd32c78b850a9cf9eed9ca9a96bfb2f3a2f10d
+  languageName: node
+  linkType: hard
+
 "eslint-import-resolver-node@npm:^0.3.6, eslint-import-resolver-node@npm:^0.3.9":
   version: 0.3.9
   resolution: "eslint-import-resolver-node@npm:0.3.9"
@@ -7147,7 +7167,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.33.2":
+"eslint-plugin-react@npm:^7.33.2, eslint-plugin-react@npm:^7.35.2":
   version: 7.35.2
   resolution: "eslint-plugin-react@npm:7.35.2"
   dependencies:
@@ -11332,7 +11352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.1.1":
+"prettier@npm:3.3.3, prettier@npm:^3.1.1":
   version: 3.3.3
   resolution: "prettier@npm:3.3.3"
   bin:
@@ -13052,6 +13072,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tech-picker@workspace:."
   dependencies:
+    "@next/eslint-plugin-next": "npm:^14.2.10"
     "@playwright/test": "npm:^1.47.0"
     "@storybook/addon-essentials": "npm:^8.2.9"
     "@storybook/addon-interactions": "npm:^8.2.9"
@@ -13072,15 +13093,18 @@ __metadata:
     "@vanilla-extract/next-plugin": "npm:^2.4.5"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.9"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-react: "npm:^7.35.2"
     eslint-plugin-storybook: "npm:^0.8.0"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     next: "npm:14.2.9"
     path: "npm:^0.12.7"
+    prettier: "npm:3.3.3"
     react: "npm:^18"
     react-dom: "npm:^18"
     storybook: "npm:^8.2.9"
-    typescript: "npm:^5"
+    typescript: "npm:^5.4"
     webpack: "npm:^5.94.0"
     webpack-cli: "npm:^5.1.4"
     zustand: "npm:^4.5.5"
@@ -13464,7 +13488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5":
+"typescript@npm:^5.4":
   version: 5.6.2
   resolution: "typescript@npm:5.6.2"
   bin:
@@ -13474,7 +13498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.4#optional!builtin<compat/typescript>":
   version: 5.6.2
   resolution: "typescript@patch:typescript@npm%3A5.6.2#optional!builtin<compat/typescript>::version=5.6.2&hash=8c6c40"
   bin:
