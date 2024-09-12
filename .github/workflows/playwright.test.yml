@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: lts/*
           cache: 'yarn'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: frontend/package.json
       - name: Install dependencies
         run: yarn
       - name: Run Playwright tests
