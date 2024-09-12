@@ -22,6 +22,8 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@jest/types": "^29.6.3",
     "@next/eslint-plugin-next": "^14.2.10",
     "@playwright/test": "^1.47.0",
     "@storybook/addon-essentials": "^8.2.9",
@@ -50,6 +52,7 @@
     "path": "^0.12.7",
     "prettier": "3.3.3",
     "storybook": "^8.2.9",
+    "ts-node": "^10.9.2",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"
   },
