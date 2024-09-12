@@ -8,6 +8,7 @@ public class TechpickApplication {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
+		asdfzxcvasdf;
 		SpringApplication.run(TechpickApplication.class, args);
 	}
 
