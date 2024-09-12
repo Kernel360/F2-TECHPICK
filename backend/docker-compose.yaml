@@ -1,0 +1,47 @@
+# 참고 설정
+# https://github.com/Kernel360/E2E2-TALKKA/blob/develop/docker-compose.yaml
+# https://github.com/Kernel360/E2E2-LOOK-US/blob/develop/backend/docker-compose.yaml
+
+name: techpick-dev
+
+networks:
+  techpick-network:
+    driver: bridge
+
+services:
+  techpick-mysql:
+    image: mysql:8.0
+    container_name: techpick-mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DOCKER_MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${DOCKER_MYSQL_DATABASE}
+      - TZ=Asia/Seoul
+    volumes:
+      - ./data/mysql-data:/var/lib/mysql
+      - ./data/mysql-files:/var/lib/mysql-files
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --lower_case_table_names=1
+    networks:
+      - techpick-network
+
+#  techpick-server:
+#    image: foo/bar
+#    container_name: techpick-server
+#     ports:
+#      - "8080:8080"
+#     environment:
+#       SPRING_DATASOURCE_URL: ${DOCKER_MYSQL_URL}
+#       SPRING_DATASOURCE_USERNAME: ${DOCKER_MYSQL_USERNAME}
+#       SPRING_DATASOURCE_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
+#     env_file:
+#       - .env
+#     depends_on:
+#       - mysql
+#     networks:
+#       - techpick-network
