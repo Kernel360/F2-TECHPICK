@@ -11,7 +11,7 @@ export function Come() {
 
   return (
     <div>
-      <h1>Hello, Next.js with ESLint!</h1>
+      <h1>ㅁㅁㅁHelloㅁ, Next.js with ESLint!</h1>
       <p>Counter: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>

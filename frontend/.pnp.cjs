@@ -51,6 +51,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-prettier", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:9.1.0"],\
           ["eslint-plugin-react", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:7.35.2"],\
           ["eslint-plugin-storybook", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:0.8.0"],\
+          ["husky", "npm:9.1.6"],\
           ["jest", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:29.7.0"],\
           ["jest-environment-jsdom", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:29.7.0"],\
           ["next", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:14.2.9"],\
@@ -11673,6 +11674,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["husky", [\
+      ["npm:9.1.6", {\
+        "packageLocation": "../../../../.yarn/berry/cache/husky-npm-9.1.6-f05821288d-10c0.zip/node_modules/husky/",\
+        "packageDependencies": [\
+          ["husky", "npm:9.1.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["iconv-lite", [\
       ["npm:0.4.24", {\
         "packageLocation": "../../../../.yarn/berry/cache/iconv-lite-npm-0.4.24-c5c4ac6695-10c0.zip/node_modules/iconv-lite/",\
@@ -16986,6 +16996,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-prettier", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:9.1.0"],\
           ["eslint-plugin-react", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:7.35.2"],\
           ["eslint-plugin-storybook", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:0.8.0"],\
+          ["husky", "npm:9.1.6"],\
           ["jest", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:29.7.0"],\
           ["jest-environment-jsdom", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:29.7.0"],\
           ["next", "virtual:2fe49d2ecb4c31bfb2f2d053be1624fefbe013c954a8bd3eeba4bb168da2b637f565925cea5b3cb84d26345b78096cc5d82f6fdfd0fa3f96c7feecef272d04f2#npm:14.2.9"],\
