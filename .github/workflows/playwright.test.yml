@@ -17,6 +17,8 @@ jobs:
           node-version: lts/*
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: yarn
       - name: Run Playwright tests
