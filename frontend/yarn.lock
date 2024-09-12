@@ -13096,6 +13096,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-react: "npm:^7.35.2"
     eslint-plugin-storybook: "npm:^0.8.0"
+    husky: "npm:^9.1.6"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     next: "npm:14.2.9"
