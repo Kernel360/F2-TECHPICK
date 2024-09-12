@@ -18,4 +18,4 @@
 ##### (2) Env 설정
 1. `.env.sample` 파일로`.env`을 생성 합니다.
 2. `run configuration` 설정에 아래와 같이 `.env` 파일을 추가 합니다.
-![env-setup.png](env-setup.png)
+![env-setup.png](env_setup_tutorial.png)
