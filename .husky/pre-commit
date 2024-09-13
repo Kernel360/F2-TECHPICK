@@ -1,0 +1,6 @@
+if git diff --cached --name-only | grep -q '^frontend/'; then
+  echo "lint or tsc errror"
+  cd frontend 
+  yarn lint
+  yarn tsc
+fi
