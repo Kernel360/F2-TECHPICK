@@ -24,11 +24,24 @@ repositories {
 }
 
 dependencies {
+	// spring boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// lombok annotation
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Sql logging formatter
+	// reference: https://www.baeldung.com/java-p6spy-intercept-sql-logging
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2' //이쁘게
+
+	// logback logger
+	implementation 'ch.qos.logback:logback-classic:1.4.12'
+	implementation 'org.slf4j:slf4j-api:2.0.3'
+
+	// test environment
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
