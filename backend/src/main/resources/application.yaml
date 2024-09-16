@@ -11,11 +11,10 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect # MySQL 버전에 맞게 설정하세요
-        format_sql: true
+        format_sql: false
+        show_sql: false
     hibernate:
       ddl-auto: update # 이 부분 설정 주의 필요
-    show-sql: true
   datasource:
     url: ${DOCKER_MYSQL_URL}
     username: ${DOCKER_MYSQL_USERNAME}
