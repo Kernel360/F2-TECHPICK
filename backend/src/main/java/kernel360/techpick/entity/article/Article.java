@@ -10,27 +10,26 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import kernel360.techpick.entity.blog.Blog;
 import kernel360.techpick.entity.common.CreatedAndUpdatedTimeColumn;
-import kernel360.techpick.entity.admin.Topic;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Table(name = "article")
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article extends CreatedAndUpdatedTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "article_id", updatable = false)
+	@Column(name = "article_id")
 	private Long articleId;
 
 	// 원문 제목
@@ -46,8 +45,8 @@ public class Article extends CreatedAndUpdatedTimeColumn {
 	private LocalDateTime publishedAt;
 
 	// 원문 작성자
-	@Column(name = "author", nullable = false)
-	private LocalDateTime author;
+	@Column(name = "author") // nullable (수집 안될 수도 있음)
+	private String author;
 
 	// 원문 출처 블로그
 	@ManyToOne
@@ -58,17 +57,20 @@ public class Article extends CreatedAndUpdatedTimeColumn {
 	@Column(name = "crawled_at", nullable = false)
 	private LocalDateTime crawled_at;
 
-	// 게시글 상세 id - FK
-	@OneToOne
-	@JoinColumn(name = "article_detail_id", nullable = false, unique = true)
-	private ArticleDetail articleDetail;
+	// 대표 이미지 CDN url
+	@Column(name = "image_url")
+	private String imageUrl; // nullable
+
+	// [사용자 - 관심 토픽] 1:N 테이블
+	@OneToMany(mappedBy = "article")
+	private List<ArticleTopic> articleTopics = new ArrayList<>();
 
 	// 게시글-토픽 관계 테이블
-	@ManyToMany
-	@JoinTable(
-		name = "article_topic",
-		joinColumns = @JoinColumn(name = "article_id", nullable = false),
-		inverseJoinColumns = @JoinColumn(name = "topic_id", nullable = false)
-	)
-	private List<Topic> topics = new ArrayList<>();
+	// @ManyToMany
+	// @JoinTable(
+	// 	name = "article_topic",
+	// 	joinColumns = @JoinColumn(name = "article_id", nullable = false),
+	// 	inverseJoinColumns = @JoinColumn(name = "topic_id", nullable = false)
+	// )
+	// private List<Topic> topics = new ArrayList<>();
 }

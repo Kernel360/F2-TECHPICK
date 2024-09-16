@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +18,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "crawling_topic_mapping")
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CrawlingTopicMapping {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "crawling_topic_mapping_id", updatable = false)
+	@Column(name = "crawling_topic_mapping_id")
 	private Long crawlingTopicMappingId;
 
 	// TODO: 태그 종류는 블로그별로 다 달라질 것이다.

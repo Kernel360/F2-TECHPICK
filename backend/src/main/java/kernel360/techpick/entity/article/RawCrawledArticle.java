@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import kernel360.techpick.entity.common.CreatedAndUpdatedTimeColumn;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,12 +19,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "raw_crawled_article")
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RawCrawledArticle extends CreatedAndUpdatedTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "raw_crawled_article_id", updatable = false)
+	@Column(name = "raw_crawled_article_id")
 	private Long rawCrawledArticleId;
 
 	// TODO: 아래 크롤링 데이터 칼럼은 토의 후 바뀔 예정 입니다.

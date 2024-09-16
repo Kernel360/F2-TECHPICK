@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import jakarta.persistence.Table;
 import kernel360.techpick.entity.article.Article;
 import kernel360.techpick.entity.common.CreatedAndUpdatedTimeColumn;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,12 +23,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "article_view_event")
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AricleViewEvent extends CreatedAndUpdatedTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "article_view_event_id", updatable = false)
+	@Column(name = "article_view_event_id")
 	private Long articleViewEventId;
 
 	// 이메일
@@ -39,7 +42,7 @@ public class AricleViewEvent extends CreatedAndUpdatedTimeColumn {
 	private EventLocation eventLocation;
 
 	// 조회한 게시글
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY) // article 은 즉시 조회될 필요 없음
 	@JoinColumn(name = "article_id", nullable = false)
 	private Article article;
 }

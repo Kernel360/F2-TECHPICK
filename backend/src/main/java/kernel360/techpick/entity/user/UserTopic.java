@@ -5,26 +5,32 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import kernel360.techpick.entity.admin.Topic;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// NOTE: 관리자만 수정 가능한 테이블 입니다.
-@Table(name = "job_group")
+@Table(name = "user_topic")
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class JobGroup {
+public class UserTopic {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "job_group_id")
-	private Long jobGroupId;
+	@Column(name = "user_topic_id")
+	private Long userTopicInterestId;
 
-	// 직군 명
-	@Column(name = "job_group_name", nullable = false)
-	private String jobGroupName;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "topic_id")
+	private Topic topic;
 }
