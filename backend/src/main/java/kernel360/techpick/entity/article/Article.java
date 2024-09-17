@@ -53,10 +53,6 @@ public class Article extends CreatedAndUpdatedTimeColumn {
 	@JoinColumn(name = "blog_id", nullable = false)
 	private Blog blog;
 
-	// 수집 날짜 (크롤링 시각)
-	@Column(name = "crawled_at", nullable = false)
-	private LocalDateTime crawled_at;
-
 	// 대표 이미지 CDN url
 	@Column(name = "image_url")
 	private String imageUrl; // nullable
