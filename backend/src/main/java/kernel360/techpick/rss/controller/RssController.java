@@ -11,6 +11,9 @@ import kernel360.techpick.rss.dto.RssResponse;
 import kernel360.techpick.rss.service.RssService;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * RSS 테스트용 컨트롤러
+ */
 @RestController
 @RequestMapping("/rss")
 @RequiredArgsConstructor

@@ -35,23 +35,7 @@ public class RssService {
 			rssList.add(Objects.requireNonNull(rss).getChannel());
 		}
 
-		List<RawCrawledArticle> articles = rssList.stream()
-			.flatMap(channel -> channel.getItem().stream())
-			.filter(item -> !links.contains(item.getLink()))
-			.map(item -> {
-				String joinedCategories = null;
-				if (Objects.nonNull(item.getCategory())) {
-					joinedCategories = String.join(",", item.getCategory());
-				}
-				RawCrawledArticle article = new RawCrawledArticle(item.getTitle(), item.getLink(),
-					item.getPubDate(),
-					item.getCreator(), joinedCategories);
-
-				log.info(article.getLink());
-				return article;
-			})
-			.toList();
-
+		List<RawCrawledArticle> articles = getCrawledArticleList(rssList, links);
 		rssRepository.saveAll(articles);
 		return rssList;
 	}
@@ -84,6 +68,25 @@ public class RssService {
 	public RssResponse.Channel getRssByLine() {
 		RssResponse rss = restTemplate.getForObject(Url.LINE_URL.getUrl(), RssResponse.class);
 		return Objects.requireNonNull(rss).getChannel();
+	}
+
+	private List<RawCrawledArticle> getCrawledArticleList(List<RssResponse.Channel> rssList, Set<String> links) {
+		return rssList.stream()
+			.flatMap(channel -> channel.getItem().stream())
+			.filter(item -> !links.contains(item.getLink()))
+			.map(this::getCrawledArticle)
+			.toList();
+	}
+
+	private RawCrawledArticle getCrawledArticle(RssResponse.Item item) {
+		String joinedCategories = null;
+		if (Objects.nonNull(item.getCategory())) {
+			joinedCategories = String.join(",", item.getCategory());
+		}
+
+		return new RawCrawledArticle(item.getTitle(), item.getLink(),
+			item.getPubDate(),
+			item.getCreator(), joinedCategories);
 	}
 
 }
