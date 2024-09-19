@@ -54,7 +54,7 @@
         (ref: https://mkyong.com/logging/logback-duplicate-log-messages/) -->
 
     <!-- (1) 프로젝트 전체 로그 설정  -->
-    <logger name="kernel360.linkpick" level="debug" additivity="false">
+    <logger name="kernel360.techpick" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE-ROLLING"/>
     </logger>

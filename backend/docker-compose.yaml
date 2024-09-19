@@ -2,16 +2,16 @@
 # https://github.com/Kernel360/E2E2-TALKKA/blob/develop/docker-compose.yaml
 # https://github.com/Kernel360/E2E2-LOOK-US/blob/develop/backend/docker-compose.yaml
 
-name: linkpick-dev
+name: techpick-dev
 
 networks:
-  linkpick-network:
+  techpick-network:
     driver: bridge
 
 services:
-  linkpick-mysql:
+  techpick-mysql:
     image: mysql:8.0
-    container_name: linkpick-mysql
+    container_name: techpick-mysql
     ports:
       - "3306:3306"
     env_file:
@@ -28,11 +28,11 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --lower_case_table_names=1
     networks:
-      - linkpick-network
+      - techpick-network
 
-#  linkpick-server:
+#  techpick-server:
 #    image: foo/bar
-#    container_name: linkpick-server
+#    container_name: techpick-server
 #     ports:
 #      - "8080:8080"
 #     environment:
@@ -44,4 +44,4 @@ services:
 #     depends_on:
 #       - mysql
 #     networks:
-#       - linkpick-network
+#       - techpick-network

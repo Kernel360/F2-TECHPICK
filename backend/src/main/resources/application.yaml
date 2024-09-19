@@ -4,7 +4,7 @@
 
 spring:
   application:
-    name: linkpick-server
+    name: techpick-server
   output:
     ansi:
       enabled: always
