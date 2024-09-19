@@ -13742,6 +13742,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-hooks", "virtual:9fe1881b6f02e83bb25fa91f4a5f4f4cefd4c05a5b45ac5fbd2c71ddce79a9bfedc2a584bd36cc0ee92bded568f172070913ddcd55526416af62abfde0d16f6c#npm:5.1.0-rc-fb9a90fa48-20240614"],\
           ["eslint-plugin-react-refresh", "virtual:9fe1881b6f02e83bb25fa91f4a5f4f4cefd4c05a5b45ac5fbd2c71ddce79a9bfedc2a584bd36cc0ee92bded568f172070913ddcd55526416af62abfde0d16f6c#npm:0.4.12"],\
           ["globals", "npm:15.9.0"],\
+          ["husky", "npm:9.1.6"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:3aad847ea7912374c6157c2cab83097f4d6b67077a1d0f268825f791e05e5c3f134e0be5128b913c846876dbf793018a32aa13f8d8b02a62aab0a96c62d8dc85#npm:18.3.1"],\
           ["typescript", "patch:typescript@npm%3A5.6.2#optional!builtin<compat/typescript>::version=5.6.2&hash=8c6c40"],\
