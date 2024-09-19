@@ -5,18 +5,21 @@
     <!-- ``````````````````````` CONVERSION RULE SETTING ```````````````````````````` -->
 
     <!-- 콘솔 출력 색상 적용 (참고: https://oingdaddy.tistory.com/257)   -->
-    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
     <!-- ``````````````````````` PROPERTY VARIABLE SETTING ```````````````````````````` -->
 
-    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){green} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){green} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
     <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-default}"/>
 
     <!-- 로그 경로 (Logback 은 환경 번수 적용 불가) -->
-    <property name="LOG_PATH" value="data/logs" />
-    <property name="DATE_DIR" value="%d{yyyy-MM-dd}" />
+    <property name="LOG_PATH" value="data/logs"/>
+    <property name="DATE_DIR" value="%d{yyyy-MM-dd}"/>
 
     <!-- ``````````````````````` APPENDER SETTING ```````````````````````````` -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -51,7 +54,7 @@
         (ref: https://mkyong.com/logging/logback-duplicate-log-messages/) -->
 
     <!-- (1) 프로젝트 전체 로그 설정  -->
-    <logger name="kernel360.techpick" level="debug" additivity="false">
+    <logger name="kernel360.linkpick" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE-ROLLING"/>
     </logger>
