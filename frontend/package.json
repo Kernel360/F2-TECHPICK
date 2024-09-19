@@ -10,7 +10,8 @@
   "scripts": {
     "service": "yarn workspace link-pick-service",
     "extension": "yarn workspace linkpick-extension",
-    "lint": "yarn workspaces foreach --all run lint"
+    "lint": "yarn workspaces foreach --all run lint",
+    "all": "yarn workspaces foreach --all"
   },
   "packageManager": "yarn@4.4.1",
   "devDependencies": {
