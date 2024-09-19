@@ -7941,6 +7941,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-react: "npm:^7.36.1"
     globals: "npm:^15.9.0"
+    husky: "npm:^9.1.6"
     next: "npm:14.2.9"
     prettier: "npm:3.3.3"
     typescript: "npm:^5.6.2"
