@@ -1,17 +1,11 @@
-
-# echo "pre-commit Work!!!!!!!!"
-
-# if git diff --cached --name-only | grep -q '^frontend/linkpick'; then
-#   echo "frontend/linkpick lint or tsc errror"
-#   cd frontend/linkpick
-#   yarn lint
-#   yarn tsc
-# fi
-
-# if git diff --cached --name-only | grep -q '^frontend/linkpick-extension'; then
-#   echo "frontend/linkpick-extension lint or tsc errror"
-#   cd frontend/linkpick-extension
-#   yarn lint
-#   yarn tsc
-# fi
-
+if git diff --cached --name-only | grep -q '^frontend/linkpick-extension'; then
+  echo "frontend/linkpick-extension lint or tsc error"
+  cd "frontend/linkpick-extension" 
+  yarn lint
+  yarn tsc
+elif git diff --cached --name-only | grep -q '^frontend/linkpick'; then
+  echo "frontend/linkpick lint or tsc error"
+  cd frontend/linkpick 
+  yarn lint
+  yarn tsc
+fi
