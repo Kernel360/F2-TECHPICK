@@ -1,6 +1,7 @@
-if git diff --cached --name-only | grep -q '^frontend/'; then
+if git diff --cached --name-only | grep -q '^frontend/linkpick'; then
   echo "lint or tsc errror"
-  cd frontend 
+  cd frontend/linkpick
   yarn lint
   yarn tsc
 fi
+
