@@ -24,7 +24,7 @@ public class Link extends CreatedAndUpdatedTimeColumn {
 	private Long linkId;
 
 	@Lob
-	@Column(name = "url", nullable = false)
+	@Column(name = "url", nullable = false, columnDefinition = "BLOB")
 	private String url;
 
 	public Link(String url) {
