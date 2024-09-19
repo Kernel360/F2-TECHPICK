@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "yarn eslint src/**/*.{js,mjs,cjs,ts,jsx,tsx} tests/**/*.{js,mjs,cjs,ts,jsx,tsx}",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest",
