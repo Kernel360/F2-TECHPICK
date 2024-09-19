@@ -4,6 +4,12 @@ import toast from 'react-hot-toast';
 
 const notify = () => toast('Here is your toast.');
 
+const a = 1;
+export function aa() {
+  console.log(a);
+}
+aa();
+
 export default function Home() {
   return (
     <div>
