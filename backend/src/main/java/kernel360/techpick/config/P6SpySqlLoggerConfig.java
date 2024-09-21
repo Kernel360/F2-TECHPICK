@@ -2,6 +2,7 @@ package kernel360.techpick.config;
 
 import java.sql.SQLException;
 import java.util.Locale;
+
 import static org.springframework.util.StringUtils.hasText;
 
 import org.hibernate.engine.jdbc.internal.FormatStyle;
