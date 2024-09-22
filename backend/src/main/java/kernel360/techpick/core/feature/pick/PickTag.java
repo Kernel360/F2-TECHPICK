@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.picktag;
+package kernel360.techpick.core.feature.pick;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.CreatedAndUpdatedTimeColumn;
 import kernel360.techpick.core.feature.tag.Tag;
 import kernel360.techpick.core.feature.user.User;
 import lombok.AccessLevel;
@@ -20,22 +19,26 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PickTag extends CreatedAndUpdatedTimeColumn {
+public class PickTag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pick_tag_id")
-	private Long pickTagId;
+	@Column(name = "id")
+	private Long id;
 
+	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	// 사용자 정의 태그 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tag_id")
+	@JoinColumn(name = "tag_id", nullable = false)
 	private Tag tag;
 
-	public PickTag(User user, Tag tag) {
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+
+	private PickTag(User user, Tag tag) {
 		this.user = user;
 		this.tag = tag;
 	}

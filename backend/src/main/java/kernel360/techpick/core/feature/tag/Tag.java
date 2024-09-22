@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.CreatedAndUpdatedTimeColumn;
+import kernel360.techpick.core.common.model.TimeTracking;
 import kernel360.techpick.core.feature.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,21 +19,31 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Tag extends CreatedAndUpdatedTimeColumn {
+public class Tag {
+
+	/**
+	 * TODO: 태그 기반 전체 사용자 Pick 검색 기능
+	 *       - 이를 위해선 사용자 마다 다른 태그들을 정규화해야 하는데, 이는 나중에 고민해보기
+	 *       - Ex. "Ci/CD", "CI CD" --> 공백, 특수문자 제거 --> "cicd"
+	 */
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "tag_id")
-	private Long tagId;
+	@Column(name = "id")
+	private Long id;
 
+	// 태그명
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	public Tag(String name, User user) {
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+
+	private Tag(String name, User user) {
 		this.name = name;
 		this.user = user;
 	}
