@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.common.model.TimeTracking;
 import lombok.AccessLevel;
@@ -27,7 +28,9 @@ public class RssRawData extends TimeTracking {
 	private String title;
 
 	// 원문 주소
-	@Column(name = "url", nullable = false)
+	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
+	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 1000 byte로 잡았습니다.
+	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(1000)")
 	private String url;
 
 	// 작성 일자
