@@ -35,24 +35,20 @@ public class Link {
 	 * 참고: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/util/UriComponents.html
 	 */
 
+	/**
+	 * NOTE:
+	 * 링크에 대한 Title, Description은 프론트엔드에서 로딩합니다.
+	 * - 제목이나 설명은 바뀔 수 있기 때문에 동적으로 그때 가져와야 하며, 굳이 DB에 저장할 필요가 없음
+	 */
+
 	// URL 출처 (scheme, host name, port)
 	@Lob // 한글 도메인 가능성
 	@Column(name = "origin", nullable = false, columnDefinition = "BLOB", unique = true)
 	private String url;
 
-	// 원문 제목
-	@Column(name = "title", nullable = false)
-	private String title;
-
-	// 원문 설명
-	@Column(name = "description") // nullable
-	private String description;
-
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	private Link(String url, String title, String description) {
+	private Link(String url) {
 		this.url = url;
-		this.title = title;
-		this.description = description;
 	}
 }

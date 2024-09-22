@@ -37,6 +37,20 @@ public class Pick extends TimeTracking {
 	@JoinColumn(name = "link_id", nullable = false)
 	private Link link;
 
+	/**
+	 * NOTE: 사용자가 설정한 커스텀 제목
+	 * [#1] 사용자가 저장시 제목을 설정 하지 않았을 경우
+	 *     1. 프론트에서 메타 데이터 조회
+	 *     2. 있으면 메타에서 제목 가져오기
+	 *     3. 없으면 쌩 URL을 제목으로 쓰기
+	 *     4. 사용자가 추후에 제목을 자신만의 이름으로 변경 가능
+	 *
+	 * #2. 사용자가 저장시 제목을 설정 했을 경우
+	 *     1. 이걸 보여준다.
+	 */
+	@Column(name = "custom_title") // nullable
+	private String customTitle;
+
 	// 사용자가 링크에 대해 남기는 메모
 	@Column(name = "memo") // nullable
 	private String memo;
