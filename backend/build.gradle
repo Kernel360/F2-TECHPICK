@@ -57,6 +57,7 @@ dependencies {
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1' //xml 문서와 자바 객체 간 매핑을 자동화
 }
 
 tasks.named('test') {
