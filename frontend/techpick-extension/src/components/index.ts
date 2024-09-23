@@ -1,0 +1,1 @@
+export { CurrentTabInfo } from './CurrentTabInfo';

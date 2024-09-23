@@ -1,11 +1,8 @@
-import { CurrentTabInfo } from './CurrentTabInfo';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routers/index.tsx';
 
 function App() {
-  return (
-    <>
-      <CurrentTabInfo />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
