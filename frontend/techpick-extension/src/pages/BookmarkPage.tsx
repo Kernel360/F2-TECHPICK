@@ -1,4 +1,4 @@
-import { CurrentTabInfo } from '@/';
+import { CurrentTabInfo } from '@/components';
 
 export function BookmarkPage() {
   return (
