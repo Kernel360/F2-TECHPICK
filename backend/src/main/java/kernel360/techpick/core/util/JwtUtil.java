@@ -1,5 +1,6 @@
-package kernel360.techpick.core.config;
+package kernel360.techpick.core.util;
 
+import java.time.Duration;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +24,15 @@ public class JwtUtil {
 	/*
 		userId만 토큰에 포함됨
 	 */
-	public String getToken(User user, Date expiry) {
+	public String getToken(User user, Duration expiry) {
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + expiry.toMillis());
+
 		return Jwts.builder()
 			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 			.setIssuer(issuer)
-			.setIssuedAt(new Date())
-			.setExpiration(expiry)
+			.setIssuedAt(now)
+			.setExpiration(expiryDate)
 			.claim("id", user.getId())
 			.signWith(SignatureAlgorithm.HS256, secret)
 			.compact();
