@@ -17,6 +17,7 @@ export const lightThemeClass = createTheme(themeVars, {
   },
   typography: {
     fontFamily: 'Arial, sans-serif',
+    fontColor: '#000',
     fontSize: {
       xs: '12px',
       sm: '14px',

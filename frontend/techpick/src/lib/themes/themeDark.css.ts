@@ -17,6 +17,7 @@ export const darkThemeClass = createTheme(themeVars, {
   },
   typography: {
     fontFamily: 'Arial, sans-serif',
+    fontColor: '#fff',
     fontSize: {
       xs: '12px',
       sm: '14px',

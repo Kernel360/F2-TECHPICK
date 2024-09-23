@@ -1,7 +1,5 @@
 'use client';
 
-// const a = 1;
-
 import DirView from '@/widgets/DirView/DirView';
 import { rootWrapper } from '@/app/style.css';
 

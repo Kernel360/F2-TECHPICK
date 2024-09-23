@@ -16,6 +16,7 @@ export const themeVars = createThemeContract({
   },
   typography: {
     fontFamily: '',
+    fontColor: '',
     fontSize: {
       xs: '',
       sm: '',
