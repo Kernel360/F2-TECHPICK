@@ -3,13 +3,13 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "linkpick",
-      "linkpick-extension"
+      "techpick",
+      "techpick-extension"
     ]
   },
   "scripts": {
-    "service": "yarn workspace link-pick-service",
-    "extension": "yarn workspace linkpick-extension",
+    "service": "yarn workspace tech-pick-service",
+    "extension": "yarn workspace techpick-extension",
     "lint": "yarn workspaces foreach --all run lint",
     "all": "yarn workspaces foreach --all",
     "postinstall": "cd .. && husky"

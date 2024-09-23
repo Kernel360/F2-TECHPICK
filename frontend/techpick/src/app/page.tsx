@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 const notify = () => toast('Here is your toast.');
 
-//const a = 1;
+// const a = 1;
 
 export default function Home() {
   return (

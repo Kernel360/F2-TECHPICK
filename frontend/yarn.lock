@@ -9969,79 +9969,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"link-pick-service@workspace:linkpick":
-  version: 0.0.0-use.local
-  resolution: "link-pick-service@workspace:linkpick"
-  dependencies:
-    "@jest/globals": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@next/eslint-plugin-next": "npm:^14.2.10"
-    "@playwright/test": "npm:^1.47.0"
-    "@storybook/addon-essentials": "npm:^8.2.9"
-    "@storybook/addon-interactions": "npm:^8.2.9"
-    "@storybook/addon-links": "npm:^8.2.9"
-    "@storybook/addon-onboarding": "npm:^8.2.9"
-    "@storybook/blocks": "npm:^8.2.9"
-    "@storybook/nextjs": "npm:^8.2.9"
-    "@storybook/react": "npm:^8.2.9"
-    "@storybook/test": "npm:^8.2.9"
-    "@tanstack/react-query": "npm:^5.55.4"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/jest-dom": "npm:^6.5.0"
-    "@testing-library/react": "npm:^16.0.1"
-    "@types/node": "npm:^22.5.4"
-    "@types/react": "npm:^18"
-    "@types/react-dom": "npm:^18"
-    "@typescript-eslint/eslint-plugin": "npm:^8.6.0"
-    "@vanilla-extract/css": "npm:^1.15.5"
-    "@vanilla-extract/next-plugin": "npm:^2.4.5"
-    "@vanilla-extract/webpack-plugin": "npm:^2.3.13"
-    css-loader: "npm:^7.1.2"
-    eslint: "npm:^8"
-    eslint-config-next: "npm:14.2.9"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-react: "npm:^7.35.2"
-    eslint-plugin-storybook: "npm:^0.8.0"
-    husky: "npm:^9.1.6"
-    jest: "npm:^29.7.0"
-    jest-environment-jsdom: "npm:^29.7.0"
-    mini-css-extract-plugin: "npm:^2.9.1"
-    next: "npm:14.2.9"
-    path: "npm:^0.12.7"
-    prettier: "npm:3.3.3"
-    react: "npm:^18"
-    react-dom: "npm:^18"
-    react-hot-toast: "npm:^2.4.1"
-    storybook: "npm:^8.2.9"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.4"
-    webpack: "npm:^5.94.0"
-    webpack-cli: "npm:^5.1.4"
-    zustand: "npm:^4.5.5"
-  languageName: unknown
-  linkType: soft
-
-"linkpick-extension@workspace:linkpick-extension":
-  version: 0.0.0-use.local
-  resolution: "linkpick-extension@workspace:linkpick-extension"
-  dependencies:
-    "@eslint/js": "npm:^9.9.0"
-    "@types/react": "npm:^18.3.3"
-    "@types/react-dom": "npm:^18.3.0"
-    "@vitejs/plugin-react": "npm:^4.3.1"
-    eslint: "npm:^9.9.0"
-    eslint-plugin-react-hooks: "npm:^5.1.0-rc.0"
-    eslint-plugin-react-refresh: "npm:^0.4.9"
-    globals: "npm:^15.9.0"
-    husky: "npm:^9.1.6"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-    typescript: "npm:^5.5.3"
-    typescript-eslint: "npm:^8.0.1"
-    vite: "npm:^5.4.1"
-  languageName: unknown
-  linkType: soft
-
 "loader-runner@npm:^4.2.0":
   version: 4.3.0
   resolution: "loader-runner@npm:4.3.0"
@@ -13047,6 +12974,79 @@ __metadata:
   checksum: 10c0/a5eca3eb50bc11552d453488344e6507156b9193efd7635e98e867fab275d527af53d8866e2370cd09dfe74378a18111622ace35af6a608e5223a7d27fe99537
   languageName: node
   linkType: hard
+
+"tech-pick-service@workspace:techpick":
+  version: 0.0.0-use.local
+  resolution: "tech-pick-service@workspace:techpick"
+  dependencies:
+    "@jest/globals": "npm:^29.7.0"
+    "@jest/types": "npm:^29.6.3"
+    "@next/eslint-plugin-next": "npm:^14.2.10"
+    "@playwright/test": "npm:^1.47.0"
+    "@storybook/addon-essentials": "npm:^8.2.9"
+    "@storybook/addon-interactions": "npm:^8.2.9"
+    "@storybook/addon-links": "npm:^8.2.9"
+    "@storybook/addon-onboarding": "npm:^8.2.9"
+    "@storybook/blocks": "npm:^8.2.9"
+    "@storybook/nextjs": "npm:^8.2.9"
+    "@storybook/react": "npm:^8.2.9"
+    "@storybook/test": "npm:^8.2.9"
+    "@tanstack/react-query": "npm:^5.55.4"
+    "@testing-library/dom": "npm:^10.4.0"
+    "@testing-library/jest-dom": "npm:^6.5.0"
+    "@testing-library/react": "npm:^16.0.1"
+    "@types/node": "npm:^22.5.4"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    "@typescript-eslint/eslint-plugin": "npm:^8.6.0"
+    "@vanilla-extract/css": "npm:^1.15.5"
+    "@vanilla-extract/next-plugin": "npm:^2.4.5"
+    "@vanilla-extract/webpack-plugin": "npm:^2.3.13"
+    css-loader: "npm:^7.1.2"
+    eslint: "npm:^8"
+    eslint-config-next: "npm:14.2.9"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-react: "npm:^7.35.2"
+    eslint-plugin-storybook: "npm:^0.8.0"
+    husky: "npm:^9.1.6"
+    jest: "npm:^29.7.0"
+    jest-environment-jsdom: "npm:^29.7.0"
+    mini-css-extract-plugin: "npm:^2.9.1"
+    next: "npm:14.2.9"
+    path: "npm:^0.12.7"
+    prettier: "npm:3.3.3"
+    react: "npm:^18"
+    react-dom: "npm:^18"
+    react-hot-toast: "npm:^2.4.1"
+    storybook: "npm:^8.2.9"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.4"
+    webpack: "npm:^5.94.0"
+    webpack-cli: "npm:^5.1.4"
+    zustand: "npm:^4.5.5"
+  languageName: unknown
+  linkType: soft
+
+"techpick-extension@workspace:techpick-extension":
+  version: 0.0.0-use.local
+  resolution: "techpick-extension@workspace:techpick-extension"
+  dependencies:
+    "@eslint/js": "npm:^9.9.0"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
+    "@vitejs/plugin-react": "npm:^4.3.1"
+    eslint: "npm:^9.9.0"
+    eslint-plugin-react-hooks: "npm:^5.1.0-rc.0"
+    eslint-plugin-react-refresh: "npm:^0.4.9"
+    globals: "npm:^15.9.0"
+    husky: "npm:^9.1.6"
+    react: "npm:^18.3.1"
+    react-dom: "npm:^18.3.1"
+    typescript: "npm:^5.5.3"
+    typescript-eslint: "npm:^8.0.1"
+    vite: "npm:^5.4.1"
+  languageName: unknown
+  linkType: soft
 
 "telejson@npm:^7.2.0":
   version: 7.2.0
