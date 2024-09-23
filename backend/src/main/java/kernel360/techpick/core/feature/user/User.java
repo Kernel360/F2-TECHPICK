@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.common.model.TimeTracking;
+import kernel360.techpick.oauth.domain.OAuth2UserInfo;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,6 +81,17 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	private JobGroup jobGroup;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+
+	public static User create(OAuth2UserInfo oAuth2UserInfo) {
+		return new User(
+			oAuth2UserInfo.getProvider(),
+			oAuth2UserInfo.getName(),
+			"대충랜덤닉네임1", // TODO: 이후 랜덤닉네임 생성기를 통해 생성하도록 리팩토링 필요
+			null,
+			oAuth2UserInfo.getEmail(),
+			Role.ROLE_USER
+		);
+	}
 
 	private User(
 		SocialType socialProvider,
