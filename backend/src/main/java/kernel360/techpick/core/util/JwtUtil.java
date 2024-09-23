@@ -10,6 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import kernel360.techpick.core.feature.user.Role;
 import kernel360.techpick.core.feature.user.User;
 
 // 패키지 위치에 대한 고민 필요
@@ -34,6 +35,8 @@ public class JwtUtil {
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
 			.claim("id", user.getId())
+			// TODO: role enum name? value? 변경 필요
+			.claim("role", user.getRole())
 			.signWith(SignatureAlgorithm.HS256, secret)
 			.compact();
 	}
@@ -47,6 +50,12 @@ public class JwtUtil {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public Role getRole(String token) {
+		var claims = getClaims(token);
+		String role = claims.get("role", String.class);
+		return Role.valueOf(role);
 	}
 
 	public Long getUserId(String token) {
