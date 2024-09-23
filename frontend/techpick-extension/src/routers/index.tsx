@@ -1,15 +1,10 @@
 import { createMemoryRouter } from 'react-router-dom';
-import { CurrentTabInfo } from '../components';
+import { BookmarkPage } from '../pages';
 
 export const router = createMemoryRouter([
   {
     path: '/',
-    element: (
-      <>
-        <h1>Main Page</h1>
-        <CurrentTabInfo />
-      </>
-    ),
+    element: <BookmarkPage />,
   },
   {
     path: '/login',
