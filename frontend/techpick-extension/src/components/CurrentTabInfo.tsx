@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { container } from './CurrentTabInfo.css';
 
 export const CurrentTabInfo: React.FC = () => {
   const [tabInfo, setTabInfo] = useState<{ title: string; url: string } | null>(
@@ -23,7 +24,7 @@ export const CurrentTabInfo: React.FC = () => {
   if (!tabInfo) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className={container}>
       <h1>Current Tab Info</h1>
       <p>Title: {tabInfo.title}</p>
       <p>URL: {tabInfo.url}</p>

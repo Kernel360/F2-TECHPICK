@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,5 +27,6 @@ export default defineConfig({
     viteStaticCopy({
       targets: [{ src: './src/chorme-extension/manifest.json', dest: '.' }],
     }),
+    vanillaExtractPlugin(),
   ],
 });
