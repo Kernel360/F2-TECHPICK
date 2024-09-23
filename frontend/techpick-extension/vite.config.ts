@@ -6,6 +6,10 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
+    watch: {
+      include: 'src/**',
+      exclude: 'node_modules/**',
+    },
     rollupOptions: {
       input: {
         background: resolve(__dirname, 'src/chorme-extension/background.ts'),
