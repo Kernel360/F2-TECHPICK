@@ -20,15 +20,13 @@ spring:
     username: ${DOCKER_MYSQL_USERNAME}
     password: ${DOCKER_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope:
-              - email
+
   jwt:
     secret:
       ${JWT_SECRET}
+    issuer:
+      ${JWT_ISSUER}
+
+  # OAuth2 관련 설정
+  config:
+    import: classpath:oauth2-config.yaml

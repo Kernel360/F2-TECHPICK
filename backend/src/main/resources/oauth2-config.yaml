@@ -1,0 +1,18 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+oauth2provider:
+  providerInfoMap:
+    google:
+      name: "sub"
+      email: "email"
+    kakao:
+      name: "name"
+      email: "email"
