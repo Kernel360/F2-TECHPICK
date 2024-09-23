@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/chorme-extension/background.ts","./src/components/CurrentTabInfo.css.ts","./src/components/CurrentTabInfo.tsx","./src/components/index.ts","./src/features/index.ts","./src/hooks/index.ts","./src/lib/index.ts","./src/pages/index.ts","./src/routers/index.tsx","./src/widgets/index.ts"],"version":"5.6.2"}
