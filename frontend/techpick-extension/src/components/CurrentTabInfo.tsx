@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface TabInfo {
   title: string;
@@ -6,7 +6,7 @@ interface TabInfo {
   ogImage?: string | null;
 }
 
-export const CurrentTabInfo: React.FC = () => {
+export function CurrentTabInfo() {
   const [tabInfo, setTabInfo] = useState<TabInfo | null>(null);
 
   useEffect(() => {
@@ -18,21 +18,18 @@ export const CurrentTabInfo: React.FC = () => {
         url: tab.url || 'No URL',
       });
 
-      // 현재 탭의 content_script에 postMessage를 통해 Open Graph 이미지 요청
+      // 현재 탭의 content_script에 postMessage를 통해 파비콘 이미지 요청
       chrome.scripting.executeScript({
         target: { tabId: tab.id || 0 },
         func: () => {
-          window.postMessage({ type: 'GET_OG_IMAGE' }, '*');
+          window.postMessage({ type: 'REQUEST_FAVICON' }, '*');
         },
       });
-
-      // contentScript로부터 응답을 받는다.
-      chrome.runtime.sendMessage({ greeting: 'hello' });
     });
 
     chrome.runtime.onMessage.addListener(
       (message: { type: string; ogImage: string | null }) => {
-        if (message.type !== 'FROM_SCRIPT') {
+        if (message.type !== 'RESPONSE_FAVICON') {
           return;
         }
 
@@ -59,4 +56,4 @@ export const CurrentTabInfo: React.FC = () => {
       )}
     </div>
   );
-};
+}
