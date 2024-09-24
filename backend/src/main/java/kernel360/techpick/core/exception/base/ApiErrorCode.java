@@ -27,7 +27,20 @@ public enum ApiErrorCode {
 
 	;
 
-	// --------------------------------------------------------
+	// ------------------------------------------------------------
+
+	private final Integer codeNumber;
+
+	private final HttpStatus httpStatus;
+
+	private final String errorMessage;
+
+	ApiErrorCode(Integer codeNumber, HttpStatus status, String message) {
+		this.codeNumber = codeNumber;
+		this.httpStatus = status;
+		this.errorMessage = message;
+	}
+
 	public Integer getCodeNumber() {
 		return this.codeNumber;
 	}
@@ -43,17 +56,5 @@ public enum ApiErrorCode {
 	@Override
 	public String toString() {
 		return String.format("[ 에러 코드 %d - %s ]", this.codeNumber, this.errorMessage);
-	}
-
-	private final Integer codeNumber;
-
-	private final HttpStatus httpStatus;
-
-	private final String errorMessage;
-
-	ApiErrorCode(Integer codeNumber, HttpStatus status, String message) {
-		this.codeNumber = codeNumber;
-		this.httpStatus = status;
-		this.errorMessage = message;
 	}
 }
