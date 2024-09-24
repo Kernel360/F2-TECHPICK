@@ -2,7 +2,6 @@ package kernel360.techpick.feature.tag.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +14,10 @@ import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 
-/**
- * User Login이 필요한 기능은 Private prefix를 붙여보면 어떨까요?
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tag")
-public class TagPrivateController {
+public class TagPrivateControllerV1 {
 
 	private final TagService tagService;
 
