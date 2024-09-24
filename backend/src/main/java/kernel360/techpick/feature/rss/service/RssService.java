@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
-import kernel360.techpick.core.feature.rss.RssRawData;
+import kernel360.techpick.core.model.rss.RssRawData;
 import kernel360.techpick.feature.rss.repository.RssBlogRepository;
 import kernel360.techpick.feature.rss.repository.RssRepository;
 import kernel360.techpick.feature.rss.model.dto.RssResponse;

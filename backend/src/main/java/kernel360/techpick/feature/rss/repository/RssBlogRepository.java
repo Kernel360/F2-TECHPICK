@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import kernel360.techpick.core.feature.rss.RssSupportingBlog;
+import kernel360.techpick.core.model.rss.RssSupportingBlog;
 
 public interface RssBlogRepository extends JpaRepository<RssSupportingBlog, Long> {
 

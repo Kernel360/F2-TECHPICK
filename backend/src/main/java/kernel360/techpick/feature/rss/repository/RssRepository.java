@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import kernel360.techpick.core.feature.rss.RssRawData;
+import kernel360.techpick.core.model.rss.RssRawData;
 
 /**
  * 파이썬 서버 구현 시 삭제 예정
