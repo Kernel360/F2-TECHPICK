@@ -55,7 +55,7 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		while (!queue.isEmpty()) {
 			var curMap = queue.poll();
 			for (String key : curMap.keySet()) {
-				var value = curMap.get(key);
+				Object value = curMap.get(key);
 				if (key.equals(targetKey)) {
 					return value;
 				} else if (value instanceof Map<?, ?>) {
