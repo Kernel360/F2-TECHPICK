@@ -41,7 +41,7 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		Map<String, String> config = configProvider.getAttributeConfig(provider);
 		Map<String, Object> attributes = new HashMap<>();
 		for (String key : config.keySet()) {
-			var value = searchAttribute(config.get(key), oAuth2User.getAttributes());
+			Object value = searchAttribute(config.get(key), oAuth2User.getAttributes());
 			attributes.put(key, value);
 		}
 		return attributes;
