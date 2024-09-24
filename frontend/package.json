@@ -14,7 +14,7 @@
     "all": "yarn workspaces foreach --all",
     "postinstall": "cd .. && husky"
   },
-  "packageManager": "yarn@4.4.1",
+  "packageManager": "yarn@4.3.1",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
@@ -25,7 +25,7 @@
     "husky": "^9.1.6",
     "next": "14.2.9",
     "prettier": "3.3.3",
-    "typescript": "^5.6.2",
+    "typescript": "5.5.4",
     "typescript-eslint": "^8.6.0"
   }
 }
