@@ -36,8 +36,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 		String accessToken = jwtUtil.getToken(user, ACCESS_TOKEN_DURATION);
 		addAccessTokenToCookie(request, response, accessToken);
-		// TODO: 추후 메인화면 경로로 변경
-		// response.sendRedirect("/home");
 
 		super.clearAuthenticationAttributes(request);
 		super.onAuthenticationSuccess(request, response, authentication);
