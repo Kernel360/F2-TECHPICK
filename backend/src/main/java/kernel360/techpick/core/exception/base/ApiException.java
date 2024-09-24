@@ -4,7 +4,7 @@ public abstract class ApiException extends RuntimeException {
 
 	private final ApiErrorCode errorCode;
 
-	public ApiException(ApiErrorCode errorCode) {
+	protected ApiException(ApiErrorCode errorCode) {
 		super(errorCode.toString());
 		this.errorCode = errorCode;
 	}
