@@ -4,6 +4,7 @@ interface TabInfo {
   title: string;
   url: string;
   ogImage?: string | null;
+  favicon?: string | null; // favicon 속성 추가
 }
 
 export function CurrentTabInfo() {
@@ -18,37 +19,50 @@ export function CurrentTabInfo() {
         url: tab.url || 'No URL',
       });
 
-      // 현재 탭의 content_script에 postMessage를 통해 파비콘 이미지 요청
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id || 0 },
-        func: () => {
-          window.postMessage({ type: 'REQUEST_FAVICON' }, '*');
-        },
-      });
-    });
+      console.log('tab.url', tab.url);
 
-    chrome.runtime.onMessage.addListener(
-      (message: { type: string; ogImage: string | null }) => {
-        if (message.type !== 'RESPONSE_FAVICON') {
-          return;
-        }
-
-        // 기존 상태와 병합하여 새로운 상태 설정
-        setTabInfo((prev) => {
-          if (!prev) return null; // prev가 null일 경우 처리
-          return {
-            ...prev,
-            ogImage: message.ogImage, // 여기서 ogImage를 설정
-          };
-        });
+      if (
+        tab.url &&
+        !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))
+      ) {
+        return;
       }
-    );
+
+      // 현재 탭의 content_script에 postMessage를 통해 파비콘 이미지 요청
+      console.log('send message REQUEST_FAVICON');
+      chrome.runtime.sendMessage(
+        { type: 'REQUEST_FAVICON', tabId: tab.id },
+        (response) => {
+          console.log('response', response);
+
+          // 이전 상태를 기반으로 새로운 상태를 설정
+          setTabInfo((prev) => {
+            if (prev === null)
+              return {
+                title: 'No Title',
+                url: 'No URL',
+                favicon: response.favicon || null,
+              }; // prev가 null인 경우 초기값 설정
+
+            return {
+              ...prev,
+              favicon: response.favicon || null, // 응답에서 받은 파비콘 URL 설정
+            };
+          });
+        }
+      );
+    });
   }, []);
 
   return (
     <div>
       <h2>{tabInfo?.title}</h2>
       <p>URL: {tabInfo?.url}</p>
+      {tabInfo?.favicon ? (
+        <img src={tabInfo.favicon} alt="Favicon" />
+      ) : (
+        <p>No Favicon</p>
+      )}
       {tabInfo?.ogImage ? (
         <img src={tabInfo.ogImage} alt="Open Graph" />
       ) : (

@@ -1,28 +1,46 @@
-// import { RequestMessageType, ResponseOgImageType } from '@/types';
+// background.js
+const getFavicon = () => {
+  const faviconLink =
+    document.querySelector("link[rel='icon']") ||
+    document.querySelector("link[rel='shortcut icon']");
+  const faviconUrl =
+    faviconLink instanceof HTMLLinkElement ? faviconLink.href : null;
 
-// // TODO: 1. 현재는, 촤초 불러올 시에만 og:image를 가져오는 코드를 동작하게 할 수 있다. 공식 문서를 찾아보고 왜 안되는지 원인을 찾아보기.
+  console.log('faviconUrl', faviconUrl);
 
-// // 1. script에서 og image를 받아온다.
-// let ResponseOgImage: ResponseOgImageType = {
-//   type: '',
-//   ogImageUrl: null,
-// };
+  return faviconUrl; // 파비콘 URL 반환
+};
 
-// chrome.runtime.onMessage.addListener((response: ResponseOgImageType) => {
-//   if (response.type === 'OG_IMAGE_FROM_SCRIPT') {
-//     console.log('get message from script', response);
-//     ResponseOgImage = response;
-//   }
-// });
+// 메시지를 수신하여 파비콘을 가져오는 리스너
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'REQUEST_FAVICON') {
+    console.log('sender', sender);
 
-// // 2. popup에서 요청을 받는다.
-// chrome.runtime.onMessage.addListener((message: RequestMessageType) => {
-//   if (message === 'REQUEST_OG_IMAGE_TO_BACK') {
-//     console.log('get message on background', message);
-//     // 3. script에 요청을 보낸다.
-//     chrome.runtime.sendMessage<ResponseOgImageType>({
-//       type: 'OG_IMAGE_TO_COMPONENT',
-//       ogImageUrl: ResponseOgImage.ogImageUrl,
-//     });
-//   }
-// });
+    const tabId = message.tabId; // optional chaining 사용
+
+    console.log('background work', tabId);
+
+    if (tabId) {
+      // tabId가 정의된 경우에만 실행
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tabId },
+          func: getFavicon,
+        },
+        (results) => {
+          console.log('background results', results);
+
+          if (results && results[0]) {
+            const faviconUrl = results[0].result;
+            sendResponse({ favicon: faviconUrl }); // 응답으로 파비콘 URL 반환
+          } else {
+            sendResponse({ favicon: null }); // 파비콘을 찾지 못했을 경우
+          }
+        }
+      );
+    } else {
+      sendResponse({ favicon: null }); // tabId가 없을 경우 응답
+    }
+    return true; // 비동기 응답을 위해 true를 반환
+  }
+});
