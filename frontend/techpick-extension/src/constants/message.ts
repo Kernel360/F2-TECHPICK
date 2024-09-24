@@ -1,0 +1,1 @@
+export const REQUEST_OG_IMAGE = 'REQUEST_OG_IMAGE';

@@ -3,10 +3,16 @@
   "name": "TechPick Extension",
   "description": "TechPick Extension description",
   "version": "0.1",
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*", "file://*/*"],
+      "js": ["contentscript.js"]
+    }
+  ],
   "action": {
     "default_popup": "index.html"
   }
