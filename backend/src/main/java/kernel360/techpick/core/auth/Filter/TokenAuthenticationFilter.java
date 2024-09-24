@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kernel360.techpick.core.feature.user.Role;
@@ -40,11 +41,16 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private String getTokenFromCookie(HttpServletRequest request) {
 		var cookies = request.getCookies();
-		if (cookies != null) {
-			for (var cookie : cookies) {
-				if (cookie.getName().equals(ACCESS_TOKEN_KEY)) {
-					return cookie.getValue();
-				}
+		if (cookies == null) {
+			return null;
+		}
+		return findCookieByKey(cookies, ACCESS_TOKEN_KEY);
+	}
+
+	private String findCookieByKey(Cookie[] cookies, String key) {
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals(key)) {
+				return cookie.getValue();
 			}
 		}
 		return null;
