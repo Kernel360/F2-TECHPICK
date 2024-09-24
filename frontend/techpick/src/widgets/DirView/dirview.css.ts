@@ -16,7 +16,7 @@ export const viewContainer = style({
 });
 
 export const leftSection = style({
-  width: '30%',
+  width: '400px',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -33,6 +33,17 @@ export const leftHeader = style({
   padding: `0 ${themeVars.space.md}`,
 });
 
+export const logoContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const logo = style({
+  fontSize: themeVars.typography.fontSize.lg,
+  fontWeight: 600,
+  paddingLeft: themeVars.space.md,
+});
+
 export const dirContainer = style({
   width: '100%',
   height: '100%',
@@ -46,7 +57,7 @@ export const leftFooter = style({
 });
 
 export const middleSection = style({
-  width: '70%',
+  width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -86,4 +97,37 @@ export const middleFooter = style({
 export const rightSection = style({
   width: '0%',
   height: '100%',
+});
+
+export const dirTree = style({
+  width: '100%',
+  height: '100%',
+});
+
+export const dirRow = style({
+  // borderBottom: `1px solid ${themeVars.color.border}`,
+  // lineHeight: themeVars.typography.lineHeight.md,
+});
+
+export const dirNodeWrapper = style({
+  width: '100%',
+  lineHeight: '32px',
+  ':hover': {
+    backgroundColor: '#f0f0f0',
+  },
+});
+
+export const dirNode = style({
+  display: 'flex',
+  alignItems: 'center',
+  color: themeVars.typography.fontColor,
+  fontWeight: 300,
+  padding: `0 ${themeVars.space.md}`,
+});
+
+export const dirIcFolder = style({
+  width: '16px',
+  height: '16px',
+  marginLeft: '16px',
+  marginRight: '8px',
 });
