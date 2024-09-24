@@ -1,6 +1,4 @@
-package kernel360.techpick.core.exception.base.internal;
-
-import kernel360.techpick.core.exception.base.ApiErrorCode;
+package kernel360.techpick.core.exception.base;
 
 public abstract class ApiException extends RuntimeException {
 

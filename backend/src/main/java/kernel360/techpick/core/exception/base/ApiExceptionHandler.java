@@ -1,6 +1,5 @@
-package kernel360.techpick.core.exception.base.internal;
+package kernel360.techpick.core.exception.base;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

@@ -1,16 +1,19 @@
-package kernel360.techpick.core.exception.base.internal;
+package kernel360.techpick.core.exception.base;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import kernel360.techpick.core.exception.base.ApiErrorCode;
 
 public class ApiErrorResponse extends ResponseEntity<ApiErrorBody> {
 
 	private ApiErrorResponse(ApiErrorCode apiErrorCode) {
 		super(
-			new ApiErrorBody(apiErrorCode.getCodeNumber(), apiErrorCode.getMessage()),
+			new ApiErrorBody(apiErrorCode.getCode(), apiErrorCode.getMessage()),
 			apiErrorCode.getHttpStatus()
 		);
+	}
+
+	private ApiErrorResponse(String code, String message, HttpStatus status) {
+		super(new ApiErrorBody(code, message), status);
 	}
 
 	public static ApiErrorResponse of(ApiErrorCode apiErrorCode) {
@@ -18,6 +21,6 @@ public class ApiErrorResponse extends ResponseEntity<ApiErrorBody> {
 	}
 
 	public static ApiErrorResponse UNKNOWN_SERVER_ERROR() {
-		return new ApiErrorResponse(ApiErrorCode.UNKNOWN_SERVER_ERROR);
+		return new ApiErrorResponse("UNKNOWN", "미확인 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
