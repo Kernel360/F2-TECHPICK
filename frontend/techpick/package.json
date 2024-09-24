@@ -19,6 +19,7 @@
     "@vanilla-extract/css": "^1.15.5",
     "next": "14.2.9",
     "react": "^18",
+    "react-arborist": "^3.4.0",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "zustand": "^4.5.5"
