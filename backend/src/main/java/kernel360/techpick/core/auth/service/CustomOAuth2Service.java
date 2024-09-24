@@ -68,7 +68,11 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 	}
 
 	private void saveOAuth2UserInfo(OAuth2UserInfo oAuth2UserInfo) {
-		User user = User.create(oAuth2UserInfo);
+		User user = User.create(
+			oAuth2UserInfo.getProvider(),
+			oAuth2UserInfo.getName(),
+			oAuth2UserInfo.getEmail()
+		);
 		userRepository.save(user);
 	}
 }
