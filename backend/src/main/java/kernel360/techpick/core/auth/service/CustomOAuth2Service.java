@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import kernel360.techpick.core.auth.model.OAuth2UserInfo;
 import kernel360.techpick.core.config.OAuth2AttributeConfigProvider;
-import kernel360.techpick.core.feature.user.User;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 

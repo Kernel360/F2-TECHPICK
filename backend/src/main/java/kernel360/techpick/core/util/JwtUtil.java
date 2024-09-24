@@ -10,8 +10,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import kernel360.techpick.core.feature.user.Role;
-import kernel360.techpick.core.feature.user.User;
+import kernel360.techpick.core.model.user.Role;
+import kernel360.techpick.core.model.user.User;
 
 // 패키지 위치에 대한 고민 필요
 @Component

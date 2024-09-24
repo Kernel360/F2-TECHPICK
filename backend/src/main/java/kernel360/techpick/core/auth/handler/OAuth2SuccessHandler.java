@@ -11,7 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kernel360.techpick.core.auth.model.OAuth2UserInfo;
-import kernel360.techpick.core.feature.user.User;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.CookieUtil;
 import kernel360.techpick.core.util.JwtUtil;
 import kernel360.techpick.feature.user.UserRepository;

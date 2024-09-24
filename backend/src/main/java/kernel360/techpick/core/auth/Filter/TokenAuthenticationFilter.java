@@ -15,7 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kernel360.techpick.core.feature.user.Role;
+import kernel360.techpick.core.model.user.Role;
 import kernel360.techpick.core.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
