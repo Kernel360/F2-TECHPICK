@@ -42,9 +42,10 @@ public class Link {
 
 	// URL
 	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
-	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 1000 byte로 잡았습니다.
+	// 		 The index key prefix length limit is 3072 bytes for InnoDB -> VARCHAR(1000) + utf8 = 4000byte
+	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 VARCHAR(600)으로 변경
 	//       Techpick 노션 기술 부채에 VARCHAR, TEXT 부분 참고.
-	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(1000)", unique = true)
+	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(600)", unique = true)
 	private String url;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
