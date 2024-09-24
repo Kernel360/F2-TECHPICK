@@ -9,8 +9,6 @@ window.addEventListener('message', (event) => {
   const ogImageUrl =
     ogImageTag instanceof HTMLMetaElement ? ogImageTag.content : null;
 
-  console.log('script work!!! ogImageUrl:', ogImageUrl);
-
   // Open Graph 이미지 추출 후 메시지를 페이지에 다시 보냄
   chrome.runtime.sendMessage({ type: 'FROM_SCRIPT', ogImage: ogImageUrl });
 });

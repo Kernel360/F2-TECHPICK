@@ -22,7 +22,6 @@ export const CurrentTabInfo: React.FC = () => {
       chrome.scripting.executeScript({
         target: { tabId: tab.id || 0 },
         func: () => {
-          console.log('post message');
           window.postMessage({ type: 'GET_OG_IMAGE' }, '*');
         },
       });
@@ -34,8 +33,6 @@ export const CurrentTabInfo: React.FC = () => {
     chrome.runtime.onMessage.addListener(
       (message: { type: string; ogImage: string | null }) => {
         if (message.type !== 'FROM_SCRIPT') {
-          console.log('is not FROM_SCRIPT');
-
           return;
         }
 
