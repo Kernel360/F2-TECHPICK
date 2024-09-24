@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { REQUEST_OG_IMAGE } from '@/constants';
-import { ResponseOgImageType } from '@/types';
 
 interface TabInfo {
   title: string;
@@ -15,31 +13,60 @@ export const CurrentTabInfo: React.FC = () => {
     // 현재 탭 정보 가져오기
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0];
-      setTabInfo({ title: tab.title || 'No Title', url: tab.url || 'No URL' });
-      return;
+      setTabInfo({
+        title: tab.title || 'No Title',
+        url: tab.url || 'No URL',
+      });
+
+      // // 현재 탭의 content_script에 postMessage를 통해 Open Graph 이미지 요청
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id || 0 },
+        func: () => {
+          console.log('post message');
+          window.postMessage({ type: 'GET_OG_IMAGE' }, '*');
+        },
+      });
+
+      chrome.runtime.sendMessage({ greeting: 'hello' });
     });
 
-    // 1. 요청 보내기
-    console.log('send message');
-    chrome.runtime.sendMessage('REQUEST_OG_IMAGE_TO_BACK');
+    const messageListener = (event: MessageEvent) => {
+      console.log('listen!!!', event.data); // 로그 추가
+      if (event.source !== window || event.data.type !== 'FROM_CONTENT') return;
 
-    // 2. 응답 기다리기.
-    console.log('waiting message');
-    chrome.runtime.onMessage.addListener((message: ResponseOgImageType) => {
-      if (message.type === 'OG_IMAGE_TO_COMPONENT') {
-        console.log('get message on CurrentTabInfo', message);
+      // 기존 상태와 병합하여 새로운 상태 설정
+      setTabInfo((prev) => {
+        if (!prev) return null; // prev가 null일 경우 처리
+        return {
+          ...prev,
+          ogImage: event.data.ogImage, // 여기서 ogImage를 설정
+        };
+      });
+    };
 
+    window.addEventListener('message', messageListener);
+    chrome.runtime.onMessage.addListener(
+      (message: { type: string; ogImage: string | null }) => {
+        if (message.type !== 'FROM_SCRIPT') {
+          console.log('is not FROM_SCRIPT');
+
+          return;
+        }
+
+        // 기존 상태와 병합하여 새로운 상태 설정
         setTabInfo((prev) => {
-          if (prev) {
-            return {
-              ...prev,
-              ogImage: message.ogImageUrl,
-            };
-          }
-          return prev;
+          if (!prev) return null; // prev가 null일 경우 처리
+          return {
+            ...prev,
+            ogImage: message.ogImage, // 여기서 ogImage를 설정
+          };
         });
       }
-    });
+    );
+
+    return () => {
+      window.removeEventListener('message', messageListener);
+    };
   }, []);
 
   return (

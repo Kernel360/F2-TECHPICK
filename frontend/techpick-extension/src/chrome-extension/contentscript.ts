@@ -1,19 +1,17 @@
-// import { REQUEST_OG_IMAGE } from '@/constants';
-import { ResponseOgImageType } from '@/types';
+window.addEventListener('message', (event) => {
+  // 다른 페이지에서 오는 메시지는 무시
+  if (event.source !== window || event.data.type !== 'GET_OG_IMAGE') return;
 
-console.log('adadadas');
+  // Open Graph 이미지 추출
+  const ogImageTag =
+    document.querySelector("meta[property='og:image']") ||
+    document.querySelector("meta[name='og:image']");
+  const ogImageUrl =
+    ogImageTag instanceof HTMLMetaElement ? ogImageTag.content : null;
 
-const ogImageTag =
-  document.querySelector("meta[property='og:image']") ||
-  document.querySelector("meta[name='og:image']");
+  console.log('script work!!! ogImageUrl:', ogImageUrl);
 
-const ogImageUrl =
-  ogImageTag instanceof HTMLMetaElement ? ogImageTag.content : null;
-
-console.log('ogImageUrl', ogImageUrl);
-
-// 1. back에 응답을 보내준다.
-chrome.runtime.sendMessage<ResponseOgImageType>({
-  type: 'OG_IMAGE_FROM_SCRIPT',
-  ogImageUrl,
+  // Open Graph 이미지 추출 후 메시지를 페이지에 다시 보냄
+  window.postMessage({ type: 'FROM_CONTENT', ogImage: ogImageUrl }, '*');
+  chrome.runtime.sendMessage({ type: 'FROM_SCRIPT', ogImage: ogImageUrl });
 });
