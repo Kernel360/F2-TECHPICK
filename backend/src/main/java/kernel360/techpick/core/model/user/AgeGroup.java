@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.user;
+package kernel360.techpick.core.model.user;
 
 // TODO: 아래는 일단 초안. 정확한 분류는 토의 후에 결정할 것.
 public enum AgeGroup {

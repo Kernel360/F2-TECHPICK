@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.user;
+package kernel360.techpick.core.model.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.pick;
+package kernel360.techpick.core.model.pick;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.TimeTracking;
-import kernel360.techpick.core.feature.link.Link;
-import kernel360.techpick.core.feature.user.User;
+import kernel360.techpick.core.model.common.TimeTracking;
+import kernel360.techpick.core.model.link.Link;
+import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

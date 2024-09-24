@@ -1,4 +1,4 @@
-package kernel360.techpick.core.common.model;
+package kernel360.techpick.core.model.common;
 
 import java.time.LocalDateTime;
 

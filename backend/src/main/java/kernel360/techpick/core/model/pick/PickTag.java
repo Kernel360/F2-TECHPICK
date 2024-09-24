@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.tag;
+package kernel360.techpick.core.model.pick;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,42 +9,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.TimeTracking;
-import kernel360.techpick.core.feature.user.User;
+import kernel360.techpick.core.model.tag.Tag;
+import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "tag")
+@Table(name = "pick_tag")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Tag {
-
-	/**
-	 * TODO: 태그 기반 전체 사용자 Pick 검색 기능
-	 *       - 이를 위해선 사용자 마다 다른 태그들을 정규화해야 하는데, 이는 나중에 고민해보기
-	 *       - Ex. "Ci/CD", "CI CD" --> 공백, 특수문자 제거 --> "cicd"
-	 */
+public class PickTag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
-	// 태그명
-	@Column(name = "name", nullable = false)
-	private String name;
-
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	// 사용자 정의 태그 FK
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tag_id", nullable = false)
+	private Tag tag;
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	private Tag(String name, User user) {
-		this.name = name;
+	private PickTag(User user, Tag tag) {
 		this.user = user;
+		this.tag = tag;
 	}
 }

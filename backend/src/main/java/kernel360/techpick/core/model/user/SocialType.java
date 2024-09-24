@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.user;
+package kernel360.techpick.core.model.user;
 
 // 로그인 타입
 public enum SocialType {

@@ -1,13 +1,12 @@
-package kernel360.techpick.core.feature.rss;
+package kernel360.techpick.core.model.rss;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.TimeTracking;
+import kernel360.techpick.core.model.common.TimeTracking;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

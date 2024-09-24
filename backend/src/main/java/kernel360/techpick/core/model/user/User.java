@@ -1,4 +1,4 @@
-package kernel360.techpick.core.feature.user;
+package kernel360.techpick.core.model.user;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.common.model.TimeTracking;
+import kernel360.techpick.core.model.common.TimeTracking;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
