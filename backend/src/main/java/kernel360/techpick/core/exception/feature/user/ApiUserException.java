@@ -10,7 +10,7 @@ public class ApiUserException extends ApiException {
 	}
 
 	/**
-	 * TODO: Static Factory Method
+	 * TODO: Implement static factory method
 	 * */
 	public static ApiUserException USER_NOT_FOUND() {
 		return new ApiUserException(ApiUserErrorCode.USER_NOT_FOUND);

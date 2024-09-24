@@ -9,7 +9,7 @@ public class ApiTagException extends ApiException {
 	}
 
 	/**
-	 * TODO: Static Factory Method
+	 * TODO: Implement static factory method
 	 * */
 	public static ApiTagException TAG_DUPLICATE() {
 		return new ApiTagException(ApiTagErrorCode.TAG_DUPLICATION);
