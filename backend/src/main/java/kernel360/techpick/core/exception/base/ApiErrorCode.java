@@ -2,7 +2,6 @@ package kernel360.techpick.core.exception.base;
 
 import org.springframework.http.HttpStatus;
 
-
 public enum ApiErrorCode {
 
 	/**
@@ -12,18 +11,23 @@ public enum ApiErrorCode {
 
 	/**
 	 * User Error Code (0 ~ 999)
-	 * */
+	 */
 	USER_NOT_FOUND(0, HttpStatus.BAD_REQUEST, "사용자 없음"),
 
 	/**
 	 * Pick Error Code (1000 ~ 1999)
-	 * */
+	 */
 	PICK_DUPLICATION(1000, HttpStatus.BAD_REQUEST, "중복된 픽 요청"),
 
 	/**
 	 * Tag Error Code (2000 ~ 2999)
-	 * */
+	 */
 	TAG_DUPLICATION(2000, HttpStatus.BAD_REQUEST, "중복된 태그 생성 요청"),
+
+	/**
+	 * Tag Error Code (3000 ~ 4999)
+	 */
+	SOCIAL_TYPE_INVALID(3000, HttpStatus.BAD_REQUEST, "올바르지 않은 소셜 타입"),
 
 	;
 

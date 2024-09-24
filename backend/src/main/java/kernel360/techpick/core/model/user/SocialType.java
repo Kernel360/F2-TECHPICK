@@ -13,7 +13,7 @@ public enum SocialType {
 		this.providerId = providerId;
 	}
 
-	public static SocialType providerIdOf(String providerId) {
+	public static SocialType providerIdOf(String providerId) throws IllegalArgumentException {
 		for (SocialType socialType : SocialType.values()) {
 			if (socialType.providerId.equals(providerId)) {
 				return socialType;
