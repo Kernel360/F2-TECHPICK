@@ -40,6 +40,11 @@ public enum ApiErrorCode {
 		return this.httpStatus;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("[ 에러 코드 %d - %s ]", this.codeNumber, this.errorMessage);
+	}
+
 	private final Integer codeNumber;
 
 	private final HttpStatus httpStatus;
