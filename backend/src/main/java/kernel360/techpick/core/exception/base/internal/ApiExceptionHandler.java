@@ -15,7 +15,7 @@ public class ApiExceptionHandler {
 	 * 5xx 코드 오류 입니다.
 	 */
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> handleGlobalException(Exception exception) {
+	public ApiErrorResponse handleGlobalException(Exception exception) {
 
 		log.error(exception.getMessage(), exception);
 
@@ -26,7 +26,7 @@ public class ApiExceptionHandler {
 	 * ApiException 을 공통 Response 형태로 변환 합니다.
 	 */
 	@ExceptionHandler(ApiException.class)
-	public ResponseEntity<?> handleApiException(ApiException exception) {
+	public ApiErrorResponse handleApiException(ApiException exception) {
 
 		log.error(exception.getMessage(), exception);
 
