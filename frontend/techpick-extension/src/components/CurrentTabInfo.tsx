@@ -18,7 +18,7 @@ export const CurrentTabInfo: React.FC = () => {
         url: tab.url || 'No URL',
       });
 
-      // // 현재 탭의 content_script에 postMessage를 통해 Open Graph 이미지 요청
+      // 현재 탭의 content_script에 postMessage를 통해 Open Graph 이미지 요청
       chrome.scripting.executeScript({
         target: { tabId: tab.id || 0 },
         func: () => {
@@ -27,24 +27,10 @@ export const CurrentTabInfo: React.FC = () => {
         },
       });
 
+      // contentScript로부터 응답을 받는다.
       chrome.runtime.sendMessage({ greeting: 'hello' });
     });
 
-    const messageListener = (event: MessageEvent) => {
-      console.log('listen!!!', event.data); // 로그 추가
-      if (event.source !== window || event.data.type !== 'FROM_CONTENT') return;
-
-      // 기존 상태와 병합하여 새로운 상태 설정
-      setTabInfo((prev) => {
-        if (!prev) return null; // prev가 null일 경우 처리
-        return {
-          ...prev,
-          ogImage: event.data.ogImage, // 여기서 ogImage를 설정
-        };
-      });
-    };
-
-    window.addEventListener('message', messageListener);
     chrome.runtime.onMessage.addListener(
       (message: { type: string; ogImage: string | null }) => {
         if (message.type !== 'FROM_SCRIPT') {
@@ -63,10 +49,6 @@ export const CurrentTabInfo: React.FC = () => {
         });
       }
     );
-
-    return () => {
-      window.removeEventListener('message', messageListener);
-    };
   }, []);
 
   return (

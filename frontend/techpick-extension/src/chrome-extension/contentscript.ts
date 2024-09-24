@@ -12,6 +12,5 @@ window.addEventListener('message', (event) => {
   console.log('script work!!! ogImageUrl:', ogImageUrl);
 
   // Open Graph 이미지 추출 후 메시지를 페이지에 다시 보냄
-  window.postMessage({ type: 'FROM_CONTENT', ogImage: ogImageUrl }, '*');
   chrome.runtime.sendMessage({ type: 'FROM_SCRIPT', ogImage: ogImageUrl });
 });
