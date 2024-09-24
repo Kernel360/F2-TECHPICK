@@ -16,8 +16,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import kernel360.techpick.core.auth.model.OAuth2UserInfo;
 import kernel360.techpick.core.common.model.TimeTracking;
-import kernel360.techpick.oauth.domain.OAuth2UserInfo;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -81,7 +81,7 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	private JobGroup jobGroup;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-
+	// 추후 mapper 를 사용하게될 경우 mapper 로 메소드 이관 필요
 	public static User create(OAuth2UserInfo oAuth2UserInfo) {
 		return new User(
 			oAuth2UserInfo.getProvider(),
