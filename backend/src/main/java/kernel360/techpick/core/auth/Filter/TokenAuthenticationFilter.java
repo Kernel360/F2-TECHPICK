@@ -30,7 +30,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 		String token = getTokenFromCookie(request);
 
-		if (jwtUtil.validateToken(token)) {
+		if (jwtUtil.isValidToken(token)) {
 			var authentication = convertToAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
