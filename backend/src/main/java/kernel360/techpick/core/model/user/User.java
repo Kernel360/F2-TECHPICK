@@ -80,6 +80,16 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	private JobGroup jobGroup;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public static User create(SocialType provider, String providerId, String email) {
+		return new User(
+			provider,
+			providerId,
+			"대충랜덤닉네임1", // TODO: 이후 랜덤닉네임 생성기를 통해 생성하도록 리팩토링 필요
+			null,
+			email,
+			Role.ROLE_USER
+		);
+	}
 
 	private User(
 		SocialType socialProvider,
