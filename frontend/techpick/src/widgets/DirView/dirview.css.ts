@@ -69,8 +69,8 @@ export const dirHeader = style({
 });
 
 export const treeWrapper = style({
-  flexGrow: 1,
-  minBlockSize: 0,
+  height: '100%',
+  overflow: 'scroll',
 });
 
 export const leftFooter = style({

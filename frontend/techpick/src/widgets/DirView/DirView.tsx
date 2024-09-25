@@ -217,7 +217,7 @@ const DirView = () => {
                 // renderCursor={DirCursor}
                 openByDefault={false}
                 width={width}
-                height={height}
+                height={height && height - 8}
                 rowHeight={32}
                 indent={24}
                 overscanCount={1}
