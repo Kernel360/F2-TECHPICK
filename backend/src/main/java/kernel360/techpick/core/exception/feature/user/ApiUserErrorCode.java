@@ -36,5 +36,4 @@ public enum ApiUserErrorCode implements ApiErrorCode {
 	@Override public HttpStatus getHttpStatus() { return this.httpStatus; }
 
 	@Override public String toString() { return convertCodeToString(this); }
-
 }
