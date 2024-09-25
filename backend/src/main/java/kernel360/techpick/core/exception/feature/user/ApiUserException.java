@@ -1,7 +1,7 @@
 package kernel360.techpick.core.exception.feature.user;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
-import kernel360.techpick.core.exception.base.internal.ApiException;
+import kernel360.techpick.core.exception.base.ApiException;
 
 public class ApiUserException extends ApiException {
 
@@ -10,9 +10,9 @@ public class ApiUserException extends ApiException {
 	}
 
 	/**
-	 * TODO: Static Factory Method
+	 * TODO: Implement static factory method
 	 * */
 	public static ApiUserException USER_NOT_FOUND() {
-		return new ApiUserException(ApiErrorCode.USER_NOT_FOUND);
+		return new ApiUserException(ApiUserErrorCode.USER_NOT_FOUND);
 	}
 }
