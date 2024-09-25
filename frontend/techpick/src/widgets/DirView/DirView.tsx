@@ -7,18 +7,6 @@ import LeftSection from '@/widgets/LeftSection/LeftSection';
 import RightSection from '@/widgets/RightSection/RightSection';
 import MiddleSection from '@/widgets/MiddleSection/MiddleSection';
 
-// function DirRow({ node, innerRef, attrs, children }) {
-//   return <div>{node.data.name}</div>;
-// }
-
-// function DirDragPreview({ offset, mouse, id, dragIds, isDragging }) {
-//   return <div></div>;
-// }
-
-// function DirCursor({ top, left, indent }) {
-//   return <div></div>;
-// }
-
 const DirView = () => {
   const [focusedNode, setFocusedNode] =
     React.useState<NodeApi<NodeData> | null>(null);
