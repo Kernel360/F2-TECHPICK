@@ -27,14 +27,11 @@ public class ApiExceptionHandler {
 	 * ApiException 을 공통 Response 형태로 변환 합니다.
 	 */
 	@ExceptionHandler(ApiException.class)
-	public ApiErrorResponse handleApiException(
-		HttpServletRequest req,
-		HttpServletResponse res,
-		ApiException exception
-	) {
+	public ApiErrorResponse handleApiException(ApiException exception) {
+
 		log.error(exception.getMessage(), exception);
 
-		exception.handleError(req, res);
+		exception.handleError();
 
 		return ApiErrorResponse.of(exception.getApiErrorCode());
 	}

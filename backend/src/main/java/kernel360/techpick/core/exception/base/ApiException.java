@@ -23,7 +23,7 @@ public abstract class ApiException extends RuntimeException {
 	 *
 	 * @author Minkyeu Kim
 	 * */
-	public void handleError(HttpServletRequest req, HttpServletResponse res) {
+	public void handleError() {
 		// ... does nothing by default.
 	}
 }
