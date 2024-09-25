@@ -12,6 +12,11 @@ export function CurrentTabInfo() {
       ) : (
         <p>No Favicon</p>
       )}
+      {tabInfo.ogDescription ? (
+        <p>{tabInfo.ogDescription}</p>
+      ) : (
+        <p>No Og description</p>
+      )}
     </div>
   );
 }

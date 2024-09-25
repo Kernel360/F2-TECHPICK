@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { fetchFavicon } from './useGetTabInfo.lib';
+import { fetchFaviconAndDescription } from './useGetTabInfo.lib';
 
 interface TabInfo {
   title: string | undefined;
   url: string | undefined;
   favicon?: string | undefined | null;
+  ogDescription?: string | undefined | null;
 }
 
 export function useGetTabInfo() {
   const [tabInfo, setTabInfo] = useState<TabInfo>({
     title: undefined,
     url: undefined,
-    favicon: undefined,
   });
 
   useEffect(() => {
@@ -36,10 +36,16 @@ export function useGetTabInfo() {
         return;
       }
 
-      const faviconUrl = await fetchFavicon(tab.id);
+      const result = await fetchFaviconAndDescription(tab.id);
+
+      if (!result) {
+        return;
+      }
+
       setTabInfo((prev) => ({
         ...prev,
-        favicon: faviconUrl,
+        favicon: result?.faviconUrl,
+        ogDescription: result?.ogDescription,
       }));
     };
 
