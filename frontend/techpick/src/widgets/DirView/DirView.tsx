@@ -9,7 +9,7 @@ import {
   leftFooter,
   dirContainer,
   middleHeader,
-  bookmarkContainer,
+  middleView,
   middleFooter,
   locationContainer,
   topButtonContainer,
@@ -20,18 +20,25 @@ import {
   dirIcFolder,
   logo,
   logoContainer,
+  dirHeader,
+  dirHeaderWrapper,
+  folderContainer,
+  bookmarkContainer,
+  treeWrapper,
 } from '@/widgets/DirView/dirview.css';
 import ToggleTheme from '@/components/ToggleTheme/ToggleTheme';
 import { NodeApi, Tree } from 'react-arborist';
 import toast from 'react-hot-toast';
-import IcFolder from '@/lib/icons/ic_folder.svg';
+import IcFolder from '@/lib/icons/ic_folder3.svg';
 import IcRightArrow from '@/lib/icons/ic_arrow_right.svg';
 import IcDownArrow from '@/lib/icons/ic_arrow_down.svg';
 import IcSearch from '@/lib/icons/ic_search.svg';
 import IcSort from '@/lib/icons/ic_sort.svg';
-import IcProfile from '@/lib/icons/ic_profile.svg';
-import IcDocument from '@/lib/icons/ic_document.svg';
+import IcProfile from '@/lib/icons/ic_user2.svg';
+import IcDocument from '@/lib/icons/ic_doc3.svg';
+import IcDirectory from '@/lib/icons/ic_directory.svg';
 import Image from 'next/image';
+import useResizeObserver from 'use-resize-observer';
 
 interface NodeData {
   id: string;
@@ -64,10 +71,33 @@ const data: NodeData[] = [
         type: 'folder',
         children: [
           { id: 'b1a', name: 'React Hooks', type: 'link', children: null },
+          { id: 'b1b', name: 'React Router', type: 'link', children: null },
+          { id: 'b1c', name: 'React Context', type: 'link', children: null },
         ],
       },
-      { id: 'b2', name: 'TypeScript', type: 'folder', children: null },
-      { id: 'b3', name: 'CSS', type: 'folder', children: null },
+      {
+        id: 'b2',
+        name: 'TypeScript',
+        type: 'folder',
+        children: [
+          {
+            id: 'b2a',
+            name: 'TypeScript Basics',
+            type: 'link',
+            children: null,
+          },
+          { id: 'b2b', name: 'Advanced Types', type: 'link', children: null },
+        ],
+      },
+      {
+        id: 'b3',
+        name: 'CSS',
+        type: 'folder',
+        children: [
+          { id: 'b3a', name: 'Flexbox', type: 'link', children: null },
+          { id: 'b3b', name: 'Grid Layout', type: 'link', children: null },
+        ],
+      },
     ],
   },
   {
@@ -75,9 +105,33 @@ const data: NodeData[] = [
     name: 'Backend',
     type: 'folder',
     children: [
-      { id: 'c1', name: 'Node.js', type: 'folder', children: null },
-      { id: 'c2', name: 'Databases', type: 'folder', children: null },
-      { id: 'c3', name: 'Docker', type: 'folder', children: null },
+      {
+        id: 'c1',
+        name: 'Node.js',
+        type: 'folder',
+        children: [
+          { id: 'c1a', name: 'Express.js', type: 'link', children: null },
+          { id: 'c1b', name: 'Nest.js', type: 'link', children: null },
+        ],
+      },
+      {
+        id: 'c2',
+        name: 'Databases',
+        type: 'folder',
+        children: [
+          { id: 'c2a', name: 'MongoDB', type: 'link', children: null },
+          { id: 'c2b', name: 'PostgreSQL', type: 'link', children: null },
+        ],
+      },
+      {
+        id: 'c3',
+        name: 'Docker',
+        type: 'folder',
+        children: [
+          { id: 'c3a', name: 'Docker Basics', type: 'link', children: null },
+          { id: 'c3b', name: 'Docker Compose', type: 'link', children: null },
+        ],
+      },
     ],
   },
   {
@@ -91,7 +145,6 @@ const data: NodeData[] = [
     ],
   },
 ];
-
 const DirNode: FC<DirNodeProps> = ({ node, style, dragHandle }) => {
   return (
     <div
@@ -136,33 +189,42 @@ const DirNode: FC<DirNodeProps> = ({ node, style, dragHandle }) => {
 // }
 
 const DirView = () => {
+  const { ref, width, height } = useResizeObserver<HTMLDivElement>();
+
   return (
     <div className={viewWrapper}>
       <div className={viewContainer}>
         <div className={leftSection}>
           <div className={leftHeader}>
             <div className={logoContainer}>
-              <Image src={IcProfile} width={30} alt="profile" />
+              <Image src={IcProfile} width={32} alt="profile" />
               <div className={logo}>TechPick</div>
             </div>
             <ToggleTheme />
           </div>
           <div className={dirContainer}>
-            <Tree
-              className={dirTree}
-              rowClassName={dirRow}
-              initialData={data}
-              // renderRow={DirRow}
-              // renderDragPreview={DirDragPreview}
-              // renderCursor={DirCursor}
-              openByDefault={false}
-              width="100%"
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-            >
-              {DirNode}
-            </Tree>
+            <div className={dirHeaderWrapper}>
+              <Image src={IcDirectory} width={20} alt="directory" />
+              <div className={dirHeader}>Directory</div>
+            </div>
+            <div className={treeWrapper} ref={ref}>
+              <Tree
+                className={dirTree}
+                rowClassName={dirRow}
+                initialData={data}
+                // renderRow={DirRow}
+                // renderDragPreview={DirDragPreview}
+                // renderCursor={DirCursor}
+                openByDefault={false}
+                width={width}
+                height={height}
+                rowHeight={32}
+                indent={24}
+                overscanCount={1}
+              >
+                {DirNode}
+              </Tree>
+            </div>
           </div>
           <div className={leftFooter}></div>
         </div>
@@ -183,7 +245,10 @@ const DirView = () => {
               </div>
             </div>
           </div>
-          <div className={bookmarkContainer}></div>
+          <div className={middleView}>
+            <div className={folderContainer}></div>
+            <div className={bookmarkContainer}></div>
+          </div>
           <div className={middleFooter}></div>
         </div>
         <div className={rightSection}></div>

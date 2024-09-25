@@ -40,14 +40,37 @@ export const logoContainer = style({
 
 export const logo = style({
   fontSize: themeVars.typography.fontSize.lg,
-  fontWeight: 600,
-  paddingLeft: themeVars.space.md,
+  fontWeight: 400,
+  paddingLeft: '12px',
 });
 
 export const dirContainer = style({
   width: '100%',
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: themeVars.color.background,
+});
+
+export const dirHeaderWrapper = style({
+  width: '100%',
+  height: '28px',
+  display: 'flex',
+  alignItems: 'center',
+  paddingLeft: themeVars.space.lg,
+  borderBottom: `1px solid ${themeVars.color.border}`,
+});
+
+export const dirHeader = style({
+  width: '100%',
+  paddingLeft: themeVars.space.xs,
+  color: themeVars.typography.fontColor,
+  fontWeight: 350,
+});
+
+export const treeWrapper = style({
+  flexGrow: 1,
+  minBlockSize: 0,
 });
 
 export const leftFooter = style({
@@ -83,9 +106,23 @@ export const topButtonContainer = style({
   gap: themeVars.space.sm,
 });
 
+export const middleView = style({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const folderContainer = style({
+  width: '100%',
+  height: '200px',
+  backgroundColor: '#f0f0f0',
+});
+
 export const bookmarkContainer = style({
   width: '100%',
   height: '100%',
+  backgroundColor: '#d5c9c9',
 });
 
 export const middleFooter = style({

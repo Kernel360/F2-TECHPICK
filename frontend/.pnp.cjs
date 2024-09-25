@@ -4081,6 +4081,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@juggle/resize-observer", [\
+      ["npm:3.4.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/@juggle-resize-observer-npm-3.4.0-659544c6b5-10c0.zip/node_modules/@juggle/resize-observer/",\
+        "packageDependencies": [\
+          ["@juggle/resize-observer", "npm:3.4.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@mdx-js/react", [\
       ["npm:3.0.1", {\
         "packageLocation": "../../../.yarn/berry/cache/@mdx-js-react-npm-3.0.1-1ce14f6273-10c0.zip/node_modules/@mdx-js/react/",\
@@ -17500,6 +17509,7 @@ const RAW_RUNTIME_STATE =
           ["storybook", "npm:8.3.1"],\
           ["ts-node", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:10.9.2"],\
           ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"],\
+          ["use-resize-observer", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:9.1.0"],\
           ["webpack", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:5.94.0"],\
           ["webpack-cli", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:5.1.4"],\
           ["zustand", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:4.5.5"]\
@@ -18345,6 +18355,33 @@ const RAW_RUNTIME_STATE =
           ["url-parse", "npm:1.5.10"],\
           ["querystringify", "npm:2.2.0"],\
           ["requires-port", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["use-resize-observer", [\
+      ["npm:9.1.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/use-resize-observer-npm-9.1.0-ee1d268d88-10c0.zip/node_modules/use-resize-observer/",\
+        "packageDependencies": [\
+          ["use-resize-observer", "npm:9.1.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:9.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/use-resize-observer-virtual-7e7e5a87ba/4/.yarn/berry/cache/use-resize-observer-npm-9.1.0-ee1d268d88-10c0.zip/node_modules/use-resize-observer/",\
+        "packageDependencies": [\
+          ["use-resize-observer", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:9.1.0"],\
+          ["@juggle/resize-observer", "npm:3.4.0"],\
+          ["@types/react", "npm:18.3.7"],\
+          ["@types/react-dom", "npm:18.3.0"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
