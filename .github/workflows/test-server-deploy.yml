@@ -9,7 +9,7 @@ on:
   push:
     branches:
 #      - "backend"
-      - "test-deploy"
+      - "deploy-test"
 
 jobs:
   build:
