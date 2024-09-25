@@ -1,1 +1,1 @@
-export { useGetTabInfo } from './useGetTabInfo';
+export { useGetTabInfo } from './useGetTabInfo/useGetTabInfo';
