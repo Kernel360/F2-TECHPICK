@@ -1,1 +1,0 @@
-export const REQUEST_FAVICON = 'REQUEST_FAVICON';
