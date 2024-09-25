@@ -5,11 +5,12 @@
   "version": "0.1",
   "permissions": ["tabs", "activeTab", "scripting"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*", "http://*/*", "file://*/*"],
+      "matches": ["https://*/*", "http://*/*"],
       "js": ["contentscript.js"]
     }
   ],

@@ -1,0 +1,1 @@
+export { useGetTabInfo } from './useGetTabInfo';

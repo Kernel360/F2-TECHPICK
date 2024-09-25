@@ -1,1 +1,1 @@
-export const REQUEST_OG_IMAGE = 'REQUEST_OG_IMAGE';
+export const REQUEST_FAVICON = 'REQUEST_FAVICON';
