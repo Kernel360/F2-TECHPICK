@@ -30,18 +30,17 @@ services:
     networks:
       - techpick-network
 
-#  techpick-server:
-#    image: foo/bar
-#    container_name: techpick-server
-#     ports:
-#      - "8080:8080"
-#     environment:
-#       SPRING_DATASOURCE_URL: ${DOCKER_MYSQL_URL}
-#       SPRING_DATASOURCE_USERNAME: ${DOCKER_MYSQL_USERNAME}
-#       SPRING_DATASOURCE_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
-#     env_file:
-#       - .env
-#     depends_on:
-#       - mysql
-#     networks:
-#       - techpick-network
+  techpick-server:
+    image: techpick:staging # NOTE: 이 부분 주의!
+    container_name: techpick-server
+    ports:
+      - "8080:8080"
+    environment:
+        SPRING_DATASOURCE_URL: ${DOCKER_MYSQL_URL}
+        SPRING_DATASOURCE_USERNAME: ${DOCKER_MYSQL_USERNAME}
+        SPRING_DATASOURCE_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
+    depends_on:
+      - techpick-mysql
+    networks:
+      - techpick-network
+
