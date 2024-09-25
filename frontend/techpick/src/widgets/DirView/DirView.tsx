@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react';
+import React, { CSSProperties, FC, useMemo } from 'react';
 import {
   leftSection,
   middleSection,
@@ -53,7 +53,7 @@ interface DirNodeProps {
   dragHandle?: (el: HTMLDivElement | null) => void;
 }
 
-const data: NodeData[] = [
+const mockData: NodeData[] = [
   {
     id: '1',
     name: 'Favorites',
@@ -111,6 +111,7 @@ const data: NodeData[] = [
         type: 'folder',
         children: [
           { id: 'c1a', name: 'Express.js', type: 'link', children: null },
+          { id: 'c1a', name: 'Express.js', type: 'folder', children: null },
           { id: 'c1b', name: 'Nest.js', type: 'link', children: null },
         ],
       },
@@ -189,7 +190,28 @@ const DirNode: FC<DirNodeProps> = ({ node, style, dragHandle }) => {
 // }
 
 const DirView = () => {
+  const [data] = React.useState(mockData);
+  const [focusedNode, setFocusedNode] =
+    React.useState<NodeApi<NodeData> | null>(null);
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
+
+  const [focusedNodeFolderData, focusedNodeLinkData] = useMemo(() => {
+    if (!focusedNode || !focusedNode.data.children) {
+      return [];
+    }
+
+    const arrFolder: NodeData[] = [];
+    const arrLink: NodeData[] = [];
+    focusedNode.data.children.forEach((node) => {
+      if (node.type === 'folder') {
+        arrFolder.push(node);
+      } else if (node.type === 'link') {
+        arrLink.push(node);
+      }
+    });
+
+    return [arrFolder, arrLink];
+  }, [focusedNode]);
 
   return (
     <div className={viewWrapper}>
@@ -212,6 +234,9 @@ const DirView = () => {
                 className={dirTree}
                 rowClassName={dirRow}
                 initialData={data}
+                onFocus={(node: NodeApi<NodeData>) => {
+                  setFocusedNode(node);
+                }}
                 // renderRow={DirRow}
                 // renderDragPreview={DirDragPreview}
                 // renderCursor={DirCursor}
@@ -246,8 +271,46 @@ const DirView = () => {
             </div>
           </div>
           <div className={middleView}>
-            <div className={folderContainer}></div>
-            <div className={bookmarkContainer}></div>
+            <div className={folderContainer}>
+              {focusedNode && (
+                <Tree
+                  className={dirTree}
+                  rowClassName={dirRow}
+                  data={focusedNodeFolderData}
+                  // renderRow={DirRow}
+                  // renderDragPreview={DirDragPreview}
+                  // renderCursor={DirCursor}
+                  openByDefault={false}
+                  width={width}
+                  height={height && height - 8}
+                  rowHeight={32}
+                  indent={24}
+                  overscanCount={1}
+                >
+                  {DirNode}
+                </Tree>
+              )}
+            </div>
+            <div className={bookmarkContainer}>
+              {focusedNode && (
+                <Tree
+                  className={dirTree}
+                  rowClassName={dirRow}
+                  data={focusedNodeLinkData}
+                  // renderRow={DirRow}
+                  // renderDragPreview={DirDragPreview}
+                  // renderCursor={DirCursor}
+                  openByDefault={false}
+                  width={width}
+                  height={height && height - 8}
+                  rowHeight={32}
+                  indent={24}
+                  overscanCount={1}
+                >
+                  {DirNode}
+                </Tree>
+              )}
+            </div>
           </div>
           <div className={middleFooter}></div>
         </div>
