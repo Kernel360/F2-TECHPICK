@@ -36,7 +36,18 @@ jobs:
         run: |
           cd ./backend/src/main/resources
           touch ./env.properties
-          echo "${{ secrets.ENV }}" > ./env.properties
+          echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> ./env.properties
+          echo "${{ secrets.DOCKER_MYSQL_URL }}" >> ./env.properties
+          echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> ./env.properties
+          echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> ./env.properties
+          echo "${{ secrets.JWT_SECRET }}" >> ./env.properties
+          echo "${{ secrets.JWT_ISSUER }}" >> ./env.properties
+          echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> ./env.properties
+          echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./env.properties
+          echo "${{ secrets.KAKAO_CLIENT_ID }}" >> ./env.properties
+          echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./env.properties
+          echo "${{ secrets.NAVER_CLIENT_ID }}" >> ./env.properties
+          echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> ./env.properties
         shell: bash
       -
         # Spring boot application 빌드
@@ -85,7 +96,18 @@ jobs:
             
             echo "create .env file with github repository's ENV setting ..."
             touch .env
-            echo "${{ secrets.ENV }}" > .env
+            echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> ./env
+            echo "${{ secrets.DOCKER_MYSQL_URL }}" >> ./env
+            echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> ./env
+            echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> ./env
+            echo "${{ secrets.JWT_SECRET }}" >> ./env
+            echo "${{ secrets.JWT_ISSUER }}" >> ./env
+            echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> ./env
+            echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./env
+            echo "${{ secrets.KAKAO_CLIENT_ID }}" >> ./env
+            echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./env
+            echo "${{ secrets.NAVER_CLIENT_ID }}" >> ./env
+            echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> ./env
             
             docker-compose down
             docker compose up -d
