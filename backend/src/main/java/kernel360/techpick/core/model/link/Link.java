@@ -38,16 +38,23 @@ public class Link {
 	 * - 제목이나 설명은 바뀔 수 있기 때문에 동적으로 그때 가져와야 하며, 굳이 DB에 저장할 필요가 없음
 	 */
 
-	// URL
-	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
-	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 1000 byte로 잡았습니다.
-	//       Techpick 노션 기술 부채에 VARCHAR, TEXT 부분 참고.
-	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(1000)", unique = true)
+	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(600)", unique = true)
 	private String url;
 
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	@Column(name = "title", nullable = false, columnDefinition = "VARCHAR(100)")
+	private String title;
 
-	private Link(String url) {
+	@Column(name = "description", columnDefinition = "VARCHAR(600)")
+	private String description;
+
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public static Link create(String url, String title, String description) {
+		return new Link(url, title, description);
+	}
+
+	private Link(String url, String title, String description) {
 		this.url = url;
+		this.title = title;
+		this.description = description;
 	}
 }
