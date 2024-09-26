@@ -13,12 +13,12 @@ import {
   treeWrapper,
 } from './leftSection.css';
 import Image from 'next/image';
-import { IcProfile, IcDirectory } from '@/lib/icons';
+import { IcProfile, IcDirectory } from '../../shared/icons';
 import { ToggleTheme } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
-import { mockData } from '@/lib/const/mockdata';
+import { mockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
 
 interface LeftSectionProps {

@@ -5,7 +5,12 @@ import {
   dirNodeWrapper,
 } from '@/widgets/MainView/MainView.css';
 import Image from 'next/image';
-import { IcDownArrow, IcRightArrow, IcFolder, IcDocument } from '@/lib/icons';
+import {
+  IcDownArrow,
+  IcRightArrow,
+  IcFolder,
+  IcDocument,
+} from '../../shared/icons';
 import toast from 'react-hot-toast';
 
 export const DirectoryNode = ({

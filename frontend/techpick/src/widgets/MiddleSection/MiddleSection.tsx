@@ -12,7 +12,7 @@ import {
   topButtonContainer,
 } from './middleSection.css';
 import Image from 'next/image';
-import { IcSort, IcSearch } from '@/lib/icons';
+import { IcSort, IcSearch } from '../../shared/icons';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
