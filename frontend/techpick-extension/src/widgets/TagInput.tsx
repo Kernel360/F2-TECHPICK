@@ -6,57 +6,34 @@
 import { useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import {
+  SelectedTag,
+  useSelectTagStore,
+  SelectedTagListLayout,
+} from '@/entities/tag';
+import {
   tagInputStyle,
   tagDialogTrigger,
   tagDialogPortal,
   selectedTagItemStyle,
 } from './TagInput.css';
 
-const SAMPLE_DATA = ['a', 'b', 'c', 'd'];
+const SAMPLE_DATA = [
+  { id: 1, value: 'react' },
+  { id: 2, value: 'typescript' },
+  { id: 3, value: 'ci/cd' },
+  { id: 4, value: 'react-custom-timetable' },
+  { id: 5, value: 'dasdsaasda' },
+  { id: 5, value: 'dasdsaasda-dasdsaasda-dasdsaasda' },
+];
 
 export function TagInput() {
   const [open, setOpen] = useState(false);
   const tagInputContainerRef = useRef<HTMLDivElement | null>(null);
-  const commandInputRef = useRef<HTMLInputElement | null>(null);
+  const { tagList, selectTag } = useSelectTagStore();
 
   const openDialog = () => {
     setOpen(true);
   };
-
-  // useEffect(() => {
-  //   const handleKeyDown = (event: KeyboardEvent) => {
-  //     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-  //       // 기본 동작을 커스텀으로 처리할 수 있음
-  //       event.preventDefault();
-  //       const items = document.querySelectorAll('[role="option"]');
-  //       if (items.length === 0) return;
-
-  //       let selectedIdx = Array.from(items).findIndex((item) =>
-  //         item.classList.contains('cmdk-item-selected')
-  //       );
-
-  //       if (event.key === 'ArrowDown') {
-  //         selectedIdx = (selectedIdx + 1) % items.length;
-  //       } else if (event.key === 'ArrowUp') {
-  //         selectedIdx = (selectedIdx - 1 + items.length) % items.length;
-  //       }
-
-  //       // 선택 상태 적용
-  //       items[selectedIdx]?.scrollIntoView({ block: 'nearest' });
-  //       (items[selectedIdx] as HTMLElement)?.focus();
-  //     }
-  //   };
-
-  //   if (open) {
-  //     document.addEventListener('keydown', handleKeyDown);
-  //   } else {
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, [open]);
 
   return (
     <div
@@ -70,7 +47,11 @@ export function TagInput() {
         data-description="여기를 선택하면 다이얼로그가 켜짐"
         onClick={openDialog}
       >
-        이쁜 칸
+        <SelectedTagListLayout>
+          {tagList.map((tag) => (
+            <SelectedTag key={tag.id}>{tag.value}</SelectedTag>
+          ))}
+        </SelectedTagListLayout>
       </div>
       <Command.Dialog
         open={open}
@@ -79,12 +60,25 @@ export function TagInput() {
         container={tagInputContainerRef.current ?? undefined}
         className={tagDialogPortal}
       >
-        <Command.Input ref={commandInputRef} autoFocus />
+        <div>
+          <SelectedTagListLayout>
+            {tagList.map((tag) => (
+              <SelectedTag key={tag.id}>{tag.value}</SelectedTag>
+            ))}
+          </SelectedTagListLayout>
+        </div>
+
         <Command.List>
           <Command.Empty>No results found.</Command.Empty>
 
           {SAMPLE_DATA.map((data) => (
-            <Command.Item className={selectedTagItemStyle}>{data}</Command.Item>
+            <Command.Item
+              key={data.id}
+              className={selectedTagItemStyle}
+              onSelect={() => selectTag(data)}
+            >
+              {data.value}
+            </Command.Item>
           ))}
         </Command.List>
       </Command.Dialog>
