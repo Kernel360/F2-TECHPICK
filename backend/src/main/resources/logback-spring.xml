@@ -18,7 +18,7 @@
     <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-default}"/>
 
     <!-- 로그 경로 (Logback 은 환경 번수 적용 불가) -->
-    <property name="LOG_PATH" value="data/logs"/>
+    <property name="LOG_PATH" value="logs"/>
     <property name="DATE_DIR" value="%d{yyyy-MM-dd}"/>
 
     <!-- ``````````````````````` APPENDER SETTING ```````````````````````````` -->
