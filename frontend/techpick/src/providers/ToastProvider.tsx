@@ -2,7 +2,7 @@
 
 import { Toaster } from 'react-hot-toast';
 
-function ClientProvider({
+function ToastProvider({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -15,4 +15,4 @@ function ClientProvider({
   );
 }
 
-export { ClientProvider };
+export { ToastProvider };
