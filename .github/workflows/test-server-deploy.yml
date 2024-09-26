@@ -49,7 +49,7 @@ jobs:
         name: Build docker image
         run: |
           cd ./backend
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7} .
       -
         # Docker hub 로그인
         name: Login to Docker Hub
@@ -60,7 +60,7 @@ jobs:
       -
         # Docker hub 업로드
         name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7}
       -
         # 서버 ssh 접속 후 방금 올린 이미지 pull 받고 실행
         name: Deploy on Test-Server
@@ -71,16 +71,15 @@ jobs:
           username: kyeu # user
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
-            echo "docker - pulling..."
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7}
+            echo "docker - pull finished"
             
-            echo "docker - changing image name and tag ..."
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
+            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7} techpick:staging
+            echo "docker - changing image name and tag"
             
             cd ~/techpick_project
             sudo docker-compose down
             sudo docker compose up -d
             
             # Clean up old Docker images on the server
-            echo "docker - pruning images that passed 24h ..."
             sudo docker image prune -af --filter "until=24h"
