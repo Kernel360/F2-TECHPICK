@@ -13,7 +13,7 @@ import {
   treeWrapper,
 } from './leftSection.css';
 import IcProfile from '@/lib/icons/ic_user2.svg';
-import ToggleTheme from '@/features/ToggleTheme/ToggleTheme';
+import { ToggleTheme } from '@/features/';
 import IcDirectory from '@/lib/icons/ic_directory.svg';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
@@ -26,7 +26,7 @@ interface LeftSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
 }
 
-const LeftSection = ({ setFocusedNode }: LeftSectionProps) => {
+export function LeftSection({ setFocusedNode }: LeftSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
 
   return (
@@ -65,6 +65,4 @@ const LeftSection = ({ setFocusedNode }: LeftSectionProps) => {
       <div className={leftFooter}></div>
     </div>
   );
-};
-
-export default LeftSection;
+}

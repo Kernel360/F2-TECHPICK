@@ -1,4 +1,4 @@
-export { default as MainView } from './MainView/MainView';
-export { default as LeftSection } from './LeftSection/LeftSection';
-export { default as MiddleSection } from './MiddleSection/MiddleSection';
-export { default as RightSection } from './RightSection/RightSection';
+export { MainView } from './MainView/MainView';
+export { LeftSection } from './LeftSection/LeftSection';
+export { MiddleSection } from './MiddleSection/MiddleSection';
+export { RightSection } from './RightSection/RightSection';

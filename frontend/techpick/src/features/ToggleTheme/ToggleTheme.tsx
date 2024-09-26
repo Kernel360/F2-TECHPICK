@@ -3,7 +3,7 @@
 import React from 'react';
 import { useThemeStore } from '@/lib/stores/themeStore';
 
-export const ToggleTheme = () => {
+export function ToggleTheme() {
   const { isDarkMode, toggleTheme } = useThemeStore();
 
   return (
@@ -11,6 +11,4 @@ export const ToggleTheme = () => {
       <button onClick={toggleTheme}>{isDarkMode ? 'Dark' : 'Light'}</button>
     </div>
   );
-};
-
-export default ToggleTheme;
+}

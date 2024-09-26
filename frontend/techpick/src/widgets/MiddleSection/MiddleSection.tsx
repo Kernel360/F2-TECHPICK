@@ -24,7 +24,7 @@ interface MiddleSectionProps {
   focusedNodeLinkData: NodeData[] | undefined;
 }
 
-export default function MiddleSection({
+export function MiddleSection({
   focusedNode,
   focusedNodeFolderData,
   focusedNodeLinkData,

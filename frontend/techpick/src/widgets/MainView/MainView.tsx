@@ -1,13 +1,10 @@
 import React, { useMemo } from 'react';
 import { viewContainer, viewWrapper } from '@/widgets/MainView/MainView.css';
 import { NodeApi } from 'react-arborist';
-
 import { NodeData } from '@/shared/types/NodeData';
-import { LeftSection } from '@/widgets';
-import { MiddleSection } from '@/widgets';
-import { RightSection } from '@/widgets';
+import { LeftSection, MiddleSection, RightSection } from '@/widgets';
 
-export default function MainView() {
+export function MainView() {
   const [focusedNode, setFocusedNode] =
     React.useState<NodeApi<NodeData> | null>(null);
 
