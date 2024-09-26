@@ -26,7 +26,7 @@ public class LinkController implements LinkApi {
 	@GetMapping("/{linkId}")
 	public ResponseEntity<LinkResponse> getById(@PathVariable Long linkId) throws ApiLinkException {
 
-		LinkResponse linkResponse = linkService.getById(linkId);
+		LinkResponse linkResponse = linkService.getLinkById(linkId);
 		return ResponseEntity.ok(linkResponse);
 	}
 
@@ -34,7 +34,7 @@ public class LinkController implements LinkApi {
 	@GetMapping("")
 	public ResponseEntity<LinkResponse> getByUrl(@RequestParam String url) throws ApiLinkException {
 
-		LinkResponse linkResponse = linkService.getByUrl(url);
+		LinkResponse linkResponse = linkService.getLinkByUrl(url);
 		return ResponseEntity.ok(linkResponse);
 	}
 
@@ -42,7 +42,7 @@ public class LinkController implements LinkApi {
 	@GetMapping("/all")
 	public ResponseEntity<List<LinkResponse>> getAll() {
 
-		List<LinkResponse> linkResponses = linkService.getAll();
+		List<LinkResponse> linkResponses = linkService.getLinkAll();
 		return ResponseEntity.ok(linkResponses);
 	}
 
@@ -50,7 +50,7 @@ public class LinkController implements LinkApi {
 	@DeleteMapping("/{linkId}")
 	public ResponseEntity<Void> deleteById(Long linkId) throws ApiLinkException {
 
-		linkService.deleteById(linkId);
+		linkService.deleteLinkById(linkId);
 		return ResponseEntity.ok().build();
 	}
 }
