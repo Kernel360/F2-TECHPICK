@@ -19,7 +19,7 @@ import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { mockData } from '@/lib/const/mockdata';
-import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
+import { DirectoryNode } from '@/components';
 
 interface LeftSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
