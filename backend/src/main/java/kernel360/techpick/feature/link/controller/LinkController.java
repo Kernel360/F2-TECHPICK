@@ -23,7 +23,7 @@ public class LinkController implements LinkApi {
 	private final LinkService linkService;
 
 	@Override
-	@GetMapping
+	@GetMapping("/") // "/" 안붙이니 getByUrl하고 충돌남
 	public ResponseEntity<List<LinkResponse>> getAll() {
 
 		return ResponseEntity.ok(linkService.getLinkAll());
