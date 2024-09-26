@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  bookmarkContainer,
-  dirTree,
-  folderContainer,
-  locationContainer,
-  middleFooter,
-  middleHeader,
-  middleSection,
-  middleView,
-  topButtonContainer,
+  linkViewSection,
+  directoryTree,
+  folderViewSection,
+  linkEditorLabel,
+  linkEditorSectionFooter,
+  linkEditorHeader,
+  linkEditorSection,
+  linkEditor,
+  searchSection,
 } from './linkEditorSection.css';
 import Image from 'next/image';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
@@ -27,15 +27,15 @@ export function LinkEditorSection({
   focusedNodeLinkData,
 }: MiddleSectionProps) {
   return (
-    <div className={middleSection}>
-      <div className={middleHeader}>
-        <div className={locationContainer}>
+    <div className={linkEditorSection}>
+      <div className={linkEditorHeader}>
+        <div className={linkEditorLabel}>
           <div>React</div>
           <div>&gt;</div>
           <div>TypeScript</div>
         </div>
 
-        <div className={topButtonContainer}>
+        <div className={searchSection}>
           <div>
             <Image
               src={`image/ic_sort.svg`}
@@ -54,11 +54,11 @@ export function LinkEditorSection({
           </div>
         </div>
       </div>
-      <div className={middleView}>
-        <div className={folderContainer}>
+      <div className={linkEditor}>
+        <div className={folderViewSection}>
           {focusedNode && (
             <Tree
-              className={dirTree}
+              className={directoryTree}
               data={focusedNodeFolderData}
               openByDefault={false}
               rowHeight={32}
@@ -69,10 +69,10 @@ export function LinkEditorSection({
             </Tree>
           )}
         </div>
-        <div className={bookmarkContainer}>
+        <div className={linkViewSection}>
           {focusedNode && (
             <Tree
-              className={dirTree}
+              className={directoryTree}
               data={focusedNodeLinkData}
               openByDefault={false}
               rowHeight={32}
@@ -84,7 +84,7 @@ export function LinkEditorSection({
           )}
         </div>
       </div>
-      <div className={middleFooter}></div>
+      <div className={linkEditorSectionFooter}></div>
     </div>
   );
 }

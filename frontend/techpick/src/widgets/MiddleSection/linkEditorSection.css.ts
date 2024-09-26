@@ -1,24 +1,24 @@
 import { style } from '@vanilla-extract/css';
 import { commonThemeContract, themeContract } from '@/shared/themes';
 
-export const locationContainer = style({
+export const linkEditorLabel = style({
   display: 'flex',
   gap: commonThemeContract.space.sm,
 });
 
-export const topButtonContainer = style({
+export const searchSection = style({
   display: 'flex',
   gap: commonThemeContract.space.sm,
 });
 
-export const middleSection = style({
+export const linkEditorSection = style({
   width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
 });
 
-export const middleHeader = style({
+export const linkEditorHeader = style({
   width: '100%',
   height: '56px',
   display: 'flex',
@@ -28,32 +28,32 @@ export const middleHeader = style({
   padding: `0 ${commonThemeContract.space.md}`,
 });
 
-export const middleView = style({
+export const linkEditor = style({
   width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
 });
 
-export const folderContainer = style({
+export const folderViewSection = style({
   width: '100%',
   height: '200px',
   backgroundColor: '#f0f0f0',
 });
 
-export const bookmarkContainer = style({
+export const linkViewSection = style({
   width: '100%',
   height: '100%',
   backgroundColor: '#d5c9c9',
 });
 
-export const middleFooter = style({
+export const linkEditorSectionFooter = style({
   width: '100%',
   height: '56px',
   borderTop: `1px solid ${themeContract.color.border}`,
 });
 
-export const dirTree = style({
+export const directoryTree = style({
   width: '100%',
   height: '100%',
 });
