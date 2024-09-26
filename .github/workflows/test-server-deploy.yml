@@ -84,6 +84,7 @@ jobs:
             cd /home/project/techpick
             
             echo "create .env file with github repository's ENV setting ..."
+            echo ${{ secrets.ENV }}
             echo ${{ secrets.ENV }} > .env
             
             docker-compose down
