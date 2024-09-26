@@ -12,7 +12,7 @@ import {
   directoryTreeWrapper,
 } from './directoryTreeSection.css';
 import Image from 'next/image';
-import { ToggleTheme } from '@/features/';
+import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
@@ -38,7 +38,7 @@ export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
           />
           <div className={logo}>TechPick</div>
         </div>
-        <ToggleTheme />
+        <ToggleThemeButton />
       </div>
       <div className={directoryTreeContainer}>
         <div className={directoryLabelContainer}>
