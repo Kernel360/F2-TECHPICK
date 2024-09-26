@@ -8,8 +8,7 @@ name: Tech-pick Testing Server Deploy
 on:
   push:
     branches:
-#      - "backend"
-      - "deploy-test"
+      - "backend" # Backend 브랜치
 
 jobs:
   build:
