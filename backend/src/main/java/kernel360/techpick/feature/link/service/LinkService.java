@@ -25,35 +25,35 @@ public class LinkService {
 	 * @param request {@code LinkRequest}
 	 * @throws ApiLinkException [LI-002] 이미 존재하는 링크(URL)
 	 */
-	public void create(LinkRequest request) throws ApiLinkException {
+	public void createLink(LinkRequest request) throws ApiLinkException {
 
 		Link link = Link.create(request.url(), request.title(), request.description());
-		if (existsByUrl(link.getUrl())) {
+		if (existsLinkByUrl(link.getUrl())) {
 			throw ApiLinkException.LINK_ALREADY_EXISTS();
 		}
 		linkRepository.save(link);
 	}
 
-	public boolean existsByUrl(String url) {
+	public boolean existsLinkByUrl(String url) {
 
 		return linkRepository.existsByUrl(url);
 	}
 
-	public LinkResponse getById(Long id) throws ApiLinkException {
+	public LinkResponse getLinkById(Long id) throws ApiLinkException {
 
 		Link link = linkRepository.findById(id).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
 
 		return LinkResponse.of(link);
 	}
 
-	public LinkResponse getByUrl(String url) throws ApiLinkException {
+	public LinkResponse getLinkByUrl(String url) throws ApiLinkException {
 
 		Link link = linkRepository.findByUrl(url).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
 
 		return LinkResponse.of(link);
 	}
 
-	public List<LinkResponse> getAll() {
+	public List<LinkResponse> getLinkAll() {
 
 		List<Link> linkList = linkRepository.findAll();
 
@@ -62,7 +62,7 @@ public class LinkService {
 			.toList();
 	}
 
-	public void deleteById(Long id) throws ApiLinkException {
+	public void deleteLinkById(Long id) throws ApiLinkException {
 
 		Link targetLink = linkRepository.findById(id).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
 		if (pickRepository.existsByLink(targetLink)) {
