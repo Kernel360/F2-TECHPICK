@@ -8,6 +8,7 @@ import kernel360.techpick.core.exception.feature.link.ApiLinkException;
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.feature.link.model.dto.LinkRequest;
 import kernel360.techpick.feature.link.model.dto.LinkResponse;
+import kernel360.techpick.feature.link.model.mapper.LinkMapper;
 import kernel360.techpick.feature.link.repository.LinkRepository;
 import kernel360.techpick.feature.pick.repository.PickRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LinkService {
 
+	private final LinkMapper linkMapper;
 	private final LinkRepository linkRepository;
 	private final PickRepository pickRepository;
 
@@ -27,7 +29,7 @@ public class LinkService {
 	 */
 	public void createLink(LinkRequest request) throws ApiLinkException {
 
-		Link link = Link.create(request.url(), request.title(), request.description());
+		Link link = linkMapper.createLink(request);
 		if (existsLinkByUrl(link.getUrl())) {
 			throw ApiLinkException.LINK_ALREADY_EXISTS();
 		}
@@ -43,14 +45,14 @@ public class LinkService {
 
 		Link link = linkRepository.findById(id).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
 
-		return LinkResponse.of(link);
+		return linkMapper.createLinkResponse(link);
 	}
 
 	public LinkResponse getLinkByUrl(String url) throws ApiLinkException {
 
 		Link link = linkRepository.findByUrl(url).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
 
-		return LinkResponse.of(link);
+		return linkMapper.createLinkResponse(link);
 	}
 
 	public List<LinkResponse> getLinkAll() {
@@ -58,7 +60,7 @@ public class LinkService {
 		List<Link> linkList = linkRepository.findAll();
 
 		return linkList.stream()
-			.map(LinkResponse::of)
+			.map(linkMapper::createLinkResponse)
 			.toList();
 	}
 
