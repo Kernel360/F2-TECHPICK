@@ -72,7 +72,10 @@ jobs:
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7}
+            echo "docker - pull finished"
+            
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${GITHUB_SHA::7} techpick:staging
+            echo "docker - changing image name and tag"
             
             cd ~/techpick_project
             sudo docker-compose down
