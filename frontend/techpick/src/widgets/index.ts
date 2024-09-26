@@ -1,3 +1,3 @@
 export { DirectoryTreeSection } from '@/widgets/DirectoryTreeSection/DirectoryTreeSection';
-export { LinkEditorSection } from './MiddleSection/LinkEditorSection';
+export { LinkEditorSection } from '@/widgets/LinkEditorSection/LinkEditorSection';
 export { FeaturedSection } from '@/widgets/FeaturedSection/FeaturedSection';

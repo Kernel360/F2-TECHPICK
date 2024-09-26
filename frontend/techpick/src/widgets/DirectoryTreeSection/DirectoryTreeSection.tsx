@@ -19,11 +19,13 @@ import useResizeObserver from 'use-resize-observer';
 import { mockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
 
-interface LeftSectionProps {
+interface DirectoryTreeSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
 }
 
-export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
+export function DirectoryTreeSection({
+  setFocusedNode,
+}: DirectoryTreeSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
 
   return (

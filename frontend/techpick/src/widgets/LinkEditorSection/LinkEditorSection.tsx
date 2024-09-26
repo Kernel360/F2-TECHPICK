@@ -15,7 +15,7 @@ import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
 
-interface MiddleSectionProps {
+interface LinkEditorSectionProps {
   focusedNode: NodeApi<NodeData> | null;
   focusedNodeFolderData: NodeData[] | undefined;
   focusedNodeLinkData: NodeData[] | undefined;
@@ -25,7 +25,7 @@ export function LinkEditorSection({
   focusedNode,
   focusedNodeFolderData,
   focusedNodeLinkData,
-}: MiddleSectionProps) {
+}: LinkEditorSectionProps) {
   return (
     <div className={linkEditorSection}>
       <div className={linkEditorHeader}>
