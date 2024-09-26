@@ -20,13 +20,18 @@ spring:
     username: ${DOCKER_MYSQL_USERNAME}
     password: ${DOCKER_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jwt:
     secret:
       ${JWT_SECRET}
     issuer:
       ${JWT_ISSUER}
-
   # OAuth2 관련 설정
   config:
     import: classpath:oauth2-config.yaml
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
