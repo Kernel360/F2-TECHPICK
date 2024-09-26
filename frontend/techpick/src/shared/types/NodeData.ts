@@ -8,7 +8,7 @@ export interface NodeData {
   children: NodeData[] | null;
 }
 
-export interface DirNodeProps {
+export interface DirectoryNodeProps {
   node: NodeApi<NodeData>;
   style: CSSProperties;
   dragHandle?: (el: HTMLDivElement | null) => void;

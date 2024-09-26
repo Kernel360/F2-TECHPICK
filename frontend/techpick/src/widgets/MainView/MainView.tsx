@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
-import { viewContainer, viewWrapper } from '@/widgets/DirView/dirview.css';
+import { viewContainer, viewWrapper } from '@/widgets/MainView/MainView.css';
 import { NodeApi } from 'react-arborist';
 
-import { NodeData } from '@/lib/types/NodeData';
-import LeftSection from '@/widgets/LeftSection/LeftSection';
-import RightSection from '@/widgets/RightSection/RightSection';
-import MiddleSection from '@/widgets/MiddleSection/MiddleSection';
+import { NodeData } from '@/shared/types/NodeData';
+import { LeftSection } from '@/widgets';
+import { MiddleSection } from '@/widgets';
+import { RightSection } from '@/widgets';
 
-const DirView = () => {
+export default function MainView() {
   const [focusedNode, setFocusedNode] =
     React.useState<NodeApi<NodeData> | null>(null);
 
@@ -42,6 +42,4 @@ const DirView = () => {
       </div>
     </div>
   );
-};
-
-export default DirView;
+}

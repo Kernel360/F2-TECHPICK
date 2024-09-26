@@ -1,7 +1,6 @@
 import React from 'react';
-import { rightSection } from '@/widgets/DirView/dirview.css';
+import { rightSection } from './rightSection.css';
 
-const RightSection = () => {
+export default function RightSection() {
   return <div className={rightSection}></div>;
-};
-export default RightSection;
+}

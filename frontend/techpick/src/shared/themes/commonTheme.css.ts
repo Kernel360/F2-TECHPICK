@@ -1,13 +1,7 @@
 import { createTheme } from '@vanilla-extract/css';
-import { themeVars } from '@/lib/themes/themeContract.css';
+import { commonThemeContract } from '@/shared/themes/themeContract.css';
 
-export const darkThemeClass = createTheme(themeVars, {
-  color: {
-    primary: '#00306e',
-    secondary: '#95004d',
-    border: '#eaeaea',
-    background: '#000',
-  },
+export const commonThemeCss = createTheme(commonThemeContract, {
   space: {
     xs: '4px',
     sm: '8px',

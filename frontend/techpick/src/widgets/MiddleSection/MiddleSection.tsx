@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   bookmarkContainer,
   dirRow,
@@ -10,13 +10,13 @@ import {
   middleSection,
   middleView,
   topButtonContainer,
-} from '@/widgets/DirView/dirview.css';
+} from './middleSection.css';
 import IcSort from '@/lib/icons/ic_sort.svg';
 import IcSearch from '@/lib/icons/ic_search.svg';
-import { DirNode } from '@/components/DirNode/DirNode';
+import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import Image from 'next/image';
 import { NodeApi, Tree } from 'react-arborist';
-import { NodeData } from '@/lib/types/NodeData';
+import { NodeData } from '@/shared/types/NodeData';
 
 interface MiddleSectionProps {
   focusedNode: NodeApi<NodeData> | null;
@@ -24,11 +24,11 @@ interface MiddleSectionProps {
   focusedNodeLinkData: NodeData[] | undefined;
 }
 
-const MiddleSection: FC<MiddleSectionProps> = ({
+export default function MiddleSection({
   focusedNode,
   focusedNodeFolderData,
   focusedNodeLinkData,
-}) => {
+}: MiddleSectionProps) {
   return (
     <div className={middleSection}>
       <div className={middleHeader}>
@@ -59,7 +59,7 @@ const MiddleSection: FC<MiddleSectionProps> = ({
               indent={24}
               overscanCount={1}
             >
-              {DirNode}
+              {DirectoryNode}
             </Tree>
           )}
         </div>
@@ -74,7 +74,7 @@ const MiddleSection: FC<MiddleSectionProps> = ({
               indent={24}
               overscanCount={1}
             >
-              {DirNode}
+              {DirectoryNode}
             </Tree>
           )}
         </div>
@@ -82,6 +82,4 @@ const MiddleSection: FC<MiddleSectionProps> = ({
       <div className={middleFooter}></div>
     </div>
   );
-};
-
-export default MiddleSection;
+}

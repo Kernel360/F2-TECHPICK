@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   dirContainer,
   dirHeader,
@@ -11,22 +11,22 @@ import {
   logo,
   logoContainer,
   treeWrapper,
-} from '@/widgets/DirView/dirview.css';
+} from './leftSection.css';
 import IcProfile from '@/lib/icons/ic_user2.svg';
-import ToggleTheme from '@/components/ToggleTheme/ToggleTheme';
+import ToggleTheme from '@/features/ToggleTheme/ToggleTheme';
 import IcDirectory from '@/lib/icons/ic_directory.svg';
-import { NodeData } from '@/lib/types/NodeData';
+import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import Image from 'next/image';
 import useResizeObserver from 'use-resize-observer';
 import { mockData } from '@/lib/const/mockdata';
-import { DirNode } from '@/components/DirNode/DirNode';
+import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 
 interface LeftSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
 }
 
-const LeftSection: FC<LeftSectionProps> = ({ setFocusedNode }) => {
+const LeftSection = ({ setFocusedNode }: LeftSectionProps) => {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
 
   return (
@@ -51,9 +51,6 @@ const LeftSection: FC<LeftSectionProps> = ({ setFocusedNode }) => {
             onFocus={(node: NodeApi<NodeData>) => {
               setFocusedNode(node);
             }}
-            // renderRow={DirRow}
-            // renderDragPreview={DirDragPreview}
-            // renderCursor={DirCursor}
             openByDefault={false}
             width={width}
             height={height && height - 8}
@@ -61,7 +58,7 @@ const LeftSection: FC<LeftSectionProps> = ({ setFocusedNode }) => {
             indent={24}
             overscanCount={1}
           >
-            {DirNode}
+            {DirectoryNode}
           </Tree>
         </div>
       </div>

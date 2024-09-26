@@ -1,4 +1,4 @@
-import { NodeData } from '@/lib/types/NodeData';
+import { NodeData } from '@/shared/types/NodeData';
 
 export const mockData: NodeData[] = [
   {

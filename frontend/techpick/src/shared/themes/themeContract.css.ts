@@ -1,12 +1,16 @@
 import { createThemeContract } from '@vanilla-extract/css';
 
-export const themeVars = createThemeContract({
+export const themeContract = createThemeContract({
   color: {
     primary: '',
     secondary: '',
     border: '',
     background: '',
+    font: '',
   },
+});
+
+export const commonThemeContract = createThemeContract({
   space: {
     xs: '',
     sm: '',

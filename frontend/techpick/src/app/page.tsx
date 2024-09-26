@@ -1,12 +1,12 @@
 'use client';
 
-import DirView from '@/widgets/DirView/DirView';
-import { rootWrapper } from '@/app/style.css';
+import { MainView } from '@/widgets';
+import { rootLayout } from '@/app/style.css';
 
-export default function Home() {
+export default function MainPage() {
   return (
-    <div className={rootWrapper}>
-      <DirView />
+    <div className={rootLayout}>
+      <MainView />
     </div>
   );
 }

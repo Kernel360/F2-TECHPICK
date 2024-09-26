@@ -1,18 +1,21 @@
-import { DirNodeProps } from '@/lib/types/NodeData';
+import { DirectoryNodeProps } from '@/shared/types/NodeData';
 import {
   dirIcFolder,
   dirNode,
   dirNodeWrapper,
-} from '@/widgets/DirView/dirview.css';
+} from '@/widgets/MainView/MainView.css';
 import IcDownArrow from '@/lib/icons/ic_arrow_down.svg';
 import IcRightArrow from '@/lib/icons/ic_arrow_right.svg';
 import IcFolder from '@/lib/icons/ic_folder3.svg';
 import IcDocument from '@/lib/icons/ic_doc3.svg';
-import { FC } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
-export const DirNode: FC<DirNodeProps> = ({ node, style, dragHandle }) => {
+export const DirectoryNode = ({
+  node,
+  style,
+  dragHandle,
+}: DirectoryNodeProps) => {
   return (
     <div
       className={dirNodeWrapper}
