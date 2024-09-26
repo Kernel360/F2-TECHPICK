@@ -71,11 +71,12 @@ jobs:
           username: kyeu # user
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
+
             echo ${{ secrets.DOCKERHUB_TOKEN }} | sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
-            
+
             echo "docker - changing image name and tag ..."
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
             
