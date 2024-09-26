@@ -68,26 +68,26 @@ jobs:
         with:
           host: minlife.me # test home server
           port: 4242
-          username: root # user
+          username: root # root user
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
             
             echo "login docker hub for private repository access ..."
-            echo ${{ secrets.DOCKERHUB_TOKEN }} | sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
 
             echo "docker - changing image name and tag ..."
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
             
-            cd ~/techpick_project
+            cd /home/project/techpick
             
             echo "create .env file with github repository's ENV setting ..."
             echo ${{ secrets.ENV }} > .env
             
-            sudo docker-compose down
-            sudo docker compose up -d
+            docker-compose down
+            docker compose up -d
             
             echo "docker - pruning images that passed 24h ..."
-            sudo docker image prune -af --filter "until=24h"
+            docker image prune -af --filter "until=24h"
