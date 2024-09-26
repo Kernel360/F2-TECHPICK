@@ -96,18 +96,18 @@ jobs:
             
             echo "create .env file with github repository's ENV setting ..."
             touch .env
-            echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> ./env
-            echo "${{ secrets.DOCKER_MYSQL_URL }}" >> ./env
-            echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> ./env
-            echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> ./env
-            echo "${{ secrets.JWT_SECRET }}" >> ./env
-            echo "${{ secrets.JWT_ISSUER }}" >> ./env
-            echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> ./env
-            echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./env
-            echo "${{ secrets.KAKAO_CLIENT_ID }}" >> ./env
-            echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./env
-            echo "${{ secrets.NAVER_CLIENT_ID }}" >> ./env
-            echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> ./env
+            echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> .env
+            echo "${{ secrets.DOCKER_MYSQL_URL }}" >> .env
+            echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
+            echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            echo "${{ secrets.JWT_SECRET }}" >> .env
+            echo "${{ secrets.JWT_ISSUER }}" >> .env
+            echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+            echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+            echo "${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+            echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+            echo "${{ secrets.NAVER_CLIENT_ID }}" >> .env
+            echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
             
             docker-compose down
             docker compose up -d
