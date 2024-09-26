@@ -12,12 +12,11 @@ import {
   logoContainer,
   treeWrapper,
 } from './leftSection.css';
-import IcProfile from '@/lib/icons/ic_user2.svg';
+import Image from 'next/image';
+import { IcProfile, IcDirectory } from '@/lib/icons';
 import { ToggleTheme } from '@/features/';
-import IcDirectory from '@/lib/icons/ic_directory.svg';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
-import Image from 'next/image';
 import useResizeObserver from 'use-resize-observer';
 import { mockData } from '@/lib/const/mockdata';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';

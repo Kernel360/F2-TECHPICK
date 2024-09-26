@@ -11,10 +11,9 @@ import {
   middleView,
   topButtonContainer,
 } from './middleSection.css';
-import IcSort from '@/lib/icons/ic_sort.svg';
-import IcSearch from '@/lib/icons/ic_search.svg';
-import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import Image from 'next/image';
+import { IcSort, IcSearch } from '@/lib/icons';
+import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
 

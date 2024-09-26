@@ -4,12 +4,9 @@ import {
   dirNode,
   dirNodeWrapper,
 } from '@/widgets/MainView/MainView.css';
-import IcDownArrow from '@/lib/icons/ic_arrow_down.svg';
-import IcRightArrow from '@/lib/icons/ic_arrow_right.svg';
-import IcFolder from '@/lib/icons/ic_folder3.svg';
-import IcDocument from '@/lib/icons/ic_doc3.svg';
-import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { IcDownArrow, IcRightArrow, IcFolder, IcDocument } from '@/lib/icons';
+import toast from 'react-hot-toast';
 
 export const DirectoryNode = ({
   node,
