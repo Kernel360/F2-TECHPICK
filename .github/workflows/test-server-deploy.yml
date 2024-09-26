@@ -68,7 +68,7 @@ jobs:
         with:
           host: minlife.me # test home server
           port: 4242
-          username: kyeu # user
+          username: root # user
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
             
@@ -84,8 +84,7 @@ jobs:
             cd ~/techpick_project
             
             echo "create .env file with github repository's ENV setting ..."
-            export TECHPICK_ENV=${{ secrets.ENV }}
-            sudo sh -c 'echo $TECHPICK_ENV > .env'
+            echo ${{ secrets.ENV }} > .env
             
             sudo docker-compose down
             sudo docker compose up -d
