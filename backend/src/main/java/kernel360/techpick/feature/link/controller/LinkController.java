@@ -17,33 +17,30 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/link")
+@RequestMapping("/api/links")
 public class LinkController implements LinkApi {
 
 	private final LinkService linkService;
 
 	@Override
+	@GetMapping
+	public ResponseEntity<List<LinkResponse>> getAll() {
+
+		return ResponseEntity.ok(linkService.getLinkAll());
+	}
+
+	@Override
 	@GetMapping("/{linkId}")
 	public ResponseEntity<LinkResponse> getById(@PathVariable Long linkId) throws ApiLinkException {
 
-		LinkResponse linkResponse = linkService.getLinkById(linkId);
-		return ResponseEntity.ok(linkResponse);
+		return ResponseEntity.ok(linkService.getLinkById(linkId));
 	}
 
 	@Override
-	@GetMapping("")
+	@GetMapping
 	public ResponseEntity<LinkResponse> getByUrl(@RequestParam String url) throws ApiLinkException {
 
-		LinkResponse linkResponse = linkService.getLinkByUrl(url);
-		return ResponseEntity.ok(linkResponse);
-	}
-
-	@Override
-	@GetMapping("/all")
-	public ResponseEntity<List<LinkResponse>> getAll() {
-
-		List<LinkResponse> linkResponses = linkService.getLinkAll();
-		return ResponseEntity.ok(linkResponses);
+		return ResponseEntity.ok(linkService.getLinkByUrl(url));
 	}
 
 	@Override
@@ -51,6 +48,6 @@ public class LinkController implements LinkApi {
 	public ResponseEntity<Void> deleteById(Long linkId) throws ApiLinkException {
 
 		linkService.deleteLinkById(linkId);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }
