@@ -71,7 +71,8 @@ jobs:
           username: kyeu # user
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
-
+            
+            echo "login docker hub for private repository access ..."
             echo ${{ secrets.DOCKERHUB_TOKEN }} | sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
@@ -81,9 +82,12 @@ jobs:
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
             
             cd ~/techpick_project
+            
+            echo "create .env file with github repository's ENV setting ..."
+            echo ${{ secrets.ENV }} | > .env
+            
             sudo docker-compose down
             sudo docker compose up -d
             
-            # Clean up old Docker images on the server
             echo "docker - pruning images that passed 24h ..."
             sudo docker image prune -af --filter "until=24h"
