@@ -13,7 +13,6 @@ import {
   treeWrapper,
 } from './leftSection.css';
 import Image from 'next/image';
-import { IcProfile, IcDirectory } from '../../shared/icons';
 import { ToggleTheme } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
@@ -32,14 +31,24 @@ export function LeftSection({ setFocusedNode }: LeftSectionProps) {
     <div className={leftSection}>
       <div className={leftHeader}>
         <div className={logoContainer}>
-          <Image src={IcProfile} width={32} alt="profile" />
+          <Image
+            src={`image/ic_user.svg`}
+            width={32}
+            height={32}
+            alt="profile"
+          />
           <div className={logo}>TechPick</div>
         </div>
         <ToggleTheme />
       </div>
       <div className={dirContainer}>
         <div className={dirHeaderWrapper}>
-          <Image src={IcDirectory} width={20} alt="directory" />
+          <Image
+            src={`image/ic_directory.svg`}
+            width={20}
+            height={20}
+            alt="directory"
+          />
           <div className={dirHeader}>Directory</div>
         </div>
         <div className={treeWrapper} ref={ref}>

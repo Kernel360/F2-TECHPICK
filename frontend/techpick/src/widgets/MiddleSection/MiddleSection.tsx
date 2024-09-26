@@ -12,7 +12,6 @@ import {
   topButtonContainer,
 } from './middleSection.css';
 import Image from 'next/image';
-import { IcSort, IcSearch } from '../../shared/icons';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
@@ -39,10 +38,20 @@ export function MiddleSection({
 
         <div className={topButtonContainer}>
           <div>
-            <Image src={IcSort} alt="search" width={24} />
+            <Image
+              src={`image/ic_sort.svg`}
+              alt="search"
+              width={24}
+              height={24}
+            />
           </div>
           <div>
-            <Image src={IcSearch} alt="search" width={24} />
+            <Image
+              src={`image/ic_search.svg`}
+              alt="search"
+              width={24}
+              height={24}
+            />
           </div>
         </div>
       </div>

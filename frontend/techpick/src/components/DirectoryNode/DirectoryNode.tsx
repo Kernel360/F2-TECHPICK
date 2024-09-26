@@ -5,12 +5,6 @@ import {
   dirNodeWrapper,
 } from '@/widgets/MainView/MainView.css';
 import Image from 'next/image';
-import {
-  IcDownArrow,
-  IcRightArrow,
-  IcFolder,
-  IcDocument,
-} from '../../shared/icons';
 import toast from 'react-hot-toast';
 
 export const DirectoryNode = ({
@@ -30,17 +24,39 @@ export const DirectoryNode = ({
     >
       <div className={dirNode}>
         {node.isOpen ? (
-          <Image src={IcDownArrow} width={8} alt="downArrow" />
+          <Image
+            src={`image/ic_arrow_down.svg`}
+            width={8}
+            height={8}
+            alt="downArrow"
+          />
         ) : node.isLeaf ? (
           <div style={{ marginLeft: '8px' }}></div>
         ) : (
-          <Image src={IcRightArrow} width={8} alt="rightArrow" />
+          <Image
+            src={`image/ic_arrow_right.svg`}
+            width={8}
+            height={8}
+            alt="rightArrow"
+          />
         )}
 
         {node.data.type === 'folder' ? (
-          <Image src={IcFolder} alt="Folder" className={dirIcFolder} />
+          <Image
+            src={`image/ic_folder.svg`}
+            alt="Folder"
+            className={dirIcFolder}
+            width={8}
+            height={8}
+          />
         ) : (
-          <Image src={IcDocument} alt="Document" className={dirIcFolder} />
+          <Image
+            src={`image/ic_doc.svg`}
+            width={8}
+            height={8}
+            alt="Document"
+            className={dirIcFolder}
+          />
         )}
         {node.data.name}
       </div>
