@@ -1,6 +1,5 @@
-import { themeContract } from '@/shared/themes/themeContract.css';
-import { commonThemeContract } from '@/shared/themes/themeContract.css';
 import { style } from '@vanilla-extract/css';
+import { commonThemeContract, themeContract } from '@/shared/themes';
 
 export const locationContainer = style({
   display: 'flex',

@@ -1,5 +1,5 @@
 import { createTheme } from '@vanilla-extract/css';
-import { commonThemeContract } from '@/shared/themes/themeContract.css';
+import { commonThemeContract } from '@/shared/themes/commonThemeContract.css';
 
 export const commonTheme = createTheme(commonThemeContract, {
   space: {

@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { themeContract } from '@/shared/themes/themeContract.css';
-import { commonThemeContract } from '@/shared/themes/themeContract.css';
+import { themeContract, commonThemeContract } from '@/shared/themes';
 
 export const leftSection = style({
   width: '400px',

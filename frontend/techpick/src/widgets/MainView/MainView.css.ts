@@ -1,8 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import {
-  commonThemeContract,
-  themeContract,
-} from '@/shared/themes/themeContract.css';
+import { themeContract, commonThemeContract } from '@/shared/themes';
 
 export const viewWrapper = style({
   width: '100%',
