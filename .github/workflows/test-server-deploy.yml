@@ -30,25 +30,25 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
-      -
+#      -
         # 환경 변수 설정 (.env)
-        name: Set environment values
-        run: |
-          cd ./backend/src/main/resources
-          touch ./env.properties
-          echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> ./env.properties
-          echo "${{ secrets.DOCKER_MYSQL_URL }}" >> ./env.properties
-          echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> ./env.properties
-          echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> ./env.properties
-          echo "${{ secrets.JWT_SECRET }}" >> ./env.properties
-          echo "${{ secrets.JWT_ISSUER }}" >> ./env.properties
-          echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> ./env.properties
-          echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./env.properties
-          echo "${{ secrets.KAKAO_CLIENT_ID }}" >> ./env.properties
-          echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./env.properties
-          echo "${{ secrets.NAVER_CLIENT_ID }}" >> ./env.properties
-          echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> ./env.properties
-        shell: bash
+#        name: Set environment values
+#        run: |
+#          cd ./backend/src/main/resources
+#          touch ./env.properties
+#          echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> ./env.properties
+#          echo "${{ secrets.DOCKER_MYSQL_URL }}" >> ./env.properties
+#          echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> ./env.properties
+#          echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> ./env.properties
+#          echo "${{ secrets.JWT_SECRET }}" >> ./env.properties
+#          echo "${{ secrets.JWT_ISSUER }}" >> ./env.properties
+#          echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> ./env.properties
+#          echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> ./env.properties
+#          echo "${{ secrets.KAKAO_CLIENT_ID }}" >> ./env.properties
+#          echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./env.properties
+#          echo "${{ secrets.NAVER_CLIENT_ID }}" >> ./env.properties
+#          echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> ./env.properties
+#        shell: bash
       -
         # Spring boot application 빌드
         name: Build with gradle
@@ -96,18 +96,18 @@ jobs:
             
             echo "create .env file with github repository's ENV setting ..."
             touch .env
-            echo "${{ secrets.DOCKER_MYSQL_DATABASE }}" >> .env
-            echo "${{ secrets.DOCKER_MYSQL_URL }}" >> .env
-            echo "${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
-            echo "${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
-            echo "${{ secrets.JWT_SECRET }}" >> .env
-            echo "${{ secrets.JWT_ISSUER }}" >> .env
-            echo "${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
-            echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
-            echo "${{ secrets.KAKAO_CLIENT_ID }}" >> .env
-            echo "${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
-            echo "${{ secrets.NAVER_CLIENT_ID }}" >> .env
-            echo "${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
+            echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}" >> .env
+            echo "DOCKER_MYSQL_URL=${{ secrets.DOCKER_MYSQL_URL }}" >> .env
+            echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
+            echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+            echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> .env
+            echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+            echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+            echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+            echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+            echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
+            echo "NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
             
             docker-compose down
             docker compose up -d
