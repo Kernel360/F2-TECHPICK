@@ -3,7 +3,7 @@
 // 2. 특정 tag 선택시에는 두 화면에서 다 보여야함.
 // 3. 생성, 삭제 시에도 동일.
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import {
   SelectedTag,
@@ -17,23 +17,27 @@ import {
   selectedTagItemStyle,
 } from './TagInput.css';
 
-const SAMPLE_DATA = [
-  { id: 1, value: 'react' },
-  { id: 2, value: 'typescript' },
-  { id: 3, value: 'ci/cd' },
-  { id: 4, value: 'react-custom-timetable' },
-  { id: 5, value: 'dasdsaasda' },
-  { id: 5, value: 'dasdsaasda-dasdsaasda-dasdsaasda' },
-];
-
 export function TagInput() {
   const [open, setOpen] = useState(false);
   const tagInputContainerRef = useRef<HTMLDivElement | null>(null);
-  const { tagList, selectTag } = useSelectTagStore();
+  const { tagList, selectedTagList, fetchingTags, selectTag, fetchingTagList } =
+    useSelectTagStore();
 
   const openDialog = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    // TODO: 1. 현재 펼쳐질 때마다, 계속 불러옴.
+    // TODO: 2. 로컬 스토리지 사용하기. => zustand와 연동하고, 저장 시간 확인하기.
+    // TODO: 3. 캐싱.
+
+    fetchingTagList();
+  }, [fetchingTagList]);
+
+  if (fetchingTags.isPending) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div
@@ -48,8 +52,8 @@ export function TagInput() {
         onClick={openDialog}
       >
         <SelectedTagListLayout>
-          {tagList.map((tag) => (
-            <SelectedTag key={tag.id}>{tag.value}</SelectedTag>
+          {selectedTagList.map((tag) => (
+            <SelectedTag key={tag.id}>{tag.name}</SelectedTag>
           ))}
         </SelectedTagListLayout>
       </div>
@@ -62,8 +66,8 @@ export function TagInput() {
       >
         <div>
           <SelectedTagListLayout>
-            {tagList.map((tag) => (
-              <SelectedTag key={tag.id}>{tag.value}</SelectedTag>
+            {selectedTagList.map((tag) => (
+              <SelectedTag key={tag.id}>{tag.name}</SelectedTag>
             ))}
           </SelectedTagListLayout>
         </div>
@@ -71,13 +75,13 @@ export function TagInput() {
         <Command.List>
           <Command.Empty>No results found.</Command.Empty>
 
-          {SAMPLE_DATA.map((data) => (
+          {tagList.map((data) => (
             <Command.Item
               key={data.id}
               className={selectedTagItemStyle}
               onSelect={() => selectTag(data)}
             >
-              {data.value}
+              {data.name}
             </Command.Item>
           ))}
         </Command.List>

@@ -1,4 +1,4 @@
 export type TagType = {
   id: number;
-  value: string;
+  name: string;
 };
