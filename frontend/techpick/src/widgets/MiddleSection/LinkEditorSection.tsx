@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   bookmarkContainer,
-  dirRow,
   dirTree,
   folderContainer,
   locationContainer,
@@ -60,7 +59,6 @@ export function LinkEditorSection({
           {focusedNode && (
             <Tree
               className={dirTree}
-              rowClassName={dirRow}
               data={focusedNodeFolderData}
               openByDefault={false}
               rowHeight={32}
@@ -75,7 +73,6 @@ export function LinkEditorSection({
           {focusedNode && (
             <Tree
               className={dirTree}
-              rowClassName={dirRow}
               data={focusedNodeLinkData}
               openByDefault={false}
               rowHeight={32}

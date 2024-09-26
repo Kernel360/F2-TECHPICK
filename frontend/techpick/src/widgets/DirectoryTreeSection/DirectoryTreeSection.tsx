@@ -1,16 +1,15 @@
 import React from 'react';
 import {
-  dirContainer,
-  dirHeader,
-  dirHeaderWrapper,
-  dirRow,
-  dirTree,
-  leftFooter,
-  leftHeader,
-  leftSection,
+  directoryTreeContainer,
+  directoryLabel,
+  directoryLabelContainer,
+  directoryTree,
+  directoryTreeSectionFooter,
+  profileSection,
+  leftSidebarSection,
   logo,
-  logoContainer,
-  treeWrapper,
+  profileContainer,
+  directoryTreeWrapper,
 } from './directoryTreeSection.css';
 import Image from 'next/image';
 import { ToggleTheme } from '@/features/';
@@ -28,9 +27,9 @@ export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
 
   return (
-    <div className={leftSection}>
-      <div className={leftHeader}>
-        <div className={logoContainer}>
+    <div className={leftSidebarSection}>
+      <div className={profileSection}>
+        <div className={profileContainer}>
           <Image
             src={`image/ic_user.svg`}
             width={32}
@@ -41,20 +40,19 @@ export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
         </div>
         <ToggleTheme />
       </div>
-      <div className={dirContainer}>
-        <div className={dirHeaderWrapper}>
+      <div className={directoryTreeContainer}>
+        <div className={directoryLabelContainer}>
           <Image
             src={`image/ic_directory.svg`}
             width={20}
             height={20}
             alt="directory"
           />
-          <div className={dirHeader}>Directory</div>
+          <div className={directoryLabel}>Directory</div>
         </div>
-        <div className={treeWrapper} ref={ref}>
+        <div className={directoryTreeWrapper} ref={ref}>
           <Tree
-            className={dirTree}
-            rowClassName={dirRow}
+            className={directoryTree}
             data={mockData}
             onFocus={(node: NodeApi<NodeData>) => {
               setFocusedNode(node);
@@ -70,7 +68,7 @@ export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
           </Tree>
         </div>
       </div>
-      <div className={leftFooter}></div>
+      <div className={directoryTreeSectionFooter}></div>
     </div>
   );
 }

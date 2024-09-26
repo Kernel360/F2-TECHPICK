@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { themeContract, commonThemeContract } from '@/shared/themes';
 
-export const leftSection = style({
+export const leftSidebarSection = style({
   width: '400px',
   height: '100%',
   display: 'flex',
@@ -9,7 +9,7 @@ export const leftSection = style({
   borderRight: `1px solid ${themeContract.color.border}`,
 });
 
-export const leftHeader = style({
+export const profileSection = style({
   width: '100%',
   height: '56px',
   display: 'flex',
@@ -19,7 +19,7 @@ export const leftHeader = style({
   padding: `0 ${commonThemeContract.space.md}`,
 });
 
-export const logoContainer = style({
+export const profileContainer = style({
   display: 'flex',
   alignItems: 'center',
 });
@@ -30,7 +30,7 @@ export const logo = style({
   paddingLeft: '12px',
 });
 
-export const dirContainer = style({
+export const directoryTreeContainer = style({
   width: '100%',
   height: '100%',
   display: 'flex',
@@ -38,7 +38,7 @@ export const dirContainer = style({
   backgroundColor: themeContract.color.background,
 });
 
-export const dirHeaderWrapper = style({
+export const directoryLabelContainer = style({
   width: '100%',
   height: '28px',
   display: 'flex',
@@ -47,27 +47,25 @@ export const dirHeaderWrapper = style({
   borderBottom: `1px solid ${themeContract.color.border}`,
 });
 
-export const dirHeader = style({
+export const directoryLabel = style({
   width: '100%',
   paddingLeft: commonThemeContract.space.xs,
   color: themeContract.color.font,
   fontWeight: 350,
 });
 
-export const treeWrapper = style({
+export const directoryTreeWrapper = style({
   height: '100%',
   overflow: 'scroll',
 });
 
-export const leftFooter = style({
+export const directoryTreeSectionFooter = style({
   width: '100%',
   height: '56px',
   borderTop: `1px solid ${themeContract.color.border}`,
 });
 
-export const dirTree = style({
+export const directoryTree = style({
   width: '100%',
   height: '100%',
 });
-
-export const dirRow = style({});
