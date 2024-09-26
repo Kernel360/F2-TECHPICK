@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { container } from './CurrentTabInfo.css';
+import { useGetTabInfo } from '@/hooks';
 
-export const CurrentTabInfo: React.FC = () => {
-  const [tabInfo, setTabInfo] = useState<{ title: string; url: string } | null>(
-    null
-  );
-
-  useEffect(() => {
-    const getCurrentTab = async () => {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs[0]) {
-          setTabInfo({
-            title: tabs[0].title || 'No Title',
-            url: tabs[0].url || 'No URL',
-          });
-        }
-      });
-    };
-
-    getCurrentTab();
-  }, []);
-
-  if (!tabInfo) return <div>Loading...</div>;
+export function CurrentTabInfo() {
+  const tabInfo = useGetTabInfo();
 
   return (
-    <div className={container}>
-      <h1>Current Tab Info</h1>
-      <p>Title: {tabInfo.title}</p>
-      <p>URL: {tabInfo.url}</p>
+    <div>
+      <h2>{tabInfo?.title}</h2>
+      <p>URL: {tabInfo?.url}</p>
+      {tabInfo?.favicon ? (
+        <img src={tabInfo?.favicon} alt="Favicon" />
+      ) : (
+        <p>No Favicon</p>
+      )}
+      {tabInfo.ogDescription ? (
+        <p>{tabInfo.ogDescription}</p>
+      ) : (
+        <p>No Og description</p>
+      )}
     </div>
   );
-};
+}
