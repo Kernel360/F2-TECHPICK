@@ -10,7 +10,7 @@ import {
   middleSection,
   middleView,
   topButtonContainer,
-} from './middleSection.css';
+} from './linkEditorSection.css';
 import Image from 'next/image';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
@@ -22,7 +22,7 @@ interface MiddleSectionProps {
   focusedNodeLinkData: NodeData[] | undefined;
 }
 
-export function MiddleSection({
+export function LinkEditorSection({
   focusedNode,
   focusedNodeFolderData,
   focusedNodeLinkData,

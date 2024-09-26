@@ -11,7 +11,7 @@ import {
   logo,
   logoContainer,
   treeWrapper,
-} from './leftSection.css';
+} from './directoryTreeSection.css';
 import Image from 'next/image';
 import { ToggleTheme } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
@@ -24,7 +24,7 @@ interface LeftSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
 }
 
-export function LeftSection({ setFocusedNode }: LeftSectionProps) {
+export function DirectoryTreeSection({ setFocusedNode }: LeftSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
 
   return (

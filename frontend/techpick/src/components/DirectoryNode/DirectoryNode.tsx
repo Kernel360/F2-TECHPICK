@@ -1,9 +1,5 @@
 import { DirectoryNodeProps } from '@/shared/types/NodeData';
-import {
-  dirIcFolder,
-  dirNode,
-  dirNodeWrapper,
-} from '@/widgets/MainView/MainView.css';
+import { dirIcFolder, dirNode, dirNodeWrapper } from './directoryNode.css';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 

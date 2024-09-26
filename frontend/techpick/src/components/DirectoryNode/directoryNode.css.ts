@@ -1,19 +1,5 @@
+import { commonThemeContract, themeContract } from '@/shared/themes';
 import { style } from '@vanilla-extract/css';
-import { themeContract, commonThemeContract } from '@/shared/themes';
-
-export const viewWrapper = style({
-  width: '100%',
-  height: '100%',
-  backgroundColor: themeContract.color.background,
-  color: themeContract.color.font,
-});
-
-export const viewContainer = style({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  borderRadius: '8px',
-});
 
 export const dirNodeWrapper = style({
   width: '100%',

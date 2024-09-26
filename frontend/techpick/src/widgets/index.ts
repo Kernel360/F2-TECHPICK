@@ -1,4 +1,3 @@
-export { MainView } from './MainView/MainView';
-export { LeftSection } from './LeftSection/LeftSection';
-export { MiddleSection } from './MiddleSection/MiddleSection';
-export { RightSection } from './RightSection/RightSection';
+export { DirectoryTreeSection } from '@/widgets/DirectoryTreeSection/DirectoryTreeSection';
+export { LinkEditorSection } from './MiddleSection/LinkEditorSection';
+export { FeaturedSection } from '@/widgets/FeaturedSection/FeaturedSection';
