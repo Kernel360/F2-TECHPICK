@@ -95,3 +95,16 @@ jobs:
             
             echo "docker - pruning images that passed 24h ..."
             docker image prune -af --filter "until=24h"
+      - 
+        # 배포 Action 실행 결과 깃허브 알림
+        name: Discord Webhook Action
+        uses: sarisia/actions-status-discord@v1.14.7
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          title: "Deployment Action Result"
+          description: "테스트 API 서버 배포 action 결과"
+          color: 0xff91a4
+          url: "https://github.com/sarisia/actions-status-discord"
+          username: GitHub Actions
