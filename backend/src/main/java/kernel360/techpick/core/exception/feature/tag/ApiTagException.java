@@ -11,8 +11,25 @@ public class ApiTagException extends ApiException {
 
 	/**
 	 * TODO: Implement static factory method
-	 * */
-	public static ApiTagException TAG_DUPLICATE() {
-		return new ApiTagException(ApiTagErrorCode.TAG_DUPLICATION);
+	 */
+
+	public static ApiTagException TAG_NOT_FOUND() {
+		return new ApiTagException(ApiTagErrorCode.TAG_NOT_FOUND);
+	}
+
+	public static ApiTagException TAG_ALREADY_EXIST() {
+		return new ApiTagException(ApiTagErrorCode.TAG_ALREADY_EXIST);
+	}
+
+	public static ApiTagException TAG_INVALID_NAME() {
+		return new ApiTagException(ApiTagErrorCode.TAG_INVALID_NAME);
+	}
+
+	public static ApiTagException UNAUTHORIZED_TAG_ACCESS() {
+		return new ApiTagException(ApiTagErrorCode.UNAUTHORIZED_TAG_ACCESS);
+	}
+
+	public static ApiTagException TAG_HAS_PICK() {
+		return new ApiTagException(ApiTagErrorCode.TAG_HAS_PICK);
 	}
 }
