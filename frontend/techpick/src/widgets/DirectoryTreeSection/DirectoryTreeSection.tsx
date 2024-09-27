@@ -16,7 +16,7 @@ import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
-import { mockData } from '@/shared/const/mockdata';
+import { dynamicMockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
 
 interface DirectoryTreeSectionProps {
@@ -55,7 +55,7 @@ export function DirectoryTreeSection({
         <div className={directoryTreeWrapper} ref={ref}>
           <Tree
             className={directoryTree}
-            data={mockData}
+            data={dynamicMockData}
             onFocus={(node: NodeApi<NodeData>) => {
               setFocusedNode(node);
             }}

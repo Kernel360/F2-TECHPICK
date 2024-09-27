@@ -5,7 +5,7 @@ export interface NodeData {
   id: string;
   name: string;
   type: 'folder' | 'link';
-  children: NodeData[] | null;
+  children?: NodeData[];
 }
 
 export interface DirectoryNodeProps {
