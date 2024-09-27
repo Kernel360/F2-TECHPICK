@@ -23,21 +23,24 @@ public class RssRawData extends TimeTracking {
 	private Long id;
 
 	// 제목
-	@Column(name = "title", nullable = false)
+	@Column(name = "title")
 	private String title;
 
 	// 원문 주소
 	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
-	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 1000 byte로 잡았습니다.
-	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(1000)")
+	//  medium 기준 가장 길었던 url 320 글자의 약 2배인 VARCHAR(600)으로 변경
+	@Column(name = "url", columnDefinition = "VARCHAR(600)")
 	private String url;
 
+	@Column(name = "guid")
+	private String guid;
+
 	// 작성 일자
-	@Column(name = "published_at", nullable = false)
+	@Column(name = "published_at")
 	private String publishedAt;
 
 	// 요약 설명
-	@Column(name = "description") // nullable
+	@Column(name = "description", columnDefinition = "longblob") // nullable
 	private String description;
 
 	// 작성자
@@ -53,6 +56,7 @@ public class RssRawData extends TimeTracking {
 	private RssRawData(
 		String title,
 		String url,
+		String guid,
 		String publishedAt,
 		String description,
 		String creator,
@@ -60,9 +64,16 @@ public class RssRawData extends TimeTracking {
 	) {
 		this.title = title;
 		this.url = url;
+		this.guid = guid;
 		this.publishedAt = publishedAt;
 		this.description = description;
 		this.creator = creator;
 		this.joinedCategory = joinedCategory;
+	}
+
+	public static RssRawData create(String title, String url, String guid, String publishedAt, String description,
+		String creator,
+		String joinedCategory) {
+		return new RssRawData(title, url, guid, publishedAt, description, creator, joinedCategory);
 	}
 }
