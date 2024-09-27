@@ -20,6 +20,8 @@
     "next": "14.2.9",
     "react": "^18",
     "react-arborist": "^3.4.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "zustand": "^4.5.5"

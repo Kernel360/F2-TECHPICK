@@ -4365,6 +4365,13 @@ const RAW_RUNTIME_STATE =
           ["@react-dnd/asap", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.0.2", {\
+        "packageLocation": "../../../.yarn/berry/cache/@react-dnd-asap-npm-5.0.2-66021d3d61-10c0.zip/node_modules/@react-dnd/asap/",\
+        "packageDependencies": [\
+          ["@react-dnd/asap", "npm:5.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@react-dnd/invariant", [\
@@ -4374,6 +4381,13 @@ const RAW_RUNTIME_STATE =
           ["@react-dnd/invariant", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:4.0.2", {\
+        "packageLocation": "../../../.yarn/berry/cache/@react-dnd-invariant-npm-4.0.2-826eacc1ea-10c0.zip/node_modules/@react-dnd/invariant/",\
+        "packageDependencies": [\
+          ["@react-dnd/invariant", "npm:4.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@react-dnd/shallowequal", [\
@@ -4381,6 +4395,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/@react-dnd-shallowequal-npm-2.0.0-2a10dca275-10c0.zip/node_modules/@react-dnd/shallowequal/",\
         "packageDependencies": [\
           ["@react-dnd/shallowequal", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.0.2", {\
+        "packageLocation": "../../../.yarn/berry/cache/@react-dnd-shallowequal-npm-4.0.2-f944714335-10c0.zip/node_modules/@react-dnd/shallowequal/",\
+        "packageDependencies": [\
+          ["@react-dnd/shallowequal", "npm:4.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9877,6 +9898,16 @@ const RAW_RUNTIME_STATE =
           ["dnd-core", "npm:14.0.1"],\
           ["@react-dnd/asap", "npm:4.0.1"],\
           ["@react-dnd/invariant", "npm:2.0.0"],\
+          ["redux", "npm:4.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.0.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/dnd-core-npm-16.0.1-552224cee0-10c0.zip/node_modules/dnd-core/",\
+        "packageDependencies": [\
+          ["dnd-core", "npm:16.0.1"],\
+          ["@react-dnd/asap", "npm:5.0.2"],\
+          ["@react-dnd/invariant", "npm:4.0.2"],\
           ["redux", "npm:4.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -15930,6 +15961,35 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:16.0.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/react-dnd-npm-16.0.1-974f047d7b-10c0.zip/node_modules/react-dnd/",\
+        "packageDependencies": [\
+          ["react-dnd", "npm:16.0.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:16.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/react-dnd-virtual-3222edd5e3/4/.yarn/berry/cache/react-dnd-npm-16.0.1-974f047d7b-10c0.zip/node_modules/react-dnd/",\
+        "packageDependencies": [\
+          ["react-dnd", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:16.0.1"],\
+          ["@react-dnd/invariant", "npm:4.0.2"],\
+          ["@react-dnd/shallowequal", "npm:4.0.2"],\
+          ["@types/hoist-non-react-statics", null],\
+          ["@types/node", "npm:22.5.5"],\
+          ["@types/react", "npm:18.3.7"],\
+          ["dnd-core", "npm:16.0.1"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["hoist-non-react-statics", "npm:3.3.2"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/hoist-non-react-statics",\
+          "@types/node",\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:73f6e594992685d98bd7e0e4c82d3668b0db26f0c65cb46c0addc831e5a64fa1f882bf20cfe934448c3dfbe7acac0703bb6a736d72f9e1ab5077c7b393b0b23f#npm:14.0.5", {\
         "packageLocation": "./.yarn/__virtual__/react-dnd-virtual-04d9d83b14/4/.yarn/berry/cache/react-dnd-npm-14.0.5-e37445cf62-10c0.zip/node_modules/react-dnd/",\
         "packageDependencies": [\
@@ -15959,6 +16019,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["react-dnd-html5-backend", "npm:14.1.0"],\
           ["dnd-core", "npm:14.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.0.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/react-dnd-html5-backend-npm-16.0.1-754940d855-10c0.zip/node_modules/react-dnd-html5-backend/",\
+        "packageDependencies": [\
+          ["react-dnd-html5-backend", "npm:16.0.1"],\
+          ["dnd-core", "npm:16.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17645,6 +17713,8 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:3.3.3"],\
           ["react", "npm:18.3.1"],\
           ["react-arborist", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:3.4.0"],\
+          ["react-dnd", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:16.0.1"],\
+          ["react-dnd-html5-backend", "npm:16.0.1"],\
           ["react-dom", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:18.3.1"],\
           ["react-hot-toast", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:2.4.1"],\
           ["storybook", "npm:8.3.1"],\
