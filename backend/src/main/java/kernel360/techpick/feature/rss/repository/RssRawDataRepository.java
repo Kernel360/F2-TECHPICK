@@ -10,8 +10,6 @@ import kernel360.techpick.core.model.rss.RssRawData;
 /**
  * 파이썬 서버 구현 시 삭제 예정
  */
-public interface RssRepository extends JpaRepository<RssRawData, Long> {
+public interface RssRawDataRepository extends JpaRepository<RssRawData, Long> {
 
-	@Query("select r.url from RssRawData r")
-	List<String> findAllUrls();
 }

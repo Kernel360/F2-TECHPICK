@@ -10,7 +10,7 @@ spring:
       enabled: always
   sql:
     init:
-      mode: always # schema.sql 실행시 always 키고 실행하시면 됩니다. option: never, always
+      mode: never # schema.sql 실행시 always 키고 실행하시면 됩니다. option: never, always
 
   jpa:
     properties:

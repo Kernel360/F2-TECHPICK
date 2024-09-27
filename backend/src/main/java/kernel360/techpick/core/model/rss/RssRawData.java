@@ -28,8 +28,8 @@ public class RssRawData extends TimeTracking {
 
 	// 원문 주소
 	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
-	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 1000 byte로 잡았습니다.
-	@Column(name = "url", columnDefinition = "VARCHAR(1000)")
+	//  medium 기준 가장 길었던 url 320 글자의 약 2배인 VARCHAR(600)으로 변경
+	@Column(name = "url", columnDefinition = "VARCHAR(600)")
 	private String url;
 
 	@Column(name = "guid")

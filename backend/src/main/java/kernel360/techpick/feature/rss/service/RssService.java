@@ -6,15 +6,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 import kernel360.techpick.core.model.rss.RssRawData;
+import kernel360.techpick.core.model.rss.RssSupportingBlog;
 import kernel360.techpick.feature.rss.repository.RssBlogRepository;
-import kernel360.techpick.feature.rss.repository.RssRepository;
+import kernel360.techpick.feature.rss.repository.RssRawDataRepository;
 import kernel360.techpick.feature.rss.model.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,30 +24,31 @@ import lombok.extern.slf4j.Slf4j;
 public class RssService {
 
 	private final RestTemplate restTemplate;
-	private final RssRepository rssRepository;
+	private final RssRawDataRepository rssRawDataRepository;
 	private final RssBlogRepository rssBlogRepository;
 
+	// TODO: Exception 처리 필요
 	// 새로운 글 탐지 + 초기 데이터 수집
 	@Scheduled(cron = "0 0 3 * * *")
 	public List<RssResponse.Channel> getNewRss() {
-		Set<String> links = new HashSet<>(rssRepository.findAllUrls());
+		Set<RssRawData> rawDataSet = new HashSet<>(rssRawDataRepository.findAll());
 		List<RssResponse.Channel> rssList = new ArrayList<>();
 
-		List<String> urls = rssBlogRepository.findAllUrls();
-		urls.forEach(url -> {
-			RssResponse rss = restTemplate.getForObject(url, RssResponse.class);
-			rssList.add(Objects.requireNonNull(rss).getChannel());
+		List<RssSupportingBlog> blogList = rssBlogRepository.findAll();
+		blogList.forEach(url -> {
+			RssResponse rss = restTemplate.getForObject(url.getRssFeedUrl(), RssResponse.class);
+			List<RssRawData> crawledArticleList = getCrawledArticleList(Objects.requireNonNull(rss).getChannel(),
+				rawDataSet);
+			rssRawDataRepository.saveAll(crawledArticleList);
 		});
-
-		List<RssRawData> articles = getCrawledArticleList(rssList, links);
-		rssRepository.saveAll(articles);
 		return rssList;
 	}
 
-	private List<RssRawData> getCrawledArticleList(List<RssResponse.Channel> rssList, Set<String> links) {
-		return rssList.stream()
-			.flatMap(channel -> channel.getItem().stream())
-			.filter(item -> !links.contains(item.getLink()))
+	private List<RssRawData> getCrawledArticleList(RssResponse.Channel rss, Set<RssRawData> links) {
+		return rss.getItem().stream()
+			.filter(item -> links.stream()
+				.map(RssRawData::getUrl)
+				.noneMatch(url -> url.equals(item.getLink())))
 			.map(this::getCrawledArticle)
 			.toList();
 	}

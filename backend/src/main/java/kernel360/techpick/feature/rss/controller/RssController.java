@@ -22,7 +22,7 @@ public class RssController {
 	private final RssService rssService;
 
 	@GetMapping
-	public ResponseEntity<?> getNewRss() {
+	public ResponseEntity<List<RssResponse.Channel>> getNewRss() {
 		List<RssResponse.Channel> rss = rssService.getNewRss();
 		return ResponseEntity.ok(rss);
 	}
