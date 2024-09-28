@@ -58,8 +58,8 @@ public class TagProvider {
 
 		var tag = tagRepository.findFirstByUser_IdOrderByOrderDesc(userId);
 
-		// 순서는 1부터 시작
-		return tag.map(value -> value.getOrder() + 1).orElse(1);
+		// 순서는 0부터 시작
+		return tag.map(value -> value.getOrder() + 1).orElse(0);
 	}
 
 }
