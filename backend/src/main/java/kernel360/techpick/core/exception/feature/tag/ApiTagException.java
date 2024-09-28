@@ -29,8 +29,8 @@ public class ApiTagException extends ApiException {
 		return new ApiTagException(ApiTagErrorCode.UNAUTHORIZED_TAG_ACCESS);
 	}
 
-	public static ApiTagException TAG_DUPLICATE_ORDER() {
-		return new ApiTagException(ApiTagErrorCode.TAG_DUPLICATE_ORDER);
+	public static ApiTagException TAG_INVALID_ORDER() {
+		return new ApiTagException(ApiTagErrorCode.TAG_INVALID_ORDER);
 	}
 
 }

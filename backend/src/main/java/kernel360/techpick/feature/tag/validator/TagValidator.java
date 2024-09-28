@@ -32,14 +32,16 @@ public class TagValidator {
 		}
 	}
 
-	public void validateTagOrder(Map<Long, Tag> tagMap) {
+	public void validateTagOrder(Map<Long, Tag> tagMap) throws ApiTagException {
 
 		Set<Integer> orderSet = new HashSet<>();
 
 		for (Tag tag : tagMap.values()) {
-			if (!orderSet.add(tag.getOrder())) {
-				throw ApiTagException.TAG_DUPLICATE_ORDER();
+			// 중복되거나 음수면 유효하지 않은 tag order
+			if (!orderSet.add(tag.getOrder()) || tag.getOrder() < 0) {
+				throw ApiTagException.TAG_INVALID_ORDER();
 			}
+
 		}
 
 	}
