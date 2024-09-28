@@ -54,7 +54,7 @@ public class TagProvider {
 		tagRepository.deleteById(id);
 	}
 
-	public int getLastOrderByUSerId(Long userId) {
+	public int getLastOrderByUserId(Long userId) {
 
 		var tag = tagRepository.findFirstByUser_IdOrderByOrderDesc(userId);
 
