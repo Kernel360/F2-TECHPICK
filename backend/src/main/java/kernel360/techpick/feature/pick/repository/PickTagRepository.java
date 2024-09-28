@@ -11,4 +11,6 @@ import kernel360.techpick.core.model.pick.PickTag;
 public interface PickTagRepository extends JpaRepository<PickTag, Long> {
 
 	boolean existsByTag_Id(Long tag_id);
+
+	void deleteByTag_Id(Long tag_id);
 }

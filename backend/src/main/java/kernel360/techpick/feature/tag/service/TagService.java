@@ -70,7 +70,8 @@ public class TagService {
 
 		Tag targetTag = tagProvider.findById(tagId);
 		validateTagAccess(userId, targetTag);
-		validateTagHasPick(tagId);
+		// 해당 태그를 등록한 픽에서 해당 태그를 모두 삭제
+		pickTagRepository.deleteById(tagId);
 		tagProvider.deleteById(tagId);
 	}
 
@@ -87,11 +88,5 @@ public class TagService {
 			throw ApiTagException.TAG_ALREADY_EXIST();
 		}
 	}
-
-	private void validateTagHasPick(Long tagId) throws ApiTagException {
-
-		if (pickTagRepository.existsByTag_Id(tagId)) {
-			throw ApiTagException.TAG_HAS_PICK();
-		}
-	}
+	
 }
