@@ -46,9 +46,20 @@ public class Link {
 	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(600)", unique = true)
 	private String url;
 
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	@Column(name = "title", nullable = false, columnDefinition = "VARCHAR(100)")
+	private String title;
 
-	private Link(String url) {
+	@Column(name = "description", columnDefinition = "VARCHAR(600)")
+	private String description;
+
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public static Link create(String url, String title, String description) {
+		return new Link(url, title, description);
+	}
+
+	private Link(String url, String title, String description) {
 		this.url = url;
+		this.title = title;
+		this.description = description;
 	}
 }

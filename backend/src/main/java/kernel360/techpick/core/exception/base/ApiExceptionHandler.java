@@ -3,8 +3,6 @@ package kernel360.techpick.core.exception.base;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -29,7 +27,8 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(ApiException.class)
 	public ApiErrorResponse handleApiException(ApiException exception) {
 
-		log.error(exception.getMessage(), exception);
+		// stacktrace가 콘솔에 전부 출력되어 주석처리
+		log.error(exception.getMessage());//, exception);
 
 		exception.handleError();
 
