@@ -10,7 +10,7 @@ import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.feature.link.model.dto.LinkRequest;
 import kernel360.techpick.feature.link.model.dto.LinkResponse;
 import kernel360.techpick.feature.link.model.mapper.LinkMapper;
-import kernel360.techpick.feature.link.repository.LinkRepository;
+import kernel360.techpick.feature.link.model.provider.LinkProvider;
 import kernel360.techpick.feature.pick.repository.PickRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class LinkService {
 
 	private final LinkMapper linkMapper;
-	private final LinkRepository linkRepository;
+	private final LinkProvider linkProvider;
 	private final PickRepository pickRepository;
 
 	/**
@@ -29,24 +29,18 @@ public class LinkService {
 	 * @throws ApiLinkException [LI-002] 이미 존재하는 링크(URL)
 	 */
 	@Transactional
-	public void createLink(LinkRequest request) throws ApiLinkException {
+	public LinkResponse createLink(LinkRequest request) throws ApiLinkException {
 
 		Link link = linkMapper.createLink(request);
-		if (existsLinkByUrl(link.getUrl())) {
-			throw ApiLinkException.LINK_ALREADY_EXISTS();
-		}
-		linkRepository.save(link);
-	}
+		validateUrl(request.url());
 
-	public boolean existsLinkByUrl(String url) {
-
-		return linkRepository.existsByUrl(url);
+		return linkMapper.createLinkResponse(linkProvider.save(link));
 	}
 
 	@Transactional(readOnly = true)
 	public LinkResponse getLinkById(Long id) throws ApiLinkException {
 
-		Link link = linkRepository.findById(id).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
+		Link link = linkProvider.findById(id);
 
 		return linkMapper.createLinkResponse(link);
 	}
@@ -54,7 +48,7 @@ public class LinkService {
 	@Transactional(readOnly = true)
 	public LinkResponse getLinkByUrl(String url) throws ApiLinkException {
 
-		Link link = linkRepository.findByUrl(url).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
+		Link link = linkProvider.findByUrl(url);
 
 		return linkMapper.createLinkResponse(link);
 	}
@@ -62,7 +56,7 @@ public class LinkService {
 	@Transactional(readOnly = true)
 	public List<LinkResponse> getLinkAll() {
 
-		List<Link> linkList = linkRepository.findAll();
+		List<Link> linkList = linkProvider.findAll();
 
 		return linkList.stream()
 			.map(linkMapper::createLinkResponse)
@@ -72,10 +66,22 @@ public class LinkService {
 	@Transactional
 	public void deleteLinkById(Long id) throws ApiLinkException {
 
-		Link targetLink = linkRepository.findById(id).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
-		if (pickRepository.existsByLink(targetLink)) {
+		Link targetLink = linkProvider.findById(id);
+		validateLinkHasPick(targetLink);
+		linkProvider.deleteById(id);
+	}
+
+	private void validateUrl(String url) throws ApiLinkException {
+
+		if (linkProvider.existsByUrl(url)) {
+			throw ApiLinkException.LINK_ALREADY_EXISTS();
+		}
+	}
+
+	private void validateLinkHasPick(Link link) throws ApiLinkException {
+
+		if (pickRepository.existsByLink(link)) {
 			throw ApiLinkException.LINK_HAS_PICKS();
 		}
-		linkRepository.deleteById(id);
 	}
 }
