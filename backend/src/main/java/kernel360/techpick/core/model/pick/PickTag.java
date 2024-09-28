@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.model.tag.Tag;
-import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +27,8 @@ public class PickTag {
 
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	@JoinColumn(name = "pick_id", nullable = false)
+	private Pick pick;
 
 	// 사용자 정의 태그 FK
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -38,8 +37,8 @@ public class PickTag {
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	private PickTag(User user, Tag tag) {
-		this.user = user;
+	private PickTag(Pick pick, Tag tag) {
+		this.pick = pick;
 		this.tag = tag;
 	}
 }
