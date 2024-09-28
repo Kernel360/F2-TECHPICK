@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.exception.feature.tag.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
-import kernel360.techpick.feature.tag.model.provider.TagProvider;
+import kernel360.techpick.feature.tag.model.TagProvider;
 import lombok.RequiredArgsConstructor;
 
 @Component

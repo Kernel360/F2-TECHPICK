@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.tag.model.mapper;
+package kernel360.techpick.feature.tag.model;
 
 import org.springframework.stereotype.Component;
 

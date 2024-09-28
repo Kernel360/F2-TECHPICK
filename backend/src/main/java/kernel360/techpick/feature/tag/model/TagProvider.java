@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.tag.model.provider;
+package kernel360.techpick.feature.tag.model;
 
 import java.util.List;
 
