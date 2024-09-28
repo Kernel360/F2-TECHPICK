@@ -38,6 +38,11 @@ public class Link {
 	 * - 제목이나 설명은 바뀔 수 있기 때문에 동적으로 그때 가져와야 하며, 굳이 DB에 저장할 필요가 없음
 	 */
 
+	// URL
+	// TODO: VARCHAR 최대 크기를 몇으로 할지 토의 필요합니다.
+	// 		 The index key prefix length limit is 3072 bytes for InnoDB -> VARCHAR(1000) + utf8 = 4000byte
+	//       일단 medium 기준 가장 길었던 url 320 글자의 약 2배인 VARCHAR(600)으로 변경
+	//       Techpick 노션 기술 부채에 VARCHAR, TEXT 부분 참고.
 	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(600)", unique = true)
 	private String url;
 

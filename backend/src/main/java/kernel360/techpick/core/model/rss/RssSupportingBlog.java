@@ -27,8 +27,11 @@ public class RssSupportingBlog extends TimeTracking {
 	private String rssFeedUrl;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-
 	private RssSupportingBlog(String rssFeedUrl) {
 		this.rssFeedUrl = rssFeedUrl;
+	}
+
+	public static RssSupportingBlog create(String rssFeedUrl) {
+		return new RssSupportingBlog(rssFeedUrl);
 	}
 }

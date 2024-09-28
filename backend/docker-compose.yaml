@@ -2,7 +2,10 @@
 # https://github.com/Kernel360/E2E2-TALKKA/blob/develop/docker-compose.yaml
 # https://github.com/Kernel360/E2E2-LOOK-US/blob/develop/backend/docker-compose.yaml
 
-name: techpick-dev
+# Local 테스트 전용 Compose 입니다.
+# 실행시 앱 이미지를 로컬에 빌드합니다. (배포 버전에서는 빌드하지 않고, 도커 허브에서 가져옴)
+
+# name: techpick-dev
 
 networks:
   techpick-network:
@@ -30,18 +33,16 @@ services:
     networks:
       - techpick-network
 
+#  로컬 테스트 용 ( 아래 설정은 실제 서버에 올라간 Compose 와 다름 )
 #  techpick-server:
-#    image: foo/bar
+#    build:
+#      dockerfile: Dockerfile
 #    container_name: techpick-server
-#     ports:
+#    ports:
 #      - "8080:8080"
-#     environment:
-#       SPRING_DATASOURCE_URL: ${DOCKER_MYSQL_URL}
-#       SPRING_DATASOURCE_USERNAME: ${DOCKER_MYSQL_USERNAME}
-#       SPRING_DATASOURCE_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
-#     env_file:
-#       - .env
-#     depends_on:
-#       - mysql
-#     networks:
-#       - techpick-network
+#    env_file:
+#        - .env
+#    depends_on:
+#      - techpick-mysql
+#    networks:
+#      - techpick-network
