@@ -1,7 +1,7 @@
 package kernel360.techpick.feature.tag.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,15 +52,21 @@ public class TagService {
 	public List<TagResponse> updateTagList(Long userId, List<TagUpdateRequest> tagUpdateRequests) throws
 		ApiTagException {
 
-		List<Tag> targetTagList = new ArrayList<>();
+		Map<Long, Tag> tagMap = tagProvider.getTagMapByUserId(userId);
+
 		for (var req : tagUpdateRequests) {
-			Tag targetTag = tagProvider.findById(req.id());
-			tagValidator.validateTagAccess(userId, targetTag);
-			tagMapper.updateTag(req, targetTag);
-			targetTagList.add(targetTag);
+			if (tagMap.containsKey(req.id())) {
+				tagMapper.updateTag(req, tagMap.get(req.id()));
+			} else {
+				// tagMap 에 존재하지 않으면 본인이 등록한 태그가 아닌데 수정하려는것
+				throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+			}
 		}
 
-		return tagProvider.saveAll(targetTagList)
+		// 수정한 태그들 중 order 가 중복되는지 검증
+		tagValidator.validateTagOrder(tagMap);
+
+		return tagProvider.saveAll(tagMap.values())
 			.stream()
 			.map(tagMapper::createTagResponse)
 			.toList();
