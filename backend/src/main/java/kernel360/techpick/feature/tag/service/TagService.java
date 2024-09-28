@@ -55,12 +55,9 @@ public class TagService {
 		Map<Long, Tag> tagMap = tagProvider.getTagMapByUserId(userId);
 
 		for (var req : tagUpdateRequests) {
-			if (tagMap.containsKey(req.id())) {
-				tagMapper.updateTag(req, tagMap.get(req.id()));
-			} else {
-				// tagMap 에 존재하지 않으면 본인이 등록한 태그가 아닌데 수정하려는것
-				throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
-			}
+			// 만약 자신의 태그가 아니라면 tagMap.get(req.id()) == null
+			tagValidator.validateTagAccess(userId, tagMap.get(req.id()));
+			tagMapper.updateTag(req, tagMap.get(req.id()));
 		}
 
 		// 수정한 태그들 중 order 가 중복되는지 검증
