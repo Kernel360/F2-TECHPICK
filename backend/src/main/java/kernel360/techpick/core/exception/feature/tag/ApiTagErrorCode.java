@@ -13,7 +13,9 @@ public enum ApiTagErrorCode implements ApiErrorCode {
 	TAG_ALREADY_EXIST("TG-001", HttpStatus.BAD_REQUEST, "이미 존재하는 태그"),
 	TAG_INVALID_NAME("TG-002", HttpStatus.BAD_REQUEST, "유효하지 않은 태그 이름"),
 	UNAUTHORIZED_TAG_ACCESS("TG-003", HttpStatus.UNAUTHORIZED, "잘못된 태그 접근"),
-	TAG_HAS_PICK("TG-004", HttpStatus.BAD_REQUEST, "픽을 가지고 있는 태그");
+	TAG_DUPLICATE_ORDER("TG-004", HttpStatus.BAD_REQUEST, "중복된 순서"),
+
+	;
 
 	// ------------------------------------------------------------
 	// 하단 코드는 모든 ApiErrorCode 들에 반드시 포함되야 합니다.
