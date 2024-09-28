@@ -41,9 +41,8 @@ public class TagValidator {
 			if (!orderSet.add(tag.getOrder()) || tag.getOrder() < 0) {
 				throw ApiTagException.TAG_INVALID_ORDER();
 			}
-
 		}
-
 	}
+
 }
 
