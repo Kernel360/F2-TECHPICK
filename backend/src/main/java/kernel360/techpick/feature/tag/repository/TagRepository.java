@@ -15,6 +15,8 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
 	List<Tag> findAllByUser_IdOrderByOrder(Long user_id);
 
+	List<Tag> findAllByUser_Id(Long user_id);
+
 	Optional<Tag> findFirstByUser_IdOrderByOrderDesc(Long user_id);
 
 }
