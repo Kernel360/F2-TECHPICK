@@ -59,7 +59,7 @@ public class TagProvider {
 		var tag = tagRepository.findFirstByUser_IdOrderByOrderDesc(userId);
 
 		// 순서는 0부터 시작
-		return tag.map(value -> value.getOrder() + 1).orElse(0);
+		return tag.map(value -> value.getOrder() + 1).orElseGet(() -> 0);
 	}
 
 }
