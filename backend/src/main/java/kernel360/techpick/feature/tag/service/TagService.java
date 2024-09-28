@@ -2,7 +2,6 @@ package kernel360.techpick.feature.tag.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import kernel360.techpick.feature.tag.model.dto.TagResponse;
 import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
 import kernel360.techpick.feature.tag.model.mapper.TagMapper;
 import kernel360.techpick.feature.tag.model.provider.TagProvider;
+import kernel360.techpick.feature.tag.validator.TagValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,12 +24,13 @@ public class TagService {
 
 	private final TagMapper tagMapper;
 	private final TagProvider tagProvider;
+	private final TagValidator tagValidator;
 	private final PickTagRepository pickTagRepository;
 
 	@Transactional
 	public TagResponse createTag(Long userId, TagCreateRequest request) throws ApiTagException, ApiUserException {
 
-		validateTagNameExists(userId, request.name());
+		tagValidator.validateTagNameExists(userId, request.name());
 
 		int lastOrder = tagProvider.getLastOrderByUSerId(userId);
 		Tag tag = tagProvider.save(tagMapper.createTag(request, lastOrder, userId));
@@ -54,7 +55,7 @@ public class TagService {
 		List<Tag> targetTagList = new ArrayList<>();
 		for (var req : tagUpdateRequests) {
 			Tag targetTag = tagProvider.findById(req.id());
-			validateTagAccess(userId, targetTag);
+			tagValidator.validateTagAccess(userId, targetTag);
 			tagMapper.updateTag(req, targetTag);
 			targetTagList.add(targetTag);
 		}
@@ -69,24 +70,10 @@ public class TagService {
 	public void deleteById(Long userId, Long tagId) throws ApiTagException {
 
 		Tag targetTag = tagProvider.findById(tagId);
-		validateTagAccess(userId, targetTag);
+		tagValidator.validateTagAccess(userId, targetTag);
 		// 해당 태그를 등록한 픽에서 해당 태그를 모두 삭제
 		pickTagRepository.deleteById(tagId);
 		tagProvider.deleteById(tagId);
 	}
 
-	private void validateTagAccess(Long userId, Tag tag) throws ApiTagException {
-
-		if (tag == null || !Objects.equals(userId, tag.getUser().getId())) {
-			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
-		}
-	}
-
-	private void validateTagNameExists(Long userId, String name) throws ApiTagException {
-
-		if (tagProvider.existsByUserIdAndName(userId, name)) {
-			throw ApiTagException.TAG_ALREADY_EXIST();
-		}
-	}
-	
 }
