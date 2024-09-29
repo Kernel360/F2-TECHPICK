@@ -28,10 +28,6 @@ public class TagProvider {
 		return tagRepository.findById(id).orElseThrow(ApiTagException::TAG_NOT_FOUND);
 	}
 
-	public List<Tag> findAllByUserIdOrderByTagId(Long userId) {
-		return tagRepository.findAllByUserIdOrderById(userId);
-	}
-
 	public List<Tag> findAllByUserIdOrderByTagOrder(Long userId) {
 		return tagRepository.findAllByUserIdOrderByTagOrder(userId);
 	}
@@ -50,6 +46,10 @@ public class TagProvider {
 
 		// 순서는 0부터 시작
 		return tag.map(value -> value.getTagOrder() + 1).orElseGet(() -> 0);
+	}
+
+	public TagUpdater getUserTag(Long userId) {
+		return TagUpdater.fromTagList(tagRepository.findAllByUserId(userId));
 	}
 
 }
