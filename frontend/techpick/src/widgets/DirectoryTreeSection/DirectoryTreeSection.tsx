@@ -18,6 +18,7 @@ import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { dynamicMockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
+import { useDragDropManager } from 'react-dnd';
 
 interface DirectoryTreeSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
@@ -27,6 +28,7 @@ export function DirectoryTreeSection({
   setFocusedNode,
 }: DirectoryTreeSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
+  const dragDropManager = useDragDropManager();
 
   return (
     <div className={leftSidebarSection}>
@@ -65,6 +67,7 @@ export function DirectoryTreeSection({
             rowHeight={32}
             indent={24}
             overscanCount={1}
+            dndManager={dragDropManager}
           >
             {DirectoryNode}
           </Tree>
