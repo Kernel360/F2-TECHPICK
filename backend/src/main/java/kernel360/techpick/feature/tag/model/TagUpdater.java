@@ -41,6 +41,7 @@ public class TagUpdater {
 	}
 
 	public Collection<Tag> getTags() {
+		
 		return tagMap.values();
 	}
 
