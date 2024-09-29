@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
 import { NodeApi, Tree } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
+import { useDragDropManager } from 'react-dnd';
 
 interface LinkEditorSectionProps {
   focusedNode: NodeApi<NodeData> | null;
@@ -26,6 +27,8 @@ export function LinkEditorSection({
   focusedNodeFolderData,
   focusedNodeLinkData,
 }: LinkEditorSectionProps) {
+  const dragDropManager = useDragDropManager();
+
   return (
     <div className={linkEditorSection}>
       <div className={linkEditorHeader}>
@@ -64,6 +67,7 @@ export function LinkEditorSection({
               rowHeight={32}
               indent={24}
               overscanCount={1}
+              dndManager={dragDropManager}
             >
               {DirectoryNode}
             </Tree>
@@ -78,6 +82,7 @@ export function LinkEditorSection({
               rowHeight={32}
               indent={24}
               overscanCount={1}
+              dndManager={dragDropManager}
             >
               {DirectoryNode}
             </Tree>
