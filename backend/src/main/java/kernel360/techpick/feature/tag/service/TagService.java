@@ -1,7 +1,5 @@
 package kernel360.techpick.feature.tag.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +11,7 @@ import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.pick.repository.PickTagRepository;
 import kernel360.techpick.feature.tag.model.TagMapper;
 import kernel360.techpick.feature.tag.model.TagProvider;
+import kernel360.techpick.feature.tag.model.TagUpdater;
 import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.model.dto.TagResponse;
 import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
@@ -53,21 +52,14 @@ public class TagService {
 	public List<TagResponse> updateTagList(Long userId, List<TagUpdateRequest> tagUpdateRequests) throws
 		ApiTagException {
 
-		// immutable list로 들어올 경우 sort가 불가능해 ArrayList로 변환
-		// 항상 mutable list라는것이 보장된다면 삭제해주세요..
-		List<TagUpdateRequest> mutableTagUpdateRequests = new ArrayList<>(tagUpdateRequests);
-		mutableTagUpdateRequests.sort(Comparator.comparingLong(TagUpdateRequest::id));
-		
-		List<Tag> userTagList = tagProvider.findAllByUserIdOrderByTagId(userId);
+		TagUpdater tagUpdater = tagProvider.getUserTag(userId);
 
-		int idx = 0;
-		for (var req : mutableTagUpdateRequests) {
-			idx = tagValidator.findUpdateTagIdx(idx, req, userTagList);
-			tagMapper.updateTag(req, userTagList.get(idx));
-			idx++;
+		for (var req : tagUpdateRequests) {
+			tagUpdater.updateTag(req);
 		}
+		tagUpdater.validateTagOrder();
 
-		return tagProvider.saveAll(userTagList)
+		return tagProvider.saveAll(tagUpdater.getTags())
 			.stream()
 			.map(tagMapper::createTagResponse)
 			.toList();
