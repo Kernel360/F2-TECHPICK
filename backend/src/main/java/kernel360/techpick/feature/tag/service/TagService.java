@@ -1,7 +1,8 @@
 package kernel360.techpick.feature.tag.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class TagService {
 	@Transactional(readOnly = true)
 	public List<TagResponse> getTagListByUser(Long userId) {
 
-		List<Tag> tagList = tagProvider.findAllByUserId(userId);
+		List<Tag> tagList = tagProvider.findAllByUserIdOrderByTagOrder(userId);
 
 		return tagList.stream()
 			.map(tagMapper::createTagResponse)
@@ -52,18 +53,21 @@ public class TagService {
 	public List<TagResponse> updateTagList(Long userId, List<TagUpdateRequest> tagUpdateRequests) throws
 		ApiTagException {
 
-		Map<Long, Tag> tagMap = tagProvider.getTagMapByUserId(userId);
+		// immutable list로 들어올 경우 sort가 불가능해 ArrayList로 변환
+		// 항상 mutable list라는것이 보장된다면 삭제해주세요..
+		List<TagUpdateRequest> mutableTagUpdateRequests = new ArrayList<>(tagUpdateRequests);
+		mutableTagUpdateRequests.sort(Comparator.comparingLong(TagUpdateRequest::id));
+		
+		List<Tag> userTagList = tagProvider.findAllByUserIdOrderByTagId(userId);
 
-		for (var req : tagUpdateRequests) {
-			// 만약 자신의 태그가 아니라면 tagMap.get(req.id()) == null
-			tagValidator.validateTagAccess(userId, tagMap.get(req.id()));
-			tagMapper.updateTag(req, tagMap.get(req.id()));
+		int idx = 0;
+		for (var req : mutableTagUpdateRequests) {
+			idx = tagValidator.findUpdateTagIdx(idx, req, userTagList);
+			tagMapper.updateTag(req, userTagList.get(idx));
+			idx++;
 		}
 
-		// 수정한 태그들 중 order 가 중복되는지 검증
-		tagValidator.validateTagOrder(tagMap);
-
-		return tagProvider.saveAll(tagMap.values())
+		return tagProvider.saveAll(userTagList)
 			.stream()
 			.map(tagMapper::createTagResponse)
 			.toList();
