@@ -31,7 +31,7 @@ public class TagProvider {
 	}
 
 	public List<Tag> findAllByUserId(Long userId) {
-		return tagRepository.findAllByUserIdOrderByOrder(userId);
+		return tagRepository.findAllByUserIdOrderByTagOrder(userId);
 	}
 
 	public Map<Long, Tag> getTagMapByUserId(Long userId) {
@@ -52,10 +52,10 @@ public class TagProvider {
 
 	public int getLastOrderByUserId(Long userId) {
 
-		var tag = tagRepository.findFirstByUserIdOrderByOrderDesc(userId);
+		var tag = tagRepository.findFirstByUserIdOrderByTagOrderDesc(userId);
 
 		// 순서는 0부터 시작
-		return tag.map(value -> value.getOrder() + 1).orElseGet(() -> 0);
+		return tag.map(value -> value.getTagOrder() + 1).orElseGet(() -> 0);
 	}
 
 }

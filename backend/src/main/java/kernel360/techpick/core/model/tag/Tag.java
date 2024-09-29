@@ -37,7 +37,7 @@ public class Tag {
 
 	// order로 하니까 db 키워드랑 겹쳐 안됨..
 	@Column(name = "tag_order", nullable = false)
-	private int order;
+	private int tagOrder;
 
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,14 +49,14 @@ public class Tag {
 		return new Tag(name, order, user);
 	}
 
-	public void updateTag(String name, int order) {
+	public void updateTag(String name, int tagOrder) {
 		this.name = name;
-		this.order = order;
+		this.tagOrder = tagOrder;
 	}
 
-	private Tag(String name, int order, User user) {
+	private Tag(String name, int tagOrder, User user) {
 		this.name = name;
-		this.order = order;
+		this.tagOrder = tagOrder;
 		this.user = user;
 	}
 }

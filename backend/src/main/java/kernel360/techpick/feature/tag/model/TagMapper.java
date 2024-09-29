@@ -32,7 +32,7 @@ public class TagMapper {
 		return new TagResponse(
 			tag.getId(),
 			tag.getName(),
-			tag.getOrder(),
+			tag.getTagOrder(),
 			tag.getUser().getId()
 		);
 	}
