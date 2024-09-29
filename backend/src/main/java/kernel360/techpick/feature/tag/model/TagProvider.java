@@ -30,24 +30,20 @@ public class TagProvider {
 		return tagRepository.findById(id).orElseThrow(ApiTagException::TAG_NOT_FOUND);
 	}
 
-	public Tag findByUserIdAndName(Long userId, String name) throws ApiTagException {
-		return tagRepository.findByUser_IdAndName(userId, name).orElseThrow(ApiTagException::TAG_NOT_FOUND);
-	}
-
 	public List<Tag> findAllByUserId(Long userId) {
-		return tagRepository.findAllByUser_IdOrderByOrder(userId);
+		return tagRepository.findAllByUserIdOrderByOrder(userId);
 	}
 
 	public Map<Long, Tag> getTagMapByUserId(Long userId) {
 
 		Map<Long, Tag> tagMap = new HashMap<>();
-		tagRepository.findAllByUser_Id(userId)
+		tagRepository.findAllByUserId(userId)
 			.forEach(tag -> tagMap.put(tag.getId(), tag));
 		return tagMap;
 	}
 
 	public boolean existsByUserIdAndName(Long id, String name) throws ApiTagException {
-		return tagRepository.existsByUser_IdAndName(id, name);
+		return tagRepository.existsByUserIdAndName(id, name);
 	}
 
 	public void deleteById(Long id) throws ApiTagException {
@@ -56,7 +52,7 @@ public class TagProvider {
 
 	public int getLastOrderByUserId(Long userId) {
 
-		var tag = tagRepository.findFirstByUser_IdOrderByOrderDesc(userId);
+		var tag = tagRepository.findFirstByUserIdOrderByOrderDesc(userId);
 
 		// 순서는 0부터 시작
 		return tag.map(value -> value.getOrder() + 1).orElseGet(() -> 0);

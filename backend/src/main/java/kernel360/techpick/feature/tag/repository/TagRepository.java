@@ -9,14 +9,12 @@ import kernel360.techpick.core.model.tag.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
-	boolean existsByUser_IdAndName(Long userId, String name);
+	boolean existsByUserIdAndName(Long userId, String name);
 
-	Optional<Tag> findByUser_IdAndName(Long userId, String name);
+	List<Tag> findAllByUserIdOrderByOrder(Long user_id);
 
-	List<Tag> findAllByUser_IdOrderByOrder(Long user_id);
+	List<Tag> findAllByUserId(Long user_id);
 
-	List<Tag> findAllByUser_Id(Long user_id);
-
-	Optional<Tag> findFirstByUser_IdOrderByOrderDesc(Long user_id);
+	Optional<Tag> findFirstByUserIdOrderByOrderDesc(Long user_id);
 
 }
