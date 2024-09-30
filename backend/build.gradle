@@ -32,8 +32,9 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     // lombok annotation
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Sql logging formatter
     // reference: https://www.baeldung.com/java-p6spy-intercept-sql-logging
@@ -46,6 +47,7 @@ dependencies {
     // test environment
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'com.mysql:mysql-connector-j'
 
     // springdoc swagger dependency
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
