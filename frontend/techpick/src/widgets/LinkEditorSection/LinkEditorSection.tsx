@@ -56,33 +56,37 @@ export function LinkEditorSection({
       </div>
       <div className={linkEditor}>
         {focusedNode && (
-          <div className={folderViewSection}>
-            {focusedNodeFolderData?.map((node, index) => (
-              <div key={index} className={folderWrapper}>
-                <Image
-                  src={`image/ic_folder.svg`}
-                  alt="folder"
-                  width={64}
-                  height={64}
-                />
-                {node.name}
+          <div>
+            {!!focusedNodeFolderData?.length && (
+              <div className={folderViewSection}>
+                {focusedNodeFolderData?.map((node, index) => (
+                  <div key={index} className={folderWrapper}>
+                    <Image
+                      src={`image/ic_folder.svg`}
+                      alt="folder"
+                      width={64}
+                      height={64}
+                    />
+                    {node.name}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
-        {focusedNode && (
-          <div className={linkViewSection}>
-            {focusedNodeLinkData?.map((node, index) => (
-              <div key={index} className={linkWrapper}>
-                <Image
-                  src={`image/ic_doc.svg`}
-                  alt="folder"
-                  width={64}
-                  height={64}
-                />
-                {node.name}
+            )}
+            {!!focusedNodeLinkData?.length && (
+              <div className={linkViewSection}>
+                {focusedNodeLinkData?.map((node, index) => (
+                  <div key={index} className={linkWrapper}>
+                    <Image
+                      src={`image/ic_doc.svg`}
+                      alt="folder"
+                      width={64}
+                      height={64}
+                    />
+                    {node.name}
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>
