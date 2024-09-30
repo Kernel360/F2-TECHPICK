@@ -7,6 +7,7 @@ import {
   SelectedTagListLayout,
 } from '@/entities/tag';
 import { DeselectTagButton } from '@/features/tag';
+import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
 import {
   tagInputStyle,
   tagDialogTrigger,
@@ -87,25 +88,26 @@ export function TagInput() {
         className={tagDialogPortal}
         filter={filterCommandItems}
       >
-        <div>
-          <SelectedTagListLayout>
-            {selectedTagList.map((tag) => (
-              <SelectedTagLayout key={tag.id}>
-                <SelectedTagContent>{tag.name}</SelectedTagContent>
-                <DeselectTagButton tag={tag} onClick={focusTagInput} />
-              </SelectedTagLayout>
-            ))}
-            <div className={commandInputLayout}>
-              <Command.Input
-                className={commandInputStyle}
-                ref={tagInputRef}
-                value={tagInputValue}
-                onValueChange={setTagInputValue}
-              />
-            </div>
-          </SelectedTagListLayout>
-        </div>
+        {/**선택한 태그 리스트 */}
+        <SelectedTagListLayout>
+          {selectedTagList.map((tag) => (
+            <SelectedTagLayout key={tag.id}>
+              <SelectedTagContent>{tag.name}</SelectedTagContent>
+              <DeselectTagButton tag={tag} onClick={focusTagInput} />
+            </SelectedTagLayout>
+          ))}
 
+          <div className={commandInputLayout}>
+            <Command.Input
+              className={commandInputStyle}
+              ref={tagInputRef}
+              value={tagInputValue}
+              onValueChange={setTagInputValue}
+            />
+          </div>
+        </SelectedTagListLayout>
+
+        {/**전체 태그 리스트 */}
         <Command.List>
           <Command.Empty>No results found.</Command.Empty>
 
@@ -121,6 +123,7 @@ export function TagInput() {
               keywords={[data.name]}
             >
               {data.name}
+              <TagInfoEditPopoverButton />
             </Command.Item>
           ))}
 

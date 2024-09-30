@@ -20,6 +20,9 @@ export const tagDialogPortal = style({
 });
 
 export const selectedTagItemStyle = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+
   // 기본 스타일 (선택된 항목이 아닐 때)
   backgroundColor: 'transparent',
   ':hover': {
