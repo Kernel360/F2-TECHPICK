@@ -14,7 +14,7 @@ type TagAction = {
   selectTag: (tag: TagType) => void;
   deselectTag: (tag: TagType) => void;
   fetchingTagList: () => Promise<void>;
-  createTag: (newTag: TagType) => Promise<void>;
+  createTag: (newTagName: string) => Promise<TagType | undefined>;
   deleteTag: (tagId: number) => Promise<void>;
   updateTag: (updatedTag: TagType) => Promise<void>;
 };
@@ -73,20 +73,31 @@ export const useTagStore = create<TagState & TagAction>()(
       return;
     },
 
-    createTag: async (newTag: TagType) => {
+    createTag: async (newTagName: string) => {
       try {
         set((state) => {
           state.postTagState.isPending = true;
         });
 
-        // TODO: 나중에 비동기 붙이기.
-        setTimeout(() => {
-          set((state) => {
-            state.tagList.push(newTag); // 태그 추가
-            state.postTagState.isPending = false;
-            state.postTagState.isSuccess = true;
-          });
-        }, 500);
+        // TODO: 나중에 비동기 더하기
+        const newTag = await new Promise<TagType>((resolve) => {
+          setTimeout(() => {
+            const tag: TagType = {
+              id: Date.now(),
+              name: newTagName,
+            };
+
+            set((state) => {
+              state.tagList.push(tag);
+              state.postTagState.isPending = false;
+              state.postTagState.isSuccess = true;
+            });
+
+            resolve(tag);
+          }, 500);
+        });
+
+        return newTag;
       } catch (error) {
         if (error instanceof Error) {
           set((state) => {
@@ -97,6 +108,8 @@ export const useTagStore = create<TagState & TagAction>()(
             };
           });
         }
+
+        return;
       }
     },
 

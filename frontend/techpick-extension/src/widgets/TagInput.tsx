@@ -29,6 +29,7 @@ export function TagInput() {
     fetchingTagState,
     selectTag,
     fetchingTagList,
+    createTag,
   } = useTagStore();
 
   const openDialog = () => {
@@ -128,7 +129,15 @@ export function TagInput() {
               className={selectedTagItemStyle}
               value={tagInputValue}
               keywords={['생성']}
-              onSelect={() => {}}
+              onSelect={async () => {
+                const newTag = await createTag(tagInputValue);
+
+                if (newTag) {
+                  selectTag(newTag);
+                  focusTagInput();
+                  clearTagInputValue();
+                }
+              }}
               disabled={!canCreateTag}
             >
               {tagInputValue} 생성
