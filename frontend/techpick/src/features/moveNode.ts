@@ -1,19 +1,23 @@
 import { NodeData } from '@/shared/types';
+import { NodeApi } from 'react-arborist';
 
 export const moveNode = (
   data: NodeData[],
   dragId: string,
+  dragNode: NodeApi<NodeData>,
   parentId: string | null,
+  parentNode: NodeApi<NodeData> | null,
   targetIndex: number
 ): NodeData[] => {
-  let draggedNode: NodeData;
-  let originalIndex: number;
+  console.log('targetIndex', targetIndex);
+  console.log('dragId', dragId);
+  console.log('dragNode', dragNode);
+  console.log('parentId', parentId);
+  console.log('parentNode', parentNode);
 
   const removeNode = (nodes: NodeData[]): NodeData[] =>
-    nodes.reduce((acc: NodeData[], node, index: number) => {
+    nodes.reduce((acc: NodeData[], node) => {
       if (node.id === dragId) {
-        draggedNode = node;
-        originalIndex = index;
         return acc;
       }
 
@@ -21,21 +25,26 @@ export const moveNode = (
       if (node.children) {
         node.children = removeNode(node.children);
       }
+
       return [...acc, node]; // 제거되지 않은 노드를 결과 배열에 추가
     }, []);
 
   const insertNode = (nodes: NodeData[]): NodeData[] => {
-    if (!draggedNode || originalIndex === null) {
-      throw new Error('Dragged node or original index is not set');
-    }
-
     // 루트 레벨에 삽입하는 경우
-    if (parentId === null || parentId === undefined) {
+    if (parentId === null) {
       const updatedRootNodes = [...nodes];
-      if (originalIndex < targetIndex + 1) {
+
+      // 같은 부모를 가지고 있으면서 아래로 이동할 경우
+      if (
+        dragNode.parent!.parent === null &&
+        dragNode.rowIndex! <= targetIndex
+      ) {
+        // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
         targetIndex -= 1;
+        console.log(true);
       }
-      updatedRootNodes.splice(targetIndex, 0, draggedNode);
+
+      updatedRootNodes.splice(targetIndex, 0, dragNode.data);
       return updatedRootNodes;
     }
 
@@ -43,10 +52,17 @@ export const moveNode = (
     return nodes.map((node) => {
       if (node.id === parentId) {
         const updatedChildren = [...(node.children || [])];
-        if (originalIndex < targetIndex + 1) {
+
+        // 같은 부모를 가지고 있으면서 아래로 이동할 경우
+        if (
+          dragNode.parent!.id === parentId &&
+          dragNode.rowIndex! <= targetIndex
+        ) {
+          // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
           targetIndex -= 1;
         }
-        updatedChildren.splice(targetIndex, 0, draggedNode);
+
+        updatedChildren.splice(targetIndex, 0, dragNode.data);
         return { ...node, children: updatedChildren };
       }
 

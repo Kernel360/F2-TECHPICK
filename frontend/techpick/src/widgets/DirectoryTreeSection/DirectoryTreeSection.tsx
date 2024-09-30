@@ -32,8 +32,21 @@ export function DirectoryTreeSection({
   const dragDropManager = useDragDropManager();
   const { treeData, setTreeData } = useTreeStore();
 
-  const handleMove: MoveHandler<NodeData> = ({ dragIds, parentId, index }) => {
-    const updatedData = moveNode(treeData, dragIds[0], parentId, index);
+  const handleMove: MoveHandler<NodeData> = ({
+    dragIds,
+    dragNodes,
+    parentId,
+    parentNode,
+    index,
+  }) => {
+    const updatedData = moveNode(
+      treeData,
+      dragIds[0],
+      dragNodes[0],
+      parentId,
+      parentNode,
+      index
+    );
     setTreeData(updatedData);
   };
 
