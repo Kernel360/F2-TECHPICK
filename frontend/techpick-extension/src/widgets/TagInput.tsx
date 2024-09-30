@@ -63,7 +63,6 @@ export function TagInput() {
             <SelectedTagLayout key={tag.id}>
               <SelectedTagContent>{tag.name}</SelectedTagContent>
             </SelectedTagLayout>
-            // <SelectedTagContent key={tag.id}>{tag.name}</SelectedTagContent>
           ))}
         </SelectedTagListLayout>
       </div>
@@ -79,7 +78,7 @@ export function TagInput() {
             {selectedTagList.map((tag) => (
               <SelectedTagLayout key={tag.id}>
                 <SelectedTagContent>{tag.name}</SelectedTagContent>
-                <DeselectTagButton />
+                <DeselectTagButton tag={tag} />
               </SelectedTagLayout>
             ))}
           </SelectedTagListLayout>

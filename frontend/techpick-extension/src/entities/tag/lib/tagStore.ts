@@ -40,10 +40,14 @@ export const useTagStore = create<TagState & TagAction>()(
 
         state.selectedTagList.push(tag);
       }),
+
     deselectTag: (tag: TagType) =>
       set((state) => {
-        state.selectedTagList.filter((t) => t.id !== tag.id);
+        state.selectedTagList = state.selectedTagList.filter(
+          (t) => t.id !== tag.id
+        );
       }),
+
     fetchingTagList: async () => {
       try {
         set((state) => {
@@ -95,6 +99,7 @@ export const useTagStore = create<TagState & TagAction>()(
         }
       }
     },
+
     deleteTag: async (tagId: number) => {
       try {
         set((state) => {
@@ -130,6 +135,7 @@ export const useTagStore = create<TagState & TagAction>()(
         }
       }
     },
+
     updateTag: async (updatedTag: TagType) => {
       try {
         set((state) => {

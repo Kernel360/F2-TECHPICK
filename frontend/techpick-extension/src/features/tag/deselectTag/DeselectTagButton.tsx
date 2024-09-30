@@ -1,11 +1,16 @@
 import { X } from 'lucide-react';
+import { tagTypes, useTagStore } from '@/entities/tag';
+import { DeselectTagButtonStyle } from './DeselectTagButton.css';
 
-export function DeselectTagButton() {
+export function DeselectTagButton({ tag }: { tag: tagTypes.TagType }) {
+  const { deselectTag } = useTagStore();
+
   return (
     <button
       type="button"
+      className={DeselectTagButtonStyle}
       onClick={() => {
-        console.log('deselect');
+        deselectTag(tag);
       }}
     >
       <X size={8} />
