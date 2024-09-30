@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   directoryTreeContainer,
   directoryLabel,
@@ -19,6 +19,7 @@ import useResizeObserver from 'use-resize-observer';
 import { dynamicMockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
+import { moveNode } from '@/features/moveNode';
 
 interface DirectoryTreeSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
@@ -29,6 +30,20 @@ export function DirectoryTreeSection({
 }: DirectoryTreeSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const dragDropManager = useDragDropManager();
+  const [treeData, setTreeData] = useState<NodeData[]>(dynamicMockData);
+
+  interface MoveArgs {
+    dragIds: string[];
+    parentId: string | null;
+    index: number;
+  }
+
+  const handleMove = ({ dragIds, parentId, index }: MoveArgs) => {
+    const dragId = dragIds[0];
+
+    const updatedData = moveNode(treeData, dragId, parentId, index);
+    setTreeData(updatedData);
+  };
 
   return (
     <div className={leftSidebarSection}>
@@ -57,7 +72,7 @@ export function DirectoryTreeSection({
         <div className={directoryTreeWrapper} ref={ref}>
           <Tree
             className={directoryTree}
-            data={dynamicMockData}
+            data={treeData}
             onFocus={(node: NodeApi<NodeData>) => {
               setFocusedNode(node);
             }}
@@ -68,6 +83,7 @@ export function DirectoryTreeSection({
             indent={24}
             overscanCount={1}
             dndManager={dragDropManager}
+            onMove={handleMove}
           >
             {DirectoryNode}
           </Tree>

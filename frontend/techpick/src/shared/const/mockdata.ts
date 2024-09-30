@@ -20,6 +20,7 @@ const folder = (name: string, ...children: Entry[]): Entry => ({
 
 export const dynamicMockData = [
   folder('Favorites'),
+  link('React Hooks'),
   folder(
     'Frontend',
     folder(
