@@ -2,7 +2,10 @@ import { X } from 'lucide-react';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { DeselectTagButtonStyle } from './DeselectTagButton.css';
 
-export function DeselectTagButton({ tag }: { tag: tagTypes.TagType }) {
+export function DeselectTagButton({
+  tag,
+  onClick = () => {},
+}: DeselectTagButtonProps) {
   const { deselectTag } = useTagStore();
 
   return (
@@ -11,9 +14,15 @@ export function DeselectTagButton({ tag }: { tag: tagTypes.TagType }) {
       className={DeselectTagButtonStyle}
       onClick={() => {
         deselectTag(tag);
+        onClick();
       }}
     >
       <X size={8} />
     </button>
   );
+}
+
+interface DeselectTagButtonProps {
+  tag: tagTypes.TagType;
+  onClick?: () => void;
 }

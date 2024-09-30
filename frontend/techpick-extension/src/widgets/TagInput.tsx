@@ -12,11 +12,17 @@ import {
   tagDialogTrigger,
   tagDialogPortal,
   selectedTagItemStyle,
+  commandInputStyle,
+  commandInputLayout,
 } from './TagInput.css';
+import { filterCommandItems } from './TagInput.lib';
 
 export function TagInput() {
   const [open, setOpen] = useState(false);
+  const [tagInputValue, setTagInputValue] = useState('');
+  const [canCreateTag, setCanCreateTag] = useState(false);
   const tagInputContainerRef = useRef<HTMLDivElement | null>(null);
+  const tagInputRef = useRef<HTMLInputElement | null>(null);
   const {
     tagList,
     selectedTagList,
@@ -32,6 +38,22 @@ export function TagInput() {
   useEffect(() => {
     fetchingTagList();
   }, [fetchingTagList]);
+
+  useEffect(() => {
+    const isUnique = !tagList.some((tag) => tag.name === tagInputValue);
+    const isNotInitialValue = tagInputValue.trim() !== '';
+    const isCreatable = isUnique && isNotInitialValue;
+
+    setCanCreateTag(isCreatable);
+  }, [tagInputValue, tagList]);
+
+  const focusTagInput = () => {
+    tagInputRef.current?.focus();
+  };
+
+  const clearTagInputValue = () => {
+    setTagInputValue('');
+  };
 
   if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
@@ -60,18 +82,26 @@ export function TagInput() {
       <Command.Dialog
         open={open}
         onOpenChange={setOpen}
-        label="Global Command Menu"
         container={tagInputContainerRef.current ?? undefined}
         className={tagDialogPortal}
+        filter={filterCommandItems}
       >
         <div>
           <SelectedTagListLayout>
             {selectedTagList.map((tag) => (
               <SelectedTagLayout key={tag.id}>
                 <SelectedTagContent>{tag.name}</SelectedTagContent>
-                <DeselectTagButton tag={tag} />
+                <DeselectTagButton tag={tag} onClick={focusTagInput} />
               </SelectedTagLayout>
             ))}
+            <div className={commandInputLayout}>
+              <Command.Input
+                className={commandInputStyle}
+                ref={tagInputRef}
+                value={tagInputValue}
+                onValueChange={setTagInputValue}
+              />
+            </div>
           </SelectedTagListLayout>
         </div>
 
@@ -82,11 +112,28 @@ export function TagInput() {
             <Command.Item
               key={data.id}
               className={selectedTagItemStyle}
-              onSelect={() => selectTag(data)}
+              onSelect={() => {
+                selectTag(data);
+                focusTagInput();
+                clearTagInputValue();
+              }}
+              keywords={[data.name]}
             >
               {data.name}
             </Command.Item>
           ))}
+
+          {canCreateTag && (
+            <Command.Item
+              className={selectedTagItemStyle}
+              value={tagInputValue}
+              keywords={['생성']}
+              onSelect={() => {}}
+              disabled={!canCreateTag}
+            >
+              {tagInputValue} 생성
+            </Command.Item>
+          )}
         </Command.List>
       </Command.Dialog>
     </div>

@@ -30,5 +30,22 @@ export const selectedTagItemStyle = style({
     '&[data-selected="true"]': {
       backgroundColor: 'green',
     },
+    '&[data-disabled="true"]': {
+      display: 'none',
+    },
   },
+});
+
+export const commandInputLayout = style({
+  display: 'flex',
+  flex: '1 1 60px',
+  minWidth: '64px',
+  height: '20px',
+});
+
+export const commandInputStyle = style({
+  outline: 'none',
+  border: 'none',
+  padding: '0 4px',
+  height: '20px',
 });

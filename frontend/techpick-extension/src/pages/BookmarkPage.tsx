@@ -1,6 +1,6 @@
 // TODO
-// 1. select, deselect 로직 구현
-// 2. get logic 구현. - local storage를 이용한 cache도 고려.
+// 1. select, deselect 로직 구현 - 완료
+// 2. get logic 구현. - local storage를 이용한 cache도 고려. - 추후 고려
 // 3. create 로직 구현.
 // 4. delete 로직 구현.
 // 5. update 로직 구현.
