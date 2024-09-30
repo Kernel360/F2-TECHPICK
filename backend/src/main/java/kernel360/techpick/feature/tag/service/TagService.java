@@ -13,9 +13,9 @@ import kernel360.techpick.feature.pick.repository.PickTagRepository;
 import kernel360.techpick.feature.tag.model.TagMapper;
 import kernel360.techpick.feature.tag.model.TagProvider;
 import kernel360.techpick.feature.tag.model.TagUpdater;
-import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
-import kernel360.techpick.feature.tag.model.dto.TagResponse;
-import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagResponse;
+import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service

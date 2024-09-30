@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.feature.link.exception.ApiLinkException;
 import kernel360.techpick.core.model.link.Link;
-import kernel360.techpick.feature.link.model.dto.LinkRequest;
-import kernel360.techpick.feature.link.model.dto.LinkResponse;
-import kernel360.techpick.feature.link.model.mapper.LinkMapper;
-import kernel360.techpick.feature.link.model.provider.LinkProvider;
+import kernel360.techpick.feature.link.service.dto.LinkRequest;
+import kernel360.techpick.feature.link.service.dto.LinkResponse;
+import kernel360.techpick.feature.link.model.LinkMapper;
+import kernel360.techpick.feature.link.model.LinkProvider;
 import kernel360.techpick.feature.pick.repository.PickRepository;
 import lombok.RequiredArgsConstructor;
 

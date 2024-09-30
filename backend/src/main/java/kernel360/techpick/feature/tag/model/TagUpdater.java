@@ -9,7 +9,7 @@ import java.util.Set;
 
 import kernel360.techpick.feature.tag.exception.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
-import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 
 public class TagUpdater {
 

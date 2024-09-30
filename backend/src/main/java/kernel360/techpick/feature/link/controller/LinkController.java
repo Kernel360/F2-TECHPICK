@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kernel360.techpick.feature.link.exception.ApiLinkException;
-import kernel360.techpick.feature.link.model.dto.LinkResponse;
+import kernel360.techpick.feature.link.service.dto.LinkResponse;
 import kernel360.techpick.feature.link.service.LinkService;
 import lombok.RequiredArgsConstructor;
 

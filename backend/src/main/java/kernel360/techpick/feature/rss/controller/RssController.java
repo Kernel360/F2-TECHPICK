@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kernel360.techpick.feature.rss.service.RssService;
-import kernel360.techpick.feature.rss.model.dto.RssResponse;
+import kernel360.techpick.feature.rss.service.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
