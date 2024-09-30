@@ -25,7 +25,7 @@ services:
       - TZ=Asia/Seoul
     volumes:
       - ./data/develop/mysql-data:/var/lib/mysql
-      - ./data/develop/mysql-files:/var/lib/mysql-files
+      - ./data/develop/mysql-files:/var/lib/mysql-files/develop
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -46,7 +46,7 @@ services:
       - TZ=Asia/Seoul
     volumes:
       - ./data/test/mysql-data:/var/lib/mysql
-      - ./data/test/mysql-files:/var/lib/mysql-files
+      - ./data/test/mysql-files:/var/lib/mysql-files/test
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
