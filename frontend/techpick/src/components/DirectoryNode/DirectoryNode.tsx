@@ -53,7 +53,7 @@ export const DirectoryNode = ({
             className={dirIcFolder}
           />
         )}
-        {`${node.data.name} ${node.data.id} ${node.rowIndex}`}
+        {node.data.name}
       </div>
     </div>
   );

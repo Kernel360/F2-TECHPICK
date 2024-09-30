@@ -8,12 +8,12 @@ import {
   linkEditorSection,
   linkEditor,
   searchSection,
-  folderWrapper,
   linkWrapper,
 } from './linkEditorSection.css';
 import Image from 'next/image';
 import { NodeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
+import { Folder } from '@/features/Draggable/Folder';
 
 interface LinkEditorSectionProps {
   focusedNode: NodeApi<NodeData> | null;
@@ -60,15 +60,7 @@ export function LinkEditorSection({
             {!!focusedNodeFolderData?.length && (
               <div className={folderViewSection}>
                 {focusedNodeFolderData?.map((node, index) => (
-                  <div key={index} className={folderWrapper}>
-                    <Image
-                      src={`image/ic_folder.svg`}
-                      alt="folder"
-                      width={64}
-                      height={64}
-                    />
-                    {node.name}
-                  </div>
+                  <Folder key={index} item={node} />
                 ))}
               </div>
             )}
