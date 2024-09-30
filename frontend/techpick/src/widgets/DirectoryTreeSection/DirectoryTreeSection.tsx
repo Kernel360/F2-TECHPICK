@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   directoryTreeContainer,
   directoryLabel,
@@ -16,10 +16,10 @@ import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
-import { dynamicMockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
 import { moveNode } from '@/features/moveNode';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 interface DirectoryTreeSectionProps {
   setFocusedNode: (node: NodeApi<NodeData>) => void;
@@ -30,7 +30,7 @@ export function DirectoryTreeSection({
 }: DirectoryTreeSectionProps) {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const dragDropManager = useDragDropManager();
-  const [treeData, setTreeData] = useState<NodeData[]>(dynamicMockData);
+  const { treeData, setTreeData } = useTreeStore();
 
   interface MoveArgs {
     dragIds: string[];

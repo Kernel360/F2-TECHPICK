@@ -1,5 +1,5 @@
 'use client';
-import { useThemeStore } from '@/lib/stores/themeStore';
+import { useThemeStore } from '@/shared/stores/themeStore';
 import { lightTheme, darkTheme, commonTheme } from '@/shared/themes';
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { isDarkMode } = useThemeStore();
