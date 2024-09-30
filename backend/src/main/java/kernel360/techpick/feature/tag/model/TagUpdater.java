@@ -25,23 +25,16 @@ public class TagUpdater {
 	public void updateTag(TagUpdateRequest request) {
 
 		Tag target = getTagById(request.id());
-		target.updateTag(request.name(), request.order());
+		target.updateTag(request.name(), request.tagOrder());
 	}
 
-	public void validateTagOrder() throws ApiTagException {
-
-		Set<Integer> orderSet = new HashSet<>();
-
-		for (Tag tag : tagMap.values()) {
-			// 중복되거나 음수면 유효하지 않은 tag order
-			if (!orderSet.add(tag.getTagOrder()) || tag.getTagOrder() < 0) {
-				throw ApiTagException.TAG_INVALID_ORDER();
-			}
-		}
+	public void validateUpdateTag() throws ApiTagException {
+		validateTagOrder();
+		validateTagName();
 	}
 
 	public Collection<Tag> getTags() {
-		
+
 		return tagMap.values();
 	}
 
@@ -56,6 +49,28 @@ public class TagUpdater {
 			return tagMap.get(tagId);
 		}
 		throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+	}
+
+	private void validateTagOrder() throws ApiTagException {
+
+		Set<Integer> orderSet = new HashSet<>();
+
+		for (Tag tag : tagMap.values()) {
+			// 중복되거나 음수면 유효하지 않은 tag order
+			if (!orderSet.add(tag.getTagOrder()) || tag.getTagOrder() < 0) {
+				throw ApiTagException.TAG_INVALID_ORDER();
+			}
+		}
+	}
+
+	private void validateTagName() throws ApiTagException {
+		Set<String> nameSet = new HashSet<>();
+
+		for (Tag tag : tagMap.values()) {
+			if (!nameSet.add(tag.getName())) {
+				throw ApiTagException.TAG_INVALID_NAME();
+			}
+		}
 	}
 
 }
