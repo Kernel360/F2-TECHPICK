@@ -24,8 +24,8 @@ services:
       - MYSQL_DATABASE=${DOCKER_MYSQL_DATABASE}
       - TZ=Asia/Seoul
     volumes:
-      - ./data/mysql-data:/var/lib/mysql
-      - ./data/mysql-files:/var/lib/mysql-files
+      - ./data/develop/mysql-data:/var/lib/mysql
+      - ./data/develop/mysql-files:/var/lib/mysql-files/develop
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -33,6 +33,26 @@ services:
     networks:
       - techpick-network
 
+  techpick-mysql-test:
+    image: mysql:8.0
+    container_name: techpick-mysql-test
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DOCKER_MYSQL_TEST_PASSWORD}
+      - MYSQL_DATABASE=${DOCKER_MYSQL_TEST_DATABASE}
+      - TZ=Asia/Seoul
+    volumes:
+      - ./data/test/mysql-data:/var/lib/mysql
+      - ./data/test/mysql-files:/var/lib/mysql-files/test
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --lower_case_table_names=1
+    networks:
+      - techpick-network
 #  로컬 테스트 용 ( 아래 설정은 실제 서버에 올라간 Compose 와 다름 )
 #  techpick-server:
 #    build:
