@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import {
   SelectedTag,
-  useSelectTagStore,
+  useTagStore,
   SelectedTagListLayout,
 } from '@/entities/tag';
 import {
@@ -20,8 +20,13 @@ import {
 export function TagInput() {
   const [open, setOpen] = useState(false);
   const tagInputContainerRef = useRef<HTMLDivElement | null>(null);
-  const { tagList, selectedTagList, fetchingTags, selectTag, fetchingTagList } =
-    useSelectTagStore();
+  const {
+    tagList,
+    selectedTagList,
+    fetchingTagState,
+    selectTag,
+    fetchingTagList,
+  } = useTagStore();
 
   const openDialog = () => {
     setOpen(true);
@@ -35,7 +40,7 @@ export function TagInput() {
     fetchingTagList();
   }, [fetchingTagList]);
 
-  if (fetchingTags.isPending) {
+  if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
   }
 
