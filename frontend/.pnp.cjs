@@ -14369,6 +14369,28 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["lucide-react", [\
+      ["npm:0.446.0", {\
+        "packageLocation": "../../../../.yarn/berry/cache/lucide-react-npm-0.446.0-8ed59874fe-10c0.zip/node_modules/lucide-react/",\
+        "packageDependencies": [\
+          ["lucide-react", "npm:0.446.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:0.446.0", {\
+        "packageLocation": "./.yarn/__virtual__/lucide-react-virtual-5b7e8422ff/5/.yarn/berry/cache/lucide-react-npm-0.446.0-8ed59874fe-10c0.zip/node_modules/lucide-react/",\
+        "packageDependencies": [\
+          ["lucide-react", "virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:0.446.0"],\
+          ["@types/react", "npm:18.3.7"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["lz-string", [\
       ["npm:1.5.0", {\
         "packageLocation": "../../../../.yarn/berry/cache/lz-string-npm-1.5.0-3860794e30-10c0.zip/node_modules/lz-string/",\
@@ -17954,6 +17976,7 @@ const RAW_RUNTIME_STATE =
           ["globals", "npm:15.9.0"],\
           ["husky", "npm:9.1.6"],\
           ["immer", "npm:10.1.1"],\
+          ["lucide-react", "virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:0.446.0"],\
           ["path", "npm:0.12.7"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:18.3.1"],\
