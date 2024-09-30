@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
-import { NodeApi, Tree } from 'react-arborist';
+import { NodeApi, Tree, MoveHandler } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
@@ -32,16 +32,8 @@ export function DirectoryTreeSection({
   const dragDropManager = useDragDropManager();
   const { treeData, setTreeData } = useTreeStore();
 
-  interface MoveArgs {
-    dragIds: string[];
-    parentId: string | null;
-    index: number;
-  }
-
-  const handleMove = ({ dragIds, parentId, index }: MoveArgs) => {
-    const dragId = dragIds[0];
-
-    const updatedData = moveNode(treeData, dragId, parentId, index);
+  const handleMove: MoveHandler<NodeData> = ({ dragIds, parentId, index }) => {
+    const updatedData = moveNode(treeData, dragIds[0], parentId, index);
     setTreeData(updatedData);
   };
 

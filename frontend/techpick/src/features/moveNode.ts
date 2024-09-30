@@ -6,6 +6,7 @@ export const moveNode = (
   parentId: string | null,
   targetIndex: number
 ): NodeData[] => {
+  console.log('moveNode()');
   let draggedNode: NodeData;
   let originalIndex: number;
 

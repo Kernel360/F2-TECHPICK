@@ -36,7 +36,6 @@ export const DirectoryNode = ({
             alt="rightArrow"
           />
         )}
-
         {node.data.type === 'folder' ? (
           <Image
             src={`image/ic_folder.svg`}
@@ -54,7 +53,7 @@ export const DirectoryNode = ({
             className={dirIcFolder}
           />
         )}
-        {node.data.name}
+        {`${node.data.name} ${node.data.id} ${node.rowIndex}`}
       </div>
     </div>
   );
