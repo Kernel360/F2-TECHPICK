@@ -3,13 +3,15 @@ package kernel360.techpick.core.auth.exception;
 import org.springframework.http.HttpStatus;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
+import kernel360.techpick.core.exception.level.ErrorLevel;
 
 public enum ApiOAuth2ErrorCode implements ApiErrorCode {
 
 	/**
 	 * OAuth2 Error Code (OA)
 	 * */
-	SOCIAL_TYPE_INVALID("OA-000", HttpStatus.BAD_REQUEST, "올바르지 않은 소셜 타입"),
+	SOCIAL_TYPE_INVALID
+		("OA-000", HttpStatus.BAD_REQUEST, "올바르지 않은 소셜 타입", ErrorLevel.MUST_NEVER_HAPPEN()),
 
 	;
 
@@ -23,17 +25,38 @@ public enum ApiOAuth2ErrorCode implements ApiErrorCode {
 
 	private final String errorMessage;
 
-	ApiOAuth2ErrorCode(String code, HttpStatus status, String message) {
+	private final ErrorLevel logLevel;
+
+	ApiOAuth2ErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
 		this.code = code;
 		this.httpStatus = status;
 		this.errorMessage = message;
+		this.logLevel = errorLevel;
 	}
 
-	@Override public String getCode() { return this.code; }
+	@Override
+	public String getCode() {
+		return this.code;
+	}
 
-	@Override public String getMessage() { return this.errorMessage; }
+	@Override
+	public String getMessage() {
+		return this.errorMessage;
+	}
 
-	@Override public HttpStatus getHttpStatus() { return this.httpStatus; }
+	@Override
+	public HttpStatus getHttpStatus() {
+		return this.httpStatus;
+	}
 
-	@Override public String toString() { return convertCodeToString(this); }
+	@Override
+	public ErrorLevel getErrorLevel() {
+		return this.logLevel;
+	}
+
+	@Override
+	public String toString() {
+		return convertCodeToString(this);
+
+	}
 }
