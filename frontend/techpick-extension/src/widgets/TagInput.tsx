@@ -1,8 +1,3 @@
-// TODO
-// 1. select 부드럽게
-// 2. 특정 tag 선택시에는 두 화면에서 다 보여야함.
-// 3. 생성, 삭제 시에도 동일.
-
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import {
@@ -35,10 +30,6 @@ export function TagInput() {
   };
 
   useEffect(() => {
-    // TODO: 1. 현재 펼쳐질 때마다, 계속 불러옴.
-    // TODO: 2. 로컬 스토리지 사용하기. => zustand와 연동하고, 저장 시간 확인하기.
-    // TODO: 3. 캐싱.
-
     fetchingTagList();
   }, [fetchingTagList]);
 
