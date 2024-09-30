@@ -40,7 +40,7 @@ public class TagProvider {
 		tagRepository.deleteById(id);
 	}
 
-	public int getLastOrderByUserId(Long userId) {
+	public int getNextOrderByUserId(Long userId) {
 
 		var tag = tagRepository.findFirstByUserIdOrderByTagOrderDesc(userId);
 

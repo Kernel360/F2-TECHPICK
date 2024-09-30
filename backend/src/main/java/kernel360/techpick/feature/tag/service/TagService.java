@@ -31,7 +31,7 @@ public class TagService {
 
 		validateTagNameExists(userId, request.name());
 
-		int lastOrder = tagProvider.getLastOrderByUserId(userId);
+		int lastOrder = tagProvider.getNextOrderByUserId(userId);
 		Tag tag = tagProvider.save(tagMapper.createTag(request, lastOrder, userId));
 
 		return tagMapper.createTagResponse(tag);
