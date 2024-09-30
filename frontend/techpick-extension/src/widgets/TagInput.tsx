@@ -6,10 +6,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import {
-  SelectedTag,
+  SelectedTagContent,
+  SelectedTagLayout,
   useTagStore,
   SelectedTagListLayout,
 } from '@/entities/tag';
+import { DeselectTagButton } from '@/features/tag';
 import {
   tagInputStyle,
   tagDialogTrigger,
@@ -58,7 +60,10 @@ export function TagInput() {
       >
         <SelectedTagListLayout>
           {selectedTagList.map((tag) => (
-            <SelectedTag key={tag.id}>{tag.name}</SelectedTag>
+            <SelectedTagLayout key={tag.id}>
+              <SelectedTagContent>{tag.name}</SelectedTagContent>
+            </SelectedTagLayout>
+            // <SelectedTagContent key={tag.id}>{tag.name}</SelectedTagContent>
           ))}
         </SelectedTagListLayout>
       </div>
@@ -72,7 +77,10 @@ export function TagInput() {
         <div>
           <SelectedTagListLayout>
             {selectedTagList.map((tag) => (
-              <SelectedTag key={tag.id}>{tag.name}</SelectedTag>
+              <SelectedTagLayout key={tag.id}>
+                <SelectedTagContent>{tag.name}</SelectedTagContent>
+                <DeselectTagButton />
+              </SelectedTagLayout>
             ))}
           </SelectedTagListLayout>
         </div>
