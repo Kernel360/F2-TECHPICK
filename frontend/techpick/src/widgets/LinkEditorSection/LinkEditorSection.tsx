@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   linkViewSection,
-  directoryTree,
   folderViewSection,
   linkEditorLabel,
   linkEditorSectionFooter,
@@ -9,12 +8,12 @@ import {
   linkEditorSection,
   linkEditor,
   searchSection,
+  folderWrapper,
+  linkWrapper,
 } from './linkEditorSection.css';
 import Image from 'next/image';
-import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
-import { NodeApi, Tree } from 'react-arborist';
+import { NodeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types/NodeData';
-import { useDragDropManager } from 'react-dnd';
 
 interface LinkEditorSectionProps {
   focusedNode: NodeApi<NodeData> | null;
@@ -27,8 +26,6 @@ export function LinkEditorSection({
   focusedNodeFolderData,
   focusedNodeLinkData,
 }: LinkEditorSectionProps) {
-  const dragDropManager = useDragDropManager();
-
   return (
     <div className={linkEditorSection}>
       <div className={linkEditorHeader}>
@@ -58,36 +55,36 @@ export function LinkEditorSection({
         </div>
       </div>
       <div className={linkEditor}>
-        <div className={folderViewSection}>
-          {focusedNode && (
-            <Tree
-              className={directoryTree}
-              data={focusedNodeFolderData}
-              openByDefault={false}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-              dndManager={dragDropManager}
-            >
-              {DirectoryNode}
-            </Tree>
-          )}
-        </div>
-        <div className={linkViewSection}>
-          {focusedNode && (
-            <Tree
-              className={directoryTree}
-              data={focusedNodeLinkData}
-              openByDefault={false}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-              dndManager={dragDropManager}
-            >
-              {DirectoryNode}
-            </Tree>
-          )}
-        </div>
+        {focusedNode && (
+          <div className={folderViewSection}>
+            {focusedNodeFolderData?.map((node, index) => (
+              <div key={index} className={folderWrapper}>
+                <Image
+                  src={`image/ic_folder.svg`}
+                  alt="folder"
+                  width={64}
+                  height={64}
+                />
+                {node.name}
+              </div>
+            ))}
+          </div>
+        )}
+        {focusedNode && (
+          <div className={linkViewSection}>
+            {focusedNodeLinkData?.map((node, index) => (
+              <div key={index} className={linkWrapper}>
+                <Image
+                  src={`image/ic_doc.svg`}
+                  alt="folder"
+                  width={64}
+                  height={64}
+                />
+                {node.name}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className={linkEditorSectionFooter}></div>
     </div>

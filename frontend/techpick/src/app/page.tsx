@@ -22,6 +22,7 @@ export default function MainPage() {
 
     const arrFolder: NodeData[] = [];
     const arrLink: NodeData[] = [];
+
     focusedNode.data.children.forEach((node) => {
       if (node.type === 'folder') {
         arrFolder.push(node);

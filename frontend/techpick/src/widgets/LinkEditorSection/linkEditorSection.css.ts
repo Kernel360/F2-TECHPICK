@@ -37,14 +37,36 @@ export const linkEditor = style({
 
 export const folderViewSection = style({
   width: '100%',
-  height: '200px',
+  height: '160px',
+  display: 'flex',
   backgroundColor: '#f0f0f0',
+  padding: `0 ${commonThemeContract.space.md}`,
+});
+
+export const folderWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: `0 ${commonThemeContract.space.md}`,
+  fontWeight: 300,
 });
 
 export const linkViewSection = style({
   width: '100%',
   height: '100%',
-  backgroundColor: '#d5c9c9',
+  display: 'flex',
+  alignItems: 'start',
+  padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
+});
+
+export const linkWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: `0 ${commonThemeContract.space.md}`,
+  fontWeight: 300,
 });
 
 export const linkEditorSectionFooter = style({
