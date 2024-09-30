@@ -1,5 +1,6 @@
 package kernel360.techpick.feature.tag.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +62,7 @@ public class TagService {
 		return tagProvider.saveAll(tagUpdater.getTags())
 			.stream()
 			.map(tagMapper::createTagResponse)
+			.sorted(Comparator.comparingInt(TagResponse::tagOrder))
 			.toList();
 	}
 
