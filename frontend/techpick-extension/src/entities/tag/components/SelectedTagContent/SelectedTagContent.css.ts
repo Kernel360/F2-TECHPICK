@@ -1,8 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const selectedTagContentStyle = style({
-  background: 'silver',
-  borderRadius: '4px',
   padding: '0 4px',
   fontSize: '14px',
   height: '14px',

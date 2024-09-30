@@ -6,8 +6,8 @@ export const tagInputStyle = style({
 
 export const tagDialogTrigger = style({
   cursor: 'pointer',
-  width: '100px',
-  height: '20px',
+  maxWidth: '200px',
+  minHeight: '20px',
   border: '1px solid black',
   position: 'relative', // 부모 요소를 기준으로 절대 위치 설정 가능
 });
