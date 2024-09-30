@@ -1,6 +1,7 @@
 package kernel360.techpick.feature.tag.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,6 @@ import kernel360.techpick.feature.tag.model.TagUpdater;
 import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.model.dto.TagResponse;
 import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
-import kernel360.techpick.feature.tag.validator.TagValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,13 +24,12 @@ public class TagService {
 
 	private final TagMapper tagMapper;
 	private final TagProvider tagProvider;
-	private final TagValidator tagValidator;
 	private final PickTagRepository pickTagRepository;
 
 	@Transactional
 	public TagResponse createTag(Long userId, TagCreateRequest request) throws ApiTagException, ApiUserException {
 
-		tagValidator.validateTagNameExists(userId, request.name());
+		validateTagNameExists(userId, request.name());
 
 		int lastOrder = tagProvider.getLastOrderByUserId(userId);
 		Tag tag = tagProvider.save(tagMapper.createTag(request, lastOrder, userId));
@@ -69,11 +68,25 @@ public class TagService {
 	public void deleteById(Long userId, Long tagId) throws ApiTagException {
 
 		Tag targetTag = tagProvider.findById(tagId);
-		tagValidator.validateTagAccess(userId, targetTag);
+		validateTagAccess(userId, targetTag);
 		// 해당 태그를 등록한 픽에서 해당 태그를 모두 삭제
 		// TODO: PickTagProvider 구현되면 PickTagProvider를 의존하도록 리팩토링 필요
 		pickTagRepository.deleteByTag_Id(tagId);
 		tagProvider.deleteById(tagId);
+	}
+
+	private void validateTagAccess(Long userId, Tag tag) throws ApiTagException {
+
+		if (tag == null || !Objects.equals(userId, tag.getUser().getId())) {
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+		}
+	}
+
+	private void validateTagNameExists(Long userId, String name) throws ApiTagException {
+
+		if (tagProvider.existsByUserIdAndName(userId, name)) {
+			throw ApiTagException.TAG_ALREADY_EXIST();
+		}
 	}
 
 }
