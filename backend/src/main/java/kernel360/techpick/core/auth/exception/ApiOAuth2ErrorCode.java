@@ -1,4 +1,4 @@
-package kernel360.techpick.core.exception.feature.oauth2;
+package kernel360.techpick.core.auth.exception;
 
 import org.springframework.http.HttpStatus;
 
