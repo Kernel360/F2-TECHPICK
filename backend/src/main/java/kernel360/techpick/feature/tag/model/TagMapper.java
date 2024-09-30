@@ -2,7 +2,7 @@ package kernel360.techpick.feature.tag.model;
 
 import org.springframework.stereotype.Component;
 
-import kernel360.techpick.core.exception.feature.user.ApiUserException;
+import kernel360.techpick.feature.user.exception.ApiUserException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;

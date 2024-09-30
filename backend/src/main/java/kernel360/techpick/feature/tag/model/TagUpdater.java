@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import kernel360.techpick.core.exception.feature.tag.ApiTagException;
+import kernel360.techpick.feature.tag.exception.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
 

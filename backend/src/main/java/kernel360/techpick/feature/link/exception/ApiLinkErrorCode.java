@@ -1,4 +1,4 @@
-package kernel360.techpick.core.exception.feature.link;
+package kernel360.techpick.feature.link.exception;
 
 import org.springframework.http.HttpStatus;
 

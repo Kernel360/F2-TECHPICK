@@ -6,8 +6,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kernel360.techpick.core.exception.feature.tag.ApiTagException;
-import kernel360.techpick.core.exception.feature.user.ApiUserException;
+import kernel360.techpick.feature.tag.exception.ApiTagException;
+import kernel360.techpick.feature.user.exception.ApiUserException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.pick.repository.PickTagRepository;
 import kernel360.techpick.feature.tag.model.TagMapper;
