@@ -39,8 +39,8 @@ export const folderViewSection = style({
   width: '100%',
   height: '160px',
   display: 'flex',
-  backgroundColor: '#f0f0f0',
-  padding: `0 ${commonThemeContract.space.md}`,
+  borderBottom: `1px solid ${themeContract.color.border}`,
+  padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 
 export const folderWrapper = style({
@@ -48,8 +48,15 @@ export const folderWrapper = style({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  width: '100px',
+  height: '100px',
   padding: `0 ${commonThemeContract.space.md}`,
   fontWeight: 300,
+  textAlign: 'center',
+  borderRadius: '4px',
+  ':hover': {
+    backgroundColor: '#efefef',
+  },
 });
 
 export const linkViewSection = style({
@@ -65,17 +72,19 @@ export const linkWrapper = style({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  width: '100px',
+  height: '100px',
   padding: `0 ${commonThemeContract.space.md}`,
   fontWeight: 300,
+  textAlign: 'center',
+  borderRadius: '4px',
+  ':hover': {
+    backgroundColor: '#efefef',
+  },
 });
 
 export const linkEditorSectionFooter = style({
   width: '100%',
   height: '56px',
   borderTop: `1px solid ${themeContract.color.border}`,
-});
-
-export const directoryTree = style({
-  width: '100%',
-  height: '100%',
 });
