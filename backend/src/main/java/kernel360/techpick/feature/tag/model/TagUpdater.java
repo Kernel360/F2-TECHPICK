@@ -25,7 +25,7 @@ public class TagUpdater {
 	public void updateTag(TagUpdateRequest request) {
 
 		Tag target = getTagById(request.id());
-		target.updateTag(request.name(), request.order());
+		target.updateTag(request.name(), request.tagOrder());
 	}
 
 	public void validateUpdateTag() throws ApiTagException {
