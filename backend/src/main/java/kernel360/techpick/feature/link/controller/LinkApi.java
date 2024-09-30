@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kernel360.techpick.core.exception.base.ApiErrorBody;
-import kernel360.techpick.feature.link.model.dto.LinkResponse;
+import kernel360.techpick.feature.link.service.dto.LinkResponse;
 
 @Tag(name = "링크", description = "링크 CRUD API")
 public interface LinkApi {

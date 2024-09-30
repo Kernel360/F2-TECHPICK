@@ -2,6 +2,8 @@ package kernel360.techpick.core.exception.base;
 
 import org.springframework.http.HttpStatus;
 
+import kernel360.techpick.core.exception.level.ErrorLevel;
+
 public interface ApiErrorCode {
 
 	String getCode();
@@ -9,6 +11,8 @@ public interface ApiErrorCode {
 	String getMessage();
 
 	HttpStatus getHttpStatus();
+
+	ErrorLevel getErrorLevel();
 
 	default String convertCodeToString(ApiErrorCode errorCode) {
 		return String.format("[ 에러 코드 %s : %s ]", errorCode.getCode(), errorCode.getMessage());

@@ -10,9 +10,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
-import kernel360.techpick.feature.tag.model.dto.TagResponse;
-import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagResponse;
+import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 
 @Tag(name = "태그 API", description = "태그 API")
 public interface TagApi {

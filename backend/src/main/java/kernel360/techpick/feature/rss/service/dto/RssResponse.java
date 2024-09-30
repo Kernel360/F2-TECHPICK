@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.rss.model.dto;
+package kernel360.techpick.feature.rss.service.dto;
 
 import java.util.List;
 
