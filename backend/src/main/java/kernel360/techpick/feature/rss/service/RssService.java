@@ -8,13 +8,14 @@ import java.util.Set;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import kernel360.techpick.core.exception.feature.rss.ApiRssException;
 import kernel360.techpick.core.model.rss.RssRawData;
 import kernel360.techpick.core.model.rss.RssSupportingBlog;
-import kernel360.techpick.feature.rss.repository.RssBlogRepository;
-import kernel360.techpick.feature.rss.repository.RssRawDataRepository;
-import kernel360.techpick.feature.rss.model.dto.RssResponse;
+import kernel360.techpick.feature.rss.model.RssProvider;
+import kernel360.techpick.feature.rss.service.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,22 +25,25 @@ import lombok.extern.slf4j.Slf4j;
 public class RssService {
 
 	private final RestTemplate restTemplate;
-	private final RssRawDataRepository rssRawDataRepository;
-	private final RssBlogRepository rssBlogRepository;
+	private final RssProvider rssProvider;
 
-	// TODO: Exception 처리 필요
 	// 새로운 글 탐지 + 초기 데이터 수집
 	@Scheduled(cron = "0 0 3 * * *")
 	public List<RssResponse.Channel> getNewRss() {
-		Set<RssRawData> rawDataSet = new HashSet<>(rssRawDataRepository.findAll());
+		Set<RssRawData> rawDataSet = new HashSet<>(rssProvider.findAllRawData());
 		List<RssResponse.Channel> rssList = new ArrayList<>();
 
-		List<RssSupportingBlog> blogList = rssBlogRepository.findAll();
+		List<RssSupportingBlog> blogList = rssProvider.findAllBlog();
 		blogList.forEach(url -> {
-			RssResponse rss = restTemplate.getForObject(url.getRssFeedUrl(), RssResponse.class);
-			List<RssRawData> crawledArticleList = getCrawledArticleList(Objects.requireNonNull(rss).getChannel(),
-				rawDataSet);
-			rssRawDataRepository.saveAll(crawledArticleList);
+			try {
+				RssResponse rss = restTemplate.getForObject(url.getRssFeedUrl(), RssResponse.class);
+				List<RssRawData> crawledArticleList = getCrawledArticleList(Objects.requireNonNull(rss).getChannel(),
+					rawDataSet);
+				rssProvider.saveAllRawData(crawledArticleList);
+			} catch (RestClientException e) {
+				throw ApiRssException.RSS_NOT_FOUND();
+			}
+
 		});
 		return rssList;
 	}
