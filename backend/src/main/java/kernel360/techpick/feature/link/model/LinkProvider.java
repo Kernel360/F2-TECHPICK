@@ -1,10 +1,10 @@
-package kernel360.techpick.feature.link.model.provider;
+package kernel360.techpick.feature.link.model;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import kernel360.techpick.core.exception.feature.link.ApiLinkException;
+import kernel360.techpick.feature.link.exception.ApiLinkException;
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.feature.link.repository.LinkRepository;
 import lombok.RequiredArgsConstructor;

@@ -44,12 +44,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		if (cookies == null) {
 			return null;
 		}
-		return findCookieByKey(cookies, ACCESS_TOKEN_KEY);
+		return findCookieByKey(cookies);
 	}
 
-	private String findCookieByKey(Cookie[] cookies, String key) {
+	private String findCookieByKey(Cookie[] cookies) {
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(key)) {
+			if (cookie.getName().equals(ACCESS_TOKEN_KEY)) {
 				return cookie.getValue();
 			}
 		}

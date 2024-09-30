@@ -1,19 +1,17 @@
-package kernel360.techpick.core.exception.feature.tag;
+package kernel360.techpick.core.auth.exception;
 
 import org.springframework.http.HttpStatus;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
+import kernel360.techpick.core.exception.level.ErrorLevel;
 
-public enum ApiTagErrorCode implements ApiErrorCode {
+public enum ApiOAuth2ErrorCode implements ApiErrorCode {
 
 	/**
-	 * Tag Error Code (TG)
-	 */
-	TAG_NOT_FOUND("TG-000", HttpStatus.BAD_REQUEST, "존재하지 않는 태그"),
-	TAG_ALREADY_EXIST("TG-001", HttpStatus.BAD_REQUEST, "이미 존재하는 태그"),
-	TAG_INVALID_NAME("TG-002", HttpStatus.BAD_REQUEST, "유효하지 않은 태그 이름"),
-	UNAUTHORIZED_TAG_ACCESS("TG-003", HttpStatus.UNAUTHORIZED, "잘못된 태그 접근"),
-	TAG_INVALID_ORDER("TG-004", HttpStatus.BAD_REQUEST, "유효하지 않은 태그 순서"),
+	 * OAuth2 Error Code (OA)
+	 * */
+	SOCIAL_TYPE_INVALID
+		("OA-000", HttpStatus.BAD_REQUEST, "올바르지 않은 소셜 타입", ErrorLevel.MUST_NEVER_HAPPEN()),
 
 	;
 
@@ -27,10 +25,13 @@ public enum ApiTagErrorCode implements ApiErrorCode {
 
 	private final String errorMessage;
 
-	ApiTagErrorCode(String code, HttpStatus status, String message) {
+	private final ErrorLevel logLevel;
+
+	ApiOAuth2ErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
 		this.code = code;
 		this.httpStatus = status;
 		this.errorMessage = message;
+		this.logLevel = errorLevel;
 	}
 
 	@Override
@@ -49,7 +50,13 @@ public enum ApiTagErrorCode implements ApiErrorCode {
 	}
 
 	@Override
+	public ErrorLevel getErrorLevel() {
+		return this.logLevel;
+	}
+
+	@Override
 	public String toString() {
 		return convertCodeToString(this);
+
 	}
 }

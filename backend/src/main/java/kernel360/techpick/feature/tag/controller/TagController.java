@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
-import kernel360.techpick.feature.tag.model.dto.TagResponse;
-import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagResponse;
+import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 import kernel360.techpick.feature.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
 

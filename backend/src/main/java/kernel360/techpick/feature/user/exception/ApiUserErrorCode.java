@@ -1,17 +1,17 @@
-package kernel360.techpick.core.exception.feature.link;
+package kernel360.techpick.feature.user.exception;
 
 import org.springframework.http.HttpStatus;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
+import kernel360.techpick.core.exception.level.ErrorLevel;
 
-public enum ApiLinkErrorCode implements ApiErrorCode {
+public enum ApiUserErrorCode implements ApiErrorCode {
 
 	/**
-	 * Link Error Code (LI)
-	 */
-	LINK_NOT_FOUND("LI-000", HttpStatus.NOT_FOUND, "존재하지 않는 링크"),
-	LINK_HAS_PICKS("LI-001", HttpStatus.BAD_REQUEST, "링크를 픽한 사람이 존재"),
-	LINK_ALREADY_EXIST("LI-002", HttpStatus.BAD_REQUEST, "이미 존재하는 링크(URL)"),
+	 * User Error Code (U)
+	 * */
+	USER_NOT_FOUND
+		("U-000", HttpStatus.BAD_REQUEST, "사용자 없음", ErrorLevel.CAN_HAPPEN()),
 
 	;
 
@@ -25,29 +25,37 @@ public enum ApiLinkErrorCode implements ApiErrorCode {
 
 	private final String errorMessage;
 
-	ApiLinkErrorCode(String code, HttpStatus status, String message) {
+	private final ErrorLevel logLevel;
+
+	ApiUserErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
 		this.code = code;
 		this.httpStatus = status;
 		this.errorMessage = message;
+		this.logLevel = errorLevel;
 	}
 
 	@Override
 	public String getCode() {
-		return code;
+		return this.code;
 	}
 
 	@Override
 	public String getMessage() {
-		return errorMessage;
+		return this.errorMessage;
 	}
 
 	@Override
 	public HttpStatus getHttpStatus() {
-		return httpStatus;
+		return this.httpStatus;
+	}
+
+	@Override
+	public ErrorLevel getErrorLevel() {
+		return this.logLevel;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return convertCodeToString(this);
 	}
 }

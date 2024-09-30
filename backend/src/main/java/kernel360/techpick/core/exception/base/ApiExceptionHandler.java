@@ -3,6 +3,7 @@ package kernel360.techpick.core.exception.base;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import kernel360.techpick.core.exception.level.ErrorLevel;
 import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
@@ -16,7 +17,7 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ApiErrorResponse handleGlobalException(Exception exception) {
 
-		log.error(exception.getMessage(), exception);
+		ErrorLevel.MUST_NEVER_HAPPEN().handleError(exception);
 
 		return ApiErrorResponse.UNKNOWN_SERVER_ERROR();
 	}
@@ -27,10 +28,7 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(ApiException.class)
 	public ApiErrorResponse handleApiException(ApiException exception) {
 
-		// stacktrace가 콘솔에 전부 출력되어 주석처리
-		log.error(exception.getMessage());//, exception);
-
-		exception.handleError();
+		exception.handleErrorByLevel();
 
 		return ApiErrorResponse.of(exception.getApiErrorCode());
 	}

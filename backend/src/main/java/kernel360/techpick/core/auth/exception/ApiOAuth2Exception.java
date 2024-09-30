@@ -1,4 +1,4 @@
-package kernel360.techpick.core.exception.feature.oauth2;
+package kernel360.techpick.core.auth.exception;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
 import kernel360.techpick.core.exception.base.ApiException;

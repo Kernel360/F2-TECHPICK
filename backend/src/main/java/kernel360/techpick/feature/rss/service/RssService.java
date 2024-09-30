@@ -14,7 +14,7 @@ import kernel360.techpick.core.model.rss.RssRawData;
 import kernel360.techpick.core.model.rss.RssSupportingBlog;
 import kernel360.techpick.feature.rss.repository.RssBlogRepository;
 import kernel360.techpick.feature.rss.repository.RssRawDataRepository;
-import kernel360.techpick.feature.rss.model.dto.RssResponse;
+import kernel360.techpick.feature.rss.service.dto.RssResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import kernel360.techpick.core.exception.feature.tag.ApiTagException;
+import kernel360.techpick.feature.tag.exception.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;

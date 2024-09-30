@@ -1,10 +1,10 @@
-package kernel360.techpick.feature.link.model.mapper;
+package kernel360.techpick.feature.link.model;
 
 import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.link.Link;
-import kernel360.techpick.feature.link.model.dto.LinkRequest;
-import kernel360.techpick.feature.link.model.dto.LinkResponse;
+import kernel360.techpick.feature.link.service.dto.LinkRequest;
+import kernel360.techpick.feature.link.service.dto.LinkResponse;
 import lombok.RequiredArgsConstructor;
 
 @Component
