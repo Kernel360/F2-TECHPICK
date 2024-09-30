@@ -56,7 +56,7 @@ public class TagService {
 		for (var req : tagUpdateRequests) {
 			tagUpdater.updateTag(req);
 		}
-		tagUpdater.validateTagOrder();
+		tagUpdater.validateUpdateTag();
 
 		return tagProvider.saveAll(tagUpdater.getTags())
 			.stream()
