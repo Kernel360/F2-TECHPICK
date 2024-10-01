@@ -35,15 +35,28 @@ public class Tag {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	// order로 하니까 db 키워드랑 겹쳐 안됨..
+	@Column(name = "tag_order", nullable = false)
+	private int tagOrder;
+
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public static Tag createTag(String name, int order, User user) {
+		return new Tag(name, order, user);
+	}
 
-	private Tag(String name, User user) {
+	public void updateTag(String name, int tagOrder) {
 		this.name = name;
+		this.tagOrder = tagOrder;
+	}
+
+	private Tag(String name, int tagOrder, User user) {
+		this.name = name;
+		this.tagOrder = tagOrder;
 		this.user = user;
 	}
 }

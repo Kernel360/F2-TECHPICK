@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import kernel360.techpick.core.exception.feature.oauth2.ApiOAuth2Exception;
+import kernel360.techpick.core.auth.exception.ApiOAuth2Exception;
 import kernel360.techpick.core.model.user.Role;
 import kernel360.techpick.core.model.user.SocialType;
 import lombok.Getter;
