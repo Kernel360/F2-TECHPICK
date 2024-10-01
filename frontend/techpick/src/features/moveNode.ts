@@ -56,7 +56,7 @@ export const moveNode = (
         // 같은 부모를 가지고 있으면서 아래로 이동할 경우
         if (
           dragNode.parent!.id === parentId &&
-          dragNode.rowIndex! <= targetIndex
+          dragNode.rowIndex! - parentNode!.rowIndex! <= targetIndex
         ) {
           // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
           targetIndex -= 1;

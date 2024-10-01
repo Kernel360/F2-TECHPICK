@@ -17,7 +17,9 @@ export default function MainPage() {
     if (!focusedNode || !focusedNode.data.children) {
       return [];
     }
-
+    console.log('data updated!!!!!!!!');
+    console.log('focusedNode', focusedNode);
+    console.log('children', focusedNode.children);
     const FolderNodeList: NodeApi[] = [];
     const LinkNodeList: NodeApi[] = [];
 

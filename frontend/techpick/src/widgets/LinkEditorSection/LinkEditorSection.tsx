@@ -56,14 +56,13 @@ export function LinkEditorSection({
       <div className={linkEditor}>
         {focusedNode && (
           <div>
-            {/*!!focusedNodeFolder?.length &&*/}
-            {
+            {!!focusedNodeFolder?.length && (
               <div className={folderViewSection}>
                 {focusedNodeFolder?.map((node, index) => (
                   <Folder key={index} node={node} />
                 ))}
               </div>
-            }
+            )}
             {!!focusedNodeLink?.length && (
               <div className={linkViewSection}>
                 {focusedNodeLink?.map((node, index) => (
