@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.retry.backoff.FixedBackOffPolicy;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -34,18 +37,26 @@ public class RssService {
 		List<RssResponse.Channel> rssList = new ArrayList<>();
 
 		List<RssSupportingBlog> blogList = rssProvider.findAllBlog();
-		blogList.forEach(url -> {
-			try {
-				RssResponse rss = restTemplate.getForObject(url.getRssFeedUrl(), RssResponse.class);
-				List<RssRawData> crawledArticleList = getCrawledArticleList(Objects.requireNonNull(rss).getChannel(),
-					rawDataSet);
-				rssProvider.saveAllRawData(crawledArticleList);
-			} catch (RestClientException e) {
-				throw ApiRssException.RSS_NOT_FOUND();
-			}
-
-		});
+		for (RssSupportingBlog url : blogList) {
+			getRssRawData(url, rawDataSet);
+		}
 		return rssList;
+	}
+
+	private void getRssRawData(RssSupportingBlog blog, Set<RssRawData> rawDataSet) {
+		try {
+			RssResponse rss = apiCallWithRetry(blog.getRssFeedUrl(), RssResponse.class);
+			List<RssRawData> crawledArticleList = getCrawledArticleList(Objects.requireNonNull(rss).getChannel(),
+				rawDataSet);
+			rssProvider.saveAllRawData(crawledArticleList);
+		} catch (RestClientException e) {
+			handleRssException(blog, e);
+		}
+	}
+
+	private void handleRssException(RssSupportingBlog blog, RestClientException e) {
+		log.error("url : {}, error message : {}, error code : {}", blog.getRssFeedUrl(), e.getMessage(),
+			ApiRssException.RSS_NOT_FOUND().getApiErrorCode());
 	}
 
 	private List<RssRawData> getCrawledArticleList(RssResponse.Channel rss, Set<RssRawData> links) {
@@ -66,5 +77,25 @@ public class RssService {
 		return RssRawData.create(item.getTitle(), item.getLink(), item.getGuid(), item.getPubDate(),
 			item.getDescription(),
 			item.getCreator(), joinedCategories);
+	}
+
+	private <T> T apiCallWithRetry(String path, Class<T> clazz) {
+		final int MAX_ATTEMPTS = 3;
+		final int RETRY_INTERVAL = 200;
+
+		RetryTemplate retryTemplate = new RetryTemplate();
+
+		SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
+		retryPolicy.setMaxAttempts(MAX_ATTEMPTS);
+		retryTemplate.setRetryPolicy(retryPolicy);
+
+		FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+		backOffPolicy.setBackOffPeriod(RETRY_INTERVAL);
+		retryTemplate.setBackOffPolicy(backOffPolicy);
+
+		return retryTemplate.execute(context -> {
+			log.info("retry count : {}", context.getRetryCount());
+			return restTemplate.getForObject(path, clazz);
+		});
 	}
 }
