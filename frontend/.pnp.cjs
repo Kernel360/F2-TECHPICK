@@ -5289,6 +5289,33 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@radix-ui/react-visually-hidden", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "../../../../.yarn/berry/cache/@radix-ui-react-visually-hidden-npm-1.1.0-b2806bfd85-10c0.zip/node_modules/@radix-ui/react-visually-hidden/",\
+        "packageDependencies": [\
+          ["@radix-ui/react-visually-hidden", "npm:1.1.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:1.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/@radix-ui-react-visually-hidden-virtual-6d56351f5f/5/.yarn/berry/cache/@radix-ui-react-visually-hidden-npm-1.1.0-b2806bfd85-10c0.zip/node_modules/@radix-ui/react-visually-hidden/",\
+        "packageDependencies": [\
+          ["@radix-ui/react-visually-hidden", "virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:1.1.0"],\
+          ["@radix-ui/react-primitive", "virtual:cff79cb3c19bc5bc98a04012eac68a21baf446a214a77a1b44415436a82b96fc523c92f10ca7caa537045e6d518119adb409964842c36f2f99375e8039d0ec5c#npm:2.0.0"],\
+          ["@types/react", "npm:18.3.7"],\
+          ["@types/react-dom", "npm:18.3.0"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@radix-ui/rect", [\
       ["npm:1.1.0", {\
         "packageLocation": "../../../../.yarn/berry/cache/@radix-ui-rect-npm-1.1.0-83488db692-10c0.zip/node_modules/@radix-ui/rect/",\
@@ -18528,6 +18555,7 @@ const RAW_RUNTIME_STATE =
           ["techpick-extension", "workspace:techpick-extension"],\
           ["@eslint/js", "npm:9.10.0"],\
           ["@radix-ui/react-popover", "virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:1.1.1"],\
+          ["@radix-ui/react-visually-hidden", "virtual:b4c1c1be62fb935fd619e316b1ceced91b915e641eccd2188c44772d8f7ececf8da6978d623a01aeb3db3c58211d21e4eb7a46f09a4d6380d4cf0903f1a77fea#npm:1.1.0"],\
           ["@tanstack/react-query", "virtual:030fba93bd384e47e333ffeafe50202dd67d42973f7b6557f722bba726bfa5cb5e6c413f0acf63548e008bdfeb220e614152ce82b9eafc5b7d9d24ae29f598ed#npm:5.56.2"],\
           ["@types/chrome", "npm:0.0.271"],\
           ["@types/react", "npm:18.3.7"],\
