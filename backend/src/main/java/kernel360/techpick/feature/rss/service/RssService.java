@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import kernel360.techpick.core.exception.feature.rss.ApiRssException;
+import kernel360.techpick.feature.rss.exception.ApiRssException;
 import kernel360.techpick.core.model.rss.RssRawData;
 import kernel360.techpick.core.model.rss.RssSupportingBlog;
 import kernel360.techpick.feature.rss.model.RssProvider;

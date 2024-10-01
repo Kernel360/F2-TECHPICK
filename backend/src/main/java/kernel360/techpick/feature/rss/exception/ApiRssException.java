@@ -1,4 +1,4 @@
-package kernel360.techpick.core.exception.feature.rss;
+package kernel360.techpick.feature.rss.exception;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
 import kernel360.techpick.core.exception.base.ApiException;
