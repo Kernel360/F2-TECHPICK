@@ -6,13 +6,14 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${TECHPICK_BASE_URL}/api/login/oauth2/code/google
             scope:
               - email
           naver:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
             client-name: Naver
-            redirect-uri: http://localhost:8080//login/oauth2/code/naver
+            redirect-uri: ${TECHPICK_BASE_URL}/api/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope:
               - email
@@ -20,7 +21,7 @@ spring:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
             client-name: Kakao
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: ${TECHPICK_BASE_URL}/api/login/oauth2/code/kakao
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope:
