@@ -23,7 +23,7 @@ public class RssSupportingBlog extends TimeTracking {
 	private Long id;
 
 	// Rss 피드 주소
-	@Column(name = "rss_feed_url", nullable = false)
+	@Column(name = "rss_feed_url", nullable = false, unique = true)
 	private String rssFeedUrl;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
