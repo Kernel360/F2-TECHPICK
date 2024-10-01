@@ -39,3 +39,6 @@ springdoc:
   api-docs:
     path: /api-docs
   show-actuator: true
+
+base:
+  url: ${TECHPICK_BASE_URL}
