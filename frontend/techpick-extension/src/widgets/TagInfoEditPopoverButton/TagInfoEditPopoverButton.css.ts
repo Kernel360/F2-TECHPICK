@@ -12,6 +12,8 @@ export const tagInfoEditPopoverContent = style({
   top: '0',
   left: 0,
   zIndex: '3',
+  border: '1px solid black',
+  backgroundColor: 'white',
 });
 
 export const popoverOverlayStyle = style({

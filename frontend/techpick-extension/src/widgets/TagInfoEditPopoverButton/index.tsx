@@ -2,23 +2,60 @@ import { useRef, useState } from 'react';
 import { Ellipsis } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import sanitizeHtml from 'sanitize-html';
+import { tagTypes, useTagStore } from '@/entities/tag';
 import { PopoverOverlay } from './PopoverOverlay';
+import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
 import {
   tagInfoEditPopoverTrigger,
   tagInfoEditPopoverContent,
 } from './TagInfoEditPopoverButton.css';
 
-export function TagInfoEditPopoverButton() {
+export function TagInfoEditPopoverButton({
+  tag,
+}: TagInfoEditPopoverButtonProps) {
   const tagInfoEditPopoverButtonRef = useRef<HTMLButtonElement | null>(null);
+  const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { updateTag, updateSelectedTagList } = useTagStore();
 
   const closePopover = () => {
     setIsPopoverOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 기본 제출 동작 방지
-    console.log('제출된 값:');
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('handleSubmit!');
+
+    if (!tagNameInputRef?.current) {
+      return;
+    }
+
+    const newTagName = sanitizeHtml(tagNameInputRef.current.value.trim());
+
+    if (isEmptyString(newTagName) || isSameValue(newTagName, tag.name)) {
+      closePopover();
+      return;
+    }
+
+    try {
+      await updateTag({ id: tag.id, name: newTagName });
+      updateSelectedTagList({ id: tag.id, name: newTagName });
+      closePopover();
+    } catch (error) {
+      if (error instanceof Error) {
+        // TODO:  Toast 알림
+      }
+    }
+  };
+
+  // radix-ui popover는 space key를 이용해 popover를 열고 닫습니다.
+  // 따라서 space key를 입력 시 값을 더하는 식으로 우회했습니다.
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === ' ' && tagNameInputRef?.current) {
+      tagNameInputRef.current.value += ' ';
+      e.preventDefault();
+    }
   };
 
   return (
@@ -45,16 +82,17 @@ export function TagInfoEditPopoverButton() {
             e.stopPropagation();
           }}
           onKeyDown={(e) => {
-            // TODO: enter시 변경
-            if (e.key === 'Enter') {
-              closePopover();
-            }
-
             e.stopPropagation();
           }}
         >
           <form onSubmit={handleSubmit}>
-            <input type="text" value={'기존의 값'} />
+            <input
+              type="text"
+              defaultValue={tag.name}
+              ref={tagNameInputRef}
+              autoFocus
+              onKeyDown={handleInputKeyDown}
+            />
             <button type="button">삭제</button>
             <VisuallyHidden.Root asChild>
               <button type="submit" aria-label="제출">
@@ -67,4 +105,8 @@ export function TagInfoEditPopoverButton() {
       </Popover.Portal>
     </Popover.Root>
   );
+}
+
+interface TagInfoEditPopoverButtonProps {
+  tag: tagTypes.TagType;
 }

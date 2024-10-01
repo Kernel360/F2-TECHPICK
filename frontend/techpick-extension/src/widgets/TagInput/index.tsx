@@ -57,6 +57,8 @@ export function TagInput() {
     setTagInputValue('');
   };
 
+  console.log('selectedTagList', selectedTagList);
+
   if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
   }
@@ -111,19 +113,19 @@ export function TagInput() {
         <Command.List>
           <Command.Empty>No results found.</Command.Empty>
 
-          {tagList.map((data) => (
+          {tagList.map((tag) => (
             <Command.Item
-              key={data.id}
+              key={tag.id}
               className={selectedTagItemStyle}
               onSelect={() => {
-                selectTag(data);
+                selectTag(tag);
                 focusTagInput();
                 clearTagInputValue();
               }}
-              keywords={[data.name]}
+              keywords={[tag.name]}
             >
-              {data.name}
-              <TagInfoEditPopoverButton />
+              {tag.name}
+              <TagInfoEditPopoverButton tag={tag} />
             </Command.Item>
           ))}
 

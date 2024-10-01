@@ -13,6 +13,7 @@ type TagState = {
 type TagAction = {
   selectTag: (tag: TagType) => void;
   deselectTag: (tag: TagType) => void;
+  updateSelectedTagList: (updatedTag: TagType) => void;
   fetchingTagList: () => Promise<void>;
   createTag: (newTagName: string) => Promise<TagType | undefined>;
   deleteTag: (tagId: number) => Promise<void>;
@@ -47,6 +48,22 @@ export const useTagStore = create<TagState & TagAction>()(
           (t) => t.id !== tag.id
         );
       }),
+
+    updateSelectedTagList: (updatedTag: TagType) => {
+      set((state) => {
+        const index = state.selectedTagList.findIndex(
+          (tag) => tag.id === updatedTag.id
+        );
+
+        console.log('index', index);
+
+        if (index === -1) {
+          return;
+        }
+
+        state.selectedTagList[index] = { ...updatedTag };
+      });
+    },
 
     fetchingTagList: async () => {
       try {
@@ -156,25 +173,30 @@ export const useTagStore = create<TagState & TagAction>()(
         });
 
         // TODO: 비동기 처리 예시. 나중에 서버 통신 등으로 교체.
-        setTimeout(() => {
-          set((state) => {
-            const index = state.tagList.findIndex(
-              (tag) => tag.id === updatedTag.id
-            );
+        await new Promise<void>((resolve) => {
+          setTimeout(() => {
+            // Promise를 resolve하여 비동기 처리가 끝났음을 알림
+            resolve();
+          }, 500);
+        });
 
-            if (index === -1) {
-              return;
-            }
+        set((state) => {
+          const index = state.tagList.findIndex(
+            (tag) => tag.id === updatedTag.id
+          );
 
-            // 태그 업데이트
-            state.tagList[index] = updatedTag;
-            state.postTagState = {
-              ...state.postTagState,
-              isPending: false,
-              isSuccess: true,
-            };
-          });
-        }, 500);
+          if (index === -1) {
+            return;
+          }
+
+          // 태그 업데이트
+          state.tagList[index] = updatedTag;
+          state.postTagState = {
+            ...state.postTagState,
+            isPending: false,
+            isSuccess: true,
+          };
+        });
       } catch (error) {
         if (error instanceof Error) {
           set((state) => {
