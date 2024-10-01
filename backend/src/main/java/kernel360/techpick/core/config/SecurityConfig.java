@@ -44,6 +44,16 @@ public class SecurityConfig {
 			)
 			.oauth2Login(
 				oauth -> oauth
+					.authorizationEndpoint(authorization -> authorization
+							.baseUri("/api/login")
+						// /* 붙이면 안됨
+					)
+					.redirectionEndpoint(
+						redirection -> redirection
+							.baseUri("/api/login/oauth2/code/*")
+						// 반드시 /* 으로 {registrationId}를 받아야 함 스프링 시큐리티의 문제!!
+						// https://github.com/spring-projects/spring-security/issues/13251
+					)
 					.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2Service))
 					.successHandler(oAuth2SuccessHandler)
 			)
