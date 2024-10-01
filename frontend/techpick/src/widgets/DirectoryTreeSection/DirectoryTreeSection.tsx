@@ -22,7 +22,7 @@ import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
 
 interface DirectoryTreeSectionProps {
-  setFocusedNode: (node: NodeApi<NodeData>) => void;
+  setFocusedNode: (node: NodeApi) => void;
 }
 
 export function DirectoryTreeSection({
@@ -78,9 +78,11 @@ export function DirectoryTreeSection({
           <Tree
             className={directoryTree}
             data={treeData}
-            onFocus={(node: NodeApi<NodeData>) => {
+            onFocus={(node: NodeApi) => {
               setFocusedNode(node);
+              console.log('focused!!', node);
             }}
+            onMove={handleMove}
             openByDefault={false}
             width={width}
             height={height && height - 8}
@@ -88,7 +90,6 @@ export function DirectoryTreeSection({
             indent={24}
             overscanCount={1}
             dndManager={dragDropManager}
-            onMove={handleMove}
           >
             {DirectoryNode}
           </Tree>

@@ -4,9 +4,9 @@ import { NodeApi } from 'react-arborist';
 export const moveNode = (
   data: NodeData[],
   dragId: string,
-  dragNode: NodeApi<NodeData>,
+  dragNode: NodeApi,
   parentId: string | null,
-  parentNode: NodeApi<NodeData> | null,
+  parentNode: NodeApi | null,
   targetIndex: number
 ): NodeData[] => {
   console.log('targetIndex', targetIndex);

@@ -12,19 +12,18 @@ import {
 } from './linkEditorSection.css';
 import Image from 'next/image';
 import { NodeApi } from 'react-arborist';
-import { NodeData } from '@/shared/types/NodeData';
 import { Folder } from '@/features/Draggable/Folder';
 
 interface LinkEditorSectionProps {
-  focusedNode: NodeApi<NodeData> | null;
-  focusedNodeFolderData: NodeData[] | undefined;
-  focusedNodeLinkData: NodeData[] | undefined;
+  focusedNode: NodeApi | undefined;
+  focusedNodeFolder: NodeApi[] | undefined;
+  focusedNodeLink: NodeApi[] | undefined;
 }
 
 export function LinkEditorSection({
   focusedNode,
-  focusedNodeFolderData,
-  focusedNodeLinkData,
+  focusedNodeFolder,
+  focusedNodeLink,
 }: LinkEditorSectionProps) {
   return (
     <div className={linkEditorSection}>
@@ -57,16 +56,17 @@ export function LinkEditorSection({
       <div className={linkEditor}>
         {focusedNode && (
           <div>
-            {!!focusedNodeFolderData?.length && (
+            {/*!!focusedNodeFolder?.length &&*/}
+            {
               <div className={folderViewSection}>
-                {focusedNodeFolderData?.map((node, index) => (
-                  <Folder key={index} item={node} />
+                {focusedNodeFolder?.map((node, index) => (
+                  <Folder key={index} node={node} />
                 ))}
               </div>
-            )}
-            {!!focusedNodeLinkData?.length && (
+            }
+            {!!focusedNodeLink?.length && (
               <div className={linkViewSection}>
-                {focusedNodeLinkData?.map((node, index) => (
+                {focusedNodeLink?.map((node, index) => (
                   <div key={index} className={linkWrapper}>
                     <Image
                       src={`image/ic_doc.svg`}
@@ -74,7 +74,7 @@ export function LinkEditorSection({
                       width={64}
                       height={64}
                     />
-                    {node.name}
+                    {node.data.name}
                   </div>
                 ))}
               </div>

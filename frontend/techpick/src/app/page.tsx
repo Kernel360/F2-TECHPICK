@@ -7,31 +7,29 @@ import {
 } from '@/widgets';
 import { rootLayout } from '@/app/style.css';
 import { viewContainer, viewWrapper } from './style.css';
-import { NodeData } from '@/shared/types';
 import React, { useMemo } from 'react';
 import { NodeApi } from 'react-arborist';
 
 export default function MainPage() {
-  const [focusedNode, setFocusedNode] =
-    React.useState<NodeApi<NodeData> | null>(null);
+  const [focusedNode, setFocusedNode] = React.useState<NodeApi>();
 
   const [focusedNodeFolderData, focusedNodeLinkData] = useMemo(() => {
     if (!focusedNode || !focusedNode.data.children) {
       return [];
     }
 
-    const arrFolder: NodeData[] = [];
-    const arrLink: NodeData[] = [];
+    const FolderNodeList: NodeApi[] = [];
+    const LinkNodeList: NodeApi[] = [];
 
-    focusedNode.data.children.forEach((node) => {
-      if (node.type === 'folder') {
-        arrFolder.push(node);
-      } else if (node.type === 'link') {
-        arrLink.push(node);
+    focusedNode.children?.forEach((node) => {
+      if (node.data.type === 'folder') {
+        FolderNodeList.push(node);
+      } else if (node.data.type === 'link') {
+        LinkNodeList.push(node);
       }
     });
 
-    return [arrFolder, arrLink];
+    return [FolderNodeList, LinkNodeList];
   }, [focusedNode]);
 
   return (
@@ -41,8 +39,8 @@ export default function MainPage() {
           <DirectoryTreeSection setFocusedNode={setFocusedNode} />
           <LinkEditorSection
             focusedNode={focusedNode}
-            focusedNodeFolderData={focusedNodeFolderData}
-            focusedNodeLinkData={focusedNodeLinkData}
+            focusedNodeFolder={focusedNodeFolderData}
+            focusedNodeLink={focusedNodeLinkData}
           />
           <FeaturedSection />
         </div>
