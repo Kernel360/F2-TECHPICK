@@ -51,6 +51,9 @@ public class RssRawData extends TimeTracking {
 	@Column(name = "joined_category") // nullable
 	private String joinedCategory;
 
+	@Column(name = "rssSupportingBlogId")
+	private Long rssSupportingBlogId;
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
 	private RssRawData(
@@ -60,7 +63,8 @@ public class RssRawData extends TimeTracking {
 		String publishedAt,
 		String description,
 		String creator,
-		String joinedCategory
+		String joinedCategory,
+		Long rssSupportingBlogId
 	) {
 		this.title = title;
 		this.url = url;
@@ -69,11 +73,12 @@ public class RssRawData extends TimeTracking {
 		this.description = description;
 		this.creator = creator;
 		this.joinedCategory = joinedCategory;
+		this.rssSupportingBlogId = rssSupportingBlogId;
 	}
 
 	public static RssRawData create(String title, String url, String guid, String publishedAt, String description,
 		String creator,
-		String joinedCategory) {
-		return new RssRawData(title, url, guid, publishedAt, description, creator, joinedCategory);
+		String joinedCategory, Long rssSupportingBlogId) {
+		return new RssRawData(title, url, guid, publishedAt, description, creator, joinedCategory, rssSupportingBlogId);
 	}
 }
