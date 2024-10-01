@@ -89,6 +89,7 @@ jobs:
             echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
             echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
             echo "NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
+            echo "TECHPICK_BASE_URL=${{ secrets.TECHPICK_BASE_URL }}" >> .env
             
             docker-compose down
             docker compose up -d

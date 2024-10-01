@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import kernel360.techpick.core.model.rss.RssRawData;
 
-/**
- * 파이썬 서버 구현 시 삭제 예정
- */
 public interface RssRawDataRepository extends JpaRepository<RssRawData, Long> {
 
 }
