@@ -20,7 +20,7 @@ export default function MainPage() {
     setFocusedLinkNodeList,
   } = useTreeStore();
 
-  const [tempFocusedNodeFolderList, tempFocusedNodeLinkData] = useMemo(() => {
+  const [tempFocusedFolderList, tempFocusedPickList] = useMemo(() => {
     if (!focusedNode || !focusedNode.data.children) {
       return [[], []];
     }
@@ -39,13 +39,13 @@ export default function MainPage() {
   }, [focusedNode]);
 
   useEffect(() => {
-    if (tempFocusedNodeFolderList.length || tempFocusedNodeLinkData.length) {
-      setFocusedFolderNodeList(tempFocusedNodeFolderList);
-      setFocusedLinkNodeList(tempFocusedNodeLinkData);
+    if (tempFocusedFolderList.length || tempFocusedPickList.length) {
+      setFocusedFolderNodeList(tempFocusedFolderList);
+      setFocusedLinkNodeList(tempFocusedPickList);
     }
   }, [
-    tempFocusedNodeFolderList,
-    tempFocusedNodeLinkData,
+    tempFocusedFolderList,
+    tempFocusedPickList,
     setFocusedFolderNodeList,
     setFocusedLinkNodeList,
   ]);
