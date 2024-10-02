@@ -55,8 +55,6 @@ export const useTagStore = create<TagState & TagAction>()(
           (tag) => tag.id === updatedTag.id
         );
 
-        console.log('index', index);
-
         if (index === -1) {
           return;
         }
@@ -168,6 +166,7 @@ export const useTagStore = create<TagState & TagAction>()(
 
     updateTag: async (updatedTag: TagType) => {
       try {
+        // TODO: optimistic update 추가
         set((state) => {
           state.postTagState = { ...state.postTagState, isPending: true };
         });
