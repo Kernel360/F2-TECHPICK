@@ -67,22 +67,6 @@ export const linkViewSection = style({
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 
-export const linkWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '100px',
-  height: '100px',
-  padding: `0 ${commonThemeContract.space.md}`,
-  fontWeight: 300,
-  textAlign: 'center',
-  borderRadius: '4px',
-  ':hover': {
-    backgroundColor: '#efefef',
-  },
-});
-
 export const linkEditorSectionFooter = style({
   width: '100%',
   height: '56px',

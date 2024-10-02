@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { useDrag } from 'react-dnd';
-import Image from 'next/image';
-import { folderWrapper } from '@/features/Draggable/folder.css';
 import { NodeApi } from 'react-arborist';
-import { DragItem } from 'react-arborist/dist/main/types/dnd';
-import { DropResult } from 'react-arborist/dist/main/dnd/drop-hook';
-import { actions as dnd } from 'react-arborist/dist/main/state/dnd-slice';
+import { useDrag } from 'react-dnd';
 import { ROOT_ID } from 'react-arborist/dist/main/data/create-root';
 import { safeRun } from 'react-arborist/dist/main/utils';
+import { DropResult } from 'react-arborist/dist/main/dnd/drop-hook';
+import { actions as dnd } from 'react-arborist/dist/main/state/dnd-slice';
+import { DragItem } from 'react-arborist/dist/main/types/dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
+import Image from 'next/image';
+import { linkWrapper } from '@/features/Draggable/pick.css';
 
-export function Folder({ node }: { node: NodeApi }) {
+export function Pick({ node }: { node: NodeApi }) {
   const tree = node.tree;
 
   const [_, ref, preview] = useDrag<DragItem, DropResult, void>(
@@ -49,9 +49,9 @@ export function Folder({ node }: { node: NodeApi }) {
   return (
     <div
       ref={ref as unknown as React.LegacyRef<HTMLDivElement>}
-      className={folderWrapper}
+      className={linkWrapper}
     >
-      <Image src={`image/ic_folder.svg`} alt="folder" width={64} height={64} />
+      <Image src={`image/ic_doc.svg`} alt="link" width={64} height={64} />
       {node.data.name}
     </div>
   );
