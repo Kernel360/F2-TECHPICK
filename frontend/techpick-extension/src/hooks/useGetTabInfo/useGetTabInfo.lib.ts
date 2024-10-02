@@ -1,3 +1,5 @@
+// TODO og:image도 가져오기
+
 // executeScript는 전달된 함수의 실행 컨텍스트가 전역 스코프가 되기 때문에, 외부에서 정의한 함수에 접근할 수 없습니다.
 const getPageInfoFromDom = () => {
   const getFaviconFromDom = () => {
