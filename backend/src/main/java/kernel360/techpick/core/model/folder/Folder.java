@@ -1,0 +1,50 @@
+package kernel360.techpick.core.model.folder;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import kernel360.techpick.core.model.common.TimeTracking;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Table(name = "folder")
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Folder extends TimeTracking {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "name", nullable = false)
+	private String name;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
+	private Folder parent;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "folder_type", nullable = false)
+	FolderType folderType;
+
+	private Folder(String name, Folder parent, FolderType folderType) {
+		this.name = name;
+		this.parent = parent;
+		this.folderType = folderType;
+	}
+
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public static Folder create(String name, Folder parent, FolderType folderType) {
+		return new Folder(name, parent, folderType);
+	}
+}
