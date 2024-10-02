@@ -3,9 +3,11 @@ import { CSSProperties } from 'react';
 
 export interface NodeData {
   id: string;
-  name: string;
-  type: 'folder' | 'link';
+  type: 'folder' | 'pick';
   children?: NodeData[];
+  name: string;
+  folderId?: number; // folder에만 적용
+  pickId?: number; // pick에만 적용
 }
 
 export interface DirectoryNodeProps {

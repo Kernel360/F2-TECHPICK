@@ -26,7 +26,6 @@ export function Folder({ node }: { node: NodeApi }) {
         tree.hideCursor();
         const { parentId, index, dragIds } = tree.store.getState().dnd;
 
-        console.log('dnd', tree.store.getState().dnd);
         if (tree.canDrop()) {
           safeRun(tree.props.onMove, {
             dragIds,

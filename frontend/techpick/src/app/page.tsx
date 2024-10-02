@@ -7,42 +7,58 @@ import {
 } from '@/widgets';
 import { rootLayout } from '@/app/style.css';
 import { viewContainer, viewWrapper } from './style.css';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { NodeApi } from 'react-arborist';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 export default function MainPage() {
-  const [focusedNode, setFocusedNode] = React.useState<NodeApi>();
+  const {
+    focusedNode,
+    focusedFolderNodeList,
+    focusedLinkNodeList,
+    setFocusedFolderNodeList,
+    setFocusedLinkNodeList,
+  } = useTreeStore();
 
   const [focusedNodeFolderData, focusedNodeLinkData] = useMemo(() => {
     if (!focusedNode || !focusedNode.data.children) {
-      return [];
+      return [[], []];
     }
-    console.log('data updated!!!!!!!!');
-    console.log('focusedNode', focusedNode);
-    console.log('children', focusedNode.children);
-    const FolderNodeList: NodeApi[] = [];
-    const LinkNodeList: NodeApi[] = [];
+    const folderList: NodeApi[] = [];
+    const linkList: NodeApi[] = [];
 
     focusedNode.children?.forEach((node) => {
       if (node.data.type === 'folder') {
-        FolderNodeList.push(node);
-      } else if (node.data.type === 'link') {
-        LinkNodeList.push(node);
+        folderList.push(node);
+      } else if (node.data.type === 'pick') {
+        linkList.push(node);
       }
     });
 
-    return [FolderNodeList, LinkNodeList];
+    return [folderList, linkList];
   }, [focusedNode]);
+
+  useEffect(() => {
+    if (focusedNodeFolderData.length || focusedNodeLinkData.length) {
+      setFocusedFolderNodeList(focusedNodeFolderData);
+      setFocusedLinkNodeList(focusedNodeLinkData);
+    }
+  }, [
+    focusedNodeFolderData,
+    focusedNodeLinkData,
+    setFocusedFolderNodeList,
+    setFocusedLinkNodeList,
+  ]);
 
   return (
     <div className={rootLayout}>
       <div className={viewWrapper}>
         <div className={viewContainer}>
-          <DirectoryTreeSection setFocusedNode={setFocusedNode} />
+          <DirectoryTreeSection />
           <LinkEditorSection
             focusedNode={focusedNode}
-            focusedNodeFolder={focusedNodeFolderData}
-            focusedNodeLink={focusedNodeLinkData}
+            focusedNodeFolder={focusedFolderNodeList}
+            focusedNodeLink={focusedLinkNodeList}
           />
           <FeaturedSection />
         </div>

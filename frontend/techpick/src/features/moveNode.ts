@@ -3,6 +3,10 @@ import { NodeApi } from 'react-arborist';
 
 export const moveNode = (
   data: NodeData[],
+  focusedFolderNodeList: NodeApi[],
+  focusedLinkNodeList: NodeApi[],
+  setFocusedFolderNodeList: (node: NodeApi[]) => void,
+  setFocusedLinkNodeList: (node: NodeApi[]) => void,
   dragId: string,
   dragNode: NodeApi,
   parentId: string | null,
@@ -14,6 +18,40 @@ export const moveNode = (
   console.log('dragNode', dragNode);
   console.log('parentId', parentId);
   console.log('parentNode', parentNode);
+
+  const updateFocusedFolderNodeList = () => {
+    // 부모가 같은 위치로 이동 시
+    if (dragNode.parent?.id === parentId) {
+      return;
+    }
+
+    const updatedFocusedFolderNodeList = [...focusedFolderNodeList];
+    const index = updatedFocusedFolderNodeList.findIndex(
+      (node) => node.id === dragId
+    );
+
+    if (index !== -1) {
+      updatedFocusedFolderNodeList.splice(index, 1);
+      setFocusedFolderNodeList(updatedFocusedFolderNodeList);
+    }
+  };
+
+  const updateFocusedLinkNodeList = () => {
+    // 부모가 같은 위치로 이동 시
+    if (dragNode.parent?.id === parentId) {
+      return;
+    }
+
+    const updatedFocusedLinkNodeList = [...focusedLinkNodeList];
+    const index = updatedFocusedLinkNodeList.findIndex(
+      (node) => node.id === dragId
+    );
+
+    if (index !== -1) {
+      updatedFocusedLinkNodeList.splice(index, 1);
+      setFocusedLinkNodeList(updatedFocusedLinkNodeList);
+    }
+  };
 
   const removeNode = (nodes: NodeData[]): NodeData[] =>
     nodes.reduce((acc: NodeData[], node) => {
@@ -74,6 +112,8 @@ export const moveNode = (
     });
   };
 
+  updateFocusedFolderNodeList();
+  updateFocusedLinkNodeList();
   const updatedData = removeNode([...data]);
   return insertNode(updatedData);
 };

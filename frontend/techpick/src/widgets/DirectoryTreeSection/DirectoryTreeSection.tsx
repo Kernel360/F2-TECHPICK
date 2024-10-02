@@ -21,16 +21,18 @@ import { useDragDropManager } from 'react-dnd';
 import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
 
-interface DirectoryTreeSectionProps {
-  setFocusedNode: (node: NodeApi) => void;
-}
-
-export function DirectoryTreeSection({
-  setFocusedNode,
-}: DirectoryTreeSectionProps) {
+export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const dragDropManager = useDragDropManager();
-  const { treeData, setTreeData } = useTreeStore();
+  const {
+    treeData,
+    focusedFolderNodeList,
+    focusedLinkNodeList,
+    setFocusedFolderNodeList,
+    setFocusedLinkNodeList,
+    setTreeData,
+    setFocusedNode,
+  } = useTreeStore();
 
   const handleMove: MoveHandler<NodeData> = ({
     dragIds,
@@ -41,12 +43,17 @@ export function DirectoryTreeSection({
   }) => {
     const updatedData = moveNode(
       treeData,
+      focusedFolderNodeList,
+      focusedLinkNodeList,
+      setFocusedFolderNodeList,
+      setFocusedLinkNodeList,
       dragIds[0],
       dragNodes[0],
       parentId,
       parentNode,
       index
     );
+
     setTreeData(updatedData);
   };
 
@@ -80,7 +87,6 @@ export function DirectoryTreeSection({
             data={treeData}
             onFocus={(node: NodeApi) => {
               setFocusedNode(node);
-              console.log('focused!!', node);
             }}
             onMove={handleMove}
             openByDefault={false}

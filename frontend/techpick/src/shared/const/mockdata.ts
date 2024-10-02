@@ -1,59 +1,72 @@
-import { NodeData } from '@/shared/types/NodeData';
-
-let id = 1;
-
 type Entry = {
   id: string;
-  name: string;
-  type: 'folder' | 'link';
+  type: 'folder' | 'pick';
   children?: Entry[];
+  name: string;
+  folderId?: number; // folder에만 적용
+  pickId?: number; // pick에만 적용
 };
 
+let id = 1;
+let pickId = 1;
+let folderId = 1;
+
 const nextId = () => (id++).toString();
-const link = (name: string): Entry => ({ name, id: nextId(), type: 'link' });
-const folder = (name: string, ...children: Entry[]): Entry => ({
-  name,
+const nextPickId = () => pickId++;
+const nextFolderId = () => folderId++;
+
+const pick = (name: string): Entry => ({
   id: nextId(),
+  name,
+  type: 'pick',
+  pickId: nextPickId(),
+});
+
+const folder = (name: string, ...children: Entry[]): Entry => ({
+  id: nextId(),
+  name,
   type: 'folder',
+  folderId: nextFolderId(),
   children,
 });
 
 export const dynamicMockData = [
   folder('Favorites'),
-  link('React Hooks'),
+  pick('React Hooks'),
+  pick('aaa'),
   folder(
     'Frontend',
     folder(
       'React',
-      link('React Hooks'),
-      link('React Router'),
-      link('React Context')
+      pick('React Hooks'),
+      pick('React Router'),
+      pick('React Context')
     ),
-    folder('TypeScript', link('TypeScript Basics'), link('Advanced Types')),
-    folder('CSS', link('Flexbox'), link('Grid Layout'))
+    folder('TypeScript', pick('TypeScript Basics'), pick('Advanced Types')),
+    folder('CSS', pick('Flexbox'), pick('Grid Layout'))
   ),
   folder(
     'Backend',
-    folder('Node.js', link('Express.js'), link('Nest.js')),
-    folder('Databases', link('MongoDB'), link('PostgreSQL')),
-    folder('Docker', link('Docker Basics'), link('Docker Compose'))
+    folder('Node.js', pick('Express.js'), pick('Nest.js')),
+    folder('Databases', pick('MongoDB'), pick('PostgreSQL')),
+    folder('Docker', pick('Docker Basics'), pick('Docker Compose'))
   ),
   folder('Full Stack', folder('React'), folder('Node.js'), folder('Databases')),
 ];
 
-export const mockData: NodeData[] = [
+export const mockData = [
   {
     id: '1',
-    name: 'Favorites',
     type: 'folder',
+    data: { folderId: 1, name: 'Favorites', flag: 2 },
   },
   {
     id: '2',
-    name: 'Frontend',
     type: 'folder',
+    data: { folderId: 1, name: 'Frontend', flag: 2 },
     children: [
       {
-        id: 'b1',
+        id: '3',
         name: 'React',
         type: 'folder',
         children: [
@@ -63,72 +76,52 @@ export const mockData: NodeData[] = [
         ],
       },
       {
-        id: 'b2',
+        id: '4',
         name: 'TypeScript',
         type: 'folder',
-        children: [
-          {
-            id: 'b2a',
-            name: 'TypeScript Basics',
-            type: 'link',
-          },
-          { id: 'b2b', name: 'Advanced Types', type: 'link' },
-        ],
-      },
-      {
-        id: 'b3',
-        name: 'CSS',
-        type: 'folder',
-        children: [
-          { id: 'b3a', name: 'Flexbox', type: 'link' },
-          { id: 'b3b', name: 'Grid Layout', type: 'link' },
-        ],
       },
     ],
   },
   {
-    id: '3',
-    name: 'Backend',
-    type: 'folder',
-    children: [
-      {
-        id: 'c1',
-        name: 'Node.js',
-        type: 'folder',
-        children: [
-          { id: 'c1a', name: 'Express.js', type: 'link' },
-          { id: 'c1a', name: 'Express.js', type: 'folder' },
-          { id: 'c1b', name: 'Nest.js', type: 'link' },
-        ],
-      },
-      {
-        id: 'c2',
-        name: 'Databases',
-        type: 'folder',
-        children: [
-          { id: 'c2a', name: 'MongoDB', type: 'link' },
-          { id: 'c2b', name: 'PostgreSQL', type: 'link' },
-        ],
-      },
-      {
-        id: 'c3',
-        name: 'Docker',
-        type: 'folder',
-        children: [
-          { id: 'c3a', name: 'Docker Basics', type: 'link' },
-          { id: 'c3b', name: 'Docker Compose', type: 'link' },
-        ],
-      },
-    ],
-  },
-  {
-    id: '4',
+    id: '5',
     name: 'Full Stack',
     type: 'folder',
     children: [
       { id: 'd1', name: 'React', type: 'folder' },
       { id: 'd2', name: 'Node.js', type: 'folder' },
       { id: 'd3', name: 'Databases', type: 'folder' },
+    ],
+  },
+];
+
+export const newMockData = [
+  {
+    id: '1',
+    type: 'folder',
+    data: { folderId: 1, name: 'Favorites' },
+  },
+  {
+    id: '2',
+    type: 'folder',
+    data: { folderId: 2, name: 'Frontend' },
+    children: [
+      {
+        id: '3',
+        type: 'folder',
+        data: { folderId: 3, name: 'React' },
+        children: [
+          {
+            id: '4',
+            type: 'pick',
+            data: { pickId: 4, name: 'React Hooks' },
+          },
+        ],
+      },
+      {
+        id: '5',
+        type: 'folder',
+        data: { folderId: 5, name: 'TypeScript' },
+      },
     ],
   },
 ];

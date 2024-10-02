@@ -15,7 +15,7 @@ import { NodeApi } from 'react-arborist';
 import { Folder } from '@/features/Draggable/Folder';
 
 interface LinkEditorSectionProps {
-  focusedNode: NodeApi | undefined;
+  focusedNode: NodeApi | null;
   focusedNodeFolder: NodeApi[] | undefined;
   focusedNodeLink: NodeApi[] | undefined;
 }
