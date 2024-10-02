@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.model.common.TimeTracking;
+import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,13 +30,17 @@ public class Folder extends TimeTracking {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "folder_type", nullable = false)
+	FolderType folderType;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
 	private Folder parent;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "folder_type", nullable = false)
-	FolderType folderType;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	private Folder(String name, Folder parent, FolderType folderType) {
 		this.name = name;
