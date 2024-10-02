@@ -1,6 +1,8 @@
-package kernel360.techpick.feature.folder.service.parser.structure;
+package kernel360.techpick.feature.folder.service.parser.internal;
 
 import java.util.List;
+
+import kernel360.techpick.feature.folder.service.parser.StructureParser;
 
 public class StructureParserImpl implements StructureParser {
 

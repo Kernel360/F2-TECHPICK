@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.folder.service.parser.structure;
+package kernel360.techpick.feature.folder.service.parser.internal;
 
 public record StructureNode(
 	Long nodeId,
