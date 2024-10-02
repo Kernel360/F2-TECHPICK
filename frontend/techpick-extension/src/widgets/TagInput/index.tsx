@@ -6,7 +6,7 @@ import {
   useTagStore,
   SelectedTagListLayout,
 } from '@/entities/tag';
-import { DeselectTagButton } from '@/features/tag';
+import { DeselectTagButton, DeleteTagDialog } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
 import {
   tagInputStyle,
@@ -57,8 +57,6 @@ export function TagInput() {
     setTagInputValue('');
   };
 
-  console.log('selectedTagList', selectedTagList);
-
   if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
   }
@@ -83,6 +81,7 @@ export function TagInput() {
           ))}
         </SelectedTagListLayout>
       </div>
+
       <Command.Dialog
         open={open}
         onOpenChange={setOpen}
@@ -149,6 +148,8 @@ export function TagInput() {
             </Command.Item>
           )}
         </Command.List>
+
+        <DeleteTagDialog />
       </Command.Dialog>
     </div>
   );

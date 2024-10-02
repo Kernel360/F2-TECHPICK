@@ -1,5 +1,5 @@
 import type { tagTypes } from '@/entities/tag';
-import { useDeleteTagDialogStore } from './deleteTag.model';
+import { useDeleteTagDialogStore } from '../deleteTag.model';
 
 export function ShowDeleteTagDialogButton({
   tag,
@@ -8,8 +8,6 @@ export function ShowDeleteTagDialogButton({
   const { setIsOpen, setDeleteTagId } = useDeleteTagDialogStore();
 
   const showDeleteTagDialog = () => {
-    console.log('showDeleteTagDialog onClick');
-
     setIsOpen(true);
     setDeleteTagId(tag.id);
     parentOnClick();

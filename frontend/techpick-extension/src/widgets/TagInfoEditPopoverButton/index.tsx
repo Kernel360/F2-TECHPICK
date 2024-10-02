@@ -4,6 +4,7 @@ import * as Popover from '@radix-ui/react-popover';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import sanitizeHtml from 'sanitize-html';
 import { tagTypes, useTagStore } from '@/entities/tag';
+import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverOverlay } from './PopoverOverlay';
 import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
 import {
@@ -23,9 +24,17 @@ export function TagInfoEditPopoverButton({
     setIsPopoverOpen(false);
   };
 
+  // radix-ui popover는 space key를 이용해 popover를 열고 닫습니다.
+  // 따라서 space key를 입력 시 값을 더하는 식으로 우회했습니다.
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === ' ' && tagNameInputRef?.current) {
+      tagNameInputRef.current.value += ' ';
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('handleSubmit!');
 
     if (!tagNameInputRef?.current) {
       return;
@@ -49,17 +58,14 @@ export function TagInfoEditPopoverButton({
     }
   };
 
-  // radix-ui popover는 space key를 이용해 popover를 열고 닫습니다.
-  // 따라서 space key를 입력 시 값을 더하는 식으로 우회했습니다.
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === ' ' && tagNameInputRef?.current) {
-      tagNameInputRef.current.value += ' ';
-      e.preventDefault();
-    }
-  };
-
   return (
-    <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+    <Popover.Root
+      open={isPopoverOpen}
+      onOpenChange={(open) => {
+        // popover 키고 끄기
+        setIsPopoverOpen(open);
+      }}
+    >
       <Popover.Trigger asChild>
         <button
           className={tagInfoEditPopoverTrigger}
@@ -93,8 +99,9 @@ export function TagInfoEditPopoverButton({
               autoFocus
               onKeyDown={handleInputKeyDown}
             />
-            <button type="button">삭제</button>
-            <VisuallyHidden.Root asChild>
+            <ShowDeleteTagDialogButton tag={tag} onClick={closePopover} />
+
+            <VisuallyHidden.Root>
               <button type="submit" aria-label="제출">
                 제출
               </button>
