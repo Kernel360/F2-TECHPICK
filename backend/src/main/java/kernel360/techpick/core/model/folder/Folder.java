@@ -32,7 +32,7 @@ public class Folder extends TimeTracking {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "folder_type", nullable = false)
-	FolderType folderType;
+	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
