@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.folder.Folder;
-import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +27,16 @@ public class FolderProvider {
 		return folderRepository.findAllByUserId(userId);
 	}
 
-	public List<Folder> findAllByUserIdAndParentId(Long userId, Long parentId) {
-		return folderRepository.findAllByUserIdAndParentId(userId, parentId);
+	public List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId) {
+		return folderRepository.findAllByUserIdAndParentFolderId(userId, parentFolderId);
 	}
 
 	public Folder findUnclassified(Long userId) {
-		return folderRepository.findByUserIdAndFolderType(userId, FolderType.UNCLASSIFIED);
+		return folderRepository.findUnclassifiedByUserId(userId);
 	}
 
 	public Folder findRecycleBin(Long userId) {
-		return folderRepository.findByUserIdAndFolderType(userId, FolderType.RECYCLE_BIN);
+		return folderRepository.findRecycleBinByUserId(userId);
 	}
 
 	public void deleteById(Long folderId) {
