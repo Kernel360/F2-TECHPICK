@@ -1,3 +1,7 @@
+---
+title: '[feat] '
+---
+
 - Close #ISSUE_NUMBER
 
 ## What is this PR? 🔍
