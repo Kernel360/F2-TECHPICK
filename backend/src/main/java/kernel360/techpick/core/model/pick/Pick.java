@@ -39,8 +39,8 @@ public class Pick extends TimeTracking {
 	private Link link;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "folder_id", nullable = false)
-	private Folder folder;
+	@JoinColumn(name = "parent_folder_id", nullable = false)
+	private Folder parentFolder;
 
 	/**
 	 * NOTE: 사용자가 설정한 커스텀 제목
@@ -62,15 +62,15 @@ public class Pick extends TimeTracking {
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	private Pick(User user, Link link, Folder folder, String customTitle, String memo) {
+	private Pick(User user, Link link, Folder parentFolder, String customTitle, String memo) {
 		this.user = user;
 		this.link = link;
-		this.folder = folder;
+		this.parentFolder = parentFolder;
 		this.customTitle = customTitle;
 		this.memo = memo;
 	}
 
-	public static Pick create(User user, Link link, Folder folder, String customTitle, String memo) {
-		return new Pick(user, link, folder, customTitle, memo);
+	public static Pick create(User user, Link link, Folder parentFolder, String customTitle, String memo) {
+		return new Pick(user, link, parentFolder, customTitle, memo);
 	}
 }
