@@ -134,6 +134,7 @@ export function TagAutocompleteDialog({
         )}
       </Command.List>
 
+      {/**DeleteTagDialog를 닫고도 Command.Dialog가 켜져있기위해서 Command.Dialog 내부에 있어야합니다.*/}
       <DeleteTagDialog />
     </Command.Dialog>
   );
