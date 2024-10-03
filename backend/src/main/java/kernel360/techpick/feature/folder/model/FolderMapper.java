@@ -17,9 +17,9 @@ public class FolderMapper {
 
 	private final UserRepository userRepository;
 
-	public Folder createFolder(Long userId, FolderCreateRequest request, Folder parent) throws ApiUserException {
+	public Folder createFolder(Long userId, FolderCreateRequest request, Folder parentFolder) throws ApiUserException {
 		User user = userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
-		return Folder.create(request.name(), parent, FolderType.GENERAL, user);
+		return Folder.create(request.name(), parentFolder, FolderType.GENERAL, user);
 	}
 
 	public FolderResponse createResponse(Folder folder) {
