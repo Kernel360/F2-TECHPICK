@@ -6,6 +6,6 @@ public record PickUpdateRequest(
 	Long id,
 	String title,
 	String memo,
-	List<Long> tagList
+	List<Long> tagIdList
 ) {
 }

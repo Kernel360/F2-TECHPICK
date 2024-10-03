@@ -7,7 +7,7 @@ import kernel360.techpick.feature.link.service.dto.LinkRequest;
 public record PickCreateRequest(
 	String memo,
 	String title,
-	List<Long> tagList,
+	List<Long> tagIdList,
 	LinkRequest linkRequest
 ) {
 }
