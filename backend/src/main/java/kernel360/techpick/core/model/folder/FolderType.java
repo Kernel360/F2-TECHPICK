@@ -1,5 +1,7 @@
 package kernel360.techpick.core.model.folder;
 
+import java.util.EnumSet;
+
 public enum FolderType {
 
 	UNCLASSIFIED,
@@ -8,4 +10,7 @@ public enum FolderType {
 
 	;
 
+	public static EnumSet<FolderType> getBasicFolderTypes() {
+		return EnumSet.of(UNCLASSIFIED, RECYCLE_BIN);
+	}
 }

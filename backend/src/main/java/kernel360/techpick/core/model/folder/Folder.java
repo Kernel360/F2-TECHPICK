@@ -35,31 +35,31 @@ public class Folder extends TimeTracking {
 	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id")
-	private Folder parent;
+	@JoinColumn(name = "parent_folder_id")
+	private Folder parentFolder;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	private Folder(String name, Folder parent, FolderType folderType, User user) {
+	private Folder(String name, Folder parentFolder, FolderType folderType, User user) {
 		this.name = name;
-		this.parent = parent;
+		this.parentFolder = parentFolder;
 		this.folderType = folderType;
 		this.user = user;
 	}
 
-	public void update(String name, Folder parent) {
+	public void update(String name, Folder parentFolder) {
 		this.name = name;
-		this.parent = parent;
+		this.parentFolder = parentFolder;
 	}
 
-	public void updateParent(Folder parent) {
-		this.parent = parent;
+	public void updateParentFolder(Folder parentFolder) {
+		this.parentFolder = parentFolder;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static Folder create(String name, Folder parent, FolderType folderType, User user) {
-		return new Folder(name, parent, folderType, user);
+	public static Folder create(String name, Folder parentFolder, FolderType folderType, User user) {
+		return new Folder(name, parentFolder, folderType, user);
 	}
 }
