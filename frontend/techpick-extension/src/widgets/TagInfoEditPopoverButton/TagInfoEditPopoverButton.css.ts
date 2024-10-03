@@ -1,12 +1,5 @@
 import { style } from '@vanilla-extract/css';
 
-export const tagInfoEditPopoverTrigger = style({
-  position: 'relative',
-  width: '20px',
-  height: '20px',
-  cursor: 'pointer',
-});
-
 export const tagInfoEditPopoverContent = style({
   position: 'absolute',
   top: '0',

@@ -1,16 +1,13 @@
 import { useRef, useState } from 'react';
-import { Ellipsis } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import sanitizeHtml from 'sanitize-html';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
+import { PopoverTriggerButton } from './PopoverTriggerButton';
 import { PopoverOverlay } from './PopoverOverlay';
 import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
-import {
-  tagInfoEditPopoverTrigger,
-  tagInfoEditPopoverContent,
-} from './TagInfoEditPopoverButton.css';
+import { tagInfoEditPopoverContent } from './TagInfoEditPopoverButton.css';
 
 export function TagInfoEditPopoverButton({
   tag,
@@ -64,22 +61,18 @@ export function TagInfoEditPopoverButton({
 
   return (
     <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <Popover.Trigger asChild>
-        <button
-          className={tagInfoEditPopoverTrigger}
-          ref={tagInfoEditPopoverButtonRef}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              openPopover();
-            }
-          }}
-        >
-          <Ellipsis size={14} />
-        </button>
-      </Popover.Trigger>
+      <PopoverTriggerButton
+        openPopover={openPopover}
+        ref={tagInfoEditPopoverButtonRef}
+      />
       {isPopoverOpen && <PopoverOverlay onClick={closePopover} />}
       <Popover.Portal container={tagInfoEditPopoverButtonRef.current}>
-        <Popover.Content className={tagInfoEditPopoverContent}>
+        <Popover.Content
+          className={tagInfoEditPopoverContent}
+          // 아래의 stopPropagation은 Enter시에 Popover 창이 닫히는 걸 막습니다.
+          onKeyDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <form onSubmit={handleSubmit}>
             <input
               type="text"
