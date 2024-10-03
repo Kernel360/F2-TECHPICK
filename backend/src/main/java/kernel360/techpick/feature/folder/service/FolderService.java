@@ -39,7 +39,7 @@ public class FolderService {
 
 	@Transactional(readOnly = true)
 	public List<FolderResponse> getFolderListByUserId(Long userId) {
-		
+
 		return folderProvider.findAllByUserId(userId)
 			.stream()
 			.map(folderMapper::createResponse)
@@ -70,6 +70,28 @@ public class FolderService {
 		validateDuplicateFolderName(userId, request.name());
 
 		targetFolder.update(request.name(), parent);
+		folderProvider.save(targetFolder);
+	}
+
+	@Transactional
+	public void moveToUnclassified(Long userId, Long folderId) {
+
+		// 이동하려는 폴더가 본인 폴더인지 검증
+		Folder targetFolder = folderProvider.findById(folderId);
+		validateFolderAccess(userId, targetFolder);
+
+		targetFolder.updateParent(folderProvider.findUnclassified(userId));
+		folderProvider.save(targetFolder);
+	}
+
+	@Transactional
+	public void moveToRecycleBin(Long userId, Long folderId) {
+
+		// 이동하려는 폴더가 본인 폴더인지 검증
+		Folder targetFolder = folderProvider.findById(folderId);
+		validateFolderAccess(userId, targetFolder);
+
+		targetFolder.updateParent(folderProvider.findRecycleBin(userId));
 		folderProvider.save(targetFolder);
 	}
 
