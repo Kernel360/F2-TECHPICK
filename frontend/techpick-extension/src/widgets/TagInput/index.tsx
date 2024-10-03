@@ -37,18 +37,6 @@ export function TagInput() {
     setOpen(true);
   };
 
-  useEffect(() => {
-    fetchingTagList();
-  }, [fetchingTagList]);
-
-  useEffect(() => {
-    const isUnique = !tagList.some((tag) => tag.name === tagInputValue);
-    const isNotInitialValue = tagInputValue.trim() !== '';
-    const isCreatable = isUnique && isNotInitialValue;
-
-    setCanCreateTag(isCreatable);
-  }, [tagInputValue, tagList]);
-
   const focusTagInput = () => {
     tagInputRef.current?.focus();
   };
@@ -56,6 +44,24 @@ export function TagInput() {
   const clearTagInputValue = () => {
     setTagInputValue('');
   };
+
+  useEffect(
+    function fetchTagList() {
+      fetchingTagList();
+    },
+    [fetchingTagList]
+  );
+
+  useEffect(
+    function checkIsCreatable() {
+      const isUnique = !tagList.some((tag) => tag.name === tagInputValue);
+      const isNotInitialValue = tagInputValue.trim() !== '';
+      const isCreatable = isUnique && isNotInitialValue;
+
+      setCanCreateTag(isCreatable);
+    },
+    [tagInputValue, tagList]
+  );
 
   if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
