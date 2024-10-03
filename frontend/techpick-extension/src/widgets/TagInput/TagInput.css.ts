@@ -15,7 +15,7 @@ export const tagDialogTrigger = style({
 export const tagDialogPortal = style({
   position: 'absolute',
   top: '0',
-  zIndex: '1',
+  zIndex: '0',
   backgroundColor: 'white',
 });
 
