@@ -3,8 +3,8 @@ package kernel360.techpick.fixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kernel360.techpick.core.model.link.Link;
-import kernel360.techpick.feature.link.model.dto.LinkRequest;
-import kernel360.techpick.feature.link.model.dto.LinkResponse;
+import kernel360.techpick.feature.link.service.dto.LinkRequest;
+import kernel360.techpick.feature.link.service.dto.LinkResponse;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -47,6 +47,7 @@ public class LinkFixture {
 		private @Builder.Default String url = "https://www.test123499.com";
 		private @Builder.Default String title = "Test Title123499";
 		private @Builder.Default String description = "Test Description123499";
+		private @Builder.Default String imageUrl = "https://example.com/images/og-image.jpg";
 
 		public LinkRequest get() {
 			return mapper.convertValue(this, LinkRequest.class);
@@ -71,6 +72,7 @@ public class LinkFixture {
 		private @Builder.Default String url = "https://www.test45390.com";
 		private @Builder.Default String title = "Test Title45390";
 		private @Builder.Default String description = "Test Description45390";
+		private @Builder.Default String imageUrl = "https://example.com/images/og-image.jpg";
 
 		public LinkResponse get() {
 			return mapper.convertValue(this, LinkResponse.class);
