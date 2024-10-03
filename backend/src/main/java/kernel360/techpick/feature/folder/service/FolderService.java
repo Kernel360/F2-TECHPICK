@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.validation.constraints.NotNull;
 import kernel360.techpick.core.model.folder.Folder;
+import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.model.FolderMapper;
 import kernel360.techpick.feature.folder.model.FolderProvider;
@@ -63,6 +64,9 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(request.id());
 		validateFolderAccess(userId, targetFolder);
 
+		// 삭제하려는 폴더가 기본폴더인지 검증
+		validateChangeBasicFolder(targetFolder);
+
 		// 변경하려는 폴더의 부모가 본인 폴더인지 검증
 		Folder parentFolder = folderProvider.findById(request.parentFolderId());
 		validateFolderAccess(userId, parentFolder);
@@ -81,6 +85,9 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
 
+		// 이동하려는 폴더가 기본폴더인지 검증
+		validateChangeBasicFolder(targetFolder);
+
 		targetFolder.updateParentFolder(folderProvider.findUnclassified(userId));
 		folderProvider.save(targetFolder);
 	}
@@ -92,6 +99,9 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
 
+		// 이동하려는 폴더가 기본폴더인지 검증
+		validateChangeBasicFolder(targetFolder);
+
 		targetFolder.updateParentFolder(folderProvider.findRecycleBin(userId));
 		folderProvider.save(targetFolder);
 	}
@@ -102,6 +112,9 @@ public class FolderService {
 		// 삭제하려는 폴더가 본인 폴더인지 검증
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
+		
+		// 삭제하려는 폴더가 기본폴더인지 검증
+		validateChangeBasicFolder(targetFolder);
 
 		// TODO: 삭제된 폴더안의 다른 폴더와 픽들의 부모 설정은 FolderPickFacade에서 미분류로 변경
 		folderProvider.deleteById(folderId);
@@ -118,6 +131,14 @@ public class FolderService {
 
 		if (folderProvider.existsByUserIdAndName(userId, name)) {
 			throw ApiFolderException.FOLDER_ALREADY_EXIST();
+		}
+	}
+
+	private void validateChangeBasicFolder(Folder folder) {
+
+		if (FolderType.UNCLASSIFIED == folder.getFolderType() ||
+			FolderType.RECYCLE_BIN == folder.getFolderType()) {
+			throw ApiFolderException.BASIC_FOLDER_CANNOT_CHANGED();
 		}
 	}
 }

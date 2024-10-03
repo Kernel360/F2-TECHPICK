@@ -23,4 +23,8 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException FOLDER_ACCESS_DENIED() {
 		return new ApiFolderException(ApiFolderErrorCode.FOLDER_ACCESS_DENIED);
 	}
+
+	public static ApiFolderException BASIC_FOLDER_CANNOT_CHANGED() {
+		return new ApiFolderException(ApiFolderErrorCode.BASIC_FOLDER_CANNOT_CHANGED);
+	}
 }
