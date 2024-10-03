@@ -8,15 +8,15 @@ import {
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
 
-import { filterCommandItems } from './TagSelectionDialog.lib';
+import { filterCommandItems } from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
   commandInputLayout,
   commandInputStyle,
   selectedTagListItemStyle,
-} from './TagSelectionDialog.css';
+} from './TagAutocompleteDialog.css';
 
-export function TagSelectionDialog({
+export function TagAutocompleteDialog({
   open,
   onOpenChange,
   container,

@@ -4,7 +4,7 @@ import {
   SelectedTagItem,
   SelectedTagListLayout,
 } from '@/entities/tag';
-import { TagSelectionDialog } from '@/widgets/TagSelectionDialog';
+import { TagAutocompleteDialog } from '@/widgets/TagAutocompleteDialog';
 
 import { tagInputStyle, tagDialogTrigger } from './TagPicker.css';
 
@@ -38,7 +38,7 @@ export function TagPicker() {
         </SelectedTagListLayout>
       </div>
 
-      <TagSelectionDialog
+      <TagAutocompleteDialog
         open={open}
         onOpenChange={setOpen}
         container={tagInputContainerRef}
