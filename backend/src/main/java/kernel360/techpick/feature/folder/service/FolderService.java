@@ -112,7 +112,7 @@ public class FolderService {
 		// 삭제하려는 폴더가 본인 폴더인지 검증
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
-		
+
 		// 삭제하려는 폴더가 기본폴더인지 검증
 		validateChangeBasicFolder(targetFolder);
 
@@ -136,8 +136,7 @@ public class FolderService {
 
 	private void validateChangeBasicFolder(Folder folder) {
 
-		if (FolderType.UNCLASSIFIED == folder.getFolderType() ||
-			FolderType.RECYCLE_BIN == folder.getFolderType()) {
+		if (FolderType.getBasicFolderTypes().contains(folder.getFolderType())) {
 			throw ApiFolderException.BASIC_FOLDER_CANNOT_CHANGED();
 		}
 	}
