@@ -7,18 +7,14 @@ export const tagDialogPortalLayout = style({
   backgroundColor: 'white',
 });
 
-export const commandInputLayout = style({
+export const commandInputStyle = style({
   display: 'flex',
   flex: '1 1 60px',
   minWidth: '64px',
   height: '20px',
-});
-
-export const commandInputStyle = style({
   outline: 'none',
   border: 'none',
   padding: '0 4px',
-  height: '20px',
 });
 
 export const tagListItemStyle = style({

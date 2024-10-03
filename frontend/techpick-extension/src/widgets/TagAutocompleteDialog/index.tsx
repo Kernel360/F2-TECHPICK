@@ -10,7 +10,6 @@ import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
 import { filterCommandItems } from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
-  commandInputLayout,
   commandInputStyle,
   tagListItemStyle,
 } from './TagAutocompleteDialog.css';
@@ -78,14 +77,12 @@ export function TagAutocompleteDialog({
           </SelectedTagItem>
         ))}
 
-        <div className={commandInputLayout}>
-          <Command.Input
-            className={commandInputStyle}
-            ref={tagInputRef}
-            value={tagInputValue}
-            onValueChange={setTagInputValue}
-          />
-        </div>
+        <Command.Input
+          className={commandInputStyle}
+          ref={tagInputRef}
+          value={tagInputValue}
+          onValueChange={setTagInputValue}
+        />
       </SelectedTagListLayout>
 
       {/**전체 태그 리스트 */}
