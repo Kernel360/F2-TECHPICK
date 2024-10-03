@@ -4,6 +4,7 @@ import {
   SelectedTagItem,
   SelectedTagListLayout,
   useTagStore,
+  tagTypes,
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
@@ -37,6 +38,12 @@ export function TagAutocompleteDialog({
 
   const clearTagInputValue = () => {
     setTagInputValue('');
+  };
+
+  const onSelectTag = (tag: tagTypes.TagType) => {
+    selectTag(tag);
+    focusTagInput();
+    clearTagInputValue();
   };
 
   useEffect(
@@ -93,11 +100,7 @@ export function TagAutocompleteDialog({
           <Command.Item
             key={tag.id}
             className={tagListItemStyle}
-            onSelect={() => {
-              selectTag(tag);
-              focusTagInput();
-              clearTagInputValue();
-            }}
+            onSelect={() => onSelectTag(tag)}
             keywords={[tag.name]}
           >
             {tag.name}
@@ -113,11 +116,13 @@ export function TagAutocompleteDialog({
             onSelect={async () => {
               const newTag = await createTag(tagInputValue);
 
-              if (newTag) {
-                selectTag(newTag);
-                focusTagInput();
-                clearTagInputValue();
+              if (!newTag) {
+                // Todo: error handling
+                // newTag or postTagState을 이용할 예정.
+                return;
               }
+
+              onSelectTag(newTag);
             }}
             disabled={!canCreateTag}
           >
@@ -134,5 +139,5 @@ export function TagAutocompleteDialog({
 interface TagSelectionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  container?: React.RefObject<HTMLDivElement>;
+  container?: React.RefObject<HTMLElement>;
 }
