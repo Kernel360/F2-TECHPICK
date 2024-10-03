@@ -37,6 +37,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		String accessToken = jwtUtil.getToken(user, ACCESS_TOKEN_DURATION);
 		addAccessTokenToCookie(request, response, accessToken);
 
+		// front 로컬 로그인 테스트를 위한 하드코딩
+		// TODO: 배포 이후 수정예정
+		response.sendRedirect("http://localhost:3000/login/ok");
+
 		super.clearAuthenticationAttributes(request);
 		super.onAuthenticationSuccess(request, response, authentication);
 
