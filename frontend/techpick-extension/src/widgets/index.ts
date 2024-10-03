@@ -1,1 +1,1 @@
-export * from './TagInput';
+export * from './TagPicker';

@@ -6,9 +6,9 @@ import {
 } from '@/entities/tag';
 import { TagSelectionDialog } from '@/widgets/TagSelectionDialog';
 
-import { tagInputStyle, tagDialogTrigger } from './TagInput.css';
+import { tagInputStyle, tagDialogTrigger } from './TagPicker.css';
 
-export function TagInput() {
+export function TagPicker() {
   const [open, setOpen] = useState(false);
 
   const tagInputContainerRef = useRef<HTMLDivElement>(null);
