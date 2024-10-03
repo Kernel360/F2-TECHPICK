@@ -5,8 +5,7 @@ import {
   SelectedTagListLayout,
 } from '@/entities/tag';
 import { TagAutocompleteDialog } from '@/widgets/TagAutocompleteDialog';
-
-import { tagInputStyle, tagDialogTrigger } from './TagPicker.css';
+import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 
 export function TagPicker() {
   const [open, setOpen] = useState(false);
@@ -20,17 +19,8 @@ export function TagPicker() {
   };
 
   return (
-    <div
-      data-description="모달이 여기서 뜨게."
-      id="tagInputContainer"
-      ref={tagInputContainerRef}
-      className={tagInputStyle}
-    >
-      <div
-        className={tagDialogTrigger}
-        data-description="여기를 선택하면 다이얼로그가 켜짐"
-        onClick={openDialog}
-      >
+    <div ref={tagInputContainerRef} className={tagPickerLayout}>
+      <div className={tagDialogTriggerLayout} onClick={openDialog}>
         <SelectedTagListLayout>
           {selectedTagList.map((tag) => (
             <SelectedTagItem key={tag.id} tag={tag} />
