@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.jsonwebtoken.lang.Assert;
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.model.FolderMapper;
@@ -108,7 +109,10 @@ public class FolderService {
 
 	private void validateFolderAccess(Long userId, Folder folder) throws ApiFolderException {
 
-		if (folder == null || Objects.equals(userId, folder.getUser().getId())) {
+		// FolderProvider에서만 Folder 엔티티를 얻을 수 있는데, FolderProvider는 null을 반환하지 않음
+		// Folder가 null이라는 것은 개발자가 잘못된 값을 넣었다는 것
+		Assert.notNull(folder, "검증하려는 폴더는 null일 수 없음");
+		if (Objects.equals(userId, folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 	}
