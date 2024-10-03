@@ -54,6 +54,10 @@ public class Folder extends TimeTracking {
 		this.parent = parent;
 	}
 
+	public void updateParent(Folder parent) {
+		this.parent = parent;
+	}
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 	public static Folder create(String name, Folder parent, FolderType folderType, User user) {
 		return new Folder(name, parent, folderType, user);
