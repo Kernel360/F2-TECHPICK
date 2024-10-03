@@ -1,2 +1,2 @@
-export { ShowDeleteTagDialogButton } from './components/ShowDeleteTagDialogButton';
-export * from './components/DeleteTagDialog';
+export { ShowDeleteTagDialogButton } from './ui/ShowDeleteTagDialogButton';
+export * from './ui/DeleteTagDialog';
