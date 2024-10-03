@@ -2,6 +2,7 @@ package kernel360.techpick.feature.folder.service.parser;
 
 import java.util.List;
 
+import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.service.parser.internal.StructureNode;
 
 /**
@@ -13,7 +14,11 @@ import kernel360.techpick.feature.folder.service.parser.internal.StructureNode;
 public interface StructureParser {
 
 	/**
-	 * @param json 폴더 구조를 표현하는 json 포맷 문자열
+	 * @param json 직렬화된 json 문자열
+	 * @throws ApiFolderException
+	 *         - 유효하지 않는 json 포맷일 경우 예외 발생
+	 *         - 서비스에서 정의한 json 포맷과 다를 경우 예외 발생
 	 */
-	List<StructureNode> parse(String json);
+	List<StructureNode> parseFolderStructure(String json) throws ApiFolderException;
+
 }
