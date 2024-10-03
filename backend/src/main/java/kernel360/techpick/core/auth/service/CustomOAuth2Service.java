@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import kernel360.techpick.core.auth.model.OAuth2UserInfo;
 import kernel360.techpick.core.config.OAuth2AttributeConfigProvider;
+import kernel360.techpick.core.model.folder.Folder;
+import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.core.model.user.User;
+import kernel360.techpick.feature.folder.repository.FolderRepository;
 import kernel360.techpick.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomOAuth2Service extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	private final FolderRepository folderRepository;
 	private final OAuth2AttributeConfigProvider configProvider;
 
 	@Override
@@ -32,7 +36,8 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		var oAuth2UserInfo = new OAuth2UserInfo(provider, attributes);
 
 		if (!userRepository.existsBySocialProviderId(oAuth2UserInfo.getName())) {
-			saveOAuth2UserInfo(oAuth2UserInfo);
+			User user = saveOAuth2UserInfo(oAuth2UserInfo);
+			createBasicFolder(user);
 		}
 		return oAuth2UserInfo;
 	}
@@ -67,12 +72,18 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		throw new IllegalArgumentException("Attribute of " + targetKey + " is not found");
 	}
 
-	private void saveOAuth2UserInfo(OAuth2UserInfo oAuth2UserInfo) {
+	private User saveOAuth2UserInfo(OAuth2UserInfo oAuth2UserInfo) {
 		User user = User.create(
 			oAuth2UserInfo.getProvider(),
 			oAuth2UserInfo.getName(),
 			oAuth2UserInfo.getEmail()
 		);
-		userRepository.save(user);
+		return userRepository.save(user);
+	}
+
+	private void createBasicFolder(User user) {
+
+		folderRepository.save(Folder.create("미분류폴더", null, FolderType.UNCLASSIFIED, user));
+		folderRepository.save(Folder.create("휴지통", null, FolderType.RECYCLE_BIN, user));
 	}
 }
