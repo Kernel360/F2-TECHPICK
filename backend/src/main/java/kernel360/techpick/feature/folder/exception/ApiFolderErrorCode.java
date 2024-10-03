@@ -19,7 +19,7 @@ public enum ApiFolderErrorCode implements ApiErrorCode {
 	BASIC_FOLDER_CANNOT_CHANGED
 		("FO-003", HttpStatus.BAD_REQUEST, "기본폴더는 변경(수정/삭제/이동)할 수 없음", ErrorLevel.MUST_NEVER_HAPPEN()),
 	FOLDER_INVALID_JSON_STRUCTURE
-		("FO-003", HttpStatus.BAD_REQUEST, "클라이언트 요청의 JSON 데이터가 올바르지 않음", ErrorLevel.SHOULD_NOT_HAPPEN()),
+		("FO-004", HttpStatus.BAD_REQUEST, "클라이언트 요청의 JSON 데이터가 올바르지 않음", ErrorLevel.SHOULD_NOT_HAPPEN()),
 
 	;
 
