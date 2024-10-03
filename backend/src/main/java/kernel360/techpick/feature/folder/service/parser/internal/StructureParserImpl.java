@@ -3,8 +3,6 @@ package kernel360.techpick.feature.folder.service.parser.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.security.core.parameters.P;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,7 +18,10 @@ public class StructureParserImpl implements StructureParser {
 	private static final Long PARENT_OF_ROOT = null;
 	private final Gson parser = new Gson();
 
-	private List<StructureNode> flatNodesRecur(JsonArray array, Long parentFolderId) {
+	private List<StructureNode> flatNodesRecur(
+		JsonArray array,
+		Long parentFolderId
+	) throws IllegalNodeTypeException {
 
 		List<StructureNode> nodes = new ArrayList<>();
 		if (array.isJsonNull()) {
@@ -31,11 +32,9 @@ public class StructureParserImpl implements StructureParser {
 			if (element.isJsonNull()) {
 				continue;
 			}
-
 			// parse common info
 			JsonObject obj = element.getAsJsonObject();
-
-			NodeType type = NodeType.valueOfLabel(obj.get("type").getAsString());
+			NodeType type = NodeType.from(obj.get("type").getAsString());
 			String idForFrontend = obj.get("id").getAsString(); // 미사용 값이지만 타입 검증 진행
 			String name = obj.get("name").getAsString(); // 미사용 값이지만 타입 검증 진행
 			Long idForBackend = null;
@@ -73,5 +72,6 @@ public class StructureParserImpl implements StructureParser {
 			log.warn("Error Log :", e);
 			throw ApiFolderException.FOLDER_INVALID_JSON_STRUCTURE();
 		}
+
 	}
 }
