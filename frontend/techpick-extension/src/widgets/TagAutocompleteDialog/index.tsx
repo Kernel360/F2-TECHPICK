@@ -7,13 +7,12 @@ import {
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
-
 import { filterCommandItems } from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
   commandInputLayout,
   commandInputStyle,
-  selectedTagListItemStyle,
+  tagListItemStyle,
 } from './TagAutocompleteDialog.css';
 
 export function TagAutocompleteDialog({
@@ -96,7 +95,7 @@ export function TagAutocompleteDialog({
         {tagList.map((tag) => (
           <Command.Item
             key={tag.id}
-            className={selectedTagListItemStyle}
+            className={tagListItemStyle}
             onSelect={() => {
               selectTag(tag);
               focusTagInput();
@@ -111,7 +110,7 @@ export function TagAutocompleteDialog({
 
         {canCreateTag && (
           <Command.Item
-            className={selectedTagListItemStyle}
+            className={tagListItemStyle}
             value={tagInputValue}
             keywords={['생성']}
             onSelect={async () => {

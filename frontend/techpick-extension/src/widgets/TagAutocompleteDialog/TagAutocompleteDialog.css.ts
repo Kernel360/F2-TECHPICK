@@ -21,7 +21,7 @@ export const commandInputStyle = style({
   height: '20px',
 });
 
-export const selectedTagListItemStyle = style({
+export const tagListItemStyle = style({
   display: 'flex',
   justifyContent: 'space-between',
 
