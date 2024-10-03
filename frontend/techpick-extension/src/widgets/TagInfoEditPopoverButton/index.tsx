@@ -20,6 +20,10 @@ export function TagInfoEditPopoverButton({
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { updateTag, updateSelectedTagList } = useTagStore();
 
+  const openPopover = () => {
+    setIsPopoverOpen(true);
+  };
+
   const closePopover = () => {
     setIsPopoverOpen(false);
   };
@@ -59,22 +63,15 @@ export function TagInfoEditPopoverButton({
   };
 
   return (
-    <Popover.Root
-      open={isPopoverOpen}
-      onOpenChange={(open) => {
-        // popover 키고 끄기
-        setIsPopoverOpen(open);
-      }}
-    >
+    <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <Popover.Trigger asChild>
         <button
           className={tagInfoEditPopoverTrigger}
           ref={tagInfoEditPopoverButtonRef}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
           onKeyDown={(e) => {
-            e.stopPropagation();
+            if (e.key === 'Enter') {
+              openPopover();
+            }
           }}
         >
           <Ellipsis size={14} />
@@ -82,15 +79,7 @@ export function TagInfoEditPopoverButton({
       </Popover.Trigger>
       {isPopoverOpen && <PopoverOverlay onClick={closePopover} />}
       <Popover.Portal container={tagInfoEditPopoverButtonRef.current}>
-        <Popover.Content
-          className={tagInfoEditPopoverContent}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-        >
+        <Popover.Content className={tagInfoEditPopoverContent}>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
