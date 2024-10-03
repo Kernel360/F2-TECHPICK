@@ -33,13 +33,11 @@ public class StructureParserImpl implements StructureParser {
 	private List<StructureNode> flatNodesRecur(JsonArray array, Long parentFolderId) {
 
 		List<StructureNode> nodes = new ArrayList<>();
-
 		if (array.isJsonNull()) {
 			return nodes;
 		}
 
 		for (JsonElement element : array) {
-
 			if (element.isJsonNull()) {
 				continue;
 			}
@@ -48,24 +46,19 @@ public class StructureParserImpl implements StructureParser {
 			JsonObject obj = element.getAsJsonObject();
 
 			NodeType type = NodeType.valueOfLabel(obj.get("type").getAsString());
-			String idForFrontend = obj.get("id").getAsString();
-			String name = obj.get("name").getAsString();
-
+			String idForFrontend = obj.get("id").getAsString(); // 미사용 값이지만 타입 검증 진행
+			String name = obj.get("name").getAsString(); // 미사용 값이지만 타입 검증 진행
 			Long idForBackend = null;
 
-			// do recur if folder
+			// parse by each type
 			if (type == NodeType.FOLDER) {
-				// parse folder info
 				idForBackend = obj.get("folderId").getAsLong();
 				JsonElement children = obj.get("children"); // null if empty children
 				if (!children.isJsonNull()) {
 					nodes.addAll(flatNodesRecur(children.getAsJsonArray(), idForBackend));
 				}
 			} else if (type == NodeType.PICK) {
-				// parse pick info
 				idForBackend = obj.get("pickId").getAsLong();
-			} else {
-				// 절대 여기에 들어올 수 없습니다.
 			}
 
 			nodes.add(
