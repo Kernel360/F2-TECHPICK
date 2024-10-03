@@ -13,6 +13,7 @@ public enum ApiFolderErrorCode implements ApiErrorCode {
 	FOLDER_NOT_FOUND("FO-000", HttpStatus.BAD_REQUEST, "존재하지 않는 폴더", ErrorLevel.SHOULD_NOT_HAPPEN()),
 	FOLDER_ALREADY_EXIST("FO-001", HttpStatus.BAD_REQUEST, "이미 존재하는 폴더 이름", ErrorLevel.CAN_HAPPEN()),
 	FOLDER_ACCESS_DENIED("FO-002", HttpStatus.UNAUTHORIZED, "접근할 수 없는 폴더", ErrorLevel.SHOULD_NOT_HAPPEN()),
+	FOLDER_INVALID_JSON_STRUCTURE("FO-003", HttpStatus.BAD_REQUEST, "잘못된 JSON 구조 입니다.", ErrorLevel.SHOULD_NOT_HAPPEN()),
 
 	;
 

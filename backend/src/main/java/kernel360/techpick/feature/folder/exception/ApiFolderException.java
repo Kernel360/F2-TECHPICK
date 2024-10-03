@@ -23,4 +23,8 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException FOLDER_ACCESS_DENIED() {
 		return new ApiFolderException(ApiFolderErrorCode.FOLDER_ACCESS_DENIED);
 	}
+
+	public static ApiFolderException FOLDER_INVALID_JSON_STRUCTURE() {
+		return new ApiFolderException((ApiFolderErrorCode.FOLDER_INVALID_JSON_STRUCTURE));
+	}
 }
