@@ -7,7 +7,7 @@ import {
   tagTypes,
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
-import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
+import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
 import {
   filterCommandItems,
   CREATABLE_TAG_KEYWORD,
