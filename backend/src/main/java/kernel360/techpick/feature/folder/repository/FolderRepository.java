@@ -14,7 +14,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
 
 	List<Folder> findAllByUserId(Long userId);
 
-	List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentId);
+	List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId);
 
 	// QueryDSL 도입 후 리팩토링 필요
 	@Query("SELECT f FROM Folder f WHERE f.user.id = :userId AND f.folderType = kernel360.techpick.core.model.folder.FolderType.UNCLASSIFIED")
