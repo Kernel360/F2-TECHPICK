@@ -65,6 +65,9 @@ dependencies {
 
     // Thymeleaf 테스트 혹은 관리자에서 추후에 사용하기 위해서 추가
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // json parser
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 tasks.named('test') {
