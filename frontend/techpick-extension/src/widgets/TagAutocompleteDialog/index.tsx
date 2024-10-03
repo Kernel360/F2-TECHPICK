@@ -8,7 +8,10 @@ import {
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagInfoEditPopoverButton';
-import { filterCommandItems } from './TagAutocompleteDialog.lib';
+import {
+  filterCommandItems,
+  CREATABLE_TAG_KEYWORD,
+} from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
   commandInputStyle,
@@ -112,7 +115,7 @@ export function TagAutocompleteDialog({
           <Command.Item
             className={tagListItemStyle}
             value={tagInputValue}
-            keywords={['생성']}
+            keywords={[CREATABLE_TAG_KEYWORD]}
             onSelect={async () => {
               const newTag = await createTag(tagInputValue);
 

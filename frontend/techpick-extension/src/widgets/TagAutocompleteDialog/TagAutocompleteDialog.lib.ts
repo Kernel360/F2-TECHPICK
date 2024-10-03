@@ -1,3 +1,5 @@
+export const CREATABLE_TAG_KEYWORD = '생성';
+
 export const filterCommandItems = (
   value: string,
   search: string,
@@ -5,7 +7,7 @@ export const filterCommandItems = (
 ): number => {
   const keywordString = keywords?.join(' ') ?? '';
 
-  if (keywordString && keywordString.includes('생성')) {
+  if (keywordString && keywordString.includes(CREATABLE_TAG_KEYWORD)) {
     return 0.0001; // 낮은 우선순위
   }
 
