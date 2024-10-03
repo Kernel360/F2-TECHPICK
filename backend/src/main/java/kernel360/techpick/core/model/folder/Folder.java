@@ -35,7 +35,7 @@ public class Folder extends TimeTracking {
 	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parent_id")
+	@JoinColumn(name = "parent_folder_id")
 	private Folder parentFolder;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,9 +49,9 @@ public class Folder extends TimeTracking {
 		this.user = user;
 	}
 
-	public void update(String name, Folder parent) {
+	public void update(String name, Folder parentFolder) {
 		this.name = name;
-		this.parentFolder = parent;
+		this.parentFolder = parentFolder;
 	}
 
 	public void updateParentFolder(Folder parentFolder) {
