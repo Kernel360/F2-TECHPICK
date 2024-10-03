@@ -42,14 +42,24 @@ public class Folder extends TimeTracking {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	private Folder(String name, Folder parent, FolderType folderType) {
+	private Folder(String name, Folder parent, FolderType folderType, User user) {
 		this.name = name;
 		this.parent = parent;
 		this.folderType = folderType;
+		this.user = user;
+	}
+
+	public void update(String name, Folder parent) {
+		this.name = name;
+		this.parent = parent;
+	}
+
+	public void updateParent(Folder parent) {
+		this.parent = parent;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static Folder create(String name, Folder parent, FolderType folderType) {
-		return new Folder(name, parent, folderType);
+	public static Folder create(String name, Folder parent, FolderType folderType, User user) {
+		return new Folder(name, parent, folderType, user);
 	}
 }

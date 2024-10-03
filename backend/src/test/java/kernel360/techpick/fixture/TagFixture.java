@@ -7,8 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.core.model.user.User;
-import kernel360.techpick.feature.tag.model.dto.TagCreateRequest;
-import kernel360.techpick.feature.tag.model.dto.TagUpdateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
+import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 import lombok.Builder;
 import lombok.Getter;
 
