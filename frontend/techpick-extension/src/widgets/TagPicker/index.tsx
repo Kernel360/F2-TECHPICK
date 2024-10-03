@@ -4,7 +4,7 @@ import {
   SelectedTagItem,
   SelectedTagListLayout,
 } from '@/entities/tag';
-import { TagAutocompleteDialog } from '@/widgets/TagAutocompleteDialog';
+import { TagAutocompleteDialog } from './TagAutocompleteDialog';
 import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 
 export function TagPicker() {
