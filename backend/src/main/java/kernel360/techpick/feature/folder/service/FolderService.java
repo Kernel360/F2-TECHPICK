@@ -27,13 +27,13 @@ public class FolderService {
 	public FolderResponse createFolder(Long userId, FolderCreateRequest request) throws ApiFolderException {
 
 		// 생성하려는 폴더의 부모가 본인 폴더인지 검증
-		Folder parent = folderProvider.findById(request.parentId());
-		validateFolderAccess(userId, parent);
+		Folder parentFolder = folderProvider.findById(request.parentFolderId());
+		validateFolderAccess(userId, parentFolder);
 
 		// 생성하려는 폴더 이름이 중복되는지 검증
 		validateDuplicateFolderName(userId, request.name());
 
-		Folder folder = folderProvider.save(folderMapper.createFolder(userId, request, parent));
+		Folder folder = folderProvider.save(folderMapper.createFolder(userId, request, parentFolder));
 
 		return folderMapper.createResponse(folder);
 	}
@@ -48,9 +48,9 @@ public class FolderService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<FolderResponse> getFolderListByParentId(Long userId, Long parentId) {
+	public List<FolderResponse> getFolderListByParentFolderId(Long userId, Long parentFolderId) {
 
-		return folderProvider.findAllByUserIdAndParentId(userId, parentId)
+		return folderProvider.findAllByUserIdAndParentFolderId(userId, parentFolderId)
 			.stream()
 			.map(folderMapper::createResponse)
 			.toList();
@@ -64,13 +64,13 @@ public class FolderService {
 		validateFolderAccess(userId, targetFolder);
 
 		// 변경하려는 폴더의 부모가 본인 폴더인지 검증
-		Folder parent = folderProvider.findById(request.parentId());
-		validateFolderAccess(userId, parent);
+		Folder parentFolder = folderProvider.findById(request.parentFolderId());
+		validateFolderAccess(userId, parentFolder);
 
 		// 수정하려는 폴더 이름이 중복되는지 검증
 		validateDuplicateFolderName(userId, request.name());
 
-		targetFolder.update(request.name(), parent);
+		targetFolder.update(request.name(), parentFolder);
 		folderProvider.save(targetFolder);
 	}
 
@@ -81,7 +81,7 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
 
-		targetFolder.updateParent(folderProvider.findUnclassified(userId));
+		targetFolder.updateParentFolder(folderProvider.findUnclassified(userId));
 		folderProvider.save(targetFolder);
 	}
 
@@ -92,7 +92,7 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
 
-		targetFolder.updateParent(folderProvider.findRecycleBin(userId));
+		targetFolder.updateParentFolder(folderProvider.findRecycleBin(userId));
 		folderProvider.save(targetFolder);
 	}
 
