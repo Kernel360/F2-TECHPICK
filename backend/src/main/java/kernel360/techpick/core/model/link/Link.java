@@ -52,14 +52,23 @@ public class Link {
 	@Column(name = "description", columnDefinition = "VARCHAR(600)")
 	private String description;
 
+	@Column(name = "imageUrl", columnDefinition = "VARCHAR(600)")
+	private String imageUrl;
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	// RSS 또는 관리자가 직접 등록 시 사용
 	public static Link create(String url, String title, String description) {
-		return new Link(url, title, description);
+		return new Link(url, title, description, null);
 	}
 
-	private Link(String url, String title, String description) {
+	public static Link create(String url, String title, String description, String imageUrl) {
+		return new Link(url, title, description, imageUrl);
+	}
+
+	private Link(String url, String title, String description, String imageUrl) {
 		this.url = url;
 		this.title = title;
 		this.description = description;
+		this.imageUrl = imageUrl;
 	}
 }

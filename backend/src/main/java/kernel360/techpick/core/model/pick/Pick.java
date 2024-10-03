@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.model.common.TimeTracking;
+import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
@@ -37,6 +38,10 @@ public class Pick extends TimeTracking {
 	@JoinColumn(name = "link_id", nullable = false)
 	private Link link;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_folder_id", nullable = false)
+	private Folder parentFolder;
+
 	/**
 	 * NOTE: 사용자가 설정한 커스텀 제목
 	 * [#1] 사용자가 저장시 제목을 설정 하지 않았을 경우
@@ -57,9 +62,15 @@ public class Pick extends TimeTracking {
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	private Pick(User user, Link link, String memo) {
+	private Pick(User user, Link link, Folder parentFolder, String customTitle, String memo) {
 		this.user = user;
 		this.link = link;
+		this.parentFolder = parentFolder;
+		this.customTitle = customTitle;
 		this.memo = memo;
+	}
+
+	public static Pick create(User user, Link link, Folder parentFolder, String customTitle, String memo) {
+		return new Pick(user, link, parentFolder, customTitle, memo);
 	}
 }
