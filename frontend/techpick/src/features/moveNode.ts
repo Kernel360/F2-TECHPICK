@@ -3,6 +3,7 @@ import { NodeApi } from 'react-arborist';
 
 export const moveNode = (
   data: NodeData[],
+  focusedNode: NodeApi | null,
   focusedFolderNodeList: NodeApi[],
   focusedLinkNodeList: NodeApi[],
   setFocusedFolderNodeList: (node: NodeApi[]) => void,
@@ -13,11 +14,11 @@ export const moveNode = (
   parentNode: NodeApi | null,
   targetIndex: number
 ): NodeData[] => {
-  console.log('targetIndex', targetIndex);
-  console.log('dragId', dragId);
-  console.log('dragNode', dragNode);
-  console.log('parentId', parentId);
-  console.log('parentNode', parentNode);
+  // console.log('targetIndex', targetIndex);
+  // console.log('dragId', dragId);
+  // console.log('dragNode', dragNode);
+  // console.log('parentId', parentId);
+  // console.log('parentNode', parentNode);
 
   const updateFocusedFolderNodeList = () => {
     updateFocusedNodeList(focusedFolderNodeList, setFocusedFolderNodeList);
@@ -35,12 +36,17 @@ export const moveNode = (
     if (dragNode.parent?.id === parentId) {
       return;
     }
-
     const updatedNodeList = [...nodeList];
     const index = updatedNodeList.findIndex((node) => node.id === dragId);
-
+    // 포커스된 노드에서 드래그가 시작된 경우
     if (index !== -1) {
       updatedNodeList.splice(index, 1);
+      setNodeList(updatedNodeList);
+      console.log('updatedNodeList', updatedNodeList);
+    }
+    // 외부에서 포커스된 노드로 드래그한 경우
+    if (focusedNode && parentNode?.id === focusedNode.id) {
+      updatedNodeList.push(dragNode);
       setNodeList(updatedNodeList);
     }
   };
@@ -104,8 +110,15 @@ export const moveNode = (
     });
   };
 
+  // if (focusedNode?.children?.findIndex((node) => node.data.type === 'folder')) {
+  //   updateFocusedFolderNodeList();
+  // }
+  // if (focusedNode?.children?.findIndex((node) => node.data.type === 'pick')) {
+  //   updateFocusedLinkNodeList();
+  // }
   updateFocusedFolderNodeList();
   updateFocusedLinkNodeList();
+
   const updatedData = removeNode([...data]);
   return insertNode(updatedData);
 };

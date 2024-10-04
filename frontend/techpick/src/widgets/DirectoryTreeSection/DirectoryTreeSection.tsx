@@ -27,6 +27,7 @@ export function DirectoryTreeSection() {
   const dragDropManager = useDragDropManager();
   const {
     treeData,
+    focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
     setFocusedFolderNodeList,
@@ -44,6 +45,7 @@ export function DirectoryTreeSection() {
   }) => {
     const updatedData = moveNode(
       treeData,
+      focusedNode,
       focusedFolderNodeList,
       focusedLinkNodeList,
       setFocusedFolderNodeList,

@@ -25,13 +25,25 @@ export function LinkEditorSection({
   focusedNodeFolder,
   focusedNodeLink,
 }: LinkEditorSectionProps) {
+  function renderDirectoryName(node: NodeApi) {
+    const nameList = [];
+
+    nameList.push(node.data.name);
+
+    let parent = node.parent;
+    while (parent) {
+      nameList.push(parent.data.name);
+      parent = parent.parent;
+    }
+
+    return nameList.reverse().join(' / ');
+  }
+
   return (
     <div className={linkEditorSection}>
       <div className={linkEditorHeader}>
         <div className={linkEditorLabel}>
-          <div>React</div>
-          <div>{'>'}</div>
-          <div>TypeScript</div>
+          {focusedNode && renderDirectoryName(focusedNode)}
         </div>
 
         <div className={searchSection}>
