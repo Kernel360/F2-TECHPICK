@@ -12,11 +12,18 @@
     "postinstall": "cd .. && husky"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-visually-hidden": "^1.1.0",
     "@tanstack/react-query": "^5.55.4",
     "@vanilla-extract/css": "^1.15.5",
+    "cmdk": "^1.0.0",
+    "immer": "^10.1.1",
+    "lucide-react": "^0.446.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
+    "sanitize-html": "^2.13.0",
     "zustand": "4.5.5"
   },
   "devDependencies": {
@@ -24,6 +31,7 @@
     "@types/chrome": "^0.0.271",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/sanitize-html": "^2",
     "@vanilla-extract/vite-plugin": "^4.0.15",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",
@@ -32,7 +40,7 @@
     "globals": "^15.9.0",
     "husky": "^9.1.6",
     "path": "^0.12.7",
-    "typescript": "^5.5.3",
+    "typescript": "5.5.4",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
     "vite-plugin-static-copy": "^1.0.6",
