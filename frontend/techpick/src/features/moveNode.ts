@@ -14,12 +14,6 @@ export const moveNode = (
   parentNode: NodeApi | null,
   targetIndex: number
 ): NodeData[] => {
-  // console.log('targetIndex', targetIndex);
-  // console.log('dragId', dragId);
-  // console.log('dragNode', dragNode);
-  // console.log('parentId', parentId);
-  // console.log('parentNode', parentNode);
-
   const updateFocusedFolderNodeList = () => {
     updateFocusedNodeList(focusedFolderNodeList, setFocusedFolderNodeList);
   };
@@ -32,6 +26,9 @@ export const moveNode = (
     nodeList: NodeApi[],
     setNodeList: (node: NodeApi[]) => void
   ) => {
+    if (!nodeList) {
+      return;
+    }
     // 부모가 같은 위치로 이동할 경우
     if (dragNode.parent?.id === parentId) {
       return;
@@ -110,14 +107,11 @@ export const moveNode = (
     });
   };
 
-  // if (focusedNode?.children?.findIndex((node) => node.data.type === 'folder')) {
-  //   updateFocusedFolderNodeList();
-  // }
-  // if (focusedNode?.children?.findIndex((node) => node.data.type === 'pick')) {
-  //   updateFocusedLinkNodeList();
-  // }
-  updateFocusedFolderNodeList();
-  updateFocusedLinkNodeList();
+  if (dragNode.data.type === 'folder') {
+    updateFocusedFolderNodeList();
+  } else {
+    updateFocusedLinkNodeList();
+  }
 
   const updatedData = removeNode([...data]);
   return insertNode(updatedData);

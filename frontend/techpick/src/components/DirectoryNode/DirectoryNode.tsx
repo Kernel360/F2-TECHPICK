@@ -6,7 +6,6 @@ import {
   dirNodeWrapperFocused,
 } from './directoryNode.css';
 import Image from 'next/image';
-import toast from 'react-hot-toast';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 
 export const DirectoryNode = ({
@@ -20,8 +19,8 @@ export const DirectoryNode = ({
       style={{ ...style }}
       ref={dragHandle}
       onClick={() => {
-        toast(node.data.id);
         node.toggle();
+        console.log('Clicked Node', node);
       }}
     >
       <div className={dirNode}>
