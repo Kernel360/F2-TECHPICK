@@ -2,6 +2,7 @@ import { DirectoryNodeProps } from '@/shared/types/NodeData';
 import { dirIcFolder, dirNode, dirNodeWrapper } from './directoryNode.css';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 
 export const DirectoryNode = ({
   node,
@@ -20,21 +21,11 @@ export const DirectoryNode = ({
     >
       <div className={dirNode}>
         {node.isOpen ? (
-          <Image
-            src={`image/ic_arrow_down.svg`}
-            width={8}
-            height={8}
-            alt="downArrow"
-          />
+          <ChevronDown size={13} />
         ) : node.isLeaf ? (
-          <div style={{ marginLeft: '8px' }}></div>
+          <div style={{ marginLeft: '13px' }}></div>
         ) : (
-          <Image
-            src={`image/ic_arrow_right.svg`}
-            width={8}
-            height={8}
-            alt="rightArrow"
-          />
+          <ChevronRight size={13} />
         )}
         {node.data.type === 'folder' ? (
           <Image

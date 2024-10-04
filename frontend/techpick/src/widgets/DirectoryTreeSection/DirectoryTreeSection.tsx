@@ -20,6 +20,7 @@ import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
 import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
+import { Folder } from 'lucide-react';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -73,12 +74,7 @@ export function DirectoryTreeSection() {
       </div>
       <div className={directoryTreeContainer}>
         <div className={directoryLabelContainer}>
-          <Image
-            src={`image/ic_directory.svg`}
-            width={20}
-            height={20}
-            alt="directory"
-          />
+          <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
         </div>
         <div className={directoryTreeWrapper} ref={ref}>
