@@ -85,5 +85,6 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 
 		folderRepository.save(Folder.create("미분류폴더", null, FolderType.UNCLASSIFIED, user));
 		folderRepository.save(Folder.create("휴지통", null, FolderType.RECYCLE_BIN, user));
+		folderRepository.save(Folder.create("최상위폴더", null, FolderType.ROOT, user));
 	}
 }
