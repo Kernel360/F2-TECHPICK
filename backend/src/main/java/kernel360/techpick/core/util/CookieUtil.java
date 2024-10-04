@@ -2,6 +2,7 @@ package kernel360.techpick.core.util;
 
 import java.util.Base64;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
 import jakarta.servlet.http.Cookie;
@@ -12,11 +13,16 @@ public class CookieUtil {
 
 	//요청값(이름,값,만료기간)을 바탕으로 쿠키추가
 	public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
-		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/");
-		cookie.setHttpOnly(true);
-		cookie.setMaxAge(maxAge);
-		response.addCookie(cookie);
+		ResponseCookie responseCookie = ResponseCookie.from(name, value)
+			.maxAge(maxAge)
+			.path("/")
+			.httpOnly(true)
+			.secure(true)
+			.domain(".minlife.me")
+			.sameSite("None")
+			.build();
+
+		response.setHeader("Set-Cookie", responseCookie.toString());
 	}
 
 	//쿠키의 이름을 입력받아 쿠키 삭제
