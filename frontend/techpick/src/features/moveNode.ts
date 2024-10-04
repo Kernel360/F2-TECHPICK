@@ -31,7 +31,7 @@ export const moveNode = (
     nodeList: NodeApi[],
     setNodeList: (node: NodeApi[]) => void
   ) => {
-    // 부모가 같은 위치로 이동 시
+    // 부모가 같은 위치로 이동할 경우
     if (dragNode.parent?.id === parentId) {
       return;
     }
