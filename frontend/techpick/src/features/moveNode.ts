@@ -35,6 +35,7 @@ export const moveNode = (
       const index = updatedNodeList.findIndex((node) => node.id === dragId);
       if (index !== -1) {
         updatedNodeList.splice(index, 1);
+
         updatedNodeList.splice(targetIndex, 0, dragNode);
         setNodeList(updatedNodeList);
       }
@@ -50,7 +51,7 @@ export const moveNode = (
     }
     // 외부에서 포커스된 노드로 드래그한 경우
     if (focusedNode && parentNode?.id === focusedNode.id) {
-      updatedNodeList.push(dragNode);
+      updatedNodeList.splice(targetIndex, 0, dragNode);
       setNodeList(updatedNodeList);
     }
   };
@@ -81,7 +82,6 @@ export const moveNode = (
       ) {
         // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
         targetIndex -= 1;
-        console.log(true);
       }
 
       updatedRootNodes.splice(targetIndex, 0, dragNode.data);
