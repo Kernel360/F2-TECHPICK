@@ -31,6 +31,13 @@ export const moveNode = (
     }
     // 부모가 같은 위치로 이동할 경우
     if (dragNode.parent?.id === parentId) {
+      const updatedNodeList = [...nodeList];
+      const index = updatedNodeList.findIndex((node) => node.id === dragId);
+      if (index !== -1) {
+        updatedNodeList.splice(index, 1);
+        updatedNodeList.splice(targetIndex, 0, dragNode);
+        setNodeList(updatedNodeList);
+      }
       return;
     }
     const updatedNodeList = [...nodeList];
