@@ -22,6 +22,7 @@ export function DeleteTagDialog() {
       return;
     }
 
+    // todo: delete 시에 선택된 태그라면 같이 제거되야함. 추가적인 login 필요.
     deleteTag(deleteTagId);
     closeDialog();
   };
