@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   linkViewSection,
-  directoryTree,
   folderViewSection,
   linkEditorLabel,
   linkEditorSectionFooter,
@@ -10,79 +9,59 @@ import {
   linkEditor,
   searchSection,
 } from './linkEditorSection.css';
-import Image from 'next/image';
-import { DirectoryNode } from '@/components/DirectoryNode/DirectoryNode';
-import { NodeApi, Tree } from 'react-arborist';
-import { NodeData } from '@/shared/types/NodeData';
+import { NodeApi } from 'react-arborist';
+import { Folder } from '@/features/Draggable/Folder';
+import { Pick } from '@/features/Draggable/Pick';
+import { ArrowDownAZ, Search } from 'lucide-react';
 
 interface LinkEditorSectionProps {
-  focusedNode: NodeApi<NodeData> | null;
-  focusedNodeFolderData: NodeData[] | undefined;
-  focusedNodeLinkData: NodeData[] | undefined;
+  focusedNode: NodeApi | null;
+  focusedNodeFolder: NodeApi[] | undefined;
+  focusedNodeLink: NodeApi[] | undefined;
 }
 
 export function LinkEditorSection({
   focusedNode,
-  focusedNodeFolderData,
-  focusedNodeLinkData,
+  focusedNodeFolder,
+  focusedNodeLink,
 }: LinkEditorSectionProps) {
   return (
     <div className={linkEditorSection}>
       <div className={linkEditorHeader}>
         <div className={linkEditorLabel}>
           <div>React</div>
-          <div>&gt;</div>
+          <div>{'>'}</div>
           <div>TypeScript</div>
         </div>
 
         <div className={searchSection}>
           <div>
-            <Image
-              src={`image/ic_sort.svg`}
-              alt="search"
-              width={24}
-              height={24}
-            />
+            <ArrowDownAZ size={24} />
           </div>
           <div>
-            <Image
-              src={`image/ic_search.svg`}
-              alt="search"
-              width={24}
-              height={24}
-            />
+            <Search size={24} />
           </div>
         </div>
       </div>
       <div className={linkEditor}>
-        <div className={folderViewSection}>
-          {focusedNode && (
-            <Tree
-              className={directoryTree}
-              data={focusedNodeFolderData}
-              openByDefault={false}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-            >
-              {DirectoryNode}
-            </Tree>
-          )}
-        </div>
-        <div className={linkViewSection}>
-          {focusedNode && (
-            <Tree
-              className={directoryTree}
-              data={focusedNodeLinkData}
-              openByDefault={false}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-            >
-              {DirectoryNode}
-            </Tree>
-          )}
-        </div>
+        {focusedNode && (
+          <div>
+            {!!focusedNodeFolder?.length && (
+              <div className={folderViewSection}>
+                {focusedNodeFolder?.map((node, index) => (
+                  <Folder key={index} node={node} />
+                ))}
+              </div>
+            )}
+            {!!focusedNodeLink?.length && (
+              <div className={linkViewSection}>
+                {focusedNodeLink?.map((node, index) => (
+                  <Pick key={index} node={node} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className={linkEditorSectionFooter}></div>
     </div>

@@ -14,19 +14,48 @@ import {
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
-import { NodeApi, Tree } from 'react-arborist';
+import { NodeApi, Tree, MoveHandler } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
-import { mockData } from '@/shared/const/mockdata';
 import { DirectoryNode } from '@/components';
+import { useDragDropManager } from 'react-dnd';
+import { moveNode } from '@/features/moveNode';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
-interface DirectoryTreeSectionProps {
-  setFocusedNode: (node: NodeApi<NodeData>) => void;
-}
-
-export function DirectoryTreeSection({
-  setFocusedNode,
-}: DirectoryTreeSectionProps) {
+export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
+  const dragDropManager = useDragDropManager();
+  const {
+    treeData,
+    focusedFolderNodeList,
+    focusedLinkNodeList,
+    setFocusedFolderNodeList,
+    setFocusedLinkNodeList,
+    setTreeData,
+    setFocusedNode,
+  } = useTreeStore();
+
+  const handleMove: MoveHandler<NodeData> = ({
+    dragIds,
+    dragNodes,
+    parentId,
+    parentNode,
+    index,
+  }) => {
+    const updatedData = moveNode(
+      treeData,
+      focusedFolderNodeList,
+      focusedLinkNodeList,
+      setFocusedFolderNodeList,
+      setFocusedLinkNodeList,
+      dragIds[0],
+      dragNodes[0],
+      parentId,
+      parentNode,
+      index
+    );
+
+    setTreeData(updatedData);
+  };
 
   return (
     <div className={leftSidebarSection}>
@@ -55,16 +84,18 @@ export function DirectoryTreeSection({
         <div className={directoryTreeWrapper} ref={ref}>
           <Tree
             className={directoryTree}
-            data={mockData}
-            onFocus={(node: NodeApi<NodeData>) => {
+            data={treeData}
+            onFocus={(node: NodeApi) => {
               setFocusedNode(node);
             }}
+            onMove={handleMove}
             openByDefault={false}
             width={width}
             height={height && height - 8}
             rowHeight={32}
             indent={24}
             overscanCount={1}
+            dndManager={dragDropManager}
           >
             {DirectoryNode}
           </Tree>
