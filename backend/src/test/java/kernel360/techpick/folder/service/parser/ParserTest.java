@@ -10,9 +10,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.folder.service.parser.StructureParser;
 import kernel360.techpick.feature.folder.service.parser.internal.StructureNode;
-import kernel360.techpick.feature.folder.service.parser.internal.StructureParserImpl;
+import kernel360.techpick.feature.folder.service.parser.StructureParser;
 
 public class ParserTest {
 
@@ -33,7 +32,7 @@ public class ParserTest {
 
 	@BeforeEach
 	public void beforeEach() {
-		structureParser = new StructureParserImpl();
+		structureParser = new StructureParser();
 	}
 
 	@Test
@@ -107,6 +106,17 @@ public class ParserTest {
 		public void parse_json_wrong_format_3() {
 			// given
 			String json = ParserTestCase.CASE_INVALID_C;
+			// when + then
+			assertThatExceptionOfType(ApiFolderException.class).isThrownBy(
+				() -> structureParser.parseFolderStructure(json)
+			);
+		}
+
+		@Test
+		@DisplayName("잘못된 구조/정보가 입력될 경우")
+		public void parse_json_wrong_format_4() {
+			// given
+			String json = ParserTestCase.CASE_INVALID_D;
 			// when + then
 			assertThatExceptionOfType(ApiFolderException.class).isThrownBy(
 				() -> structureParser.parseFolderStructure(json)
