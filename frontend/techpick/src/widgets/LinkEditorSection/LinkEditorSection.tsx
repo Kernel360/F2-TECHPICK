@@ -9,10 +9,10 @@ import {
   linkEditor,
   searchSection,
 } from './linkEditorSection.css';
-import Image from 'next/image';
 import { NodeApi } from 'react-arborist';
 import { Folder } from '@/features/Draggable/Folder';
 import { Pick } from '@/features/Draggable/Pick';
+import { ArrowDownAZ, Search } from 'lucide-react';
 
 interface LinkEditorSectionProps {
   focusedNode: NodeApi | null;
@@ -30,26 +30,16 @@ export function LinkEditorSection({
       <div className={linkEditorHeader}>
         <div className={linkEditorLabel}>
           <div>React</div>
-          <div>&gt;</div>
+          <div>{'>'}</div>
           <div>TypeScript</div>
         </div>
 
         <div className={searchSection}>
           <div>
-            <Image
-              src={`image/ic_sort.svg`}
-              alt="search"
-              width={24}
-              height={24}
-            />
+            <ArrowDownAZ size={24} />
           </div>
           <div>
-            <Image
-              src={`image/ic_search.svg`}
-              alt="search"
-              width={24}
-              height={24}
-            />
+            <Search size={24} />
           </div>
         </div>
       </div>
