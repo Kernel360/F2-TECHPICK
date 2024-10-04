@@ -1,5 +1,10 @@
 import { DirectoryNodeProps } from '@/shared/types/NodeData';
-import { dirIcFolder, dirNode, dirNodeWrapper } from './directoryNode.css';
+import {
+  dirIcFolder,
+  dirNode,
+  dirNodeWrapper,
+  dirNodeWrapperFocused,
+} from './directoryNode.css';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { ChevronRight, ChevronDown } from 'lucide-react';
@@ -11,7 +16,7 @@ export const DirectoryNode = ({
 }: DirectoryNodeProps) => {
   return (
     <div
-      className={dirNodeWrapper}
+      className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
       style={{ ...style }}
       ref={dragHandle}
       onClick={() => {
