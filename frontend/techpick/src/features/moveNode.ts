@@ -20,36 +20,28 @@ export const moveNode = (
   console.log('parentNode', parentNode);
 
   const updateFocusedFolderNodeList = () => {
-    // 부모가 같은 위치로 이동 시
-    if (dragNode.parent?.id === parentId) {
-      return;
-    }
-
-    const updatedFocusedFolderNodeList = [...focusedFolderNodeList];
-    const index = updatedFocusedFolderNodeList.findIndex(
-      (node) => node.id === dragId
-    );
-
-    if (index !== -1) {
-      updatedFocusedFolderNodeList.splice(index, 1);
-      setFocusedFolderNodeList(updatedFocusedFolderNodeList);
-    }
+    updateFocusedNodeList(focusedFolderNodeList, setFocusedFolderNodeList);
   };
 
   const updateFocusedLinkNodeList = () => {
+    updateFocusedNodeList(focusedLinkNodeList, setFocusedLinkNodeList);
+  };
+
+  const updateFocusedNodeList = (
+    nodeList: NodeApi[],
+    setNodeList: (node: NodeApi[]) => void
+  ) => {
     // 부모가 같은 위치로 이동 시
     if (dragNode.parent?.id === parentId) {
       return;
     }
 
-    const updatedFocusedLinkNodeList = [...focusedLinkNodeList];
-    const index = updatedFocusedLinkNodeList.findIndex(
-      (node) => node.id === dragId
-    );
+    const updatedNodeList = [...nodeList];
+    const index = updatedNodeList.findIndex((node) => node.id === dragId);
 
     if (index !== -1) {
-      updatedFocusedLinkNodeList.splice(index, 1);
-      setFocusedLinkNodeList(updatedFocusedLinkNodeList);
+      updatedNodeList.splice(index, 1);
+      setNodeList(updatedNodeList);
     }
   };
 
