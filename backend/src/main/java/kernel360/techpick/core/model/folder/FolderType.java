@@ -7,10 +7,11 @@ public enum FolderType {
 	UNCLASSIFIED,
 	RECYCLE_BIN,
 	GENERAL,
+	ROOT,
 
 	;
 
 	public static EnumSet<FolderType> getBasicFolderTypes() {
-		return EnumSet.of(UNCLASSIFIED, RECYCLE_BIN);
+		return EnumSet.of(UNCLASSIFIED, RECYCLE_BIN, ROOT);
 	}
 }
