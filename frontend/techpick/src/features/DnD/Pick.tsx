@@ -2,7 +2,7 @@ import React from 'react';
 import { NodeApi } from 'react-arborist';
 
 import Image from 'next/image';
-import { linkWrapper } from '@/features/Draggable/pick.css';
+import { linkWrapper } from '@/features/DnD/pick.css';
 import { useDragHook } from '@/hooks/useDragHook';
 
 export function Pick({ node }: { node: NodeApi }) {

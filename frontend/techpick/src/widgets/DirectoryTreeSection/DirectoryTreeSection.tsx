@@ -83,6 +83,7 @@ export function DirectoryTreeSection() {
           <Tree
             className={directoryTree}
             data={treeData}
+            disableMultiSelection={true}
             onFocus={(node: NodeApi) => {
               setFocusedNode(node);
             }}

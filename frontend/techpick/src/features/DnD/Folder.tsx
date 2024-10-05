@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { folderWrapper } from '@/features/Draggable/folder.css';
+import { folderWrapper } from '@/features/DnD/folder.css';
 import { NodeApi } from 'react-arborist';
 import { useDragHook } from '@/hooks/useDragHook';
 import { useTreeStore } from '@/shared/stores/treeStore';

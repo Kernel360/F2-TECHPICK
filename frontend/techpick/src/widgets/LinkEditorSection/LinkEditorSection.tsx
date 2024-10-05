@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   linkViewSection,
   folderViewSection,
@@ -10,9 +10,11 @@ import {
   searchSection,
 } from './linkEditorSection.css';
 import { NodeApi } from 'react-arborist';
-import { Folder } from '@/features/Draggable/Folder';
-import { Pick } from '@/features/Draggable/Pick';
+import { Folder } from '@/features/DnD/Folder';
+import { Pick } from '@/features/DnD/Pick';
 import { ArrowDownAZ, Search } from 'lucide-react';
+import { useDropHook } from '@/hooks/useDropHook';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 interface LinkEditorSectionProps {
   focusedNode: NodeApi | null;
@@ -25,6 +27,18 @@ export function LinkEditorSection({
   focusedNodeFolder,
   focusedNodeLink,
 }: LinkEditorSectionProps) {
+  const { treeApi } = useTreeStore();
+  const el = useRef<HTMLDivElement | null>(null);
+  const dropRef = useDropHook(el, focusedNode ? focusedNode : treeApi!.root);
+
+  const innerRef = useCallback(
+    (n: HTMLDivElement) => {
+      el.current = n;
+      dropRef(n);
+    },
+    [dropRef]
+  );
+
   function renderDirectoryName(node: NodeApi) {
     const nameList = [];
 
@@ -57,7 +71,7 @@ export function LinkEditorSection({
       </div>
       <div className={linkEditor}>
         {focusedNode && (
-          <div>
+          <div ref={innerRef}>
             {!!focusedNodeFolder?.length && (
               <div className={folderViewSection}>
                 {focusedNodeFolder?.map((node, index) => (
