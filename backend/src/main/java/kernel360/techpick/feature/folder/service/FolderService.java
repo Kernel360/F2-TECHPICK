@@ -38,6 +38,10 @@ public class FolderService {
 
 		Folder folder = folderProvider.save(folderMapper.createFolder(userId, request, parentFolder));
 
+		// TODO: Validator 구현 후 structure json 검증 로직 추가
+		// StructureValidator validator = StructureValidator.getValidator(userId);
+		// validator.validateJson(request.json);
+
 		return folderMapper.createResponse(folder);
 	}
 
@@ -60,7 +64,7 @@ public class FolderService {
 	}
 
 	@Transactional
-	public void updateFolderName(Long userId, FolderUpdateNameRequest request) throws ApiFolderException {
+	public void updateName(Long userId, FolderUpdateNameRequest request) throws ApiFolderException {
 
 		// 변경하려는 폴더가 본인 폴더인지 검증
 		Folder targetFolder = folderProvider.findById(request.id());
@@ -89,34 +93,10 @@ public class FolderService {
 
 		targetFolder.updateParentFolder(parentFolder);
 		folderProvider.save(targetFolder);
-	}
 
-	@Transactional
-	public void moveToUnclassified(Long userId, Long folderId) {
-
-		// 이동하려는 폴더가 본인 폴더인지 검증
-		Folder targetFolder = folderProvider.findById(folderId);
-		validateFolderAccess(userId, targetFolder);
-
-		// 이동하려는 폴더가 기본폴더인지 검증
-		validateChangeBasicFolder(targetFolder);
-
-		targetFolder.updateParentFolder(folderProvider.findUnclassified(userId));
-		folderProvider.save(targetFolder);
-	}
-
-	@Transactional
-	public void moveToRecycleBin(Long userId, Long folderId) {
-
-		// 이동하려는 폴더가 본인 폴더인지 검증
-		Folder targetFolder = folderProvider.findById(folderId);
-		validateFolderAccess(userId, targetFolder);
-
-		// 이동하려는 폴더가 기본폴더인지 검증
-		validateChangeBasicFolder(targetFolder);
-
-		targetFolder.updateParentFolder(folderProvider.findRecycleBin(userId));
-		folderProvider.save(targetFolder);
+		// TODO: Validator 구현 후 structure json 검증 로직 추가
+		// StructureValidator validator = StructureValidator.getValidator(userId);
+		// validator.validateJson(request.json);
 	}
 
 	@Transactional
@@ -126,12 +106,15 @@ public class FolderService {
 		Folder targetFolder = folderProvider.findById(folderId);
 		validateFolderAccess(userId, targetFolder);
 
-		// 삭제하려는 폴더가 기본폴더인지 검증
-		validateChangeBasicFolder(targetFolder);
+		// 삭제하려는 폴더가 휴지통 안에 있는지 검증
+		validateFolderInRecycleBin(targetFolder);
 
-		// 휴지통으로 이동
-		targetFolder.updateParentFolder(folderProvider.findRecycleBin(userId));
-		folderProvider.save(targetFolder);
+		// @OnDelete(action = OnDeleteAction.CASCADE) 에 의해 해당 폴더를 부모로 가지는 모든 폴더/픽이 삭제됨
+		folderProvider.deleteById(folderId);
+
+		// TODO: Validator 구현 후 structure json 검증 로직 추가
+		// StructureValidator validator = StructureValidator.getValidator(userId);
+		// validator.validateJson(request.json);
 	}
 
 	@Transactional(readOnly = true)
@@ -165,6 +148,13 @@ public class FolderService {
 
 		if (FolderType.getBasicFolderTypes().contains(folder.getFolderType())) {
 			throw ApiFolderException.BASIC_FOLDER_CANNOT_CHANGED();
+		}
+	}
+
+	private void validateFolderInRecycleBin(Folder folder) throws ApiFolderException {
+
+		if (folderProvider.findParentBasicFolder(folder.getId()) != FolderType.RECYCLE_BIN) {
+			throw ApiFolderException.CANNOT_DELETE_FOLDER_NOT_IN_RECYCLE_BIN();
 		}
 	}
 }
