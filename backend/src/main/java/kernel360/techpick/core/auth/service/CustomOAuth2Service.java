@@ -35,10 +35,6 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		Map<String, Object> attributes = getAttributes(oAuth2User, provider);
 		var oAuth2UserInfo = new OAuth2UserInfo(provider, attributes);
 
-		// TODO: 김민규 - 리팩토링 제안
-		//       사용자 생성 및 기본 폴더 세팅 로직이 OAuth쪽에 있어서 헷갈립니다.
-		//       새로운 사용자 생성 로직(DB저장 + 폴더 생성)은 userService 쪽에서 해주는게 좋을 것 같아요.
-		//       Ex) User user = userService.createNewUser(...);
 		if (!userRepository.existsBySocialProviderId(oAuth2UserInfo.getName())) {
 			User user = saveOAuth2UserInfo(oAuth2UserInfo);
 			createBasicFolder(user);
