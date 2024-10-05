@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.folder.service.directory.internal;
+package kernel360.techpick.feature.directory.internal;
 
 public record RelationalNode(
 	Long nodeId, // Folder Id or Pick Id

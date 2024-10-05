@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.folder.service.directory;
+package kernel360.techpick.feature.directory;
 
 import java.util.List;
 import java.util.Set;
@@ -7,15 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Valid;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
-import kernel360.techpick.feature.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.folder.service.directory.internal.ClientNode;
-import kernel360.techpick.feature.folder.service.directory.internal.PickNode;
-import kernel360.techpick.feature.folder.service.directory.internal.RelationalNode;
+import kernel360.techpick.feature.directory.exception.ApiDirectoryException;
+import kernel360.techpick.feature.directory.internal.ClientNode;
+import kernel360.techpick.feature.directory.internal.PickNode;
+import kernel360.techpick.feature.directory.internal.RelationalNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,7 +55,7 @@ public class ClientDirectory {
 		} catch (Exception e) {
 			log.warn("Json Input : {}", json);
 			log.warn("Error Log :", e);
-			throw ApiFolderException.FOLDER_INVALID_JSON_STRUCTURE();
+			throw ApiDirectoryException.DIRECTORY_INVALID_JSON_STRUCTURE();
 		}
 	}
 
@@ -65,8 +64,8 @@ public class ClientDirectory {
 	 */
 	public List<RelationalNode> convertRootToNodeList(Long rootFolderId) {
 		return rootFolder.stream()
-						 .flatMap(child -> child.toNodeList(rootFolderId).stream())
-						 .toList();
+                         .flatMap(child -> child.toNodeList(rootFolderId).stream())
+                         .toList();
 	}
 
 	/**

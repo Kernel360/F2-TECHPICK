@@ -27,8 +27,4 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException BASIC_FOLDER_CANNOT_CHANGED() {
 		return new ApiFolderException(ApiFolderErrorCode.BASIC_FOLDER_CANNOT_CHANGED);
 	}
-
-	public static ApiFolderException FOLDER_INVALID_JSON_STRUCTURE() {
-		return new ApiFolderException((ApiFolderErrorCode.FOLDER_INVALID_JSON_STRUCTURE));
-	}
 }

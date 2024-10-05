@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.folder.service.directory.internal;
+package kernel360.techpick.feature.directory.internal;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

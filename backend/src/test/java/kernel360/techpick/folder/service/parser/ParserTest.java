@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.folder.service.directory.internal.RelationalNode;
-import kernel360.techpick.feature.folder.service.directory.ClientDirectory;
+import kernel360.techpick.feature.directory.internal.RelationalNode;
+import kernel360.techpick.feature.directory.ClientDirectory;
 
 public class ParserTest {
 
