@@ -21,7 +21,7 @@ export default function MainPage() {
   } = useTreeStore();
 
   const [tempFocusedFolderList, tempFocusedPickList] = useMemo(() => {
-    if (!focusedNode || !focusedNode.data.children) {
+    if (!focusedNode || !focusedNode.children?.length) {
       return [[], []];
     }
     const folderList: NodeApi[] = [];
@@ -39,10 +39,8 @@ export default function MainPage() {
   }, [focusedNode]);
 
   useEffect(() => {
-    if (tempFocusedFolderList.length || tempFocusedPickList.length) {
-      setFocusedFolderNodeList(tempFocusedFolderList);
-      setFocusedLinkNodeList(tempFocusedPickList);
-    }
+    setFocusedFolderNodeList(tempFocusedFolderList);
+    setFocusedLinkNodeList(tempFocusedPickList);
   }, [
     tempFocusedFolderList,
     tempFocusedPickList,
