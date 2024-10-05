@@ -1,5 +1,8 @@
 package kernel360.techpick.core.model.folder;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,6 +38,7 @@ public class Folder extends TimeTracking {
 	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "parent_folder_id")
 	private Folder parentFolder;
 
