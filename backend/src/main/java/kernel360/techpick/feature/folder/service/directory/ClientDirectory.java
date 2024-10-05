@@ -60,7 +60,10 @@ public class ClientDirectory {
 		}
 	}
 
-	public List<RelationalNode> toRelationalNodeList(Long rootFolderId) {
+	/**
+	 * 현재는 Root 폴더만 변환하므로 명시적으로 함수를 하나 만듬.
+	 */
+	public List<RelationalNode> convertRootToNodeList(Long rootFolderId) {
 		return rootFolder.stream()
 						 .flatMap(child -> child.flatNode(rootFolderId).stream())
 						 .toList();

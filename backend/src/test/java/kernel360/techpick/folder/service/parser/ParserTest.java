@@ -34,7 +34,7 @@ public class ParserTest {
 		String json = ParserTestCase.CASE_OK_SIMPLE;
 		// when
 		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.toRelationalNodeList(0L);
+		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).hasSize(5);
 		for (RelationalNode node : nodes) {
@@ -50,7 +50,7 @@ public class ParserTest {
 		String json = ParserTestCase.CASE_OK_LONG;
 		// when
 		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.toRelationalNodeList(0L);
+		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).hasSize(5);
 		for (RelationalNode node : nodes) {
@@ -66,7 +66,7 @@ public class ParserTest {
 		String json = ParserTestCase.CASE_OK_EMPTY_ARRAY_OR_NULL;
 		// when
 		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.toRelationalNodeList(0L);
+		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).isEmpty();
 	}
