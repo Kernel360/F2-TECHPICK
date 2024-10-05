@@ -75,6 +75,10 @@ public class FolderService {
 
 		targetFolder.updateName(request.name());
 		folderProvider.save(targetFolder);
+
+		// TODO: Validator 구현 후 structure json 검증 로직 추가
+		// StructureValidator validator = StructureValidator.getValidator(userId);
+		// validator.validateJson(request.json);
 	}
 
 	@Transactional
