@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.2'
     implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -65,9 +66,6 @@ dependencies {
 
     // Thymeleaf 테스트 혹은 관리자에서 추후에 사용하기 위해서 추가
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
-    // json parser
-    implementation 'com.google.code.gson:gson:2.11.0'
 }
 
 tasks.named('test') {
