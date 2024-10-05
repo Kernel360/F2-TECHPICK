@@ -39,6 +39,10 @@ public class FolderProvider {
 		return folderRepository.findRecycleBinByUserId(userId);
 	}
 
+	public Folder findRoot(Long userId) {
+		return folderRepository.findRootByUserId(userId);
+	}
+
 	public void deleteById(Long folderId) {
 		folderRepository.deleteById(folderId);
 	}

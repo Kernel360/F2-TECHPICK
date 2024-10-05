@@ -24,5 +24,9 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
 	@Query("SELECT f FROM Folder f WHERE f.user.id = :userId AND f.folderType = kernel360.techpick.core.model.folder.FolderType.RECYCLE_BIN")
 	Folder findRecycleBinByUserId(Long userId);
 
+	// QueryDSL 도입 후 리팩토링 필요
+	@Query("SELECT f FROM Folder f WHERE f.user.id = :userId AND f.folderType = kernel360.techpick.core.model.folder.FolderType.ROOT")
+	Folder findRootByUserId(Long userId);
+
 	boolean existsByUserIdAndName(Long userId, String name);
 }
