@@ -27,4 +27,8 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException BASIC_FOLDER_CANNOT_CHANGED() {
 		return new ApiFolderException(ApiFolderErrorCode.BASIC_FOLDER_CANNOT_CHANGED);
 	}
+
+	public static ApiFolderException CANNOT_DELETE_FOLDER_NOT_IN_RECYCLE_BIN() {
+		return new ApiFolderException(ApiFolderErrorCode.CANNOT_DELETE_FOLDER_NOT_IN_RECYCLE_BIN);
+	}
 }
