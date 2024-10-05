@@ -49,9 +49,8 @@ public class Folder extends TimeTracking {
 		this.user = user;
 	}
 
-	public void update(String name, Folder parentFolder) {
+	public void updateName(String name) {
 		this.name = name;
-		this.parentFolder = parentFolder;
 	}
 
 	public void updateParentFolder(Folder parentFolder) {
