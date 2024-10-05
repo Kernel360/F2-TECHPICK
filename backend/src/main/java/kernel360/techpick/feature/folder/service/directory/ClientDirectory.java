@@ -48,7 +48,7 @@ public class ClientDirectory {
 		return unclassifiedFolder;
 	}
 
-	public static @Valid ClientDirectory fromJson(String json) {
+	public static ClientDirectory fromJson(String json) {
 		try {
 			ClientDirectory structure = mapper.readerFor(ClientDirectory.class).readValue(json);
 			validateDirectoryConstraint(structure);
@@ -69,6 +69,9 @@ public class ClientDirectory {
 						 .toList();
 	}
 
+	/**
+	 * json 필드가 누락됬거나, null이거나, 빈 문자열(ex. name)일 경우 예외 발생
+	 */
 	private static void validateDirectoryConstraint(ClientDirectory structure) {
 		Set<ConstraintViolation<ClientDirectory>> violations = validator.validate(structure);
 		if (!violations.isEmpty()) {
