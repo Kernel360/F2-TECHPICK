@@ -1,6 +1,8 @@
 package kernel360.techpick.feature.folder.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
@@ -12,8 +14,9 @@ import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.model.FolderMapper;
 import kernel360.techpick.feature.folder.model.FolderProvider;
 import kernel360.techpick.feature.folder.service.dto.FolderCreateRequest;
+import kernel360.techpick.feature.folder.service.dto.FolderMoveRequest;
 import kernel360.techpick.feature.folder.service.dto.FolderResponse;
-import kernel360.techpick.feature.folder.service.dto.FolderUpdateRequest;
+import kernel360.techpick.feature.folder.service.dto.FolderUpdateNameRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -57,23 +60,34 @@ public class FolderService {
 	}
 
 	@Transactional
-	public void updateFolder(Long userId, FolderUpdateRequest request) throws ApiFolderException {
+	public void updateFolderName(Long userId, FolderUpdateNameRequest request) throws ApiFolderException {
 
 		// 변경하려는 폴더가 본인 폴더인지 검증
 		Folder targetFolder = folderProvider.findById(request.id());
 		validateFolderAccess(userId, targetFolder);
 
-		// 삭제하려는 폴더가 기본폴더인지 검증
+		// 변경하려는 폴더가 기본폴더인지 검증
+		validateChangeBasicFolder(targetFolder);
+
+		targetFolder.updateName(request.name());
+		folderProvider.save(targetFolder);
+	}
+
+	@Transactional
+	public void moveFolder(Long userId, FolderMoveRequest request) throws ApiFolderException {
+
+		// 변경하려는 폴더가 본인 폴더인지 검증
+		Folder targetFolder = folderProvider.findById(request.id());
+		validateFolderAccess(userId, targetFolder);
+
+		// 변경하려는 폴더가 기본폴더인지 검증
 		validateChangeBasicFolder(targetFolder);
 
 		// 변경하려는 폴더의 부모가 본인 폴더인지 검증
 		Folder parentFolder = folderProvider.findById(request.parentFolderId());
 		validateFolderAccess(userId, parentFolder);
 
-		// 수정하려는 폴더 이름이 중복되는지 검증
-		validateDuplicateFolderName(userId, request.name());
-
-		targetFolder.update(request.name(), parentFolder);
+		targetFolder.updateParentFolder(parentFolder);
 		folderProvider.save(targetFolder);
 	}
 
@@ -115,8 +129,22 @@ public class FolderService {
 		// 삭제하려는 폴더가 기본폴더인지 검증
 		validateChangeBasicFolder(targetFolder);
 
-		// TODO: 삭제된 폴더안의 다른 폴더와 픽들의 부모 설정은 FolderPickFacade에서 미분류로 변경
-		folderProvider.deleteById(folderId);
+		// 휴지통으로 이동
+		targetFolder.updateParentFolder(folderProvider.findRecycleBin(userId));
+		folderProvider.save(targetFolder);
+	}
+
+	@Transactional(readOnly = true)
+	public Map<String, Long> getBasicFolderIdMap(Long userId) {
+
+		Map<String, Long> idMap = new HashMap<>();
+
+		idMap.put("user", userId);
+		idMap.put(FolderType.RECYCLE_BIN.toString(), folderProvider.findRecycleBin(userId).getId());
+		idMap.put(FolderType.UNCLASSIFIED.toString(), folderProvider.findUnclassified(userId).getId());
+		idMap.put(FolderType.ROOT.toString(), folderProvider.findRoot(userId).getId());
+
+		return idMap;
 	}
 
 	private void validateFolderAccess(Long userId, Folder folder) throws ApiFolderException {
