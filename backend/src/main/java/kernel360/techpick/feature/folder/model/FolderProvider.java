@@ -1,10 +1,12 @@
 package kernel360.techpick.feature.folder.model;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.folder.Folder;
+import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.repository.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,4 +52,19 @@ public class FolderProvider {
 	public boolean existsByUserIdAndName(Long userId, String name) {
 		return folderRepository.existsByUserIdAndName(userId, name);
 	}
+
+	// 현재 폴더가 어떤 BasicFolder에 속해있는지 반환하는 함수
+	// TODO: Spring Data Jpa에서 재귀쿼리를 제공하지 않아 반복조회로 해결.. QueryDSL 도입 후 리팩토링 필요
+	public FolderType findParentBasicFolder(Long folderId) {
+
+		EnumSet<FolderType> basicFolderTypes = FolderType.getBasicFolderTypes();
+		Folder currentFolder = this.findById(folderId);
+
+		while (basicFolderTypes.contains(currentFolder.getFolderType())) {
+			currentFolder = this.findById(currentFolder.getId());
+		}
+
+		return currentFolder.getFolderType();
+	}
+
 }
