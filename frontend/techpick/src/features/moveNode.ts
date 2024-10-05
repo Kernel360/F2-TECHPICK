@@ -36,7 +36,17 @@ export const moveNode = (
       if (index !== -1) {
         updatedNodeList.splice(index, 1);
 
-        updatedNodeList.splice(targetIndex, 0, dragNode);
+        // 같은 부모를 가지고 있으면서 아래로 이동할 경우
+        if (
+          dragNode.tree.idToIndex[dragId]! - parentNode!.rowIndex! <=
+          targetIndex
+        ) {
+          console.log('dragNode.rowIndex', dragNode.rowIndex);
+          console.log('parentNode.rowIndex', parentNode!.rowIndex);
+          console.log('targetIndex', targetIndex);
+          console.log('dragNode', dragNode);
+          updatedNodeList.splice(targetIndex - 1, 0, dragNode);
+        } else updatedNodeList.splice(targetIndex, 0, dragNode);
         setNodeList(updatedNodeList);
       }
       return;
@@ -71,14 +81,14 @@ export const moveNode = (
     }, []);
 
   const insertNode = (nodes: NodeData[]): NodeData[] => {
-    // 루트 레벨에 삽입하는 경우
+    // 루트 노드에 삽입하는 경우
     if (parentId === null) {
       const updatedRootNodes = [...nodes];
 
       // 같은 부모를 가지고 있으면서 아래로 이동할 경우
       if (
         dragNode.parent!.parent === null &&
-        dragNode.rowIndex! <= targetIndex
+        dragNode.tree.idToIndex[dragId]! <= targetIndex
       ) {
         // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
         targetIndex -= 1;
@@ -88,7 +98,7 @@ export const moveNode = (
       return updatedRootNodes;
     }
 
-    // 자식 노드에 삽입하는 경우
+    // 루트 노드에 삽입하지 않는 경우
     return nodes.map((node) => {
       if (node.id === parentId) {
         const updatedChildren = [...(node.children || [])];
@@ -96,7 +106,8 @@ export const moveNode = (
         // 같은 부모를 가지고 있으면서 아래로 이동할 경우
         if (
           dragNode.parent!.id === parentId &&
-          dragNode.rowIndex! - parentNode!.rowIndex! <= targetIndex
+          dragNode.tree.idToIndex[dragId]! - parentNode!.rowIndex! <=
+            targetIndex
         ) {
           // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
           targetIndex -= 1;
