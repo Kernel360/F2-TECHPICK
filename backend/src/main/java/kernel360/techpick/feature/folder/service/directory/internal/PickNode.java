@@ -11,7 +11,7 @@ public class PickNode extends ClientNode {
 	@NotNull
 	private Long pickId;
 
-	public List<RelationalNode> flatNode(Long parentFolderId) {
+	public List<RelationalNode> toNodeList(Long parentFolderId) {
 		return List.of(
 			new RelationalNode(pickId, parentFolderId, this.getType())
 		);

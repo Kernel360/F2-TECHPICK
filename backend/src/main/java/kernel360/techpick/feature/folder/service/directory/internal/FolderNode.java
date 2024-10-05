@@ -15,12 +15,12 @@ public class FolderNode extends ClientNode {
 	@NotNull
 	private List<ClientNode> children;
 
-	public List<RelationalNode> flatNode(Long parentFolderId) {
+	public List<RelationalNode> toNodeList(Long parentFolderId) {
 		List<RelationalNode> nodes = new ArrayList<>();
 		nodes.add(new RelationalNode(folderId, parentFolderId, this.getType()));
 
 		for (ClientNode child : children) {
-			nodes.addAll(child.flatNode(this.folderId));
+			nodes.addAll(child.toNodeList(this.folderId));
 		}
 		return nodes;
 	}

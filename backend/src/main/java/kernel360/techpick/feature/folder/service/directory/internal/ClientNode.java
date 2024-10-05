@@ -29,5 +29,5 @@ public abstract class ClientNode {
 	@NotBlank
 	private String name;
 
-	public abstract List<RelationalNode> flatNode(Long parentFolderId);
+	public abstract List<RelationalNode> toNodeList(Long parentFolderId);
 }

@@ -65,7 +65,7 @@ public class ClientDirectory {
 	 */
 	public List<RelationalNode> convertRootToNodeList(Long rootFolderId) {
 		return rootFolder.stream()
-						 .flatMap(child -> child.flatNode(rootFolderId).stream())
+						 .flatMap(child -> child.toNodeList(rootFolderId).stream())
 						 .toList();
 	}
 
