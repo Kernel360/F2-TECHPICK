@@ -10,6 +10,7 @@ public enum ApiFolderErrorCode implements ApiErrorCode {
 	/**
 	 * Folder Error Code (FO)
 	 */
+
 	FOLDER_NOT_FOUND("FO-000", HttpStatus.BAD_REQUEST, "존재하지 않는 폴더", ErrorLevel.SHOULD_NOT_HAPPEN()),
 	FOLDER_ALREADY_EXIST("FO-001", HttpStatus.BAD_REQUEST, "이미 존재하는 폴더 이름", ErrorLevel.CAN_HAPPEN()),
 	FOLDER_ACCESS_DENIED("FO-002", HttpStatus.UNAUTHORIZED, "접근할 수 없는 폴더", ErrorLevel.SHOULD_NOT_HAPPEN()),
