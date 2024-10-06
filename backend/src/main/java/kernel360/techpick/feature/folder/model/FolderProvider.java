@@ -60,8 +60,8 @@ public class FolderProvider {
 		EnumSet<FolderType> basicFolderTypes = FolderType.getBasicFolderTypes();
 		Folder currentFolder = this.findById(folderId);
 
-		while (basicFolderTypes.contains(currentFolder.getFolderType())) {
-			currentFolder = this.findById(currentFolder.getId());
+		while (!basicFolderTypes.contains(currentFolder.getFolderType())) {
+			currentFolder = currentFolder.getParentFolder();
 		}
 
 		return currentFolder.getFolderType();
