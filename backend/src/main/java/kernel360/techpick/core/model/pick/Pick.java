@@ -1,5 +1,8 @@
 package kernel360.techpick.core.model.pick;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,6 +42,7 @@ public class Pick extends TimeTracking {
 	private Link link;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "parent_folder_id", nullable = false)
 	private Folder parentFolder;
 
