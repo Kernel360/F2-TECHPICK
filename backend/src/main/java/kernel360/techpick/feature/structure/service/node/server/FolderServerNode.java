@@ -18,14 +18,14 @@ public class FolderServerNode extends ServerNode {
 	private Long folderId;
 
 	@NotNull
-	private List<ClientNode> children;
+	private List<ServerNode> children;
 
 	@Override
 	public List<RelationalNode> toNodeList(Long parentFolderId) {
 		List<RelationalNode> nodes = new ArrayList<>();
 		nodes.add(new RelationalNode(folderId, parentFolderId, this.getType()));
 
-		for (ClientNode child : children) {
+		for (ServerNode child : children) {
 			nodes.addAll(child.toNodeList(this.folderId));
 		}
 		return nodes;
@@ -33,13 +33,19 @@ public class FolderServerNode extends ServerNode {
 
 	@Override
 	public ClientNode toClientNode(NameProvider provider) {
+
+		List<ClientNode> childrenForClient = new ArrayList<>();
+		for (ServerNode child : children) {
+			childrenForClient.add(child.toClientNode(provider));
+		}
+
 		return new FolderClientNode(
 			this.getId(),
 			this.getType(),
 			// NOTE: 여기서 이름을 가져 옵니다.
 			provider.findFolderNameById(folderId),
 			this.getFolderId(),
-			this.getChildren()
+			childrenForClient // 자식들도 동일하게 변환해야 합니다.
 		);
 	}
 }

@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StructureMapper {
 
+    /**
+     * toClientNode 변환 과정에서 name이 설정됩니다.
+     */
     private final NameProvider nameProvider;
 
     public Structure<ClientNode> toClientStructure(Structure<ServerNode> serverStructure) {

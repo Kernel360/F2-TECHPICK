@@ -73,6 +73,11 @@ public class Structure<T extends Node> {
 						 .toList();
 	}
 
+	/**
+	 * json 데이터를 비직렬화 합니다.
+	 * 어떤 노드 포맷 (클라이언트용 or 서버용) 으로 맞출 것인지 설정할 수 있습니다.
+	 * 구체적인 사용 방법은 테스트 코드 참고해주세요.
+	 */
 	public static <T extends Node> Structure<T> fromJson(String json, Class<T> node) {
 		try {
 			JavaType type = mapper.getTypeFactory().constructParametricType(Structure.class, node);
