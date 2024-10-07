@@ -26,7 +26,7 @@ public class FolderMapper {
 		return new FolderResponse(
 			folder.getId(),
 			folder.getName(),
-			folder.getParentFolder().getId(),
+			folder.getParentFolder() == null ? null : folder.getParentFolder().getId(),
 			folder.getUser().getId()
 		);
 	}
