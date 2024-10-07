@@ -55,7 +55,7 @@ public interface FolderApi {
 		),
 		@ApiResponse(
 			responseCode = "400",
-			description = ""
+			description = "기본 폴더는 변경할 수 없습니다."
 		),
 		@ApiResponse(
 			responseCode = "403",
