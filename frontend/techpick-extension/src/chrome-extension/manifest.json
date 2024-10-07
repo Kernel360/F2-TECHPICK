@@ -3,7 +3,8 @@
   "name": "TechPick Extension",
   "description": "TechPick Extension description",
   "version": "0.1",
-  "permissions": ["tabs", "activeTab", "scripting"],
+
+  "permissions": ["tabs", "activeTab", "scripting", "cookies"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
