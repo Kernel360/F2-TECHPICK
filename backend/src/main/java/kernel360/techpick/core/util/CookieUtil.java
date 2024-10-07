@@ -32,6 +32,7 @@ public class CookieUtil {
 			.sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", techPickLoginCookie.toString());
+
 	}
 
 	//쿠키의 이름을 입력받아 쿠키 삭제
