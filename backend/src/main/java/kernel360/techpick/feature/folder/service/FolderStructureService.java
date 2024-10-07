@@ -31,6 +31,9 @@ public class FolderStructureService {
 		Folder parentFolder = folderProvider.findById(createDto.parentFolderId());
 		folderValidator.validateFolderAccess(createDto.userId(), parentFolder);
 
+		// 생성하려는 폴더의 부모가 미분류 폴더가 아닌지 검증
+		folderValidator.validateFolderNotUnclassified(createDto.userId(), parentFolder);
+
 		// 생성하려는 폴더 이름이 중복되는지 검증
 		folderValidator.validateDuplicateFolderName(createDto.userId(), createDto.name());
 
