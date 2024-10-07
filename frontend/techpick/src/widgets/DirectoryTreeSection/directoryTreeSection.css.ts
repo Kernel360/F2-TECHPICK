@@ -49,7 +49,7 @@ export const directoryLabelContainer = style({
 
 export const directoryLabel = style({
   width: '100%',
-  paddingLeft: commonThemeContract.space.xs,
+  paddingLeft: commonThemeContract.space.sm,
   color: themeContract.color.font,
   fontWeight: 350,
 });

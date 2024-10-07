@@ -1,40 +1,41 @@
 import { DirectoryNodeProps } from '@/shared/types/NodeData';
-import { dirIcFolder, dirNode, dirNodeWrapper } from './directoryNode.css';
+import {
+  dirIcFolder,
+  dirNode,
+  dirNodeWrapper,
+  dirNodeWrapperFocused,
+} from './directoryNode.css';
 import Image from 'next/image';
-import toast from 'react-hot-toast';
+import { ChevronRight, ChevronDown } from 'lucide-react';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 export const DirectoryNode = ({
   node,
   style,
   dragHandle,
 }: DirectoryNodeProps) => {
+  const { treeApi, setTreeApi } = useTreeStore();
+  if (!treeApi) {
+    setTreeApi(node.tree);
+  }
+
   return (
     <div
-      className={dirNodeWrapper}
+      className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
       style={{ ...style }}
       ref={dragHandle}
       onClick={() => {
-        toast(node.data.id);
         node.toggle();
+        console.log('Clicked Node', node);
       }}
     >
       <div className={dirNode}>
         {node.isOpen ? (
-          <Image
-            src={`image/ic_arrow_down.svg`}
-            width={8}
-            height={8}
-            alt="downArrow"
-          />
+          <ChevronDown size={13} />
         ) : node.isLeaf ? (
-          <div style={{ marginLeft: '8px' }}></div>
+          <div style={{ marginLeft: '13px' }}></div>
         ) : (
-          <Image
-            src={`image/ic_arrow_right.svg`}
-            width={8}
-            height={8}
-            alt="rightArrow"
-          />
+          <ChevronRight size={13} />
         )}
         {node.data.type === 'folder' ? (
           <Image

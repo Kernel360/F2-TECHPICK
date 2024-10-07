@@ -9,6 +9,15 @@ export const dirNodeWrapper = style({
   },
 });
 
+export const dirNodeWrapperFocused = style({
+  width: '100%',
+  lineHeight: '32px',
+  backgroundColor: '#e0e7f3',
+  ':hover': {
+    backgroundColor: '#e2e8f4',
+  },
+});
+
 export const dirNode = style({
   display: 'flex',
   alignItems: 'center',

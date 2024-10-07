@@ -3,6 +3,7 @@ import { NodeApi } from 'react-arborist';
 
 export const moveNode = (
   data: NodeData[],
+  focusedNode: NodeApi | null,
   focusedFolderNodeList: NodeApi[],
   focusedLinkNodeList: NodeApi[],
   setFocusedFolderNodeList: (node: NodeApi[]) => void,
@@ -13,12 +14,6 @@ export const moveNode = (
   parentNode: NodeApi | null,
   targetIndex: number
 ): NodeData[] => {
-  console.log('targetIndex', targetIndex);
-  console.log('dragId', dragId);
-  console.log('dragNode', dragNode);
-  console.log('parentId', parentId);
-  console.log('parentNode', parentNode);
-
   const updateFocusedFolderNodeList = () => {
     updateFocusedNodeList(focusedFolderNodeList, setFocusedFolderNodeList);
   };
@@ -31,16 +26,42 @@ export const moveNode = (
     nodeList: NodeApi[],
     setNodeList: (node: NodeApi[]) => void
   ) => {
-    // 부모가 같은 위치로 이동할 경우
-    if (dragNode.parent?.id === parentId) {
+    if (!nodeList) {
       return;
     }
+    // 부모가 같은 위치로 이동할 경우
+    if (dragNode.parent?.id === parentId) {
+      const updatedNodeList = [...nodeList];
+      const index = updatedNodeList.findIndex((node) => node.id === dragId);
+      if (index !== -1) {
+        updatedNodeList.splice(index, 1);
 
+        // 같은 부모를 가지고 있으면서 아래로 이동할 경우
+        if (
+          dragNode.tree.idToIndex[dragId]! - parentNode!.rowIndex! <=
+          targetIndex
+        ) {
+          console.log('dragNode.rowIndex', dragNode.rowIndex);
+          console.log('parentNode.rowIndex', parentNode!.rowIndex);
+          console.log('targetIndex', targetIndex);
+          console.log('dragNode', dragNode);
+          updatedNodeList.splice(targetIndex - 1, 0, dragNode);
+        } else updatedNodeList.splice(targetIndex, 0, dragNode);
+        setNodeList(updatedNodeList);
+      }
+      return;
+    }
     const updatedNodeList = [...nodeList];
     const index = updatedNodeList.findIndex((node) => node.id === dragId);
-
+    // 포커스된 노드에서 드래그가 시작된 경우
     if (index !== -1) {
       updatedNodeList.splice(index, 1);
+      setNodeList(updatedNodeList);
+      console.log('updatedNodeList', updatedNodeList);
+    }
+    // 외부에서 포커스된 노드로 드래그한 경우
+    if (focusedNode && parentNode?.id === focusedNode.id) {
+      updatedNodeList.splice(targetIndex, 0, dragNode);
       setNodeList(updatedNodeList);
     }
   };
@@ -60,25 +81,24 @@ export const moveNode = (
     }, []);
 
   const insertNode = (nodes: NodeData[]): NodeData[] => {
-    // 루트 레벨에 삽입하는 경우
+    // 루트 노드에 삽입하는 경우
     if (parentId === null) {
       const updatedRootNodes = [...nodes];
 
       // 같은 부모를 가지고 있으면서 아래로 이동할 경우
       if (
         dragNode.parent!.parent === null &&
-        dragNode.rowIndex! <= targetIndex
+        dragNode.tree.idToIndex[dragId]! <= targetIndex
       ) {
         // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
         targetIndex -= 1;
-        console.log(true);
       }
 
       updatedRootNodes.splice(targetIndex, 0, dragNode.data);
       return updatedRootNodes;
     }
 
-    // 자식 노드에 삽입하는 경우
+    // 루트 노드에 삽입하지 않는 경우
     return nodes.map((node) => {
       if (node.id === parentId) {
         const updatedChildren = [...(node.children || [])];
@@ -86,7 +106,8 @@ export const moveNode = (
         // 같은 부모를 가지고 있으면서 아래로 이동할 경우
         if (
           dragNode.parent!.id === parentId &&
-          dragNode.rowIndex! - parentNode!.rowIndex! <= targetIndex
+          dragNode.tree.idToIndex[dragId]! - parentNode!.rowIndex! <=
+            targetIndex
         ) {
           // 제거 후 삽입하면 index가 1씩 밀리기 때문에 targetIndex 감소 처리
           targetIndex -= 1;
@@ -104,8 +125,12 @@ export const moveNode = (
     });
   };
 
-  updateFocusedFolderNodeList();
-  updateFocusedLinkNodeList();
+  if (dragNode.data.type === 'folder') {
+    updateFocusedFolderNodeList();
+  } else {
+    updateFocusedLinkNodeList();
+  }
+
   const updatedData = removeNode([...data]);
   return insertNode(updatedData);
 };

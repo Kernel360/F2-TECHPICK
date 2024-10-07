@@ -12,16 +12,11 @@ import { NodeApi } from 'react-arborist';
 import { useTreeStore } from '@/shared/stores/treeStore';
 
 export default function MainPage() {
-  const {
-    focusedNode,
-    focusedFolderNodeList,
-    focusedLinkNodeList,
-    setFocusedFolderNodeList,
-    setFocusedLinkNodeList,
-  } = useTreeStore();
+  const { focusedNode, setFocusedFolderNodeList, setFocusedLinkNodeList } =
+    useTreeStore();
 
   const [tempFocusedFolderList, tempFocusedPickList] = useMemo(() => {
-    if (!focusedNode || !focusedNode.data.children) {
+    if (!focusedNode || !focusedNode.children?.length) {
       return [[], []];
     }
     const folderList: NodeApi[] = [];
@@ -39,10 +34,8 @@ export default function MainPage() {
   }, [focusedNode]);
 
   useEffect(() => {
-    if (tempFocusedFolderList.length || tempFocusedPickList.length) {
-      setFocusedFolderNodeList(tempFocusedFolderList);
-      setFocusedLinkNodeList(tempFocusedPickList);
-    }
+    setFocusedFolderNodeList(tempFocusedFolderList);
+    setFocusedLinkNodeList(tempFocusedPickList);
   }, [
     tempFocusedFolderList,
     tempFocusedPickList,
@@ -55,11 +48,7 @@ export default function MainPage() {
       <div className={viewWrapper}>
         <div className={viewContainer}>
           <DirectoryTreeSection />
-          <LinkEditorSection
-            focusedNode={focusedNode}
-            focusedNodeFolder={focusedFolderNodeList}
-            focusedNodeLink={focusedLinkNodeList}
-          />
+          <LinkEditorSection />
           <FeaturedSection />
         </div>
       </div>

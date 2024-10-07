@@ -11,7 +11,7 @@ export interface NodeData {
 }
 
 export interface DirectoryNodeProps {
-  node: NodeApi<NodeData>;
+  node: NodeApi;
   style: CSSProperties;
   dragHandle?: (el: HTMLDivElement | null) => void;
 }
