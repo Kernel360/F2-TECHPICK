@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.structure.service.model;
+package kernel360.techpick.feature.structure.model;
 
 import org.springframework.stereotype.Component;
 
@@ -58,7 +58,7 @@ public class StructureMapper {
 	}
 
 	public StructureJson toStructureJson(Long userId, Structure<ServerNode> structure) {
-		
+
 		String json = structure.serialize();
 		User user = userRepository.findById(userId).get();
 
