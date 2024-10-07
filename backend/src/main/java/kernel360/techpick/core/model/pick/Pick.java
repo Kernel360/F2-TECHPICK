@@ -77,4 +77,8 @@ public class Pick extends TimeTracking {
 	public static Pick create(User user, Link link, Folder parentFolder, String customTitle, String memo) {
 		return new Pick(user, link, parentFolder, customTitle, memo);
 	}
+
+	public void updateParentFolder(Folder parentFolder) {
+		this.parentFolder = parentFolder;
+	}
 }
