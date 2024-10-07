@@ -5,3 +5,5 @@
 .idea
 frontend/techpick/.env.production
 frontend/techpick/.env.development
+frontend/techpick-extension/.env.development
+frontend/techpick-extension/.env.production

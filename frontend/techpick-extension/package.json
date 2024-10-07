@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "yarn build --mode development",
+    "dev:watch": "yarn dev --watch",
     "build": "tsc -b && vite build",
     "build:watch": "yarn build --watch",
     "lint": "eslint .",

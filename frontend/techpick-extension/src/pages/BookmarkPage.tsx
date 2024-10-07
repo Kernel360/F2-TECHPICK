@@ -3,6 +3,9 @@
 import { TagPicker } from '@/widgets';
 
 export function BookmarkPage() {
+  console.log(import.meta.env.MODE);
+  console.log(import.meta.env.VITE_PUBLIC_DOMAIN);
+
   return (
     <div style={{ width: '600px', height: '600px' }}>
       <h1>Bookmark page</h1>

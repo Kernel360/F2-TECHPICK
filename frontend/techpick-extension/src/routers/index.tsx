@@ -1,5 +1,5 @@
 import { createMemoryRouter } from 'react-router-dom';
-import { BookmarkPage } from '../pages';
+import { BookmarkPage, LoginPage } from '@/pages';
 
 export const router = createMemoryRouter([
   {
@@ -8,6 +8,6 @@ export const router = createMemoryRouter([
   },
   {
     path: '/login',
-    element: <h1>Login Page</h1>,
+    element: <LoginPage />,
   },
 ]);
