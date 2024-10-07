@@ -23,8 +23,9 @@ public class ParserTest {
 	StructureMapper structureMapper;
 
 	@BeforeEach
-    public void setUp() {
-		structureMapper = new StructureMapper( new DummyNameProvider() );
+	public void setUp() {
+		// 직렬화 테스트에는 UserRepository가 필요하지 않으므로 null 넣음
+		structureMapper = new StructureMapper(new DummyNameProvider(), null);
 	}
 
 	@Test
@@ -97,7 +98,6 @@ public class ParserTest {
 		// then
 		assertThat(nodes).isEmpty();
 	}
-
 
 	@Nested
 	@DisplayName("잘못된 Json 구조를 보냈을 경우 ApiFolderException을 발생시켜야 합니다.")
