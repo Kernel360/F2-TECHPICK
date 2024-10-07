@@ -21,8 +21,17 @@ public class CookieUtil {
 			.domain(".minlife.me")
 			.sameSite("None")
 			.build();
-
 		response.setHeader("Set-Cookie", responseCookie.toString());
+
+		// 로그인 확인용 쿠키 (techPickLogin = true) 추가
+		ResponseCookie techPickLoginCookie = ResponseCookie.from("techPickLogin", "true")
+			.maxAge(maxAge)
+			.path("/")
+			.secure(true)
+			.domain(".minlife.me")
+			.sameSite("None")
+			.build();
+		response.setHeader("Set-Cookie", techPickLoginCookie.toString());
 	}
 
 	//쿠키의 이름을 입력받아 쿠키 삭제

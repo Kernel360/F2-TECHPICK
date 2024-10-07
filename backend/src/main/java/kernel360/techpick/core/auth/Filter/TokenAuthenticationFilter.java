@@ -34,6 +34,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		if (jwtUtil.isValidToken(token)) {
 			var authentication = convertToAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} else {
+			// 인증 실패시 techPickLogin 쿠키 삭제
+			Cookie techPickLoginCookie = new Cookie("techPickLogin", null);
+			techPickLoginCookie.setMaxAge(0);
+			response.addCookie(techPickLoginCookie);
 		}
 
 		filterChain.doFilter(request, response);
