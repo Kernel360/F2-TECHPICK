@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class PickValidator {
 
 	public void validatePickAccess(Long userId, Pick pick) {
-		if (userId == null || Objects.equals(userId, pick.getUser().getId())) {
+		if (userId == null || !Objects.equals(userId, pick.getUser().getId())) {
 			throw ApiPickException.PICK_UNAUTHORIZED_ACCESS();
 		}
 	}

@@ -24,14 +24,14 @@ public class PickStructureService {
 
 	// 픽 이동
 	@Transactional
-	public void movePick(PickMoveDto request) {
+	public void movePick(PickMoveDto pickMoveDto) {
 		// 본인 픽인지 검증 (pickId)
-		Pick pick = pickProvider.findById(request.id());
-		pickValidator.validatePickAccess(request.userId(), pick);
+		Pick pick = pickProvider.findById(pickMoveDto.id());
+		pickValidator.validatePickAccess(pickMoveDto.userId(), pick);
 
 		// 이동하려는 폴더가 본인 폴더인지 검증 (parentFolderId)
-		Folder parentFolder = folderProvider.findById(request.parentFolderId());
-		folderValidator.validateFolderAccess(request.userId(), parentFolder);
+		Folder parentFolder = folderProvider.findById(pickMoveDto.parentFolderId());
+		folderValidator.validateFolderAccess(pickMoveDto.userId(), parentFolder);
 
 		pick.updateParentFolder(parentFolder);
 	}
@@ -44,7 +44,7 @@ public class PickStructureService {
 		pickValidator.validatePickAccess(pickIdDto.getUserId(), pick);
 
 		// 휴지통인지 확인
-		folderProvider.findParentBasicFolder(pick.getParentFolder().getId());
+		folderValidator.validateFolderInRecycleBin(pick.getParentFolder());
 		pickProvider.deleteById(pickIdDto.getUserId());
 	}
 }
