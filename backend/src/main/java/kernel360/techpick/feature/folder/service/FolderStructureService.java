@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.feature.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.folder.model.FolderMapper;
 import kernel360.techpick.feature.folder.model.FolderProvider;
-import kernel360.techpick.feature.folder.service.dto.FolderCreateDto;
 import kernel360.techpick.feature.folder.service.dto.FolderDeleteDto;
 import kernel360.techpick.feature.folder.service.dto.FolderIdDto;
 import kernel360.techpick.feature.folder.service.dto.FolderMoveDto;
@@ -21,24 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class FolderStructureService {
 
 	private final FolderProvider folderProvider;
-	private final FolderMapper folderMapper;
 	private final FolderValidator folderValidator;
-
-	@Transactional
-	public Folder createFolder(FolderCreateDto createDto) throws ApiFolderException {
-
-		// 생성하려는 폴더의 부모가 본인 폴더인지 검증
-		Folder parentFolder = folderProvider.findById(createDto.parentFolderId());
-		folderValidator.validateFolderAccess(createDto.userId(), parentFolder);
-
-		// 생성하려는 폴더의 부모가 미분류 폴더가 아닌지 검증
-		folderValidator.validateFolderNotUnclassified(createDto.userId(), parentFolder);
-
-		// 생성하려는 폴더 이름이 중복되는지 검증
-		folderValidator.validateDuplicateFolderName(createDto.userId(), createDto.name());
-
-		return folderProvider.save(folderMapper.createFolder(createDto.userId(), createDto, parentFolder));
-	}
 
 	@Transactional(readOnly = true)
 	public Folder getFolderById(FolderIdDto idDto) throws ApiFolderException {
