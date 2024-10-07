@@ -4,30 +4,55 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import kernel360.techpick.core.exception.base.ApiException;
-import kernel360.techpick.feature.directory.exception.ApiDirectoryException;
-import kernel360.techpick.feature.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.directory.internal.RelationalNode;
-import kernel360.techpick.feature.directory.ClientDirectory;
+import kernel360.techpick.feature.structure.exception.ApiDirectoryException;
+import kernel360.techpick.feature.structure.service.Structure;
+import kernel360.techpick.feature.structure.service.model.StructureMapper;
+import kernel360.techpick.feature.structure.service.node.client.ClientNode;
+import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
+import kernel360.techpick.feature.structure.service.node.server.ServerNode;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ParserTest {
 
-	/**
-	 * NOTE: 사용하지 않는 값이여도 백엔드에 저장하기 전에 json을 한번 검증 해줘야 함.
-	 *       parser는 value를 검증할 수 없지만..
-	 *       포맷( key, value's type, json format)의 유효성은 검사 가능.
-	 *
-	 * TODO: 잘못된 json 포맷일 경우 API 예외 던진다.
-	 *       1. 만약 json이 배열이 아닌 경우
-	 *       2. 필요한 key가 없는 경우
-	 *          공통 : id, type, parentId
-	 *          폴더일 경우 + children
-	 *       3. children이 배열이 아닌 경우
-	 * */
+	StructureMapper structureMapper;
+
+	@BeforeEach
+    public void setUp() {
+		structureMapper = new StructureMapper( new DummyNameProvider() );
+	}
+
+	@Test
+	@DisplayName("직렬화 - 비직렬화 테스트")
+	public void input_json_to_object_to_json() {
+		// given
+		String json = ParserTestCase.CASE_OK_SIMPLE;
+
+		// 1. 클라이언트가 보낸 JSON 구조를 서버에서 필요한 정보만 파싱 및 구조 검증 합니다.
+		//    서버에서 필요한 필수 필드가 없는 경우 예외를 던집니다.
+		Structure<ServerNode> deserializedFromClient = Structure.fromJson(json, ServerNode.class);
+
+		// 2. 포맷 검사가 끝났으니 DB에 직렬화 해서 저장합니다.
+		String serialized = deserializedFromClient.serialize();
+		log.info(serialized);
+
+		// 3. DB에 저장한 구조 json을 DB에서 불러옵니다.
+		Structure<ServerNode> deserializedFromDB = Structure.fromJson(serialized, ServerNode.class);
+
+		// 4. 클라이언트에게 보내기 위한 객체(Structure<ClientNode>)로 변환하면서, 필요한 필드를 추가합니다.
+		//    ex. name 값이 여기서 들어갑니다.
+		Structure<ClientNode> dataForClient = structureMapper.toClientStructure(deserializedFromDB);
+
+		// 4. 직렬화해서 클라이언트에게 전송 합니다.
+		//    아래처럼 안해도, 그냥 jackson이 알아서 하긴 하는데 일단 메소드를 만들었음.
+		String finalResultForClient = dataForClient.serialize();
+		log.info(finalResultForClient);
+	}
 
 	@Test
 	@DisplayName("간단한 구조 테스트")
@@ -35,8 +60,8 @@ public class ParserTest {
 		// given
 		String json = ParserTestCase.CASE_OK_SIMPLE;
 		// when
-		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
+		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
+		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).hasSize(5);
 		for (RelationalNode node : nodes) {
@@ -51,8 +76,8 @@ public class ParserTest {
 		// given
 		String json = ParserTestCase.CASE_OK_LONG;
 		// when
-		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
+		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
+		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).hasSize(5);
 		for (RelationalNode node : nodes) {
@@ -67,8 +92,8 @@ public class ParserTest {
 		// given
 		String json = ParserTestCase.CASE_OK_EMPTY_ARRAY_OR_NULL;
 		// when
-		ClientDirectory clientDirectory = ClientDirectory.fromJson(json);
-		List<RelationalNode> nodes = clientDirectory.convertRootToNodeList(0L);
+		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
+		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
 		// then
 		assertThat(nodes).isEmpty();
 	}
@@ -85,7 +110,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_A;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -96,7 +121,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_B;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -107,7 +132,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_C;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -118,7 +143,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_D;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -129,7 +154,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_E;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -140,7 +165,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_F;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -151,7 +176,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_G;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -162,7 +187,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_H;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -173,7 +198,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_I;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 
@@ -184,7 +209,7 @@ public class ParserTest {
 			String json = ParserTestCase.CASE_INVALID_J;
 			// when + then
 			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
-				() -> ClientDirectory.fromJson(json)
+				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
 	}

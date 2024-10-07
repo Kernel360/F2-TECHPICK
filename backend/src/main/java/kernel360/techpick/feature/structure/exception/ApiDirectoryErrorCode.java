@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.directory.exception;
+package kernel360.techpick.feature.structure.exception;
 
 import org.springframework.http.HttpStatus;
 
