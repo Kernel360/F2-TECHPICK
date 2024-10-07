@@ -9,9 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import kernel360.techpick.feature.structure.exception.ApiDirectoryException;
+import kernel360.techpick.feature.structure.exception.ApiStructureException;
+import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.Structure;
-import kernel360.techpick.feature.structure.service.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
 import kernel360.techpick.feature.structure.service.node.server.ServerNode;
@@ -109,7 +109,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_A;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -120,7 +120,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_B;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -131,7 +131,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_C;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -142,7 +142,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_D;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -153,7 +153,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_E;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -164,7 +164,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_F;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -175,7 +175,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_G;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -186,7 +186,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_H;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -197,7 +197,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_I;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
@@ -208,7 +208,7 @@ public class ParserTest {
 			// given
 			String json = ParserTestCase.CASE_INVALID_J;
 			// when + then
-			assertThatExceptionOfType(ApiDirectoryException.class).isThrownBy(
+			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
 			);
 		}
