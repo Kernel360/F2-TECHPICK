@@ -61,10 +61,8 @@ export const folderWrapper = style({
 
 export const linkViewSection = style({
   width: '100%',
-  height: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  alignItems: 'start',
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 
