@@ -16,18 +16,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PickProvider {
 
-    private final PickRepository pickRepository;
+	private final PickRepository pickRepository;
 
-    public Pick findById(Long pickId) {
-        return pickRepository.findById(pickId).orElseThrow(ApiPickException::PICK_NOT_FOUND);
-    }
+	public Pick findById(Long pickId) {
+		return pickRepository.findById(pickId).orElseThrow(ApiPickException::PICK_NOT_FOUND);
+	}
 
-    public List<Pick> findAllByUserId(Long userId) {
-        return pickRepository.findAllByUserId(userId);
-    }
+	public List<Pick> findAllByUserId(Long userId) {
+		return pickRepository.findAllByUserId(userId);
+	}
 
-    public Map<Long, Pick> findAllByUserIdAsMap(Long userId) {
-        return findAllByUserId(userId).stream()
-                        .collect(Collectors.toMap(Pick::getId, Function.identity()));
-    }
+	public Map<Long, Pick> findAllByUserIdAsMap(Long userId) {
+		return findAllByUserId(userId).stream()
+			.collect(Collectors.toMap(Pick::getId, Function.identity()));
+	}
+
+	public void deleteById(Long pickId) {
+		pickRepository.deleteById(pickId);
+	}
 }
