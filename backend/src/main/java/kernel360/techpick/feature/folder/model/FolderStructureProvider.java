@@ -2,22 +2,22 @@ package kernel360.techpick.feature.folder.model;
 
 import org.springframework.stereotype.Component;
 
-import kernel360.techpick.core.model.folder.FolderStructure;
-import kernel360.techpick.feature.folder.repository.FolderStructureRepository;
+import kernel360.techpick.core.model.folder.StructureJson;
+import kernel360.techpick.feature.structure.repository.StructureJsonRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class FolderStructureProvider {
 
-	private final FolderStructureRepository folderStructureRepository;
+	private final StructureJsonRepository structureJsonRepository;
 
-	public FolderStructure save(FolderStructure folderStructure) {
-		return folderStructureRepository.save(folderStructure);
+	public StructureJson save(StructureJson structureJson) {
+		return structureJsonRepository.save(structureJson);
 	}
 
-	public FolderStructure findByUserId(Long userId) {
-		return folderStructureRepository.findByUserId(userId);
+	public StructureJson findByUserId(Long userId) {
+		return structureJsonRepository.findByUserId(userId);
 	}
 
 }
