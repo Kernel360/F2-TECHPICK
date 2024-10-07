@@ -18,7 +18,7 @@ public class FolderValidator {
 
 	public void validateFolderAccess(Long userId, Folder folder) throws ApiFolderException {
 
-		if (folder == null || Objects.equals(userId, folder.getUser().getId())) {
+		if (folder == null || !Objects.equals(userId, folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 	}
