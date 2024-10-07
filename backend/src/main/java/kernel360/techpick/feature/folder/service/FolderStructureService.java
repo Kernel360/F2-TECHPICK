@@ -13,7 +13,6 @@ import kernel360.techpick.feature.folder.service.dto.FolderCreateDto;
 import kernel360.techpick.feature.folder.service.dto.FolderDeleteDto;
 import kernel360.techpick.feature.folder.service.dto.FolderIdDto;
 import kernel360.techpick.feature.folder.service.dto.FolderMoveDto;
-import kernel360.techpick.feature.folder.service.dto.FolderResponse;
 import kernel360.techpick.feature.folder.validator.FolderValidator;
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +25,7 @@ public class FolderStructureService {
 	private final FolderValidator folderValidator;
 
 	@Transactional
-	public FolderResponse createFolder(FolderCreateDto createDto) throws ApiFolderException {
+	public Folder createFolder(FolderCreateDto createDto) throws ApiFolderException {
 
 		// 생성하려는 폴더의 부모가 본인 폴더인지 검증
 		Folder parentFolder = folderProvider.findById(createDto.parentFolderId());
@@ -35,9 +34,7 @@ public class FolderStructureService {
 		// 생성하려는 폴더 이름이 중복되는지 검증
 		folderValidator.validateDuplicateFolderName(createDto.userId(), createDto.name());
 
-		Folder folder = folderProvider.save(folderMapper.createFolder(createDto.userId(), createDto, parentFolder));
-
-		return folderMapper.createResponse(folder);
+		return folderProvider.save(folderMapper.createFolder(createDto.userId(), createDto, parentFolder));
 	}
 
 	@Transactional(readOnly = true)
@@ -51,12 +48,9 @@ public class FolderStructureService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<FolderResponse> getFolderListByUserId(Long userId) {
+	public List<Folder> getFolderListByUserId(Long userId) {
 
-		return folderProvider.findAllByUserId(userId)
-			.stream()
-			.map(folderMapper::createResponse)
-			.toList();
+		return folderProvider.findAllByUserId(userId);
 	}
 
 	@Transactional
