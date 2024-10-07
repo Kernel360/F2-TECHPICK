@@ -28,6 +28,9 @@ export const DirectoryNode = ({
         node.toggle();
         console.log('Clicked Node', node);
       }}
+      onContextMenu={() => {
+        node.select();
+      }}
     >
       <div className={dirNode}>
         {node.isOpen ? (

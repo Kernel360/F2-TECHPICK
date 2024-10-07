@@ -21,6 +21,7 @@ import { useDragDropManager } from 'react-dnd';
 import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder } from 'lucide-react';
+import { EditorContextMenu } from '@/widgets/ContextMenuWrapper';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -80,27 +81,26 @@ export function DirectoryTreeSection() {
           <div className={directoryLabel}>Directory</div>
         </div>
         <div className={directoryTreeWrapper} ref={ref}>
-          <Tree
-            className={directoryTree}
-            data={treeData}
-            disableMultiSelection={true}
-            onFocus={(node: NodeApi) => {
-              setFocusedNode(node);
-            }}
-            onMove={handleMove}
-            onContextMenu={(event) => {
-              console.log('onContextMenu', event);
-            }}
-            openByDefault={false}
-            width={width}
-            height={height && height - 8}
-            rowHeight={32}
-            indent={24}
-            overscanCount={1}
-            dndManager={dragDropManager}
-          >
-            {DirectoryNode}
-          </Tree>
+          <EditorContextMenu>
+            <Tree
+              className={directoryTree}
+              data={treeData}
+              disableMultiSelection={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleMove}
+              openByDefault={false}
+              width={width}
+              height={height && height - 8}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
+          </EditorContextMenu>
         </div>
       </div>
       <div className={directoryTreeSectionFooter}></div>
