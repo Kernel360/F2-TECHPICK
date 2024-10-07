@@ -2,7 +2,6 @@ import React from 'react';
 import * as ContextMenu from '@radix-ui/react-context-menu';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 
-// Vanilla Extract 스타일 import
 import {
   ContextMenuTrigger,
   ContextMenuContent,
@@ -11,7 +10,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
 } from './contextMenu.css';
-import { useTreeStore } from '@/shared/stores/treeStore'; // 기존 Vanilla Extract 스타일 import
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 interface ContextMenuWrapperProps {
   children: React.ReactNode;
