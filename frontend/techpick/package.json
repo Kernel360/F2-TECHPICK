@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:https": "dotenv -e .env.local -- bash -c 'yarn next dev -H $NEXT_PUBLIC_DOMAIN -p 3000 --experimental-https'",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -50,6 +51,7 @@
     "@vanilla-extract/next-plugin": "^2.4.5",
     "@vanilla-extract/webpack-plugin": "^2.3.13",
     "css-loader": "^7.1.2",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.9",
     "eslint-config-prettier": "^9.1.0",
