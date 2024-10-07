@@ -1,6 +1,8 @@
 package kernel360.techpick.feature.folder.service.dto;
 
-public record FolderCreateRequest(
+public record FolderMoveDto(
+	Long userId,
+	Long id,
 	String name,
 	Long parentFolderId
 ) {
