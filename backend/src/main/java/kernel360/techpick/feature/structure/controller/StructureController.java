@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class StructureController implements StructureApi {
 	@Override
 	@PutMapping("/folders/{folderId}")
 	public ResponseEntity<Void> moveFolder(Authentication auth, @PathVariable Long folderId,
-		StructureMoveRequest request) {
+		@RequestBody StructureMoveRequest request) {
 
 		request.updateUserIdAndTargetId(auth, folderId);
 		structureService.moveFolder(request);
@@ -42,7 +43,7 @@ public class StructureController implements StructureApi {
 	@Override
 	@DeleteMapping("/folders/{folderId}")
 	public ResponseEntity<Void> deleteFolder(Authentication auth, @PathVariable Long folderId,
-		StructureDeleteRequest request) {
+		@RequestBody StructureDeleteRequest request) {
 
 		request.updateUserIdAndTargetId(auth, folderId);
 		structureService.deleteFolder(request);
@@ -53,7 +54,7 @@ public class StructureController implements StructureApi {
 	@Override
 	@PutMapping("/picks/{pickId}")
 	public ResponseEntity<Void> movePick(Authentication auth, @PathVariable Long pickId,
-		StructureMoveRequest request) {
+		@RequestBody StructureMoveRequest request) {
 
 		request.updateUserIdAndTargetId(auth, pickId);
 		structureService.movePick(request);
@@ -63,7 +64,7 @@ public class StructureController implements StructureApi {
 	@Override
 	@DeleteMapping("/picks/{pickId}")
 	public ResponseEntity<Void> deletePick(Authentication auth, @PathVariable Long pickId,
-		StructureDeleteRequest request) {
+		@RequestBody StructureDeleteRequest request) {
 
 		request.updateUserIdAndTargetId(auth, pickId);
 		structureService.deletePick(request);
