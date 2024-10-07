@@ -37,8 +37,8 @@ export const linkEditor = style({
 
 export const folderViewSection = style({
   width: '100%',
-  height: '160px',
   display: 'flex',
+  flexWrap: 'wrap',
   borderBottom: `1px solid ${themeContract.color.border}`,
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
@@ -63,6 +63,7 @@ export const linkViewSection = style({
   width: '100%',
   height: '100%',
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'start',
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });

@@ -88,6 +88,9 @@ export function DirectoryTreeSection() {
               setFocusedNode(node);
             }}
             onMove={handleMove}
+            onContextMenu={(event) => {
+              console.log('onContextMenu', event);
+            }}
             openByDefault={false}
             width={width}
             height={height && height - 8}
