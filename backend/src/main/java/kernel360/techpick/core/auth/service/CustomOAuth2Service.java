@@ -15,8 +15,10 @@ import kernel360.techpick.core.auth.model.OAuth2UserInfo;
 import kernel360.techpick.core.config.OAuth2AttributeConfigProvider;
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.folder.FolderType;
+import kernel360.techpick.core.model.folder.StructureJson;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.folder.repository.FolderRepository;
+import kernel360.techpick.feature.structure.repository.StructureJsonRepository;
 import kernel360.techpick.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
 	private final FolderRepository folderRepository;
+	private final StructureJsonRepository structureJsonRepository;
 	private final OAuth2AttributeConfigProvider configProvider;
 
 	@Override
@@ -86,5 +89,16 @@ public class CustomOAuth2Service extends DefaultOAuth2UserService {
 		folderRepository.save(Folder.create("미분류폴더", FolderType.UNCLASSIFIED, user));
 		folderRepository.save(Folder.create("휴지통", FolderType.RECYCLE_BIN, user));
 		folderRepository.save(Folder.create("최상위폴더", FolderType.ROOT, user));
+
+		StructureJson json = StructureJson.create(
+			"""
+					{
+						"root": [],
+						"recycleBin": []
+					}
+				""",
+			user
+		);
+		structureJsonRepository.save(json);
 	}
 }
