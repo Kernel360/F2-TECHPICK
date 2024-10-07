@@ -43,7 +43,7 @@ public class FolderController implements FolderApi {
 
 	@Override
 	@PutMapping("/{folderId}")
-	public ResponseEntity<Void> updateFolderName(Authentication auth, Long folderId,
+	public ResponseEntity<Void> updateFolderName(Authentication auth, @PathVariable Long folderId,
 		@RequestBody FolderUpdateRequest request) {
 
 		folderService.updateName(FolderIdDto.of(auth, folderId), request);
