@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FolderStructure extends TimeTracking {
+public class StructureJson extends TimeTracking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class FolderStructure extends TimeTracking {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	private FolderStructure(String structure, User user) {
+	private StructureJson(String structure, User user) {
 		this.structure = structure;
 		this.user = user;
 	}
@@ -42,7 +42,7 @@ public class FolderStructure extends TimeTracking {
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static FolderStructure create(String structure, User user) {
-		return new FolderStructure(structure, user);
+	public static StructureJson create(String structure, User user) {
+		return new StructureJson(structure, user);
 	}
 }
