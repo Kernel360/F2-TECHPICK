@@ -1,6 +1,7 @@
 import { styleVariants } from '@vanilla-extract/css';
 
 export const verticalGapVariants = styleVariants({
+  gap0: { paddingTop: '0px' },
   gap4: { paddingTop: '4px' },
   gap8: { paddingTop: '8px' },
   gap12: { paddingTop: '12px' },
@@ -11,6 +12,7 @@ export const verticalGapVariants = styleVariants({
 });
 
 export const horizontalGapVariants = styleVariants({
+  gap0: { paddingLeft: '0px' },
   gap4: { paddingLeft: '4px' },
   gap8: { paddingLeft: '8px' },
   gap12: { paddingLeft: '12px' },
@@ -21,6 +23,7 @@ export const horizontalGapVariants = styleVariants({
 });
 
 export type GapSize =
+  | 'gap0'
   | 'gap4'
   | 'gap8'
   | 'gap12'

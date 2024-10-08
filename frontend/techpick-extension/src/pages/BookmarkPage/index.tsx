@@ -9,7 +9,7 @@ export function BookmarkPage() {
   return (
     <div className={BookmarkPageLayout}>
       <BookmarkHeader />
-      <Gap horizontalSize="gap24" />
+      <Gap verticalSize="gap24" />
       <div
         style={{
           display: 'flex',

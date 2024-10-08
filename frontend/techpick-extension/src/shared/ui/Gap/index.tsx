@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 import { verticalGapVariants, horizontalGapVariants, GapSize } from './Gap.css';
 
 export function Gap({
-  verticalSize = 'gap16',
-  horizontalSize = 'gap16',
+  verticalSize = 'gap0',
+  horizontalSize = 'gap0',
   children,
 }: PropsWithChildren<GapProps>) {
   return (
