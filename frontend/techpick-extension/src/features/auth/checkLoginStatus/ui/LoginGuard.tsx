@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addAccessTokenInAPIHeader } from '@/shared';
+import { addAccessTokenInAPIHeader, HOST_PERMISSIONS_HTTPS } from '@/shared';
 
 export function LoginGuard({ children }: PropsWithChildren) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,7 +11,7 @@ export function LoginGuard({ children }: PropsWithChildren) {
       const getAccessToken = async () => {
         const accessTokenCookie = await chrome.cookies.get({
           name: 'access_token',
-          url: `${import.meta.env.VITE_HOST_PERMISSIONS_HTTPS}`,
+          url: HOST_PERMISSIONS_HTTPS,
         });
 
         if (!accessTokenCookie) {

@@ -12,11 +12,6 @@ function updateManifestPlugin(mode: string): PluginOption {
   return {
     name: 'update-manifest-plugin',
     generateBundle() {
-      console.log(
-        'VITE_HOST_PERMISSIONS_HTTP:',
-        env.VITE_HOST_PERMISSIONS_HTTP
-      );
-
       const manifestPath = resolve(
         __dirname,
         'src/chrome-extension/manifest.json'

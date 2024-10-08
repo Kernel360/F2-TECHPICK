@@ -1,7 +1,8 @@
 import ky from 'ky';
+import { API_URL } from '@/shared';
 
 export let api = ky.create({
-  prefixUrl: import.meta.env.VITE_PUBLIC_API,
+  prefixUrl: API_URL,
   headers: { 'content-type': 'application/json', credentials: 'include' },
 });
 

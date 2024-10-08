@@ -1,5 +1,5 @@
 import { BookMarked } from 'lucide-react';
-import { Text, Button } from '@/shared';
+import { Text, Button, PUBLIC_DOMAIN } from '@/shared';
 import { loginPageLayout } from './LoginPage.css';
 
 export function LoginPage() {
@@ -10,7 +10,7 @@ export function LoginPage() {
         <h1>태그와 함께 북마크하세요!</h1>
       </Text>
 
-      <a href={`${import.meta.env.VITE_PUBLIC_DOMAIN}/login`} target="_blank">
+      <a href={`${PUBLIC_DOMAIN}/login`} target="_blank">
         <Button>로그인</Button>
       </a>
     </div>
