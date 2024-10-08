@@ -78,7 +78,7 @@ public class StructureService {
 	private StructureValidator getValidator(Long userId) {
 
 		return new StructureValidator(
-			folderStructureService.getFolderListByUserIdAndParentFolderIsNotEmpty(userId),
+			folderStructureService.getFolderListByUserIdAndParentFolderIsNotNull(userId),
 			pickStructureService.getPickListByUserId(userId)
 		);
 	}

@@ -25,7 +25,7 @@ public class FolderProvider {
 		return folderRepository.findById(folderId).orElseThrow(ApiFolderException::FOLDER_NOT_FOUND);
 	}
 
-	public List<Folder> findAllByUserIdAndParentFolderIsNotEmpty(Long userId) {
+	public List<Folder> findAllByUserIdAndParentFolderIsNotNull(Long userId) {
 		return folderRepository.findAllByUserIdAndParentFolderIsNotNull(userId);
 	}
 

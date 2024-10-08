@@ -32,9 +32,9 @@ public class FolderStructureService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Folder> getFolderListByUserIdAndParentFolderIsNotEmpty(Long userId) {
+	public List<Folder> getFolderListByUserIdAndParentFolderIsNotNull(Long userId) {
 
-		return folderProvider.findAllByUserIdAndParentFolderIsNotEmpty(userId);
+		return folderProvider.findAllByUserIdAndParentFolderIsNotNull(userId);
 	}
 
 	@Transactional
