@@ -10960,6 +10960,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ky@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "ky@npm:1.7.2"
+  checksum: 10c0/ce42c0c5eec839dd13fd14f0b60fb6f56c7c8a0df8e228597f5206b1db2f3608f3a0e477a4c002c838d21b8e65872632ef4655e9eb8508455b3c3b296af40ebc
+  languageName: node
+  linkType: hard
+
 "language-subtag-registry@npm:^0.3.20":
   version: 0.3.23
   resolution: "language-subtag-registry@npm:0.3.23"
@@ -14341,6 +14348,7 @@ __metadata:
     globals: "npm:^15.9.0"
     husky: "npm:^9.1.6"
     immer: "npm:^10.1.1"
+    ky: "npm:^1.7.2"
     lucide-react: "npm:^0.446.0"
     path: "npm:^0.12.7"
     react: "npm:^18.3.1"
