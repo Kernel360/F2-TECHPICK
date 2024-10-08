@@ -6,8 +6,9 @@ export const tagPickerLayout = style({
 
 export const tagDialogTriggerLayout = style({
   cursor: 'pointer',
-  maxWidth: '200px',
-  minHeight: '20px',
+  maxWidth: '264px',
+  minHeight: '60px',
   border: '1px solid black',
   position: 'relative',
+  boxSizing: 'border-box',
 });
