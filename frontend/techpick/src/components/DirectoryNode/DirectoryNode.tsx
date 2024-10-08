@@ -43,7 +43,7 @@ export const DirectoryNode = ({
         {node.data.type === 'folder' ? (
           <Image
             src={`image/ic_folder.svg`}
-            alt="Folder"
+            alt={`${node.data.name}'s image`}
             className={dirIcFolder}
             width={8}
             height={8}
@@ -53,7 +53,7 @@ export const DirectoryNode = ({
             src={`image/ic_doc.svg`}
             width={8}
             height={8}
-            alt="Document"
+            alt={`${node.data.name}'s image`}
             className={dirIcFolder}
           />
         )}

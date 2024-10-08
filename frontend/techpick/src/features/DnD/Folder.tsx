@@ -19,7 +19,12 @@ export function Folder({ node }: { node: NodeApi }) {
         node.tree.select(node.id);
       }}
     >
-      <Image src={`image/ic_folder.svg`} alt="folder" width={64} height={64} />
+      <Image
+        src={`image/ic_folder.svg`}
+        alt={`${node.data.name}'s image`}
+        width={64}
+        height={64}
+      />
       {node.data.name}
     </div>
   );
