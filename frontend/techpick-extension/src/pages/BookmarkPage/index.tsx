@@ -3,46 +3,47 @@
 import { Button, Text, Gap } from '@/shared';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
-import { BookmarkPageLayout } from './BookmarkPage.css';
+import {
+  bookmarkPageLayout,
+  pickFormLayout,
+  formFieldLayout,
+  titleInputStyle,
+  textAreaStyle,
+  submitButtonLayout,
+  labelLayout,
+} from './BookmarkPage.css';
 
 export function BookmarkPage() {
   return (
-    <div className={BookmarkPageLayout}>
+    <div className={bookmarkPageLayout}>
       <BookmarkHeader />
       <Gap verticalSize="gap24" />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '32px',
-        }}
-      >
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <div className={pickFormLayout}>
+        <div className={formFieldLayout}>
           <img src="" alt="" width={48} height={48} />
           <input
             type="text"
             defaultValue={'타이틀'}
-            style={{ width: '100%', height: '40px', padding: '8px' }}
+            className={titleInputStyle}
           />
         </div>
-        <div style={{ display: 'flex', gap: '16px', color: 'A5B68D' }}>
-          <div style={{ width: '48px' }}>
-            <Text size="2xl">태그</Text>
+        <div className={formFieldLayout}>
+          <div className={labelLayout}>
+            <Text size="2xl" asChild>
+              <label htmlFor="">태그</label>
+            </Text>
           </div>
-
           <TagPicker />
         </div>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <div style={{ width: '48px' }}>
-            <Text size="2xl">메모</Text>
+        <div className={formFieldLayout}>
+          <div className={labelLayout}>
+            <Text size="2xl" asChild>
+              <label htmlFor="">메모</label>
+            </Text>
           </div>
-          <textarea
-            name=""
-            id="dad"
-            style={{ width: '264px', height: '72px', resize: 'none' }}
-          ></textarea>
+          <textarea id="memo" className={textAreaStyle}></textarea>
         </div>
-        <div style={{ marginLeft: 'auto' }}>
+        <div className={submitButtonLayout}>
           <Button>제출</Button>
         </div>
       </div>
