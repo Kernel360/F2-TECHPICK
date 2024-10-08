@@ -11,6 +11,7 @@ import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.dto.StructureDeleteRequest;
 import kernel360.techpick.feature.structure.service.dto.StructureMoveRequest;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
+import kernel360.techpick.feature.structure.validator.StructureValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,13 +36,10 @@ public class StructureService {
 
 		folderStructureService.moveFolder(mapper.toFolderMoveDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(request.getStructure());
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -49,13 +47,10 @@ public class StructureService {
 
 		folderStructureService.deleteFolder(mapper.toFolderDeleteDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -63,13 +58,10 @@ public class StructureService {
 
 		pickStructureService.movePick(mapper.toPickMoveDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -77,13 +69,17 @@ public class StructureService {
 
 		pickStructureService.deletePick(mapper.toPickDeleteDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
+	private StructureValidator getValidator(Long userId) {
+
+		return new StructureValidator(
+			folderStructureService.getFolderListByUserIdAndParentFolderIsNotEmpty(userId),
+			pickStructureService.getPickListByUserId(userId)
+		);
+	}
 }
