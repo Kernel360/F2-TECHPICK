@@ -18,16 +18,20 @@ export function TagPicker() {
     setOpen(true);
   };
 
+  const onEnterKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+
+    openDialog();
+  };
+
   return (
     <div ref={tagInputContainerRef} className={tagPickerLayout}>
       <div
         className={tagDialogTriggerLayout}
         onClick={openDialog}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            openDialog();
-          }
-        }}
+        onKeyDown={onEnterKeyDown}
         tabIndex={0}
       >
         <SelectedTagListLayout>
