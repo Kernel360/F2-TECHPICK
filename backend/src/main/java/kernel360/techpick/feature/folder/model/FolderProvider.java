@@ -26,7 +26,7 @@ public class FolderProvider {
 	}
 
 	public List<Folder> findAllByUserIdAndParentFolderIsNotEmpty(Long userId) {
-		return folderRepository.findAllByUserIdAndParentFolderIsNotEmpty(userId);
+		return folderRepository.findAllByUserIdAndParentFolderIsNotNull(userId);
 	}
 
 	public List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId) {
