@@ -34,7 +34,7 @@ public class FolderStructureService {
 	@Transactional(readOnly = true)
 	public List<Folder> getFolderListByUserId(Long userId) {
 
-		return folderProvider.findAllByUserId(userId);
+		return folderProvider.findAllByUserIdAndParentFolderIsNotEmpty(userId);
 	}
 
 	@Transactional

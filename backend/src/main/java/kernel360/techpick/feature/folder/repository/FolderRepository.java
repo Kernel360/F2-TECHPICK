@@ -12,7 +12,7 @@ import kernel360.techpick.core.model.folder.Folder;
 @Repository
 public interface FolderRepository extends JpaRepository<Folder, Long> {
 
-	List<Folder> findAllByUserId(Long userId);
+	List<Folder> findAllByUserIdAndParentFolderIsNotEmpty(Long userId);
 
 	List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId);
 
