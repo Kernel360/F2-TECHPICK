@@ -63,7 +63,7 @@ public class Folder extends TimeTracking {
 		this.parentFolder = parentFolder;
 	}
 
-	public Long getParentFolderId() {
+	public Long findParentFolderId() {
 		if (parentFolder == null) {
 			return NO_PARENT_FOLDER;
 		}
