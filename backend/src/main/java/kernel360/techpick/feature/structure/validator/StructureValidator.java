@@ -43,6 +43,7 @@ public class StructureValidator {
 	private void validateNodeSize(List<RelationalNode> nodeList) {
 
 		if (nodeList.size() != folderMap.size() + pickMap.size()) {
+			log.error("노드 개수가 일치하지 않습니다 size : {}", nodeList.size());
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
