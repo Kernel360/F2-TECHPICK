@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class SwaggerConfig {
@@ -22,5 +23,14 @@ public class SwaggerConfig {
 			.version("1.0.0");
 	}
 
-	// 이후 시큐리티 적용 후 추가 설정 필요
+	/**
+	 * Swagger Security 설정 추가
+	 *  Authentication 방식을 OpenAPI 에 추가
+	 */
+	private SecurityScheme securityScheme() {
+		return new SecurityScheme()
+			.type(SecurityScheme.Type.APIKEY)
+			.name("access_token")
+			.in(SecurityScheme.In.COOKIE);
+	}
 }
