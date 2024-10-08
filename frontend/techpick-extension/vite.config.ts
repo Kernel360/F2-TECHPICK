@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { PluginOption } from 'vite';
@@ -6,10 +6,17 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import fs from 'fs';
 
-function updateManifestPlugin(): PluginOption {
+function updateManifestPlugin(mode: string): PluginOption {
+  const env = loadEnv(mode, process.cwd());
+
   return {
     name: 'update-manifest-plugin',
     generateBundle() {
+      console.log(
+        'VITE_HOST_PERMISSIONS_HTTP:',
+        env.VITE_HOST_PERMISSIONS_HTTP
+      );
+
       const manifestPath = resolve(
         __dirname,
         'src/chrome-extension/manifest.json'
@@ -24,8 +31,8 @@ function updateManifestPlugin(): PluginOption {
       const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
       manifest.host_permissions = [
-        process.env.VITE_HOST_PERMISSIONS_HTTPS,
-        process.env.VITE_HOST_PERMISSIONS_HTTP,
+        env.VITE_HOST_PERMISSIONS_HTTPS,
+        env.VITE_HOST_PERMISSIONS_HTTP,
       ];
 
       if (!fs.existsSync(resolve(__dirname, 'dist'))) {
@@ -44,27 +51,29 @@ function updateManifestPlugin(): PluginOption {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  build: {
-    rollupOptions: {
-      input: {
-        background: resolve(__dirname, 'src/chrome-extension/background.ts'),
-        popup: resolve(__dirname, './index.html'),
-        contentscript: resolve(
-          __dirname,
-          './src/chrome-extension/contentscript.ts'
-        ),
+export default defineConfig(({ mode }) => {
+  return {
+    build: {
+      rollupOptions: {
+        input: {
+          background: resolve(__dirname, 'src/chrome-extension/background.ts'),
+          popup: resolve(__dirname, './index.html'),
+          contentscript: resolve(
+            __dirname,
+            './src/chrome-extension/contentscript.ts'
+          ),
+        },
+        output: {
+          entryFileNames: '[name].js',
+        },
       },
-      output: {
-        entryFileNames: '[name].js',
-      },
+      outDir: 'dist',
     },
-    outDir: 'dist',
-  },
-  plugins: [
-    react(),
-    vanillaExtractPlugin(),
-    tsconfigPaths(),
-    updateManifestPlugin(),
-  ],
+    plugins: [
+      react(),
+      vanillaExtractPlugin(),
+      tsconfigPaths(),
+      updateManifestPlugin(mode),
+    ],
+  };
 });
