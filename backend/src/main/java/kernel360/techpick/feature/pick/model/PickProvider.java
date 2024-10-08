@@ -1,9 +1,6 @@
 package kernel360.techpick.feature.pick.model;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -24,11 +21,6 @@ public class PickProvider {
 
 	public List<Pick> findAllByUserId(Long userId) {
 		return pickRepository.findAllByUserId(userId);
-	}
-
-	public Map<Long, Pick> findAllByUserIdAsMap(Long userId) {
-		return findAllByUserId(userId).stream()
-			.collect(Collectors.toMap(Pick::getId, Function.identity()));
 	}
 
 	public void deleteById(Long pickId) {

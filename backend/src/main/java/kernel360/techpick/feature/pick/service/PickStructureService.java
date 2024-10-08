@@ -1,5 +1,7 @@
 package kernel360.techpick.feature.pick.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +48,9 @@ public class PickStructureService {
 		// 휴지통인지 확인
 		folderValidator.validateFolderInRecycleBin(pick.getParentFolder());
 		pickProvider.deleteById(pickDeleteDto.id());
+	}
+
+	public List<Pick> getPickListByUserId(Long userId) {
+		return pickProvider.findAllByUserId(userId);
 	}
 }
