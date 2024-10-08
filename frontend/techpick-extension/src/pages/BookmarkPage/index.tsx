@@ -1,20 +1,14 @@
 // Todo: 추후 CurrentTabInfo활용 예정.
 // import { CurrentTabInfo } from '@/components';
-import { BookMarked } from 'lucide-react';
 import { Button, Text } from '@/shared';
-import { BookmarkPageLayout } from './BookmarkPage.css';
-
 import { TagPicker } from '@/widgets';
+import { BookmarkHeader } from './BookmarkHeader';
+import { BookmarkPageLayout } from './BookmarkPage.css';
 
 export function BookmarkPage() {
   return (
     <div className={BookmarkPageLayout}>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <BookMarked size={20} />
-        <Text size="2xl" asChild>
-          <h1>PICK</h1>
-        </Text>
-      </div>
+      <BookmarkHeader />
       <div style={{ paddingTop: '24px' }}></div>
       <div
         style={{
