@@ -32,8 +32,7 @@ public class FolderController implements FolderApi {
 	public ResponseEntity<FolderResponse> createFolder(Authentication auth, @RequestBody FolderCreateRequest request) {
 
 		request.updateUserId(auth);
-		var folderResponse = folderService.createFolder(request);
-		return ResponseEntity.ok(folderResponse);
+		return ResponseEntity.ok(folderService.createFolder(request));
 	}
 
 	@Override
