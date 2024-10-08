@@ -6,12 +6,14 @@ interface TabInfo {
   url: string | undefined;
   favicon?: string | undefined | null;
   ogDescription?: string | undefined | null;
+  ogImage?: string | null;
 }
 
 export function useGetTabInfo() {
   const [tabInfo, setTabInfo] = useState<TabInfo>({
     title: undefined,
     url: undefined,
+    ogImage: undefined,
   });
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export function useGetTabInfo() {
         ...prev,
         favicon: result?.faviconUrl,
         ogDescription: result?.ogDescription,
+        ogImage: result?.ogImage,
       }));
     };
 

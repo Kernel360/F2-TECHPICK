@@ -21,12 +21,20 @@ const getPageInfoFromDom = () => {
       : null;
   };
 
+  const getOgImageFromDom = () => {
+    const ogImageMeta = document.querySelector("meta[property='og:image']");
+
+    return ogImageMeta instanceof HTMLMetaElement ? ogImageMeta.content : null;
+  };
+
   const faviconUrl = getFaviconFromDom();
   const ogDescription = getOgDescriptionFromDom();
+  const ogImage = getOgImageFromDom();
 
   return {
     faviconUrl,
     ogDescription,
+    ogImage,
   };
 };
 
