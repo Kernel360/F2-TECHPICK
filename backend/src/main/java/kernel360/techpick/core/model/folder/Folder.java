@@ -26,6 +26,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Folder extends TimeTracking {
 
+	private static final Long NO_PARENT_FOLDER = -1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -59,6 +61,13 @@ public class Folder extends TimeTracking {
 
 	public void updateParentFolder(Folder parentFolder) {
 		this.parentFolder = parentFolder;
+	}
+
+	public Long getParentFolderId() {
+		if (parentFolder == null) {
+			return NO_PARENT_FOLDER;
+		}
+		return parentFolder.getId();
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
