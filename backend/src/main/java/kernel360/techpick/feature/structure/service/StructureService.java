@@ -36,8 +36,11 @@ public class StructureService {
 
 		folderStructureService.moveFolder(mapper.toFolderMoveDto(request));
 
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
+		
 		getValidator(request.getUserId())
-			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
 
 		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
@@ -47,8 +50,11 @@ public class StructureService {
 
 		folderStructureService.deleteFolder(mapper.toFolderDeleteDto(request));
 
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
+
 		getValidator(request.getUserId())
-			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
 
 		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
@@ -58,8 +64,11 @@ public class StructureService {
 
 		pickStructureService.movePick(mapper.toPickMoveDto(request));
 
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
+
 		getValidator(request.getUserId())
-			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
 
 		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
@@ -69,8 +78,11 @@ public class StructureService {
 
 		pickStructureService.deletePick(mapper.toPickDeleteDto(request));
 
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
+
 		getValidator(request.getUserId())
-			.validate(request.getStructure(), request.getRootId(), request.getRecycleBinId());
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
 
 		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
