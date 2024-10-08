@@ -1,6 +1,6 @@
 // Todo: 추후 CurrentTabInfo활용 예정.
 // import { CurrentTabInfo } from '@/components';
-import { Button, Text } from '@/shared';
+import { Button, Text, Gap } from '@/shared';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
 import { BookmarkPageLayout } from './BookmarkPage.css';
@@ -9,7 +9,7 @@ export function BookmarkPage() {
   return (
     <div className={BookmarkPageLayout}>
       <BookmarkHeader />
-      <div style={{ paddingTop: '24px' }}></div>
+      <Gap horizontalSize="gap24" />
       <div
         style={{
           display: 'flex',
