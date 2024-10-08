@@ -3274,7 +3274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-slot@npm:1.1.0":
+"@radix-ui/react-slot@npm:1.1.0, @radix-ui/react-slot@npm:^1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-slot@npm:1.1.0"
   dependencies:
@@ -14332,6 +14332,7 @@ __metadata:
     "@eslint/js": "npm:^9.9.0"
     "@radix-ui/react-dialog": "npm:^1.1.2"
     "@radix-ui/react-popover": "npm:^1.1.1"
+    "@radix-ui/react-slot": "npm:^1.1.0"
     "@radix-ui/react-visually-hidden": "npm:^1.1.0"
     "@tanstack/react-query": "npm:^5.55.4"
     "@types/chrome": "npm:^0.0.271"
