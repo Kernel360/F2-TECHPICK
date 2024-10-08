@@ -23,10 +23,18 @@ export const formFieldLayout = style({
 export const titleInputStyle = style({
   width: '100%',
   height: '40px',
-  padding: '8px',
-  fontSize: '1rem',
-  border: '1px solid #ddd',
+  border: '1px solid transparent',
   borderRadius: '4px',
+  padding: '8px',
+  backgroundColor: '#f9f9f9',
+  fontSize: '1rem',
+  transition: 'border 0.3s ease',
+
+  ':focus': {
+    border: '1px solid #444C52',
+    outline: 'none',
+    backgroundColor: '#ffffff',
+  },
 });
 
 export const textAreaStyle = style({
@@ -34,9 +42,17 @@ export const textAreaStyle = style({
   height: '72px',
   padding: '8px',
   fontSize: '1rem',
-  border: '1px solid #ddd',
+  border: '1px solid transparent',
   borderRadius: '4px',
+  backgroundColor: '#f9f9f9',
   resize: 'none',
+  transition: 'border 0.3s ease',
+
+  ':focus': {
+    border: '1px solid #444C52',
+    outline: 'none',
+    backgroundColor: '#ffffff',
+  },
 });
 
 export const submitButtonLayout = style({
