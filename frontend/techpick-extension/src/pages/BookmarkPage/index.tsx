@@ -1,8 +1,8 @@
-// Todo: 추후 CurrentTabInfo활용 예정.
-// import { CurrentTabInfo } from '@/components';
+import { useGetTabInfo } from '@/hooks';
 import { Button, Text, Gap } from '@/shared';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
+import { ThumbnailImage } from './ThumbnailImage';
 import {
   bookmarkPageLayout,
   pickFormLayout,
@@ -14,13 +14,15 @@ import {
 } from './BookmarkPage.css';
 
 export function BookmarkPage() {
+  const { ogImage } = useGetTabInfo();
+
   return (
     <div className={bookmarkPageLayout}>
       <BookmarkHeader />
       <Gap verticalSize="gap24" />
       <div className={pickFormLayout}>
         <div className={formFieldLayout}>
-          <img src="" alt="" width={48} height={48} />
+          <ThumbnailImage image={ogImage} />
           <input
             type="text"
             defaultValue={'타이틀'}
