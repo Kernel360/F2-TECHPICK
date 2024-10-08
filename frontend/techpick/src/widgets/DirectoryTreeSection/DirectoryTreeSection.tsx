@@ -14,14 +14,21 @@ import {
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
-import { NodeApi, Tree, MoveHandler, TreeApi } from 'react-arborist';
+import {
+  NodeApi,
+  Tree,
+  MoveHandler,
+  TreeApi,
+  CreateHandler,
+} from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
 import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder } from 'lucide-react';
-import { EditorContextMenu } from '@/widgets/ContextMenuWrapper';
+import { EditorContextMenu } from '../EditorContextMenu';
+import { createNode } from '@/features/createNode';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -32,6 +39,7 @@ export function DirectoryTreeSection() {
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
+    createNodeType,
     setTreeRef,
     setFocusedFolderNodeList,
     setFocusedLinkNodeList,
@@ -44,6 +52,23 @@ export function DirectoryTreeSection() {
       treeRef.current = instance;
       setTreeRef(treeRef);
     }
+  };
+
+  const handleCreate: CreateHandler<NodeData> = ({
+    parentId,
+    parentNode,
+    index,
+  }) => {
+    const updatedData = createNode(
+      treeData,
+      focusedNode,
+      createNodeType,
+      parentId,
+      parentNode,
+      index
+    );
+    setTreeData(updatedData);
+    return { id: '999' };
   };
 
   const handleMove: MoveHandler<NodeData> = ({
@@ -100,6 +125,7 @@ export function DirectoryTreeSection() {
                 setFocusedNode(node);
               }}
               onMove={handleMove}
+              onCreate={handleCreate}
               openByDefault={false}
               width={width}
               height={height && height - 8}

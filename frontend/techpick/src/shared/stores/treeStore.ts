@@ -12,6 +12,7 @@ interface TreeState {
   prevFocusedNode: NodeApi | null;
   focusedFolderNodeList: NodeApi[];
   focusedLinkNodeList: NodeApi[];
+  createNodeType: 'folder' | 'pick';
 
   setTreeData: (data: NodeData[]) => void;
   setTreeApi: (api: TreeApi<NodeApi>) => void;
@@ -20,6 +21,7 @@ interface TreeState {
   setPrevFocusedNode: (node: NodeApi | null) => void;
   setFocusedFolderNodeList: (node: NodeApi[]) => void;
   setFocusedLinkNodeList: (node: NodeApi[]) => void;
+  setCreateNodeType: (type: 'folder' | 'pick') => void;
 }
 
 export const useTreeStore = create<TreeState>((set) => ({
@@ -30,6 +32,7 @@ export const useTreeStore = create<TreeState>((set) => ({
   prevFocusedNode: null,
   focusedFolderNodeList: [],
   focusedLinkNodeList: [],
+  createNodeType: 'pick',
 
   setTreeData: (data) => set({ treeData: data }),
   setTreeApi: (api) => set({ treeApi: api }),
@@ -38,4 +41,5 @@ export const useTreeStore = create<TreeState>((set) => ({
   setPrevFocusedNode: (node) => set({ prevFocusedNode: node }),
   setFocusedFolderNodeList: (node) => set({ focusedFolderNodeList: node }),
   setFocusedLinkNodeList: (node) => set({ focusedLinkNodeList: node }),
+  setCreateNodeType: (type) => set({ createNodeType: type }),
 }));

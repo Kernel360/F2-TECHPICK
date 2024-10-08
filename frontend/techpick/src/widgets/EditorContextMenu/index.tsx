@@ -17,7 +17,8 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { focusedNode } = useTreeStore();
+  const { focusedNode, treeRef, createNodeType, setCreateNodeType } =
+    useTreeStore();
 
   return (
     <ContextMenu.Root>
@@ -40,11 +41,24 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   sideOffset={2}
                   alignOffset={-5}
                 >
-                  <ContextMenu.Item className={ContextMenuItem}>
+                  <ContextMenu.Item
+                    className={ContextMenuItem}
+                    onClick={() => {
+                      setCreateNodeType('folder');
+                      treeRef.current!.createInternal();
+                    }}
+                  >
                     Folder <div className={RightSlot}></div>
                   </ContextMenu.Item>
 
-                  <ContextMenu.Item className={ContextMenuItem}>
+                  <ContextMenu.Item
+                    className={ContextMenuItem}
+                    onClick={() => {
+                      setCreateNodeType('pick');
+                      console.log('createNodeType', createNodeType);
+                      treeRef.current!.createInternal();
+                    }}
+                  >
                     Pick
                   </ContextMenu.Item>
                 </ContextMenu.SubContent>
@@ -56,7 +70,13 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             Rename <div className={RightSlot}></div>
           </ContextMenu.Item>
           <ContextMenu.Item className={ContextMenuItem}>
-            Delete <div className={RightSlot}></div>
+            Delete
+            <div
+              className={RightSlot}
+              onClick={() => {
+                treeRef.current!.delete(focusedNode!.id);
+              }}
+            ></div>
           </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>
