@@ -60,4 +60,10 @@ export const buttonStyle = style({
     backgroundColor: 'black', // hover 시 배경색
     transition: 'background-color 0.3s ease', // 애니메이션 효과
   },
+
+  ':focus': {
+    outline: 'none',
+    backgroundColor: 'black', // hover 시 배경색
+    transition: 'background-color 0.3s ease', // 애니메이션 효과
+  },
 });

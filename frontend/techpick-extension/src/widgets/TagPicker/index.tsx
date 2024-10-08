@@ -20,7 +20,16 @@ export function TagPicker() {
 
   return (
     <div ref={tagInputContainerRef} className={tagPickerLayout}>
-      <div className={tagDialogTriggerLayout} onClick={openDialog}>
+      <div
+        className={tagDialogTriggerLayout}
+        onClick={openDialog}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            openDialog();
+          }
+        }}
+        tabIndex={0}
+      >
         <SelectedTagListLayout>
           {selectedTagList.map((tag) => (
             <SelectedTagItem key={tag.id} tag={tag} />

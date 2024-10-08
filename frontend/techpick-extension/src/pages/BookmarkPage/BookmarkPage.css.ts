@@ -28,12 +28,12 @@ export const titleInputStyle = style({
   padding: '8px',
   backgroundColor: '#f9f9f9',
   fontSize: '1rem',
-  transition: 'border 0.3s ease',
 
   ':focus': {
     border: '1px solid #444C52',
     outline: 'none',
     backgroundColor: '#ffffff',
+    transition: 'border 0.3s ease',
   },
 });
 
@@ -46,12 +46,12 @@ export const textAreaStyle = style({
   borderRadius: '4px',
   backgroundColor: '#f9f9f9',
   resize: 'none',
-  transition: 'border 0.3s ease',
 
   ':focus': {
     border: '1px solid #444C52',
     outline: 'none',
     backgroundColor: '#ffffff',
+    transition: 'border 0.3s ease',
   },
 });
 
