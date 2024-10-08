@@ -5,18 +5,16 @@ import {
 } from './ThumbnailImage.css';
 
 export function ThumbnailImage({ image }: ThumbnailImageProps) {
+  if (!image) {
+    return <div className={imagePlaceholderStyle} />;
+  }
+
   return (
-    <>
-      {image ? (
-        <img
-          src={image}
-          alt="Bookmark page image"
-          className={`${imageStyle} ${fadeInStyle}`} // 로딩 중에는 fadeInStyle 적용
-        />
-      ) : (
-        <div className={imagePlaceholderStyle} />
-      )}
-    </>
+    <img
+      src={image}
+      alt="Bookmark page image"
+      className={`${imageStyle} ${fadeInStyle}`}
+    />
   );
 }
 
