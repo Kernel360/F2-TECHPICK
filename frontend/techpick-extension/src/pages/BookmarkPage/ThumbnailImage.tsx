@@ -20,7 +20,6 @@ export function ThumbnailImage({ image }: ThumbnailImageProps) {
   );
 }
 
-// ThumbnailImageProps 인터페이스 정의
 interface ThumbnailImageProps {
   image?: string | null;
 }
