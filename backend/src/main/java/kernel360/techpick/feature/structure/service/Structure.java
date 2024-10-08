@@ -13,7 +13,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
-import kernel360.techpick.feature.structure.exception.ApiDirectoryException;
+import kernel360.techpick.feature.structure.exception.ApiStructureException;
 import kernel360.techpick.feature.structure.service.node.common.Node;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
 import lombok.Getter;
@@ -49,7 +49,7 @@ public class Structure<T extends Node> {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (JsonProcessingException e) {
-			throw ApiDirectoryException.DIRECTORY_INVALID_JSON_STRUCTURE(); // TODO: change to structure exception
+			throw ApiStructureException.INVALID_JSON_STRUCTURE(); // TODO: change to structure exception
 		}
 	}
 
@@ -59,8 +59,8 @@ public class Structure<T extends Node> {
 	 */
 	public List<RelationalNode> convertRootToNodeList(Long rootFolderId) {
 		return rootFolder.stream()
-						 .flatMap(child -> child.toNodeList(rootFolderId).stream())
-						 .toList();
+			.flatMap(child -> child.toNodeList(rootFolderId).stream())
+			.toList();
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class Structure<T extends Node> {
 	 */
 	public List<RelationalNode> convertRecycleBinToNodeList(Long recycleBinFolderId) {
 		return recycleBinFolder.stream()
-						 .flatMap(child -> child.toNodeList(recycleBinFolderId).stream())
-						 .toList();
+			.flatMap(child -> child.toNodeList(recycleBinFolderId).stream())
+			.toList();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Structure<T extends Node> {
 		} catch (Exception e) {
 			log.warn("Json Input : {}", json);
 			log.warn("Error Log :", e);
-			throw ApiDirectoryException.DIRECTORY_INVALID_JSON_STRUCTURE();
+			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
 

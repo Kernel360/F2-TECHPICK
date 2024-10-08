@@ -8,7 +8,7 @@ import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.feature.folder.model.FolderProvider;
 import kernel360.techpick.feature.folder.validator.FolderValidator;
 import kernel360.techpick.feature.pick.model.PickProvider;
-import kernel360.techpick.feature.pick.service.dto.PickIdDto;
+import kernel360.techpick.feature.pick.service.dto.PickDeleteDto;
 import kernel360.techpick.feature.pick.service.dto.PickMoveDto;
 import kernel360.techpick.feature.pick.validator.PickValidator;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +38,13 @@ public class PickStructureService {
 
 	// 픽 삭제
 	@Transactional
-	public void deletePick(PickIdDto pickIdDto) {
+	public void deletePick(PickDeleteDto pickDeleteDto) {
 		// 본인 픽인지 검증 (pickId)
-		Pick pick = pickProvider.findById(pickIdDto.getUserId());
-		pickValidator.validatePickAccess(pickIdDto.getUserId(), pick);
+		Pick pick = pickProvider.findById(pickDeleteDto.id());
+		pickValidator.validatePickAccess(pickDeleteDto.userId(), pick);
 
 		// 휴지통인지 확인
 		folderValidator.validateFolderInRecycleBin(pick.getParentFolder());
-		pickProvider.deleteById(pickIdDto.getUserId());
+		pickProvider.deleteById(pickDeleteDto.id());
 	}
 }

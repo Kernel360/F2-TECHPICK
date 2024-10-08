@@ -3,9 +3,9 @@ package kernel360.techpick.feature.structure.service.node.server;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
+import kernel360.techpick.feature.structure.model.NameProvider;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.client.PickClientNode;
-import kernel360.techpick.feature.structure.service.model.NameProvider;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

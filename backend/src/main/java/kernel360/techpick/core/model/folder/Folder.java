@@ -26,6 +26,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Folder extends TimeTracking {
 
+	private static final Long NO_PARENT_FOLDER = -1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -46,10 +48,10 @@ public class Folder extends TimeTracking {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	private Folder(String name, Folder parentFolder, FolderType folderType, User user) {
+	private Folder(String name, FolderType folderType, Folder parentFolder, User user) {
 		this.name = name;
-		this.parentFolder = parentFolder;
 		this.folderType = folderType;
+		this.parentFolder = parentFolder;
 		this.user = user;
 	}
 
@@ -61,8 +63,15 @@ public class Folder extends TimeTracking {
 		this.parentFolder = parentFolder;
 	}
 
+	public Long getParentFolderId() {
+		if (parentFolder == null) {
+			return NO_PARENT_FOLDER;
+		}
+		return parentFolder.getId();
+	}
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static Folder create(String name, Folder parentFolder, FolderType folderType, User user) {
-		return new Folder(name, parentFolder, folderType, user);
+	public static Folder create(String name, FolderType folderType, User user) {
+		return new Folder(name, folderType, null, user);
 	}
 }

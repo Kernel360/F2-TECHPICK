@@ -5,14 +5,11 @@ import org.springframework.security.core.Authentication;
 import lombok.Getter;
 
 @Getter
-public class FolderUpdateRequest {
-
+public class FolderCreateRequest {
 	private Long userId;
-	private Long folderId;
 	private String name;
 
-	public void updateUserIdAndFolderId(Authentication auth, Long folderId) {
+	public void updateUserId(Authentication auth) {
 		this.userId = (Long)auth.getPrincipal();
-		this.folderId = folderId;
 	}
 }

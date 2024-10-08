@@ -5,14 +5,15 @@ import org.springframework.http.HttpStatus;
 import kernel360.techpick.core.exception.base.ApiErrorCode;
 import kernel360.techpick.core.exception.level.ErrorLevel;
 
-public enum ApiDirectoryErrorCode implements ApiErrorCode {
+public enum ApiStructureErrorCode implements ApiErrorCode {
 
 	/**
-	 * Directory Error Code (DIR)
+	 * Structure Error Code (ST)
 	 */
-	DIRECTORY_INVALID_JSON_STRUCTURE
-		("DIR-000", HttpStatus.BAD_REQUEST, "클라이언트 요청의 디렉토리 JSON 데이터가 올바르지 않음", ErrorLevel.SHOULD_NOT_HAPPEN()),
-
+	INVALID_JSON_STRUCTURE
+		("ST-000", HttpStatus.BAD_REQUEST, "클라이언트 요청의 디렉토리 JSON 데이터가 올바르지 않음", ErrorLevel.SHOULD_NOT_HAPPEN()),
+	USER_STRUCTURE_JSON_NOT_FOUND("ST-001", HttpStatus.BAD_REQUEST, "사용자의 폴더구조 json이 없음",
+		ErrorLevel.MUST_NEVER_HAPPEN()),
 	;
 
 	private final String code;
@@ -23,7 +24,7 @@ public enum ApiDirectoryErrorCode implements ApiErrorCode {
 
 	private final ErrorLevel errorLevel;
 
-	ApiDirectoryErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
+	ApiStructureErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
 		this.code = code;
 		this.httpStatus = status;
 		this.errorMessage = message;

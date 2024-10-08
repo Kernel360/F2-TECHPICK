@@ -8,10 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import kernel360.techpick.feature.structure.model.NameProvider;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.common.Node;
 import kernel360.techpick.feature.structure.service.node.common.NodeType;
-import kernel360.techpick.feature.structure.service.model.NameProvider;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 	@JsonSubTypes.Type(value = FolderServerNode.class),
 	@JsonSubTypes.Type(value = PickServerNode.class),
 })
-@JsonIgnoreProperties(value={ "name" }, allowGetters=true, ignoreUnknown = true)
+@JsonIgnoreProperties(value = {"name"}, allowGetters = true, ignoreUnknown = true)
 public abstract class ServerNode implements Node {
 
 	@NotBlank
