@@ -16,12 +16,7 @@ public class StructureDataProxy {
     private final Map<Long, Pick> pickMap;
     private final Map<Long, Folder> folderMap;
 
-    private StructureDataProxy(Map<Long, Pick> pickMap, Map<Long, Folder> folderMap) {
-        this.pickMap = pickMap;
-        this.folderMap = folderMap;
-    }
-
-    private StructureDataProxy(List<Pick> pickList, List<Folder> folderList) {
+    public StructureDataProxy(List<Pick> pickList, List<Folder> folderList) {
         this.pickMap = pickList.stream().collect(Collectors.toMap(Pick::getId, Function.identity()));
         this.folderMap = folderList.stream().collect(Collectors.toMap(Folder::getId, Function.identity()));
     }

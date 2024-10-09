@@ -1,4 +1,4 @@
-package kernel360.techpick.folder.service.parser;
+package kernel360.techpick.folder.service.structure;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -9,19 +9,21 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import kernel360.techpick.feature.structure.exception.ApiStructureException;
+import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.Structure;
+import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
 import kernel360.techpick.feature.structure.service.node.server.ServerNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ParserTest {
+public class StructureTest {
 
 	@Test
 	@DisplayName("직렬화 - 비직렬화 테스트")
 	public void input_json_to_object_to_json() {
 		// given
-		String json = ParserTestCase.CASE_OK_SIMPLE;
+		String json = StructureTestCase.CASE_OK_SIMPLE;
 
 		// 1. 클라이언트가 보낸 JSON 구조를 서버에서 필요한 정보만 파싱 및 구조 검증 합니다.
 		//    서버에서 필요한 필수 필드가 없는 경우 예외를 던집니다.
@@ -36,19 +38,19 @@ public class ParserTest {
 
 		// 4. 클라이언트에게 보내기 위한 객체(Structure<ClientNode>)로 변환하면서, 필요한 필드를 추가합니다.
 		//    ex. tagName 값이 여기서 들어갑니다.
-		// Structure<ClientNode> dataForClient = structureMapper.toClientStructure(deserializedFromDB);
+		Structure<ClientNode> dataForClient = StructureMapper.toClientStructure(deserializedFromDB);
 
 		// 4. 직렬화해서 클라이언트에게 전송 합니다.
 		//    아래처럼 안해도, 그냥 jackson이 알아서 하긴 하는데 일단 메소드를 만들었음.
-		// String finalResultForClient = dataForClient.serialize();
-		// log.info(finalResultForClient);
+		String finalResultForClient = dataForClient.serialize();
+		log.info(finalResultForClient);
 	}
 
 	@Test
 	@DisplayName("간단한 구조 테스트")
 	public void parse_json_string_test() {
 		// given
-		String json = ParserTestCase.CASE_OK_SIMPLE;
+		String json = StructureTestCase.CASE_OK_SIMPLE;
 		// when
 		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
 		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
@@ -64,7 +66,7 @@ public class ParserTest {
 	@DisplayName("실제 프론트가 보낼 예제 테스트")
 	public void parse_json_with_real_data() {
 		// given
-		String json = ParserTestCase.CASE_OK_LONG;
+		String json = StructureTestCase.CASE_OK_LONG;
 		// when
 		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
 		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
@@ -80,7 +82,7 @@ public class ParserTest {
 	@DisplayName("root에 빈 배열이 들어오면 정상적으로 처리, 빈 배열 반환")
 	public void parse_json_no_folder() {
 		// given
-		String json = ParserTestCase.CASE_OK_EMPTY_ARRAY_OR_NULL;
+		String json = StructureTestCase.CASE_OK_EMPTY_ARRAY_OR_NULL;
 		// when
 		Structure<ServerNode> structure = Structure.fromJson(json, ServerNode.class);
 		List<RelationalNode> nodes = structure.convertRootToNodeList(0L);
@@ -96,7 +98,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - A")
 		public void parse_json_wrong_format_1() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_A;
+			String json = StructureTestCase.CASE_INVALID_A;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -107,7 +109,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - B")
 		public void parse_json_wrong_format_2() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_B;
+			String json = StructureTestCase.CASE_INVALID_B;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -118,7 +120,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - C")
 		public void parse_json_wrong_format_3() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_C;
+			String json = StructureTestCase.CASE_INVALID_C;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -129,7 +131,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - D")
 		public void parse_json_wrong_format_4() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_D;
+			String json = StructureTestCase.CASE_INVALID_D;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -140,7 +142,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - E")
 		public void parse_json_wrong_format_5() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_E;
+			String json = StructureTestCase.CASE_INVALID_E;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -151,7 +153,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - F")
 		public void parse_json_wrong_format_6() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_F;
+			String json = StructureTestCase.CASE_INVALID_F;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -162,7 +164,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - G")
 		public void parse_json_wrong_format_7() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_G;
+			String json = StructureTestCase.CASE_INVALID_G;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -173,7 +175,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - H")
 		public void parse_json_wrong_format_8() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_H;
+			String json = StructureTestCase.CASE_INVALID_H;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -184,7 +186,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - I")
 		public void parse_json_wrong_format_9() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_I;
+			String json = StructureTestCase.CASE_INVALID_I;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
@@ -195,7 +197,7 @@ public class ParserTest {
 		@DisplayName("잘못된 구조/정보가 입력될 경우 - J")
 		public void parse_json_wrong_format_10() {
 			// given
-			String json = ParserTestCase.CASE_INVALID_J;
+			String json = StructureTestCase.CASE_INVALID_J;
 			// when + then
 			assertThatExceptionOfType(ApiStructureException.class).isThrownBy(
 				() -> Structure.fromJson(json, ServerNode.class)
