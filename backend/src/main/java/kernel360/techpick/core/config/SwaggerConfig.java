@@ -1,5 +1,7 @@
 package kernel360.techpick.core.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,6 +9,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
@@ -17,7 +20,8 @@ public class SwaggerConfig {
 			.info(apiInfo())
 			.components(new Components()
 				.addSecuritySchemes("basicAuth", securityScheme())
-			);
+			)
+			.servers(List.of(getServer()));
 	}
 
 	private Info apiInfo() {
@@ -36,5 +40,11 @@ public class SwaggerConfig {
 			.type(SecurityScheme.Type.APIKEY)
 			.name("access_token")
 			.in(SecurityScheme.In.COOKIE);
+	}
+
+	private Server getServer() {
+		// TODO: AWS배포 이후 local prod에 따라 다른 url 적용하도록 리팩토링 필요
+		// 현재는 홈서버 반환
+		return new Server().url("https://minlife.me");
 	}
 }
