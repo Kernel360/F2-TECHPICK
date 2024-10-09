@@ -14,6 +14,18 @@ export const ListLayoutHeightVariants = styleVariants({
 export type ListLayoutHeightVariantKeyTypes =
   keyof typeof ListLayoutHeightVariants;
 
+export const SelectedTagListLayoutFocusStyleVariant = styleVariants({
+  focus: {
+    border: '1px solid black',
+    borderTopLeftRadius: '4px',
+    borderTopRightRadius: '4px',
+  },
+  none: {},
+});
+
+export type SelectedTagListLayoutFocusStyleVarianKeyTypes =
+  keyof typeof SelectedTagListLayoutFocusStyleVariant;
+
 export const SelectedTagListLayoutStyle = style({
   display: 'flex',
   gap: '4px',

@@ -80,7 +80,7 @@ export function TagAutocompleteDialog({
       filter={filterCommandItems}
     >
       {/**선택한 태그 리스트 */}
-      <SelectedTagListLayout>
+      <SelectedTagListLayout focusStyle="focus">
         {selectedTagList.map((tag) => (
           <SelectedTagItem key={tag.id} tag={tag}>
             <DeselectTagButton tag={tag} onClick={focusTagInput} />

@@ -3,15 +3,18 @@ import {
   SelectedTagListLayoutStyle,
   ListLayoutHeightVariantKeyTypes,
   ListLayoutHeightVariants,
+  SelectedTagListLayoutFocusStyleVarianKeyTypes,
+  SelectedTagListLayoutFocusStyleVariant,
 } from './SelectedTagListLayout.css';
 
 export function SelectedTagListLayout({
   height = 'flexible',
+  focusStyle = 'none',
   children,
 }: PropsWithChildren<SelectedTagListLayoutProps>) {
   return (
     <div
-      className={`${ListLayoutHeightVariants[height]} ${SelectedTagListLayoutStyle} `}
+      className={`${ListLayoutHeightVariants[height]} ${SelectedTagListLayoutFocusStyleVariant[focusStyle]} ${SelectedTagListLayoutStyle}`}
     >
       {children}
     </div>
@@ -20,4 +23,5 @@ export function SelectedTagListLayout({
 
 interface SelectedTagListLayoutProps {
   height?: ListLayoutHeightVariantKeyTypes;
+  focusStyle?: SelectedTagListLayoutFocusStyleVarianKeyTypes;
 }
