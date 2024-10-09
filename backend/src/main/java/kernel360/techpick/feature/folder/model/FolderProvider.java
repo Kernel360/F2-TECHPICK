@@ -2,9 +2,6 @@ package kernel360.techpick.feature.folder.model;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -28,8 +25,8 @@ public class FolderProvider {
 		return folderRepository.findById(folderId).orElseThrow(ApiFolderException::FOLDER_NOT_FOUND);
 	}
 
-	public List<Folder> findAllByUserId(Long userId) {
-		return folderRepository.findAllByUserId(userId);
+	public List<Folder> findAllByUserIdAndParentFolderIsNotNull(Long userId) {
+		return folderRepository.findAllByUserIdAndParentFolderIsNotNull(userId);
 	}
 
 	public List<Folder> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId) {
@@ -68,10 +65,5 @@ public class FolderProvider {
 		}
 
 		return currentFolder.getFolderType();
-	}
-
-	public Map<Long, Folder> findAllByUserIdAsMap(Long userId) {
-		return folderRepository.findAllByUserId(userId).stream()
-							   .collect(Collectors.toMap(Folder::getId, Function.identity()));
 	}
 }

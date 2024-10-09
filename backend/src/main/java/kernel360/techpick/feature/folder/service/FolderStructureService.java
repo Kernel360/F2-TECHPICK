@@ -32,9 +32,19 @@ public class FolderStructureService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Folder> getFolderListByUserId(Long userId) {
+	public Folder getRootByUsrId(Long userId) {
+		return folderProvider.findRoot(userId);
+	}
 
-		return folderProvider.findAllByUserId(userId);
+	@Transactional(readOnly = true)
+	public Folder getRecycleBinByUsrId(Long userId) {
+		return folderProvider.findRecycleBin(userId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Folder> getFolderListByUserIdAndParentFolderIsNotNull(Long userId) {
+
+		return folderProvider.findAllByUserIdAndParentFolderIsNotNull(userId);
 	}
 
 	@Transactional
