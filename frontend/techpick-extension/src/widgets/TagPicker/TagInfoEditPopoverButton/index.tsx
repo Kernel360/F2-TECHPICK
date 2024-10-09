@@ -12,14 +12,10 @@ import { tagInfoEditPopoverContent } from './TagInfoEditPopoverButton.css';
 export function TagInfoEditPopoverButton({
   tag,
 }: TagInfoEditPopoverButtonProps) {
-  const tagInfoEditPopoverButtonRef = useRef<HTMLButtonElement | null>(null);
+  const tagInfoEditPopoverButtonRef = useRef<HTMLDivElement | null>(null);
   const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { updateTag, updateSelectedTagList } = useTagStore();
-
-  const openPopover = () => {
-    setIsPopoverOpen(true);
-  };
 
   const closePopover = () => {
     setIsPopoverOpen(false);
@@ -61,10 +57,7 @@ export function TagInfoEditPopoverButton({
 
   return (
     <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTriggerButton
-        openPopover={openPopover}
-        ref={tagInfoEditPopoverButtonRef}
-      />
+      <PopoverTriggerButton ref={tagInfoEditPopoverButtonRef} />
       {isPopoverOpen && <PopoverOverlay onClick={closePopover} />}
       <Popover.Portal container={tagInfoEditPopoverButtonRef.current}>
         <Popover.Content

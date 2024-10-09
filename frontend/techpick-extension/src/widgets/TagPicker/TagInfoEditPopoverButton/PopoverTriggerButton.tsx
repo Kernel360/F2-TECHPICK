@@ -5,27 +5,22 @@ import { PopoverTriggerButtonStyle } from './PopoverTriggerButton.css';
 
 export const PopoverTriggerButton = forwardRef(
   function PopoverTriggerButtonWithRef(
-    { openPopover }: PopoverTriggerButtonProps,
-    ref?: React.Ref<HTMLButtonElement>
+    _props,
+    ref?: React.Ref<HTMLDivElement>
   ) {
     return (
       <Popover.Trigger asChild>
-        <button
+        <div
           className={PopoverTriggerButtonStyle}
           ref={ref}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              openPopover();
-            }
+          role="button"
+          onClick={(e) => {
+            e.stopPropagation();
           }}
         >
           <Ellipsis size={14} />
-        </button>
+        </div>
       </Popover.Trigger>
     );
   }
 );
-
-interface PopoverTriggerButtonProps {
-  openPopover: () => void;
-}
