@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kernel360.techpick.feature.folder.service.FolderService;
 import kernel360.techpick.feature.folder.service.dto.FolderCreateRequest;
-import kernel360.techpick.feature.folder.service.dto.FolderIdDto;
 import kernel360.techpick.feature.folder.service.dto.FolderResponse;
 import kernel360.techpick.feature.folder.service.dto.FolderUpdateRequest;
+import kernel360.techpick.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,39 +25,54 @@ import lombok.RequiredArgsConstructor;
 public class FolderController implements FolderApi {
 
 	private final FolderService folderService;
+	private final UserService userService;
 
 	@Override
 	@PostMapping
-	public ResponseEntity<FolderResponse> createFolder(Authentication auth, @RequestBody FolderCreateRequest request) {
-
-		request.updateUserId(auth);
-		return ResponseEntity.ok(folderService.createFolder(request));
+	public ResponseEntity<FolderResponse> createFolder(
+		@RequestBody FolderCreateRequest request
+	) {
+		FolderResponse res = folderService.createGeneralFolder(
+			userService.getCurrentUser(), request
+		);
+		return ResponseEntity.ok(res);
 	}
 
 	@Override
 	@GetMapping
-	public ResponseEntity<Map<String, Long>> getBasicFolderIdMap(Authentication auth) {
+	public ResponseEntity<Map<String, Long>> getBasicFolderIdMap() {
 
-		return ResponseEntity.ok(folderService.getBasicFolderIdMap((Long)auth.getPrincipal()));
+		Map<String, Long> res = folderService.getBasicFolderIdMap(
+			userService.getCurrentUser()
+		);
+
+		return ResponseEntity.ok(res);
 	}
 
 	@Override
 	@GetMapping("/parent/{folderId}")
-	public ResponseEntity<List<FolderResponse>> getFolderListByParentFolderId(Authentication auth,
-		@PathVariable Long folderId) {
+	public ResponseEntity<List<FolderResponse>> getFolderListByParentFolderId(
+		@PathVariable Long folderId
+	) {
+		List<FolderResponse> res = folderService.getFolderListByParentFolderId(
+			userService.getCurrentUser(),
+			folderId
+		);
 
-		return ResponseEntity.ok(
-			folderService.getFolderListByParentFolderId(FolderIdDto.of(auth, folderId)));
+		return ResponseEntity.ok(res);
 	}
 
 	@Override
 	@PutMapping("/{folderId}")
-	public ResponseEntity<Void> updateFolderName(Authentication auth, @PathVariable Long folderId,
-		@RequestBody FolderUpdateRequest request) {
+	public ResponseEntity<Void> updateFolderName(
+		@PathVariable Long folderId,
+		@RequestBody FolderUpdateRequest request
+	) {
+		folderService.updateName(
+			userService.getCurrentUser(),
+			request
+		);
 
-		request.updateUserIdAndFolderId(auth, folderId);
-		folderService.updateName(request);
 		return ResponseEntity.noContent().build();
 	}
-
 }
