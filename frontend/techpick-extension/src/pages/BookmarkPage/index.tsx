@@ -1,5 +1,6 @@
 import { useGetTabInfo } from '@/hooks';
 import { Button, Text, Gap } from '@/shared';
+import { useTagStore } from '@/entities/tag';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
 import { ThumbnailImage } from './ThumbnailImage';
@@ -12,20 +13,36 @@ import {
   submitButtonLayout,
   labelLayout,
 } from './BookmarkPage.css';
+import { useRef } from 'react';
 
 export function BookmarkPage() {
-  const { ogImage } = useGetTabInfo();
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const memoInputRef = useRef<HTMLTextAreaElement>(null);
+  const { selectedTagList } = useTagStore();
+  const { ogImage, title } = useGetTabInfo();
+
+  const onSubmit = () => {
+    console.log('titleInputRef', titleInputRef.current?.value);
+    console.log('memoInputRef', memoInputRef.current?.value);
+    console.log('selectedTagList', selectedTagList);
+  };
 
   return (
     <div className={bookmarkPageLayout}>
       <BookmarkHeader />
       <Gap verticalSize="gap24" />
-      <div className={pickFormLayout}>
+      <form
+        className={pickFormLayout}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <div className={formFieldLayout}>
           <ThumbnailImage image={ogImage} />
           <input
             type="text"
-            defaultValue={'타이틀'}
+            defaultValue={title}
+            ref={titleInputRef}
             className={titleInputStyle}
           />
         </div>
@@ -43,12 +60,16 @@ export function BookmarkPage() {
               <label htmlFor="">메모</label>
             </Text>
           </div>
-          <textarea id="memo" className={textAreaStyle}></textarea>
+          <textarea
+            id="memo"
+            className={textAreaStyle}
+            ref={memoInputRef}
+          ></textarea>
         </div>
         <div className={submitButtonLayout}>
-          <Button>제출</Button>
+          <Button onClick={onSubmit}>제출</Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
