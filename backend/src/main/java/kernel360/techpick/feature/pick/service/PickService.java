@@ -1,10 +1,19 @@
 package kernel360.techpick.feature.pick.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kernel360.techpick.core.model.folder.Folder;
+import kernel360.techpick.core.model.pick.Pick;
+import kernel360.techpick.core.model.tag.Tag;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.pick.model.PickProvider;
+import kernel360.techpick.feature.pick.model.PickTagProvider;
 import kernel360.techpick.feature.pick.repository.PickRepository;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
 import kernel360.techpick.feature.pick.service.dto.PickIdDto;
@@ -17,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class PickService {
 
 	private final PickProvider pickProvider;
+	private final PickTagProvider pickTagProvider;
 
 	// 픽 상세 조회
 	public PickResponse getPickById(PickIdDto pickIdDto) {
@@ -48,4 +58,8 @@ public class PickService {
 		return null;
 	}
 
+	@Transactional
+	public void releaseTagFromEveryPick(Tag tag) {
+		pickTagProvider.deletePickTagRelationByTag(tag);
+	}
 }
