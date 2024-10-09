@@ -4,11 +4,12 @@ import { SelectedTagCommonStyle } from './SelectedTagCommonStyle.css';
 export const ListLayoutHeightVariants = styleVariants({
   fixed: {
     overflow: 'hidden',
+    minHeight: '30px',
     maxHeight: '60px',
   },
   flexible: {
     overflow: 'visible',
-    minHeight: '60px',
+    minHeight: '30px',
   },
 });
 

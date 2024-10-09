@@ -16,6 +16,9 @@ import {
   tagDialogPortalLayout,
   commandInputStyle,
   tagListItemStyle,
+  tagListItemContentStyle,
+  tagCreateTextStyle,
+  tagListStyle,
 } from './TagAutocompleteDialog.css';
 
 export function TagAutocompleteDialog({
@@ -96,7 +99,7 @@ export function TagAutocompleteDialog({
       </SelectedTagListLayout>
 
       {/**전체 태그 리스트 */}
-      <Command.List>
+      <Command.List className={tagListStyle}>
         <Command.Empty>No results found.</Command.Empty>
 
         {tagList.map((tag) => (
@@ -106,7 +109,7 @@ export function TagAutocompleteDialog({
             onSelect={() => onSelectTag(tag)}
             keywords={[tag.name]}
           >
-            {tag.name}
+            <span className={tagListItemContentStyle}>{tag.name}</span>
             <TagInfoEditPopoverButton tag={tag} />
           </Command.Item>
         ))}
@@ -129,7 +132,8 @@ export function TagAutocompleteDialog({
             }}
             disabled={!canCreateTag}
           >
-            {tagInputValue} 생성
+            <span className={tagListItemContentStyle}>{tagInputValue}</span>
+            <span className={tagCreateTextStyle}>생성</span>
           </Command.Item>
         )}
       </Command.List>
