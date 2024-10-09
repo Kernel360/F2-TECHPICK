@@ -4,29 +4,18 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import kernel360.techpick.feature.structure.exception.ApiStructureException;
-import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.Structure;
-import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
 import kernel360.techpick.feature.structure.service.node.server.ServerNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ParserTest {
-
-	StructureMapper structureMapper;
-
-	@BeforeEach
-	public void setUp() {
-		// 직렬화 테스트에는 UserRepository가 필요하지 않으므로 null 넣음
-		structureMapper = new StructureMapper(new DummyNameProvider(), null);
-	}
 
 	@Test
 	@DisplayName("직렬화 - 비직렬화 테스트")
@@ -46,13 +35,13 @@ public class ParserTest {
 		Structure<ServerNode> deserializedFromDB = Structure.fromJson(serialized, ServerNode.class);
 
 		// 4. 클라이언트에게 보내기 위한 객체(Structure<ClientNode>)로 변환하면서, 필요한 필드를 추가합니다.
-		//    ex. name 값이 여기서 들어갑니다.
-		Structure<ClientNode> dataForClient = structureMapper.toClientStructure(deserializedFromDB);
+		//    ex. tagName 값이 여기서 들어갑니다.
+		// Structure<ClientNode> dataForClient = structureMapper.toClientStructure(deserializedFromDB);
 
 		// 4. 직렬화해서 클라이언트에게 전송 합니다.
 		//    아래처럼 안해도, 그냥 jackson이 알아서 하긴 하는데 일단 메소드를 만들었음.
-		String finalResultForClient = dataForClient.serialize();
-		log.info(finalResultForClient);
+		// String finalResultForClient = dataForClient.serialize();
+		// log.info(finalResultForClient);
 	}
 
 	@Test
