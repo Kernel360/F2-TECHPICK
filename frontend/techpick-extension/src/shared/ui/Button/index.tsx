@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, forwardRef } from 'react';
 import {
   buttonSizeVariants,
   buttonColorVariants,
@@ -9,16 +9,23 @@ import {
   buttonStyle,
 } from './Button.css';
 
-export function Button({
-  size = 'md',
-  color = 'white',
-  background = 'primary',
-  onClick,
-  onKeyDown,
-  children,
-}: PropsWithChildren<ButtonProps>) {
+export const Button = forwardRef<
+  HTMLButtonElement,
+  PropsWithChildren<ButtonProps>
+>(function Button(
+  {
+    size = 'md',
+    color = 'white',
+    background = 'primary',
+    onClick,
+    onKeyDown,
+    children,
+  },
+  ref
+) {
   return (
     <button
+      ref={ref}
       className={`${buttonSizeVariants[size]} ${buttonColorVariants[color]} ${buttonBackgroundVariants[background]} ${buttonStyle}`}
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -26,7 +33,7 @@ export function Button({
       {children}
     </button>
   );
-}
+});
 
 interface ButtonProps {
   size?: buttonSizeVariantKeyTypes;

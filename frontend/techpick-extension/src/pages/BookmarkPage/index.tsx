@@ -1,5 +1,5 @@
 import { useGetTabInfo } from '@/hooks';
-import { Button, Text, Gap } from '@/shared';
+import { Button, Text, Gap, useChangeFocusUsingArrowKey } from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
@@ -17,11 +17,20 @@ import { useRef } from 'react';
 
 export function BookmarkPage() {
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const tagPickerRef = useRef<HTMLDivElement>(null);
   const memoInputRef = useRef<HTMLTextAreaElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
   const { selectedTagList } = useTagStore();
   const { ogImage, title } = useGetTabInfo();
+  useChangeFocusUsingArrowKey([
+    titleInputRef,
+    tagPickerRef,
+    memoInputRef,
+    submitButtonRef,
+  ]);
 
   const onSubmit = () => {
+    // todo: api 연결하기
     console.log('titleInputRef', titleInputRef.current?.value);
     console.log('memoInputRef', memoInputRef.current?.value);
     console.log('selectedTagList', selectedTagList);
@@ -31,12 +40,7 @@ export function BookmarkPage() {
     <div className={bookmarkPageLayout}>
       <BookmarkHeader />
       <Gap verticalSize="gap24" />
-      <form
-        className={pickFormLayout}
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form className={pickFormLayout} onSubmit={(e) => e.preventDefault()}>
         <div className={formFieldLayout}>
           <ThumbnailImage image={ogImage} />
           <input
@@ -52,7 +56,7 @@ export function BookmarkPage() {
               <label htmlFor="">태그</label>
             </Text>
           </div>
-          <TagPicker />
+          <TagPicker ref={tagPickerRef} />
         </div>
         <div className={formFieldLayout}>
           <div className={labelLayout}>
@@ -67,7 +71,9 @@ export function BookmarkPage() {
           ></textarea>
         </div>
         <div className={submitButtonLayout}>
-          <Button onClick={onSubmit}>제출</Button>
+          <Button onClick={onSubmit} ref={submitButtonRef}>
+            제출
+          </Button>
         </div>
       </form>
     </div>
