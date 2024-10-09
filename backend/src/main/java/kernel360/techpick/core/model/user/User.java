@@ -59,7 +59,7 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	@Column(name = "social_provider") // nullable
 	private SocialType socialProvider;
 
-	// 소셜 제공자 folderId
+	// 소셜 제공자 Id
 	@Column(name = "social_provider_id") // nullable
 	private String socialProviderId;
 
