@@ -1,10 +1,10 @@
 package kernel360.techpick.feature.tag.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.tag.exception.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.tag.repository.TagRepository;
@@ -20,36 +20,34 @@ public class TagProvider {
 		return tagRepository.save(tag);
 	}
 
-	public List<Tag> saveAll(Collection<Tag> tags) {
-		return tagRepository.saveAll(tags);
+	public List<Tag> saveAll(TagListProxy tagListProxy) {
+		return tagRepository.saveAll(tagListProxy.getTags());
 	}
 
 	public Tag findById(Long id) throws ApiTagException {
 		return tagRepository.findById(id).orElseThrow(ApiTagException::TAG_NOT_FOUND);
 	}
 
-	public List<Tag> findAllByUserIdOrderByTagOrder(Long userId) {
-		return tagRepository.findAllByUserIdOrderByTagOrder(userId);
+	public List<Tag> findAllByUserOrderByTagOrder(User user) {
+		return tagRepository.findAllByUserOrderByTagOrder(user);
 	}
 
-	public boolean existsByUserIdAndName(Long id, String name) throws ApiTagException {
-		return tagRepository.existsByUserIdAndName(id, name);
+	public boolean isUserAlreadyHasTagOfName(User user, String name) throws ApiTagException {
+		return tagRepository.existsByUserAndName(user, name);
 	}
 
 	public void deleteById(Long id) throws ApiTagException {
 		tagRepository.deleteById(id);
 	}
 
-	public int getNextOrderByUserId(Long userId) {
-
-		var tag = tagRepository.findFirstByUserIdOrderByTagOrderDesc(userId);
-
+	public int getNextOrderByUserId(User user) {
 		// 순서는 0부터 시작
-		return tag.map(value -> value.getTagOrder() + 1).orElseGet(() -> 0);
+		return tagRepository.findFirstByUserOrderByTagOrderDesc(user)
+							.map((tag) -> tag.getTagOrder() + 1)
+							.orElse(0);
 	}
 
-	public TagUpdater getUserTag(Long userId) {
-		return TagUpdater.fromTagList(tagRepository.findAllByUserId(userId));
+	public TagListProxy getUserTagListProxy(User user) {
+		return TagListProxy.fromTagList(tagRepository.findAllByUser(user));
 	}
-
 }

@@ -3,7 +3,6 @@ package kernel360.techpick.feature.tag.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +16,7 @@ import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.service.dto.TagResponse;
 import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 import kernel360.techpick.feature.tag.service.TagService;
+import kernel360.techpick.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,43 +24,42 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/tag")
 public class TagController implements TagApi {
 
+	private final UserService userService;
 	private final TagService tagService;
 
 	@Override
 	@PostMapping
-	public ResponseEntity<TagResponse> createTag(Authentication auth, @RequestBody TagCreateRequest request) {
+	public ResponseEntity<TagResponse> createTag(@RequestBody TagCreateRequest request) {
 
-		return ResponseEntity.ok(tagService.createTag(getUserId(auth), request));
+		return ResponseEntity.ok(
+			tagService.createTag(userService.getCurrentUser(), request)
+		);
 	}
 
 	@Override
 	@GetMapping
-	public ResponseEntity<List<TagResponse>> getTagListByUser(Authentication auth) {
+	public ResponseEntity<List<TagResponse>> getTagListByUser() {
 
-		return ResponseEntity.ok(tagService.getTagListByUser(getUserId(auth)));
+		return ResponseEntity.ok(
+			tagService.getTagList(userService.getCurrentUser())
+		);
 	}
 
 	@Override
 	@PutMapping
-	public ResponseEntity<List<TagResponse>> updateTagList(Authentication auth,
-		@RequestBody List<TagUpdateRequest> tagUpdateRequests) {
-
-		return ResponseEntity.ok(tagService.updateTagList(getUserId(auth), tagUpdateRequests));
+	public ResponseEntity<List<TagResponse>> updateTagList(
+		@RequestBody List<TagUpdateRequest> tagUpdateRequests
+	) {
+		return ResponseEntity.ok(
+			tagService.updateTagList(userService.getCurrentUser(), tagUpdateRequests)
+		);
 	}
 
 	@Override
 	@DeleteMapping("/{tagId}")
-	public ResponseEntity<Void> deleteTagById(Authentication auth, @PathVariable Long tagId) {
-
-		tagService.deleteById(getUserId(auth), tagId);
+	public ResponseEntity<Void> deleteTagById(@PathVariable Long tagId) {
+		tagService.deleteByTagId(userService.getCurrentUser(), tagId);
 
 		return ResponseEntity.noContent().build();
 	}
-
-	// TODO: 직접 token에 있는 userId를 주입받을 방법 있는지 확인 후 리팩토링 필요
-	private Long getUserId(Authentication authentication) {
-
-		return (Long)authentication.getPrincipal();
-	}
-
 }

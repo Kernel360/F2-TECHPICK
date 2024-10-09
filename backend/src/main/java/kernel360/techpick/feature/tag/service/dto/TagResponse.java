@@ -1,9 +1,8 @@
 package kernel360.techpick.feature.tag.service.dto;
 
 public record TagResponse(
-	Long id,
-	String name,
+	Long tagId,
+	String tagName,
 	int tagOrder,
 	Long userId
-) {
-}
+) {}
