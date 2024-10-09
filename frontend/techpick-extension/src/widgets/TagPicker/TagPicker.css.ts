@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { SelectedTagCommonStyle } from '@/entities/tag';
 
 export const tagPickerLayout = style({
   position: 'relative',
@@ -8,8 +9,8 @@ export const tagDialogTriggerLayout = style({
   position: 'relative',
   boxSizing: 'border-box',
   cursor: 'pointer',
-  maxWidth: '264px',
-  minHeight: '60px',
+  width: SelectedTagCommonStyle.width,
+  height: '60px',
   border: '1px solid transparent',
   borderRadius: '4px',
   backgroundColor: '#f9f9f9',
