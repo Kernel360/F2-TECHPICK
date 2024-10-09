@@ -23,13 +23,11 @@ export const tagListItemStyle = style({
 
   // 기본 스타일 (선택된 항목이 아닐 때)
   backgroundColor: 'transparent',
-  ':hover': {
-    backgroundColor: '#f0f0f0', // 호버 시 색상
-  },
+
   // 선택된 상태일 때
   selectors: {
     '&[data-selected="true"]': {
-      backgroundColor: 'green',
+      backgroundColor: '#4CAF50',
     },
     '&[data-disabled="true"]': {
       display: 'none',
