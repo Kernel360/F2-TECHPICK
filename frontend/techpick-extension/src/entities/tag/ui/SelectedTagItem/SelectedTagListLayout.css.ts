@@ -8,6 +8,7 @@ export const ListLayoutHeightVariants = styleVariants({
   },
   flexible: {
     overflow: 'visible',
+    minHeight: '60px',
   },
 });
 
