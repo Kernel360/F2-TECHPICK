@@ -11,8 +11,6 @@ public class StructureDeleteRequest {
 
 	private Long userId;
 	private Long targetId;
-	private Long rootId;
-	private Long recycleBinId;
 	private Structure<ServerNode> structure;
 
 	public void updateUserIdAndTargetId(Authentication auth, Long targetId) {

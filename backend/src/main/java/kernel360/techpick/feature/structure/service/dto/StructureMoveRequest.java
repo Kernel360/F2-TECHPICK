@@ -11,8 +11,6 @@ public class StructureMoveRequest {
 
 	private Long userId;
 	private Long targetId;
-	private Long rootId;
-	private Long recycleBinId;
 	private Long parentFolderId;
 	private Structure<ServerNode> structure;
 

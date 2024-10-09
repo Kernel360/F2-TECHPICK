@@ -11,6 +11,7 @@ import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.service.dto.StructureDeleteRequest;
 import kernel360.techpick.feature.structure.service.dto.StructureMoveRequest;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
+import kernel360.techpick.feature.structure.validator.StructureValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,13 +36,13 @@ public class StructureService {
 
 		folderStructureService.moveFolder(mapper.toFolderMoveDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(request.getStructure());
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
+		
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -49,13 +50,13 @@ public class StructureService {
 
 		folderStructureService.deleteFolder(mapper.toFolderDeleteDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
+
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -63,13 +64,13 @@ public class StructureService {
 
 		pickStructureService.movePick(mapper.toPickMoveDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
+
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
 	@Transactional
@@ -77,13 +78,20 @@ public class StructureService {
 
 		pickStructureService.deletePick(mapper.toPickDeleteDto(request));
 
-		// TODO: validate serverNodeStructure
-		// validator.validate(serverNodeStructure);
+		var root = folderStructureService.getRootByUsrId(request.getUserId());
+		var recycleBin = folderStructureService.getRecycleBinByUsrId(request.getUserId());
 
-		provider.updateStructureJsonByUserIdAndStructure(
-			request.getUserId(),
-			request.getStructure()
-		);
+		getValidator(request.getUserId())
+			.validate(request.getStructure(), root.getId(), recycleBin.getId());
+
+		provider.updateStructureJsonByUserIdAndStructure(request.getUserId(), request.getStructure());
 	}
 
+	private StructureValidator getValidator(Long userId) {
+
+		return new StructureValidator(
+			folderStructureService.getFolderListByUserIdAndParentFolderIsNotNull(userId),
+			pickStructureService.getPickListByUserId(userId)
+		);
+	}
 }
