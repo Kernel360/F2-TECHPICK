@@ -108,7 +108,7 @@ export interface paths {
       cookie?: never;
     };
     /**
-     * 기본 폴더 id 조회
+     * 기본 폴더 Id 조회
      * @description 현재 로그인된 사용자의 기본폴더(ROOT, UNCLASSIFIED, RECYCLE_BIN)의 id를 조회합니다.
      */
     get: operations['getBasicFolderIdMap'];
@@ -167,7 +167,7 @@ export interface paths {
      * 구조 json 조회
      * @description 현재 로그인된 유저의 db에 저장되어있는 json 조회
      */
-    get: operations['getStructureByUserId'];
+    get: operations['getStructure'];
     put?: never;
     post?: never;
     delete?: never;
@@ -274,17 +274,21 @@ export interface components {
   schemas: {
     TagUpdateRequest: {
       /** Format: int64 */
-      id?: number;
-      name?: string;
+      tagId?: number;
+      tagName?: string;
       /** Format: int32 */
       tagOrder?: number;
+      /** Format: int32 */
+      colorNumber: number;
     };
     TagResponse: {
       /** Format: int64 */
-      id?: number;
-      name?: string;
+      tagId?: number;
+      tagName?: string;
       /** Format: int32 */
       tagOrder?: number;
+      /** Format: int32 */
+      colorNumber?: number;
       /** Format: int64 */
       userId?: number;
     };
@@ -313,14 +317,6 @@ export interface components {
     };
     StructureMoveRequest: {
       /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      targetId?: number;
-      /** Format: int64 */
-      rootId?: number;
-      /** Format: int64 */
-      recycleBinId?: number;
-      /** Format: int64 */
       parentFolderId?: number;
       structure?: components['schemas']['StructureServerNode'];
     };
@@ -335,18 +331,14 @@ export interface components {
       )[];
     };
     FolderUpdateRequest: {
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      folderId?: number;
       name?: string;
     };
     TagCreateRequest: {
-      name?: string;
+      tagName: string;
+      /** Format: int32 */
+      colorNumber: number;
     };
     FolderCreateRequest: {
-      /** Format: int64 */
-      userId?: number;
       name?: string;
     };
     FolderResponse: {
@@ -383,14 +375,6 @@ export interface components {
       imageUrl?: string;
     };
     StructureDeleteRequest: {
-      /** Format: int64 */
-      userId?: number;
-      /** Format: int64 */
-      targetId?: number;
-      /** Format: int64 */
-      rootId?: number;
-      /** Format: int64 */
-      recycleBinId?: number;
       structure?: components['schemas']['StructureServerNode'];
     };
   };
@@ -757,7 +741,7 @@ export interface operations {
       };
     };
   };
-  getStructureByUserId: {
+  getStructure: {
     parameters: {
       query?: never;
       header?: never;
@@ -843,12 +827,12 @@ export interface operations {
   };
   deleteById: {
     parameters: {
-      query: {
+      query?: never;
+      header?: never;
+      path: {
         /** @description 링크 ID */
         linkId: number;
       };
-      header?: never;
-      path?: never;
       cookie?: never;
     };
     requestBody?: never;
