@@ -43,14 +43,12 @@ export function DirectoryTreeSection() {
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const {
-    treeData,
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
     setTreeRef,
     setFocusedFolderNodeList,
     setFocusedLinkNodeList,
-    setTreeData,
     setFocusedNode,
   } = useTreeStore();
 
@@ -101,27 +99,6 @@ export function DirectoryTreeSection() {
     mutationFn: putFolderMove,
   });
 
-  // ==============  기존 create 함수  =============
-  // const handleCreate: CreateHandler<NodeData> = ({
-  //   parentId,
-  //   parentNode,
-  //   index,
-  // }) => {
-  //   console.log('parentId', parentId);
-  //   console.log('parentNode', parentNode);
-  //   console.log('index', index);
-  //   const updatedData = createNode(
-  //     structureData.root,
-  //     focusedNode,
-  //     createNodeType,
-  //     parentId,
-  //     parentNode,
-  //     index
-  //   );
-  //   setTreeData(updatedData);
-  //   return { id: '999' };
-  // };
-
   // ============== Tree 핸들러 함수 ===============
   const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
@@ -130,11 +107,6 @@ export function DirectoryTreeSection() {
     type,
   }): Promise<{ id: string }> => {
     try {
-      console.log('parentId', parentId);
-      console.log('parentNode', parentNode);
-      console.log('index', index);
-      console.log('type', type);
-
       // 폴더 생성 (서버)
       const data = await createFolder('New Folder27');
       console.log('Server: Folder created:', data);
@@ -173,15 +145,15 @@ export function DirectoryTreeSection() {
     return { id: '999' };
   };
 
-  const handleMove: MoveHandler<NodeData> = ({
+  const handleMove: MoveHandler<NodeData> = async ({
     dragIds,
     dragNodes,
     parentId,
     parentNode,
     index,
   }) => {
-    const updatedData = moveNode(
-      treeData,
+    const updatedTreeData = moveNode(
+      structureData!.root,
       focusedNode,
       focusedFolderNodeList,
       focusedLinkNodeList,
@@ -193,8 +165,24 @@ export function DirectoryTreeSection() {
       parentNode,
       index
     );
+    // 서버에 업데이트된 트리 전송
+    const serverData = {
+      parentFolderId: parentNode
+        ? parentNode.data.folderId
+        : defaultFolderIdData!.ROOT,
+      structure: {
+        root: updatedTreeData,
+        recycleBin: [],
+      },
+    };
+    console.log('defaultFolderIdData', defaultFolderIdData);
+    console.log('서버에 보낼 데이터', serverData);
 
-    setTreeData(updatedData);
+    await moveFolder({
+      folderId: dragNodes[0].data.folderId!.toString(),
+      structure: serverData,
+    });
+    refetchStructure();
   };
 
   return (
