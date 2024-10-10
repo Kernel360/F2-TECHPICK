@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
+import { numberToRandomColor } from '@/shared';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -12,6 +13,7 @@ import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopover
 import {
   filterCommandItems,
   CREATABLE_TAG_KEYWORD,
+  getRandomInt,
 } from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
@@ -33,6 +35,8 @@ export function TagAutocompleteDialog({
   const [commandListHeight, setCommandListHeight] = useState(0);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
+  const randomNumber = useRef<number>(getRandomInt());
+
   const {
     tagList,
     selectedTagList,
@@ -156,8 +160,16 @@ export function TagAutocompleteDialog({
             className={tagListItemStyle}
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
+            style={{
+              backgroundColor: numberToRandomColor(randomNumber.current),
+            }}
             onSelect={async () => {
-              const newTag = await createTag(tagInputValue);
+              const newTag = await createTag(
+                tagInputValue,
+                randomNumber.current
+              );
+
+              randomNumber.current = getRandomInt();
 
               if (!newTag) {
                 // Todo: error handling

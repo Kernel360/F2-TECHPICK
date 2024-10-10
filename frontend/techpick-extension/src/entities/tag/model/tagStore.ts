@@ -15,7 +15,10 @@ type TagAction = {
   deselectTag: (tag: TagType) => void;
   updateSelectedTagList: (updatedTag: TagType) => void;
   fetchingTagList: () => Promise<void>;
-  createTag: (newTagName: string) => Promise<TagType | undefined>;
+  createTag: (
+    newTagName: string,
+    tagNumber: number
+  ) => Promise<TagType | undefined>;
   deleteTag: (tagId: number) => Promise<void>;
   updateTag: (updatedTag: TagType) => Promise<void>;
 };
@@ -88,7 +91,7 @@ export const useTagStore = create<TagState & TagAction>()(
       return;
     },
 
-    createTag: async (newTagName: string) => {
+    createTag: async (newTagName, tagNumber) => {
       try {
         set((state) => {
           state.postTagState.isPending = true;
@@ -100,6 +103,7 @@ export const useTagStore = create<TagState & TagAction>()(
             const tag: TagType = {
               id: Date.now(),
               name: newTagName,
+              colorNumber: tagNumber,
             };
 
             set((state) => {

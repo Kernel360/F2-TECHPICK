@@ -45,8 +45,16 @@ export function TagInfoEditPopoverButton({
     }
 
     try {
-      await updateTag({ id: tag.id, name: newTagName });
-      updateSelectedTagList({ id: tag.id, name: newTagName });
+      await updateTag({
+        id: tag.id,
+        name: newTagName,
+        colorNumber: tag.colorNumber,
+      });
+      updateSelectedTagList({
+        id: tag.id,
+        name: newTagName,
+        colorNumber: tag.colorNumber,
+      });
       closePopover();
     } catch (error) {
       if (error instanceof Error) {

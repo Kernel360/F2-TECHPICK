@@ -15,3 +15,9 @@ export const filterCommandItems = (
 
   return extendValue.includes(search) ? 1 : 0;
 };
+
+export const MAXIMUM_INT_RANGE = 512;
+
+export const getRandomInt = () => {
+  return Math.floor(Math.random() * MAXIMUM_INT_RANGE);
+};
