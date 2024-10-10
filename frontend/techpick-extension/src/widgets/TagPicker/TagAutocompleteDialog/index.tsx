@@ -137,7 +137,7 @@ export function TagAutocompleteDialog({
           </Command.Loading>
         )}
 
-        {!fetchingTagState.isPending && (
+        {!fetchingTagState.isPending && tagInputValue.trim() !== '' && (
           <Command.Empty className={tagListItemStyle}>
             태그를 만들어보세요!
           </Command.Empty>
