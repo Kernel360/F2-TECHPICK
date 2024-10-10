@@ -23,7 +23,7 @@ public enum ApiFolderErrorCode implements ApiErrorCode {
 	INVALID_FOLDER_TYPE
 		("F0-005", HttpStatus.NOT_IMPLEMENTED, "미구현 폴더 타입에 대한 서비스 요청", ErrorLevel.MUST_NEVER_HAPPEN()),
 	BASIC_FOLDER_ALREADY_EXISTS
-		("F0-005", HttpStatus.NOT_ACCEPTABLE, "기본 폴더는 1개만 존재할 수 있음.", ErrorLevel.MUST_NEVER_HAPPEN()),
+		("F0-006", HttpStatus.NOT_ACCEPTABLE, "기본 폴더는 1개만 존재할 수 있음.", ErrorLevel.MUST_NEVER_HAPPEN()),
 
 	;
 

@@ -18,25 +18,26 @@ import lombok.RequiredArgsConstructor;
 public class LinkService {
 
 	private final LinkProvider linkProvider;
+	private final LinkMapper linkMapper;
 	private final PickRepository pickRepository;
 
 	@Transactional(readOnly = true)
 	public LinkResponse getLinkById(Long id) throws ApiLinkException {
 
-		return LinkMapper.toLinkResponse(linkProvider.findById(id));
+		return linkMapper.toLinkResponse(linkProvider.findById(id));
 	}
 
 	@Transactional(readOnly = true)
 	public LinkResponse getLinkByUrl(String url) throws ApiLinkException {
 
-		return LinkMapper.toLinkResponse(linkProvider.findByUrl(url));
+		return linkMapper.toLinkResponse(linkProvider.findByUrl(url));
 	}
 
 	@Transactional(readOnly = true)
 	public List<LinkResponse> getLinkAll() {
 
 		return linkProvider.findAll().stream()
-			.map(LinkMapper::toLinkResponse)
+			.map(linkMapper::toLinkResponse)
 			.toList();
 	}
 

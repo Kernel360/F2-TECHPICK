@@ -23,6 +23,7 @@ public class UserService {
     private final StructureService structureService;
 
     private final UserProvider userProvider;
+    private final UserMapper userMapper;
 
     // private final BCryptPasswordEncoder passwordEncoder; // TODO: encode later
     private final NameGenerator nameGenerator = new SimpleNameGenerator(); // TODO: implement later
@@ -42,7 +43,7 @@ public class UserService {
     public User createNewSocialUser(SocialUserCreateDto dto) {
 
         User newUser = userProvider.saveUser(
-            UserMapper.toUserEntity(dto, nameGenerator.generateName())
+            userMapper.toUserEntity(dto, nameGenerator.generateName())
         );
 
         folderService.createBasicFolders(newUser);

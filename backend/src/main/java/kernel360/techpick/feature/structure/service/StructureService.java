@@ -25,17 +25,18 @@ public class StructureService {
 	private final PickStructureService pickStructureService;
 
 	private final StructureJsonProvider structureJsonProvider;
+	private final StructureValidator structureValidator;
+	private final StructureMapper structureMapper;
 
     @Transactional(readOnly = true)
 	public Structure<ClientNode> getClientStructure(User user) {
-
 		Structure<ServerNode> serverStructure
 			= structureJsonProvider.findStructure(user).getStructure();
 
 		StructureDataProxy dataProxy
 			= StructureDataProxy.fromStructureService(user, pickStructureService, folderStructureService);
 
-		return StructureMapper.toClientStructure(serverStructure, dataProxy);
+		return structureMapper.toClientStructure(serverStructure, dataProxy);
 	}
 
 	@Transactional
@@ -46,7 +47,7 @@ public class StructureService {
 
 	@Transactional
 	public void moveFolder(User user, StructureMoveRequest request) {
-		folderStructureService.moveFolder(user, StructureMapper.toFolderMoveDto(request));
+		folderStructureService.moveFolder(user, structureMapper.toFolderMoveDto(request));
 		validateStructure(user, request.structure());
 
 		structureJsonProvider.updateStructureByUser(user, request.structure());
@@ -54,7 +55,7 @@ public class StructureService {
 
 	@Transactional
 	public void deleteFolder(User user, StructureDeleteRequest request) {
-		folderStructureService.deleteFolder(user, StructureMapper.toFolderDeleteDto(request));
+		folderStructureService.deleteFolder(user, structureMapper.toFolderDeleteDto(request));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
@@ -62,7 +63,7 @@ public class StructureService {
 
 	@Transactional
 	public void movePick(User user, StructureMoveRequest request) {
-		pickStructureService.movePick(user, StructureMapper.toPickMoveDto(request));
+		pickStructureService.movePick(user, structureMapper.toPickMoveDto(request));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
@@ -70,7 +71,7 @@ public class StructureService {
 
 	@Transactional
 	public void deletePick(User user, StructureDeleteRequest request) {
-		pickStructureService.deletePick(user, StructureMapper.toPickDeleteDto(request));
+		pickStructureService.deletePick(user, structureMapper.toPickDeleteDto(request));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
@@ -78,14 +79,10 @@ public class StructureService {
 
 	private void validateStructure(User user, Structure<ServerNode> structure) {
 		Folder root = folderStructureService.getRootByUser(user);
-		var recycleBin = folderStructureService.getRecycleBinByUser(user);
-		getValidator(user).validate(structure, root.getId(), recycleBin.getId());
-	}
-
-    private StructureValidator getValidator(User user) {
+		Folder recycleBin = folderStructureService.getRecycleBinByUser(user);
 		StructureDataProxy dataProxy
 			= StructureDataProxy.fromStructureService(user, pickStructureService, folderStructureService);
 
-		return new StructureValidator(dataProxy);
-    }
+		structureValidator.validate(structure, dataProxy, root.getId(), recycleBin.getId());
+	}
 }

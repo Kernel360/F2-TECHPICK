@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Component;
+
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.feature.structure.exception.ApiStructureException;
 import kernel360.techpick.feature.structure.model.StructureDataProxy;
@@ -14,27 +17,22 @@ import kernel360.techpick.feature.structure.service.node.server.ServerNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class StructureValidator {
 
-	private final StructureDataProxy dataProxy;
-
-	public StructureValidator(StructureDataProxy dataProxy) {
-		this.dataProxy = dataProxy;
-	}
-
-	public void validate(Structure<ServerNode> structure, Long rootId, Long recycleBinId) {
+	public void validate(Structure<ServerNode> structure, StructureDataProxy dataProxy, Long rootId, Long recycleBinId) {
 
 		List<RelationalNode> nodeList = new ArrayList<>();
 		nodeList.addAll(structure.convertRootToNodeList(rootId));
 		nodeList.addAll(structure.convertRecycleBinToNodeList(recycleBinId));
 
-		validateNodeSize(nodeList);
-		if (!validateNodeList(nodeList)) {
+		validateNodeSize(nodeList, dataProxy);
+		if (!validateNodeList(nodeList, dataProxy)) {
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
 
-	private void validateNodeSize(List<RelationalNode> nodeList) {
+	private void validateNodeSize(List<RelationalNode> nodeList, StructureDataProxy dataProxy) {
 
 		if (nodeList.size() != dataProxy.folderListSize() + dataProxy.pickListSize()) {
 			log.error("노드 개수가 일치하지 않습니다 size : {}", nodeList.size());
@@ -42,7 +40,8 @@ public class StructureValidator {
 		}
 	}
 
-	private boolean validateNodeList(List<RelationalNode> nodeList) {
+	// TODO: need refactor
+	private boolean validateNodeList(List<RelationalNode> nodeList, StructureDataProxy dataProxy) {
 
 		for (var node : nodeList) {
 			// Validate Folder List
@@ -52,7 +51,7 @@ public class StructureValidator {
 					return false;
 				}
 				Folder parentFolder = dataProxy.findFolderById(node.nodeId()).getParentFolder();
-				if (!Objects.equals(node.parentFolderId(), parentFolder.getId())) {
+				if (ObjectUtils.notEqual(node.parentFolderId(), parentFolder.getId())) {
 					log.error(
 						"[FOLDER] 올바르지 않은 부모폴더 folderId : {}, currentParentFolderId : {}, correctParentFolderId : {}",
 						node.nodeId(), node.parentFolderId(), parentFolder.getId());
@@ -65,7 +64,7 @@ public class StructureValidator {
 					return false;
 				}
 				Folder parentFolder = dataProxy.findPickById(node.nodeId()).getParentFolder();
-				if (!Objects.equals(node.parentFolderId(), parentFolder.getId())) {
+				if (ObjectUtils.notEqual(node.parentFolderId(), parentFolder.getId())) {
 					log.error("[PICK] 올바르지 않은 부모폴더 pickId : {}, currentParentFolderId : {}, correctParentFolderId : {}",
 						node.nodeId(), node.parentFolderId(), parentFolder.getId());
 					return false;

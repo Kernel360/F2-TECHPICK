@@ -6,7 +6,6 @@ public enum SocialType {
 	KAKAO("kakao"),
 	NAVER("naver"),
 
-	NONE("none"); // 자체 가입 회원
 	;
 
 	private final String providerId;

@@ -1,16 +1,19 @@
 package kernel360.techpick.feature.link.model;
 
+import org.springframework.stereotype.Component;
+
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.feature.link.service.dto.LinkRequest;
 import kernel360.techpick.feature.link.service.dto.LinkResponse;
 
+@Component
 public class LinkMapper {
 
-	public static Link toLinkEntity(LinkRequest linkRequest) {
+	public Link toLinkEntity(LinkRequest linkRequest) {
 		return Link.create(linkRequest.title(), linkRequest.description(), linkRequest.url());
 	}
 
-	public static LinkResponse toLinkResponse(Link link) {
+	public LinkResponse toLinkResponse(Link link) {
 		return new LinkResponse(
 			link.getId(),
 			link.getUrl(),

@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TagService {
 
-	private final UserService userService;
 	private final PickService pickService;
 	private final TagProvider tagProvider;
+	private final TagMapper tagMapper;
 
 	@Transactional
 	public TagResponse createTag(User user, TagCreateRequest request) throws ApiTagException, ApiUserException {
@@ -35,9 +36,9 @@ public class TagService {
 		validateTagNameExists(user, request.tagName());
 
 		int lastOrder = tagProvider.getNextOrderByUserId(user);
-		Tag tag = tagProvider.save(TagMapper.toTagEntity(request, lastOrder, user));
+		Tag tag = tagProvider.save(tagMapper.toTagEntity(request, lastOrder, user));
 
-		return TagMapper.toTagResponse(tag);
+		return tagMapper.toTagResponse(tag);
 	}
 
 	@Transactional(readOnly = true)
@@ -46,7 +47,7 @@ public class TagService {
 		List<Tag> tagList = tagProvider.findAllByUserOrderByTagOrder(user);
 
 		return tagList.stream()
-			.map(TagMapper::toTagResponse)
+			.map(tagMapper::toTagResponse)
 			.toList();
 	}
 
@@ -65,7 +66,7 @@ public class TagService {
 
 		return tagProvider.saveAll(tagListProxy)
 			.stream()
-			.map(TagMapper::toTagResponse)
+			.map(tagMapper::toTagResponse)
 			.sorted(Comparator.comparingInt(TagResponse::tagOrder))
 			.toList();
 	}
@@ -83,7 +84,7 @@ public class TagService {
 
 	private void validateTagAccess(User user, Tag tag) throws ApiTagException {
 
-		if (!Objects.equals(user, tag.getUser())) {
+		if (ObjectUtils.notEqual(user, tag.getUser())) {
 			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
 	}
@@ -94,5 +95,4 @@ public class TagService {
 			throw ApiTagException.TAG_ALREADY_EXIST();
 		}
 	}
-
 }

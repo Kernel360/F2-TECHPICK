@@ -34,7 +34,7 @@ public interface FolderApi {
 	ResponseEntity<FolderResponse> createFolder(FolderCreateRequest request);
 
 	@Operation(
-		summary = "기본 폴더 folderId 조회",
+		summary = "기본 폴더 Id 조회",
 		description = "현재 로그인된 사용자의 기본폴더(ROOT, UNCLASSIFIED, RECYCLE_BIN)의 id를 조회합니다."
 	)
 	@ApiResponses(value = {

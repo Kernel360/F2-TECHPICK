@@ -70,6 +70,7 @@ public class FolderController implements FolderApi {
 	) {
 		folderService.updateName(
 			userService.getCurrentUser(),
+			folderId,
 			request
 		);
 

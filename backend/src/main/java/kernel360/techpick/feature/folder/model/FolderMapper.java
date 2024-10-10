@@ -1,6 +1,6 @@
 package kernel360.techpick.feature.folder.model;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.folder.FolderType;
@@ -9,9 +9,10 @@ import kernel360.techpick.feature.folder.exception.ApiFolderException;
 import kernel360.techpick.feature.folder.service.dto.FolderCreateRequest;
 import kernel360.techpick.feature.folder.service.dto.FolderResponse;
 
+@Component
 public class FolderMapper {
 
-	public static Folder toFolderEntity(User user, FolderCreateRequest request, FolderType folderType) {
+	public Folder toFolderEntity(User user, FolderType folderType, FolderCreateRequest request) {
 		switch (folderType) {
 			case ROOT -> Folder.rootFolder(request.name(), user);
 			case RECYCLE_BIN -> Folder.recycleBinFolder(request.name(), user);
@@ -24,16 +25,12 @@ public class FolderMapper {
 		return Folder.generalFolder(request.name(), user);
 	}
 
-	public static FolderResponse toFolderResponse(Folder folder) {
+	public FolderResponse toFolderResponse(Folder folder) {
 		return new FolderResponse(
 			folder.getId(),
 			folder.getName(),
 			folder.findParentFolderId(),
 			folder.getUser().getId()
 		);
-	}
-
-	public static List<FolderResponse> toFolderResponseList(List<Folder> folders) {
-		return folders.stream().map(FolderMapper::toFolderResponse).toList();
 	}
 }

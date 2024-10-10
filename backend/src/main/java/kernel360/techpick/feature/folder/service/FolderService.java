@@ -26,6 +26,7 @@ public class FolderService {
 
 	private final FolderProvider folderProvider;
 	private final FolderValidator folderValidator;
+	private final FolderMapper folderMapper;
 
 	@Transactional
 	public FolderResponse createGeneralFolder(
@@ -37,10 +38,10 @@ public class FolderService {
 		folderValidator.validateDuplicateFolderName(user, request.name());
 
 		Folder newFolder = folderProvider.save(
-			FolderMapper.toFolderEntity(user, request, FolderType.GENERAL)
+			folderMapper.toFolderEntity(user, FolderType.GENERAL, request)
 		);
 
-		return FolderMapper.toFolderResponse(newFolder);
+		return folderMapper.toFolderResponse(newFolder);
 	}
 
 	// 최초 사용자 생성시 기본 폴더 생성을 위해 1번 호출 됩니다.
@@ -51,13 +52,13 @@ public class FolderService {
 		List<Folder> createdFolders = new ArrayList<>();
 
 		for (FolderType folderType : FolderType.getBasicFolderTypes()) {
-			Folder newFolder = folderProvider.save(FolderMapper.toFolderEntity(
-				user, new FolderCreateRequest(folderType.getLabel()), folderType
-			));
+			Folder newFolder = folderProvider.save(
+				folderMapper.toFolderEntity(user, folderType, new FolderCreateRequest(folderType.getLabel()))
+			);
 			createdFolders.add(newFolder);
 		}
 
-		return createdFolders.stream().map(FolderMapper::toFolderResponse).toList();
+		return createdFolders.stream().map(folderMapper::toFolderResponse).toList();
 	}
 
 	@Transactional(readOnly = true)
@@ -80,15 +81,15 @@ public class FolderService {
 
 		return folderProvider.findAllByUserAndParentFolderId(user, folderId)
 			.stream()
-			.map(FolderMapper::toFolderResponse)
+			.map(folderMapper::toFolderResponse)
 			.toList();
 	}
 
 	@Transactional
-	public void updateName(User user, FolderUpdateRequest request) throws ApiFolderException {
+	public void updateName(User user, Long folderId, FolderUpdateRequest request) throws ApiFolderException {
 
 		// 변경하려는 폴더가 본인 폴더인지 검증
-		Folder targetFolder = folderProvider.findById(request.folderId());
+		Folder targetFolder = folderProvider.findById(folderId);
 		folderValidator.validateFolderAccess(user, targetFolder);
 
 		// 변경하려는 폴더가 기본폴더인지 검증
