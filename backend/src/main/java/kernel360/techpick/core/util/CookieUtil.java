@@ -18,8 +18,8 @@ public class CookieUtil {
 			.path("/")
 			.httpOnly(true)
 			.secure(true)
-			.domain(".minlife.me")
-			.sameSite("None")
+			// .domain(".minlife.me")
+			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", responseCookie.toString());
 
@@ -28,8 +28,8 @@ public class CookieUtil {
 			.maxAge(maxAge)
 			.path("/")
 			.secure(true)
-			.domain(".minlife.me")
-			.sameSite("None")
+			// .domain(".minlife.me")
+			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", techPickLoginCookie.toString());
 

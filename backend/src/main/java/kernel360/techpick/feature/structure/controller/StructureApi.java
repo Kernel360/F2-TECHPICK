@@ -2,6 +2,8 @@ package kernel360.techpick.feature.structure.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +25,7 @@ public interface StructureApi {
 			description = "구조 json을 정상적으로 조회했습니다."
 		)
 	)
-	public ResponseEntity<String> getStructureByUserId(Authentication auth);
+	ResponseEntity<String> getStructure();
 
 	@Operation(
 		summary = "폴더 이동",
@@ -43,7 +45,10 @@ public interface StructureApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	public ResponseEntity<Void> moveFolder(Authentication auth, Long folderId, StructureMoveRequest request);
+	ResponseEntity<Void> moveFolder(
+		@PathVariable Long folderId,
+		@RequestBody StructureMoveRequest request
+	);
 
 	@Operation(
 		summary = "휴지통에 있는 폴더 삭제",
@@ -63,7 +68,10 @@ public interface StructureApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	public ResponseEntity<Void> deleteFolder(Authentication auth, Long folderId, StructureDeleteRequest request);
+	ResponseEntity<Void> deleteFolder(
+		@PathVariable Long folderId,
+		@RequestBody StructureDeleteRequest request
+	);
 
 	@Operation(
 		summary = "픽 이동",
@@ -83,7 +91,10 @@ public interface StructureApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	public ResponseEntity<Void> movePick(Authentication auth, Long pickId, StructureMoveRequest request);
+	ResponseEntity<Void> movePick(
+		@PathVariable Long pickId,
+		@RequestBody StructureMoveRequest request
+	);
 
 	@Operation(
 		summary = "휴지통에 있는 픽 삭제",
@@ -103,5 +114,8 @@ public interface StructureApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	public ResponseEntity<Void> deletePick(Authentication auth, Long pickId, StructureDeleteRequest request);
+	ResponseEntity<Void> deletePick(
+		@PathVariable Long pickId,
+		@RequestBody StructureDeleteRequest request
+	);
 }

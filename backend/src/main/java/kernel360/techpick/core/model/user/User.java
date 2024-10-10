@@ -1,6 +1,7 @@
 package kernel360.techpick.core.model.user;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -29,13 +30,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends TimeTracking /* implements UserDetails --> 시큐리티 도입시 추가 */ {
 
+	private static final String SOCIAL_USER_HAS_NO_PASSWORD = null;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
 	// 닉네임 (없으면 랜덤 생성 - Ex. "노래하는피치#145")
-	// TODO: 닉네임을 unique로 잡을지 토의 후 결정 (사용자 검색 시 이걸 id로 사용)
 	@Column(name = "nickname", nullable = false /*, unique = true */)
 	private String nickname;
 
@@ -57,7 +59,7 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	@Column(name = "social_provider") // nullable
 	private SocialType socialProvider;
 
-	// 소셜 제공자 id
+	// 소셜 제공자 Id
 	@Column(name = "social_provider_id") // nullable
 	private String socialProviderId;
 
@@ -80,12 +82,12 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	private JobGroup jobGroup;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static User create(SocialType provider, String providerId, String email) {
+	public static User basicSocialUser(SocialType provider, String providerId, String nickname, String email) {
 		return new User(
 			provider,
 			providerId,
-			"대충랜덤닉네임1", // TODO: 이후 랜덤닉네임 생성기를 통해 생성하도록 리팩토링 필요
-			null,
+			nickname,
+			SOCIAL_USER_HAS_NO_PASSWORD,
 			email,
 			Role.ROLE_USER
 		);
@@ -105,5 +107,21 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 		this.password = password;
 		this.email = email;
 		this.role = role;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof User user)) {
+			return false;
+		}
+        return Objects.equals(id, user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 }

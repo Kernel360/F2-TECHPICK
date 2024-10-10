@@ -12,8 +12,10 @@ public enum ApiStructureErrorCode implements ApiErrorCode {
 	 */
 	INVALID_JSON_STRUCTURE
 		("ST-000", HttpStatus.BAD_REQUEST, "클라이언트 요청의 디렉토리 JSON 데이터가 올바르지 않음", ErrorLevel.SHOULD_NOT_HAPPEN()),
-	USER_STRUCTURE_JSON_NOT_FOUND("ST-001", HttpStatus.BAD_REQUEST, "사용자의 폴더구조 json이 없음",
-		ErrorLevel.MUST_NEVER_HAPPEN()),
+	USER_STRUCTURE_JSON_NOT_FOUND
+		("ST-001", HttpStatus.BAD_REQUEST, "사용자의 폴더구조 json이 없음", ErrorLevel.MUST_NEVER_HAPPEN()),
+	USER_STRUCTURE_ALREADY_EXISTS
+		("ST-002", HttpStatus.BAD_REQUEST, "사용자가 이미 JSON 구조를 가지고 있음", ErrorLevel.MUST_NEVER_HAPPEN()),
 	;
 
 	private final String code;

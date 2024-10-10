@@ -1,5 +1,6 @@
 package kernel360.techpick.feature.structure.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,12 +18,10 @@ import kernel360.techpick.feature.structure.exception.ApiStructureException;
 import kernel360.techpick.feature.structure.service.node.common.Node;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Slf4j
-@NoArgsConstructor
 public class Structure<T extends Node> {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
@@ -36,15 +35,16 @@ public class Structure<T extends Node> {
 	@JsonProperty("recycleBin")
 	private List<T> recycleBinFolder;
 
+	public Structure() {
+		this.rootFolder = new ArrayList<>();
+		this.recycleBinFolder = new ArrayList<>();
+	}
+
 	public Structure(List<T> rootFolder, List<T> recycleBinFolder) {
 		this.rootFolder = rootFolder;
 		this.recycleBinFolder = recycleBinFolder;
 	}
 
-	/**
-	 * 컨트롤러에서 Structure 객체를 그냥 내보내도 직렬화 됩니다.
-	 * 별도로 serialize 함수를 만든 이유는 - DB에 저장하기 전에 직접 직렬화하기 위해서 입니다.
-	 */
 	public String serialize() {
 		try {
 			return mapper.writeValueAsString(this);

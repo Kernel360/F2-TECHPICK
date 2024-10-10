@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.user;
+package kernel360.techpick.feature.user.repository;
 
 import java.util.Optional;
 
@@ -13,5 +13,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	boolean existsBySocialProviderId(String socialProviderId);
 
 	Optional<User> findBySocialProviderId(String socialProviderId);
-
 }

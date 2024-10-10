@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
-import kernel360.techpick.feature.structure.model.NameProvider;
+import kernel360.techpick.feature.structure.model.StructureDataProxy;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.client.FolderClientNode;
 import lombok.Getter;
@@ -32,20 +32,19 @@ public class FolderServerNode extends ServerNode {
 	}
 
 	@Override
-	public ClientNode toClientNode(NameProvider provider) {
+	public ClientNode toClientNode(StructureDataProxy dataProxy) {
 
 		List<ClientNode> childrenForClient = new ArrayList<>();
 		for (ServerNode child : children) {
-			childrenForClient.add(child.toClientNode(provider));
+			childrenForClient.add(child.toClientNode(dataProxy));
 		}
 
 		return new FolderClientNode(
 			this.getId(),
 			this.getType(),
-			// NOTE: 여기서 이름을 가져 옵니다.
-			provider.findFolderNameById(folderId),
-			this.getFolderId(),
-			childrenForClient // 자식들도 동일하게 변환해야 합니다.
+			dataProxy.findFolderById(folderId).getName(),
+			folderId,
+			childrenForClient
 		);
 	}
 }

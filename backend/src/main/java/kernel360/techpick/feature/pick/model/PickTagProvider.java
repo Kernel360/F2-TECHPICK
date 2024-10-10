@@ -29,4 +29,8 @@ public class PickTagProvider {
 	public void deleteByPickIdAndTagId(Long pickId, Long tagId) {
 		pickTagRepository.deleteByPickIdAndTagId(pickId, tagId);
 	}
+
+    public void deletePickTagRelationByTag(Tag Tag) {
+        pickTagRepository.deleteByTag(Tag);
+    }
 }

@@ -38,7 +38,7 @@ public class PickMapper {
 		return pickList.stream().map(pick -> {
 			List<PickTag> pickTags = pickTagProvider.findAllPickTagByPickId(pick.getId());
 			List<TagResponse> tagResponseList = pickTagMapper.toTagResponse(pickTags);
-			LinkUrlResponse linkUrlResponse = linkMapper.createLinkUrlResponse(pick.getLink());
+			LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
 
 			return this.toPickResponse(pick, tagResponseList, linkUrlResponse);
 		}).toList();

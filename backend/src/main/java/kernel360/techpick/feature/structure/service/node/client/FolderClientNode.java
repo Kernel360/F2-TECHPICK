@@ -25,7 +25,7 @@ public class FolderClientNode extends ClientNode {
 		this.children = children;
 	}
 
-	@Override
+    @Override
 	public List<RelationalNode> toNodeList(Long parentFolderId) {
 		List<RelationalNode> nodes = new ArrayList<>();
 		nodes.add(new RelationalNode(folderId, parentFolderId, this.getType()));

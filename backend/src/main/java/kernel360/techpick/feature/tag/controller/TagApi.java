@@ -3,7 +3,6 @@ package kernel360.techpick.feature.tag.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -28,7 +27,6 @@ public interface TagApi {
 		)
 	)
 	ResponseEntity<TagResponse> createTag(
-		Authentication authentication,
 		@RequestBody(description = "태그 생성 정보", required = true)
 		TagCreateRequest request
 	);
@@ -43,7 +41,7 @@ public interface TagApi {
 			description = "태그 리스트를 정상적으로 조회했습니다."
 		)
 	)
-	ResponseEntity<List<TagResponse>> getTagListByUser(Authentication authentication);
+	ResponseEntity<List<TagResponse>> getTagListByUser();
 
 	@Operation(
 		summary = "태그 수정",
@@ -56,7 +54,6 @@ public interface TagApi {
 		)
 	)
 	ResponseEntity<List<TagResponse>> updateTagList(
-		Authentication authentication,
 		@RequestBody(description = "태그 수정 정보", required = true)
 		List<TagUpdateRequest> tagUpdateRequests
 	);
@@ -71,6 +68,5 @@ public interface TagApi {
 			description = "태그를 정상적으로 삭제했습니다."
 		)
 	)
-	ResponseEntity<Void> deleteTagById(Authentication authentication, Long tagId);
-
+	ResponseEntity<Void> deleteTagById(Long tagId);
 }

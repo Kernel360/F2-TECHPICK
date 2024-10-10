@@ -13,17 +13,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LinkMapper {
 
-	public Link createLink(LinkRequest linkRequest) {
+	public Link toLinkEntity(LinkRequest linkRequest) {
 		return Link.create(linkRequest.title(), linkRequest.description(), linkRequest.url());
 	}
 
-	public Link createLink(PickCreateRequest pickCreateRequest) {
+	public Link toLinkEntity(PickCreateRequest pickCreateRequest) {
 		return Link.create(pickCreateRequest.linkRequest().url(), pickCreateRequest.linkRequest().title(),
 			pickCreateRequest.linkRequest().description(),
 			pickCreateRequest.linkRequest().imageUrl());
 	}
 
-	public LinkResponse createLinkResponse(Link link) {
+	public LinkResponse toLinkResponse(Link link) {
 		return new LinkResponse(
 			link.getId(),
 			link.getUrl(),
@@ -33,7 +33,7 @@ public class LinkMapper {
 		);
 	}
 
-	public LinkUrlResponse createLinkUrlResponse(Link link) {
+	public LinkUrlResponse toLinkUrlResponse(Link link) {
 		return new LinkUrlResponse(
 			link.getId(),
 			link.getUrl(),

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import kernel360.techpick.feature.structure.model.NameProvider;
+import kernel360.techpick.feature.structure.model.StructureDataProxy;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.common.Node;
 import kernel360.techpick.feature.structure.service.node.common.NodeType;
@@ -36,5 +36,5 @@ public abstract class ServerNode implements Node {
 
 	public abstract List<RelationalNode> toNodeList(Long parentFolderId);
 
-	public abstract ClientNode toClientNode(NameProvider provider);
+	public abstract ClientNode toClientNode(StructureDataProxy dataProxy);
 }

@@ -53,14 +53,11 @@ public class JwtUtil {
 	}
 
 	public Role getRole(String token) {
-		var claims = getClaims(token);
-		String role = claims.get("role", String.class);
-		return Role.valueOf(role);
+		return Role.valueOf(getClaims(token).get("role", String.class));
 	}
 
 	public Long getUserId(String token) {
-		var claims = getClaims(token);
-		return claims.get("id", Long.class);
+		return getClaims(token).get("id", Long.class);
 	}
 
 	private Claims getClaims(String token) {

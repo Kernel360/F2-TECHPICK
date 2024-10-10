@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.core.model.pick.Pick;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.pick.exception.ApiPickException;
 import kernel360.techpick.feature.pick.repository.PickRepository;
 import lombok.RequiredArgsConstructor;

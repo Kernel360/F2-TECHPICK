@@ -31,4 +31,12 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException CANNOT_DELETE_FOLDER_NOT_IN_RECYCLE_BIN() {
 		return new ApiFolderException(ApiFolderErrorCode.CANNOT_DELETE_FOLDER_NOT_IN_RECYCLE_BIN);
 	}
+
+	public static ApiFolderException INVALID_FOLDER_TYPE() {
+		return new ApiFolderException(ApiFolderErrorCode.INVALID_FOLDER_TYPE);
+	}
+
+	public static ApiFolderException BASIC_FOLDER_ALREADY_EXISTS() {
+		return new ApiFolderException(ApiFolderErrorCode.BASIC_FOLDER_ALREADY_EXISTS);
+	}
 }

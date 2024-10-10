@@ -19,4 +19,8 @@ public class ApiStructureException extends ApiException {
 	public static ApiStructureException USER_STRUCTURE_JSON_NOT_FOUND() {
 		return new ApiStructureException((ApiStructureErrorCode.USER_STRUCTURE_JSON_NOT_FOUND));
 	}
+
+	public static ApiStructureException USER_STRUCTURE_ALREADY_EXISTS() {
+		return new ApiStructureException((ApiStructureErrorCode.USER_STRUCTURE_ALREADY_EXISTS));
+	}
 }

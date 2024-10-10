@@ -27,12 +27,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	private static final String ACCESS_TOKEN_KEY = "access_token";
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-		FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
 		String token = getTokenFromCookie(request);
 
 		if (jwtUtil.isValidToken(token)) {
-			var authentication = convertToAuthentication(token);
+			Authentication authentication = convertToAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} else {
 			// 인증 실패시 techPickLogin 쿠키 삭제
@@ -45,7 +48,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private String getTokenFromCookie(HttpServletRequest request) {
-		var cookies = request.getCookies();
+		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
 			return null;
 		}

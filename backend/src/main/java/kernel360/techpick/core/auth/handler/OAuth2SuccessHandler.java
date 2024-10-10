@@ -14,7 +14,7 @@ import kernel360.techpick.core.auth.model.OAuth2UserInfo;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.CookieUtil;
 import kernel360.techpick.core.util.JwtUtil;
-import kernel360.techpick.feature.user.UserRepository;
+import kernel360.techpick.feature.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
