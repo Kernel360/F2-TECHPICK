@@ -1,25 +1,25 @@
 import React, { useRef } from 'react';
 import {
-  directoryTreeContainer,
   directoryLabel,
   directoryLabelContainer,
   directoryTree,
+  directoryTreeContainer,
   directoryTreeSectionFooter,
-  profileSection,
+  directoryTreeWrapper,
   leftSidebarSection,
   logo,
   profileContainer,
-  directoryTreeWrapper,
+  profileSection,
 } from './directoryTreeSection.css';
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import {
+  CreateHandler,
+  MoveHandler,
   NodeApi,
   Tree,
-  MoveHandler,
   TreeApi,
-  CreateHandler,
 } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { DirectoryNode } from '@/components';
@@ -28,7 +28,15 @@ import { moveNode } from '@/features/moveNode';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  getFoldersIdData,
+  getStructure,
+  postFolder,
+  putFolderMove,
+} from '@/features/queryFunctions';
 import { createNode } from '@/features/createNode';
+import { DefaultFolderIdData } from '@/shared/types/ApiTypes';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -39,7 +47,6 @@ export function DirectoryTreeSection() {
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
-    createNodeType,
     setTreeRef,
     setFocusedFolderNodeList,
     setFocusedLinkNodeList,
@@ -54,20 +61,115 @@ export function DirectoryTreeSection() {
     }
   };
 
-  const handleCreate: CreateHandler<NodeData> = ({
+  // ==============  기존 구조 데이터 가져오기  =============
+  const {
+    data: structureData,
+    error: structureError,
+    isLoading: isStructureLoading,
+    refetch: refetchStructure,
+  } = useQuery({
+    queryKey: ['getStructure'],
+    queryFn: getStructure,
+  });
+
+  // ============== 기본 폴더 id 가져오기 ============
+  const { data: defaultFolderIdData } = useQuery<DefaultFolderIdData>({
+    queryKey: ['getDefaultFolderId'],
+    queryFn: getFoldersIdData,
+  });
+
+  // ==============  새로운 폴더 생성  =============
+  const { mutateAsync: createFolder } = useMutation<
+    {
+      id: number;
+      name: string;
+      parentFolderId: number;
+      userId: number;
+    },
+    Error,
+    string
+  >({
+    mutationFn: postFolder,
+  });
+
+  // ============  폴더 이동 ================
+  const { mutateAsync: moveFolder } = useMutation<
+    void,
+    Error,
+    { folderId: string; structure: object }
+  >({
+    mutationFn: putFolderMove,
+  });
+
+  // ==============  기존 create 함수  =============
+  // const handleCreate: CreateHandler<NodeData> = ({
+  //   parentId,
+  //   parentNode,
+  //   index,
+  // }) => {
+  //   console.log('parentId', parentId);
+  //   console.log('parentNode', parentNode);
+  //   console.log('index', index);
+  //   const updatedData = createNode(
+  //     structureData.root,
+  //     focusedNode,
+  //     createNodeType,
+  //     parentId,
+  //     parentNode,
+  //     index
+  //   );
+  //   setTreeData(updatedData);
+  //   return { id: '999' };
+  // };
+
+  // ============== Tree 핸들러 함수 ===============
+  const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
     parentNode,
     index,
-  }) => {
-    const updatedData = createNode(
-      treeData,
-      focusedNode,
-      createNodeType,
-      parentId,
-      parentNode,
-      index
-    );
-    setTreeData(updatedData);
+    type,
+  }): Promise<{ id: string }> => {
+    try {
+      console.log('parentId', parentId);
+      console.log('parentNode', parentNode);
+      console.log('index', index);
+      console.log('type', type);
+
+      // 폴더 생성 (서버)
+      const data = await createFolder('New Folder27');
+      console.log('Server: Folder created:', data);
+
+      // 폴더 생성 (클라이언트)
+      const updatedTreeData = createNode(
+        structureData!.root,
+        focusedNode,
+        type,
+        treeRef.current,
+        parentId,
+        parentNode,
+        index,
+        data.id,
+        data.name
+      );
+
+      // 서버에 업데이트된 트리 전송
+      const serverData = {
+        parentFolderId: defaultFolderIdData!.ROOT,
+        structure: {
+          root: updatedTreeData,
+          recycleBin: [],
+        },
+      };
+      console.log('defaultFolderIdData', defaultFolderIdData);
+      console.log('서버용 data', serverData);
+      // 폴더 이동 (서버)
+      await moveFolder({ folderId: data.id.toString(), structure: serverData });
+
+      // 구조 데이터 새로 가져오기
+      refetchStructure();
+    } catch (error) {
+      console.error('Error creating folder:', error);
+    }
     return { id: '999' };
   };
 
@@ -113,30 +215,48 @@ export function DirectoryTreeSection() {
         <div className={directoryLabelContainer}>
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
+          <button
+            onClick={() => {
+              treeRef.current?.createInternal();
+            }}
+          >
+            +Folder
+          </button>
+          <button
+            onClick={() => {
+              treeRef.current?.createLeaf();
+            }}
+          >
+            +Pick
+          </button>
         </div>
         <div className={directoryTreeWrapper} ref={ref}>
-          <EditorContextMenu>
-            <Tree
-              ref={handleTreeRef}
-              className={directoryTree}
-              data={treeData}
-              disableMultiSelection={true}
-              onFocus={(node: NodeApi) => {
-                setFocusedNode(node);
-              }}
-              onMove={handleMove}
-              onCreate={handleCreate}
-              openByDefault={false}
-              width={width}
-              height={height && height - 8}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-              dndManager={dragDropManager}
-            >
-              {DirectoryNode}
-            </Tree>
-          </EditorContextMenu>
+          {isStructureLoading && <div>Loading...</div>}
+          {structureError && <div>Error: {structureError.message}</div>}
+          {!isStructureLoading && !structureError && (
+            <EditorContextMenu>
+              <Tree
+                ref={handleTreeRef}
+                className={directoryTree}
+                data={structureData!.root}
+                disableMultiSelection={true}
+                onFocus={(node: NodeApi) => {
+                  setFocusedNode(node);
+                }}
+                onMove={handleMove}
+                onCreate={handleCreate}
+                openByDefault={false}
+                width={width}
+                height={height && height - 8}
+                rowHeight={32}
+                indent={24}
+                overscanCount={1}
+                dndManager={dragDropManager}
+              >
+                {DirectoryNode}
+              </Tree>
+            </EditorContextMenu>
+          )}
         </div>
       </div>
       <div className={directoryTreeSectionFooter}></div>

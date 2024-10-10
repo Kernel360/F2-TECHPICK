@@ -7,18 +7,12 @@ import {
 } from './directoryNode.css';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
-import { useTreeStore } from '@/shared/stores/treeStore';
 
 export const DirectoryNode = ({
   node,
   style,
   dragHandle,
 }: DirectoryNodeProps) => {
-  const { treeApi, setTreeApi } = useTreeStore();
-  if (!treeApi) {
-    setTreeApi(node.tree);
-  }
-
   return (
     <div
       className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}

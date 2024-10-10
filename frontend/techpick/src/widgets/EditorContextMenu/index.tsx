@@ -17,8 +17,7 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { focusedNode, treeRef, createNodeType, setCreateNodeType } =
-    useTreeStore();
+  const { focusedNode, treeRef } = useTreeStore();
 
   return (
     <ContextMenu.Root>
@@ -44,7 +43,6 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   <ContextMenu.Item
                     className={ContextMenuItem}
                     onClick={() => {
-                      setCreateNodeType('folder');
                       treeRef.current!.createInternal();
                     }}
                   >
@@ -54,9 +52,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   <ContextMenu.Item
                     className={ContextMenuItem}
                     onClick={() => {
-                      setCreateNodeType('pick');
-                      console.log('createNodeType', createNodeType);
-                      treeRef.current!.createInternal();
+                      treeRef.current!.createLeaf();
                     }}
                   >
                     Pick

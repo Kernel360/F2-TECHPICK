@@ -1,29 +1,56 @@
-import { NodeApi } from 'react-arborist';
+import { NodeApi, TreeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types';
 
 export const createNode = (
   treeData: NodeData[],
   focusedNode: NodeApi | null,
-  createNodeType: 'folder' | 'pick',
+  type: 'internal' | 'leaf',
+  treeApi: TreeApi<NodeData> | undefined,
   parentId: string | null,
   parentNode: NodeApi | null,
-  index: number
+  index: number,
+  newId: number,
+  newName: string
 ) => {
-  const newId = '999';
   let children;
-  if (createNodeType === 'folder') {
+  if (type === 'internal') {
     children = [];
   }
 
-  const newNode = {
-    id: newId,
-    type: createNodeType,
-    name: 'New Node',
+  const nextId = () => {
+    const maxId = treeData.reduce((acc, cur) => {
+      const id = parseInt(cur.id, 10);
+      return id > acc ? id : acc;
+    }, 0);
+    return String(maxId + 1);
+  };
+
+  const newFolder: NodeData = {
+    id: nextId(),
+    folderId: newId,
+    type: 'folder',
+    name: newName,
     children: children,
   };
-  console.log('newNode', newNode);
 
-  const insertNode = (dataList: NodeData[], newNode: NodeData) => {
+  const newPick: NodeData = {
+    id: nextId(),
+    pickId: newId,
+    type: 'pick',
+    name: newName,
+  };
+
+  const newNode = type === 'internal' ? newFolder : newPick;
+
+  console.log('Client : newNode', newNode);
+
+  const insertNodeToData = (dataList: NodeData[], newNode: NodeData) => {
+    if (!parentNode) {
+      const updatedDataList = [...dataList];
+      updatedDataList.splice(index, 0, newNode);
+      return updatedDataList;
+    }
+
     if (parentId === null) {
       const updatedDataList = [...dataList];
       return updatedDataList.splice(index, 0, newNode);
@@ -38,12 +65,12 @@ export const createNode = (
       }
 
       if (data.children) {
-        data.children = insertNode(data.children, newNode);
+        data.children = insertNodeToData(data.children, newNode);
       }
 
       return data;
     });
   };
 
-  return insertNode(treeData, newNode);
+  return insertNodeToData(treeData, newNode);
 };

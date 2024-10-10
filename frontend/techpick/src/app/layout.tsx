@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { ToastProvider, ThemeProvider } from '@/providers';
 import '@/shared/themes/reset.css';
 import { DndProviderWrapper } from '@/providers/DndProviderWrapper';
+import { QueryProvider } from '@/providers/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <ToastProvider>
           <ThemeProvider>
-            <DndProviderWrapper>{children}</DndProviderWrapper>
+            <DndProviderWrapper>
+              <QueryProvider>{children}</QueryProvider>
+            </DndProviderWrapper>
           </ThemeProvider>
         </ToastProvider>
       </body>
