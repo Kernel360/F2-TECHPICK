@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { Text, Button, Gap } from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
@@ -32,16 +33,29 @@ export function DeleteTagDialog() {
       <Dialog.Portal>
         <Dialog.Overlay className={dialogOverlayStyle} />
         <Dialog.Content className={dialogContentStyle}>
-          {/* 안의 내용과 디자인은 다음 PR에서 작업하겠습니다. */}
-          <p>정말 삭제하시겠습니까?</p>
+          <Text>이 태그를 삭제하시겠습니까?</Text>
 
-          <Dialog.Close asChild>
-            <button ref={cancelButtonRef} onClick={closeDialog}>
-              Cancel
-            </button>
-          </Dialog.Close>
-
-          <button onClick={handleDeleteTag}>Yes, delete account</button>
+          <div>
+            <Button
+              onClick={handleDeleteTag}
+              size="xs"
+              background="warning"
+              wide
+            >
+              삭제
+            </Button>
+            <Gap verticalSize="gap4" />
+            <Dialog.Close asChild>
+              <Button
+                ref={cancelButtonRef}
+                onClick={closeDialog}
+                size="xs"
+                wide
+              >
+                취소
+              </Button>
+            </Dialog.Close>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
