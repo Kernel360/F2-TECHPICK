@@ -3,10 +3,11 @@ import { createNode } from '@/features/createNode';
 import { moveNode } from '@/features/moveNode';
 import { useGetStructure } from '@/features/folderManagement/hooks/useGetStructure';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { CreateHandler, MoveHandler } from 'react-arborist';
+import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
 import { useCreateFolder } from '@/features/folderManagement/hooks/useCreateFolder';
 import { useMoveFolder } from '@/features/folderManagement/hooks/useMoveFolder';
 import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
+import { useRenameFolder } from '@/features/folderManagement/hooks/useRenameFolder';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } = useGetStructure();
@@ -21,6 +22,7 @@ export const useTreeHandlers = () => {
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
+  const { mutateAsync: renameFolder } = useRenameFolder();
 
   const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
@@ -107,5 +109,21 @@ export const useTreeHandlers = () => {
     refetchStructure();
   };
 
-  return { handleCreate, handleMove };
+  const handleRename = async ({
+    id,
+    name,
+    node,
+  }: {
+    id: string;
+    name: string;
+    node: NodeApi;
+  }) => {
+    console.log(id, name, node);
+    const realNodeId =
+      node.data.type === 'folder' ? node.data.folderId : node.data.pickId;
+    await renameFolder({ folderId: realNodeId.toString(), name });
+    refetchStructure();
+  };
+
+  return { handleCreate, handleMove, handleRename };
 };

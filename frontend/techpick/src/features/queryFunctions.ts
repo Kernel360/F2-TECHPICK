@@ -53,3 +53,17 @@ export const putFolderMove = async ({
     })
     .json();
 };
+
+export const putFolderRename = async ({
+  folderId,
+  name,
+}: {
+  folderId: string;
+  name: string;
+}): Promise<void> => {
+  return await apiClient
+    .put(`folders/${folderId}`, {
+      json: { name },
+    })
+    .json();
+};

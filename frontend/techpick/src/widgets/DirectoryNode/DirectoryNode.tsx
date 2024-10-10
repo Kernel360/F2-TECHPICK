@@ -25,7 +25,7 @@ export const DirectoryNode = ({
 
   return (
     <div
-      style={{ ...style, outline: 'none' }}
+      style={{ ...style }}
       className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
       ref={dragHandle}
       onClick={() => {

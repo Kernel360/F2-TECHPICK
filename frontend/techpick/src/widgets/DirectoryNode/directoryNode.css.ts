@@ -16,7 +16,6 @@ export const dirNodeWrapperFocused = style({
   ':hover': {
     backgroundColor: '#e2e8f4',
   },
-  outline: 'none',
 });
 
 export const dirNode = style({

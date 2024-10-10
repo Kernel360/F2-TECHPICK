@@ -29,7 +29,7 @@ export function DirectoryTreeSection() {
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
-  const { handleCreate, handleMove } = useTreeHandlers();
+  const { handleCreate, handleMove, handleRename } = useTreeHandlers();
 
   const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
     if (instance && !treeRef.current) {
@@ -92,6 +92,7 @@ export function DirectoryTreeSection() {
                 }}
                 onMove={handleMove}
                 onCreate={handleCreate}
+                onRename={handleRename}
                 openByDefault={false}
                 width={width}
                 height={height && height - 8}
