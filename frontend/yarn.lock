@@ -4603,6 +4603,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/randomcolor@npm:^0.5.9":
+  version: 0.5.9
+  resolution: "@types/randomcolor@npm:0.5.9"
+  checksum: 10c0/236c1af0e4fd96835f61a4021ddf31b29ba74699c00e02bbbe26a365a13570e3e46f84ab581137281051dda422797923fc6c687f20cd2d99779311e873fdb7cc
+  languageName: node
+  linkType: hard
+
 "@types/range-parser@npm:*":
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
@@ -12649,6 +12656,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"randomcolor@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "randomcolor@npm:0.6.2"
+  checksum: 10c0/845b8b4a31ff4a6fe590930217db93ca5741b0eb7b363c564d5db72d52449383bd4cc44b77b8ae64cf4b70118ef7b8b9062134743e9ec7a6798d6a6f84318a2a
+  languageName: node
+  linkType: hard
+
 "randomfill@npm:^1.0.3":
   version: 1.0.4
   resolution: "randomfill@npm:1.0.4"
@@ -14413,6 +14427,7 @@ __metadata:
     "@radix-ui/react-visually-hidden": "npm:^1.1.0"
     "@tanstack/react-query": "npm:^5.55.4"
     "@types/chrome": "npm:^0.0.271"
+    "@types/randomcolor": "npm:^0.5.9"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@types/sanitize-html": "npm:^2"
@@ -14429,6 +14444,7 @@ __metadata:
     ky: "npm:^1.7.2"
     lucide-react: "npm:^0.446.0"
     path: "npm:^0.12.7"
+    randomcolor: "npm:^0.6.2"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-router-dom: "npm:^6.26.2"
