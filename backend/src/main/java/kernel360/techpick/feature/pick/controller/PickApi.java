@@ -3,7 +3,6 @@ package kernel360.techpick.feature.pick.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +26,7 @@ public interface PickApi {
 			description = "픽 상세 정보 조회에 성공하였습니다."
 		)
 	})
-	ResponseEntity<PickResponse> getPickById(Authentication auth, Long pickId);
+	ResponseEntity<PickResponse> getPickById(Long pickId);
 
 	@Operation(
 		summary = "사용자 픽 리스트 조회",
@@ -39,7 +38,7 @@ public interface PickApi {
 			description = "사용자 픽 리스트 조회에 성공하였습니다."
 		)
 	})
-	ResponseEntity<List<PickResponse>> getPickListByUserId(Authentication auth);
+	ResponseEntity<List<PickResponse>> getPickListByUser();
 
 	@Operation(
 		summary = "폴더에 있는 픽 리스트 조회",
@@ -51,7 +50,7 @@ public interface PickApi {
 			description = "폴더 픽 리스트 조회에 성공하였습니다."
 		)
 	})
-	ResponseEntity<List<PickResponse>> getPickListByParentFolderId(Authentication auth, Long parentFolderId);
+	ResponseEntity<List<PickResponse>> getPickListByParentFolderId(Long parentFolderId);
 
 	@Operation(
 		summary = "미분류 폴더에 있는 픽 리스트 조회",
@@ -63,7 +62,7 @@ public interface PickApi {
 			description = "미분류 폴더 픽 리스트 조회에 성공하였습니다."
 		)
 	})
-	ResponseEntity<List<PickResponse>> getPickListByUnclassified(Authentication auth, FolderType folderType);
+	ResponseEntity<List<PickResponse>> getPickListByUnclassified(FolderType folderType);
 
 	@Operation(
 		summary = "픽 생성",
@@ -75,7 +74,7 @@ public interface PickApi {
 			description = "픽 생성에 성공하였습니다."
 		)
 	})
-	ResponseEntity<PickResponse> createPick(Authentication auth, PickCreateRequest pickCreateRequest);
+	ResponseEntity<PickResponse> createPick(PickCreateRequest pickCreateRequest);
 
 	@Operation(
 		summary = "픽 수정",
@@ -87,6 +86,6 @@ public interface PickApi {
 			description = "픽 수정에 성공하였습니다."
 		)
 	})
-	ResponseEntity<PickResponse> updatePick(Authentication auth, PickUpdateRequest pickUpdateRequest);
+	ResponseEntity<PickResponse> updatePick(PickUpdateRequest pickUpdateRequest);
 
 }
