@@ -30,7 +30,7 @@ public class PickTagProvider {
 		pickTagRepository.deleteByPickIdAndTagId(pickId, tagId);
 	}
 
-    public void deletePickTagRelationByTag(Tag Tag) {
-        pickTagRepository.deleteByTag(Tag);
-    }
+	public void deletePickTagRelationByTagId(Long tagId) {
+		pickTagRepository.deleteByTagId(tagId);
+	}
 }

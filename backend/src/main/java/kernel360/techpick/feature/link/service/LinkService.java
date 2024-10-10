@@ -30,7 +30,7 @@ public class LinkService {
 					linkRequest.imageUrl());
 				return existLink;
 			})
-			.orElseGet(() -> linkMapper.createLink(linkRequest));
+			.orElseGet(() -> linkMapper.toLinkEntity(linkRequest));
 
 		return linkProvider.save(link);
 	}

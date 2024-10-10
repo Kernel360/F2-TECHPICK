@@ -24,20 +24,20 @@ public class PickProvider {
 		return pickRepository.findById(pickId).orElseThrow(ApiPickException::PICK_NOT_FOUND);
 	}
 
-	public List<Pick> findAllByUserId(Long userId) {
-		return pickRepository.findAllByUserId(userId);
+	public List<Pick> findAllByUser(User user) {
+		return pickRepository.findAllByUser(user);
 	}
 
-	public List<Pick> findAllByParentFolderId(Long userId, Long parentFolderId) {
-		return pickRepository.findAllByUserIdAndParentFolderId(userId, parentFolderId);
+	public List<Pick> findAllByParentFolderId(User user, Long parentFolderId) {
+		return pickRepository.findAllByUserAndParentFolderId(user, parentFolderId);
 	}
 
-	public List<Pick> findAllByUnclassified(Long userId) {
-		return pickRepository.findAllByUserIdAndParentFolderFolderType(userId, FolderType.UNCLASSIFIED);
+	public List<Pick> findAllByUnclassified(User user) {
+		return pickRepository.findAllByUserAndParentFolderFolderType(user, FolderType.UNCLASSIFIED);
 	}
 
-	public Map<Long, Pick> findAllByUserIdAsMap(Long userId) {
-		return findAllByUserId(userId).stream()
+	public Map<Long, Pick> findAllByUserIdAsMap(User user) {
+		return findAllByUser(user).stream()
 			.collect(Collectors.toMap(Pick::getId, Function.identity()));
 	}
 

@@ -12,14 +12,14 @@ import kernel360.techpick.core.model.user.User;
 
 @Repository
 public interface PickRepository extends JpaRepository<Pick, Long> {
-	
+
 	boolean existsByLink(Link link);
 
-	List<Pick> findAllByUserId(Long userId);
+	List<Pick> findAllByUser(User user);
 
-	List<Pick> findAllByUserIdAndParentFolderId(Long userId, Long parentFolderId);
+	List<Pick> findAllByUserAndParentFolderId(User user, Long parentFolderId);
 
-	List<Pick> findAllByUserIdAndParentFolderFolderType(Long userId, FolderType folderType);
+	List<Pick> findAllByUserAndParentFolderFolderType(User user, FolderType folderType);
 
 	boolean existsByUserIdAndLinkUrl(Long userId, String url);
 }

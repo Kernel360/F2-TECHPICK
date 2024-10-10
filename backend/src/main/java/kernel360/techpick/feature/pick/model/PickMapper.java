@@ -36,8 +36,8 @@ public class PickMapper {
 	public List<PickResponse> toPickResponseList(List<Pick> pickList, PickTagProvider pickTagProvider,
 		PickTagMapper pickTagMapper, LinkMapper linkMapper) {
 		return pickList.stream().map(pick -> {
-			List<PickTag> pickTags = pickTagProvider.findAllPickTagByPickId(pick.getId());
-			List<TagResponse> tagResponseList = pickTagMapper.toTagResponse(pickTags);
+			List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(pick.getId());
+			List<TagResponse> tagResponseList = pickTagMapper.toTagResponse(pickTagList);
 			LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
 
 			return this.toPickResponse(pick, tagResponseList, linkUrlResponse);
@@ -65,9 +65,9 @@ public class PickMapper {
 		if (Objects.isNull(existingPickTag)) {
 			Tag tag = tagProvider.findById(tagId);
 			pickTagProvider.save(PickTag.create(pick, tag));
-			return tagMapper.createTagResponse(tag);
+			return tagMapper.toTagResponse(tag);
 		}
 
-		return tagMapper.createTagResponse(existingPickTag.getTag());
+		return tagMapper.toTagResponse(existingPickTag.getTag());
 	}
 }

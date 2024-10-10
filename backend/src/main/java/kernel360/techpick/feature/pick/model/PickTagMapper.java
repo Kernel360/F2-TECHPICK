@@ -16,7 +16,7 @@ public class PickTagMapper {
 		return pickTags.stream()
 			.map(pickTag -> {
 				Tag tag = pickTag.getTag();
-				return new TagResponse(tag.getId(), tag.getName(), tag.getTagOrder(),
+				return new TagResponse(tag.getId(), tag.getName(), tag.getTagOrder(), tag.getColorNumber(),
 					tag.getUser().getId());
 			})
 			.toList();
