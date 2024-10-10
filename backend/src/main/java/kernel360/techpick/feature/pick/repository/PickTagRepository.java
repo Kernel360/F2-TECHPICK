@@ -1,5 +1,7 @@
 package kernel360.techpick.feature.pick.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +12,11 @@ import kernel360.techpick.core.model.pick.PickTag;
 @Repository
 public interface PickTagRepository extends JpaRepository<PickTag, Long> {
 
-	boolean existsByTag_Id(Long tag_id);
+	boolean existsByTagId(Long tagId);
 
-	void deleteByTag_Id(Long tag_id);
+	void deleteByTagId(Long tagId);
+
+	void deleteByPickIdAndTagId(Long pickId, Long tagId);
+
+	List<PickTag> findAllByPickId(Long pickId);
 }
