@@ -19,7 +19,7 @@ public class CookieUtil {
 			.httpOnly(true)
 			.secure(true)
 			.domain(".minlife.me")
-			.sameSite("None")
+			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", responseCookie.toString());
 
@@ -29,7 +29,7 @@ public class CookieUtil {
 			.path("/")
 			.secure(true)
 			.domain(".minlife.me")
-			.sameSite("None")
+			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", techPickLoginCookie.toString());
 
