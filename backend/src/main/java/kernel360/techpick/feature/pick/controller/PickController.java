@@ -41,9 +41,9 @@ public class PickController implements PickApi {
 	}
 
 	@Override
-	@GetMapping(params = "parentFolder")
+	@GetMapping(params = "parentId")
 	public ResponseEntity<List<PickResponse>> getPickListByParentFolderId(
-		@RequestParam(value = "parentFolder", required = false) Long parentFolderId) {
+		@RequestParam(value = "parentId", required = false) Long parentFolderId) {
 		return ResponseEntity.ok(pickService.getPickListByParentFolderId(parentFolderId));
 	}
 
