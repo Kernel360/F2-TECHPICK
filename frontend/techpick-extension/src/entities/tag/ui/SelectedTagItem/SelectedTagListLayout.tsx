@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, forwardRef } from 'react';
 import {
   SelectedTagListLayoutStyle,
   ListLayoutHeightVariantKeyTypes,
@@ -7,19 +7,22 @@ import {
   SelectedTagListLayoutFocusStyleVariant,
 } from './SelectedTagListLayout.css';
 
-export function SelectedTagListLayout({
-  height = 'flexible',
-  focusStyle = 'none',
-  children,
-}: PropsWithChildren<SelectedTagListLayoutProps>) {
+export const SelectedTagListLayout = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<SelectedTagListLayoutProps>
+>(function SelectedTagListLayoutWithRef(
+  { height = 'flexible', focusStyle = 'none', children },
+  ref
+) {
   return (
     <div
+      ref={ref}
       className={`${ListLayoutHeightVariants[height]} ${SelectedTagListLayoutFocusStyleVariant[focusStyle]} ${SelectedTagListLayoutStyle}`}
     >
       {children}
     </div>
   );
-}
+});
 
 interface SelectedTagListLayoutProps {
   height?: ListLayoutHeightVariantKeyTypes;

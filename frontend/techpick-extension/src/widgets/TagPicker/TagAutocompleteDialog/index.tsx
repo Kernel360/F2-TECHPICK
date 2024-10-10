@@ -28,7 +28,9 @@ export function TagAutocompleteDialog({
 }: TagSelectionDialogProps) {
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
+  const [commandListHeight, setCommandListHeight] = useState(0);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
+  const selectedTagListRef = useRef<HTMLDivElement | null>(null);
   const {
     tagList,
     selectedTagList,
@@ -70,6 +72,27 @@ export function TagAutocompleteDialog({
     [tagInputValue, tagList]
   );
 
+  useEffect(
+    function calculateCommandListHeight() {
+      const COMMAND_LIST_INITIAL_HEIGHT = 160;
+      const COMMAND_LIST_MAX_HEIGHT = 208;
+
+      if (!selectedTagListRef.current) {
+        // 초기에는 초기값 부여
+        setCommandListHeight(COMMAND_LIST_INITIAL_HEIGHT);
+        return;
+      }
+
+      const { height } = selectedTagListRef.current.getBoundingClientRect();
+      const commandListHeight = Math.max(
+        0,
+        Math.min(COMMAND_LIST_INITIAL_HEIGHT, COMMAND_LIST_MAX_HEIGHT - height)
+      );
+      setCommandListHeight(commandListHeight);
+    },
+    [selectedTagList]
+  );
+
   if (fetchingTagState.isPending) {
     return <h1>Loading...</h1>;
   }
@@ -83,7 +106,10 @@ export function TagAutocompleteDialog({
       filter={filterCommandItems}
     >
       {/**선택한 태그 리스트 */}
-      <SelectedTagListLayout focusStyle="focus">
+      <SelectedTagListLayout
+        ref={selectedTagListRef} // ref 추가
+        focusStyle="focus"
+      >
         {selectedTagList.map((tag) => (
           <SelectedTagItem key={tag.id} tag={tag}>
             <DeselectTagButton tag={tag} onClick={focusTagInput} />
@@ -99,7 +125,10 @@ export function TagAutocompleteDialog({
       </SelectedTagListLayout>
 
       {/**전체 태그 리스트 */}
-      <Command.List className={tagListStyle}>
+      <Command.List
+        className={tagListStyle}
+        style={{ maxHeight: commandListHeight }}
+      >
         <Command.Empty>No results found.</Command.Empty>
 
         {tagList.map((tag) => (
@@ -124,7 +153,6 @@ export function TagAutocompleteDialog({
 
               if (!newTag) {
                 // Todo: error handling
-                // newTag or postTagState을 이용할 예정.
                 return;
               }
 
