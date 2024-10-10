@@ -56,6 +56,7 @@ export const directoryLabel = style({
 
 export const directoryTreeWrapper = style({
   height: '100%',
+  outline: 'none',
 });
 
 export const directoryTreeSectionFooter = style({
@@ -67,4 +68,5 @@ export const directoryTreeSectionFooter = style({
 export const directoryTree = style({
   width: '100%',
   height: '100%',
+  outline: 'none',
 });

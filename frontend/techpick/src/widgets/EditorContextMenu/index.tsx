@@ -17,7 +17,8 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { focusedNode, treeRef } = useTreeStore();
+  const { treeRef } = useTreeStore();
+  const focusedNode = treeRef.current?.focusedNode;
 
   return (
     <ContextMenu.Root>
@@ -62,7 +63,16 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             </ContextMenu.Sub>
           )}
 
-          <ContextMenu.Item className={ContextMenuItem}>
+          <ContextMenu.Item
+            className={ContextMenuItem}
+            onClick={() => {
+              focusedNode!.edit();
+              console.log(
+                'EditIng Mode - focusedNode:',
+                treeRef.current!.focusedNode
+              );
+            }}
+          >
             Rename <div className={RightSlot}></div>
           </ContextMenu.Item>
           <ContextMenu.Item className={ContextMenuItem}>

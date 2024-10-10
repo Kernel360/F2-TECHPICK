@@ -16,6 +16,7 @@ export const dirNodeWrapperFocused = style({
   ':hover': {
     backgroundColor: '#e2e8f4',
   },
+  outline: 'none',
 });
 
 export const dirNode = style({
@@ -31,4 +32,16 @@ export const dirIcFolder = style({
   height: '16px',
   marginLeft: '16px',
   marginRight: '8px',
+});
+
+export const nodeNameInput = style({
+  fontSize: '14px',
+  fontWeight: 300,
+  margin: '4px 0',
+  padding: '3px',
+  backgroundColor: 'white',
+  color: themeContract.color.font,
+  outline: 'none',
+  border: `1px solid ${themeContract.color.border}`,
+  borderRadius: '4px',
 });

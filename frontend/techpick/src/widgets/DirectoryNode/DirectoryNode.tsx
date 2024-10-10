@@ -4,6 +4,7 @@ import {
   dirNode,
   dirNodeWrapper,
   dirNodeWrapperFocused,
+  nodeNameInput,
 } from './directoryNode.css';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
@@ -13,10 +14,19 @@ export const DirectoryNode = ({
   style,
   dragHandle,
 }: DirectoryNodeProps) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      node.submit(event.currentTarget.value);
+    }
+    if (event.key === 'Escape') {
+      node.reset();
+    }
+  };
+
   return (
     <div
+      style={{ ...style, outline: 'none' }}
       className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
-      style={{ ...style }}
       ref={dragHandle}
       onClick={() => {
         node.toggle();
@@ -51,7 +61,16 @@ export const DirectoryNode = ({
             className={dirIcFolder}
           />
         )}
-        {node.data.name}
+        {node.isEditing ? (
+          <input
+            type="text"
+            className={nodeNameInput}
+            onKeyDown={handleKeyDown}
+            autoFocus
+          />
+        ) : (
+          node.data.name
+        )}
       </div>
     </div>
   );

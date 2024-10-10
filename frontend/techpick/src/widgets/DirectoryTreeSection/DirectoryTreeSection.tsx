@@ -16,19 +16,20 @@ import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
-import { DirectoryNode } from '@/components';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
 import { useGetStructure } from '@/features/folderManagement/hooks/useGetStructure';
 import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
+import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
+  const { handleCreate, handleMove } = useTreeHandlers();
 
   const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
     if (instance && !treeRef.current) {
@@ -37,14 +38,11 @@ export function DirectoryTreeSection() {
     }
   };
 
-  // ==============  기존 구조 데이터 가져오기  =============
   const {
     data: structureData,
     error: structureError,
     isLoading: isStructureLoading,
   } = useGetStructure();
-
-  const { handleCreate, handleMove } = useTreeHandlers();
 
   return (
     <div className={leftSidebarSection}>

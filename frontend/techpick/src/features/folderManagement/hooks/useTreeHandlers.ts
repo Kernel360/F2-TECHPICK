@@ -30,7 +30,7 @@ export const useTreeHandlers = () => {
   }): Promise<{ id: string }> => {
     try {
       // 폴더 생성 (서버)
-      const data = await createFolder('New Folder27');
+      const data = await createFolder('New Folder29');
       console.log('Server: Folder created:', data);
 
       // 폴더 생성 (클라이언트)
