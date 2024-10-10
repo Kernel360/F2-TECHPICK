@@ -1,3 +1,4 @@
+import { Button } from '@/shared';
 import type { tagTypes } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../deleteTag.model';
 
@@ -14,9 +15,9 @@ export function ShowDeleteTagDialogButton({
   };
 
   return (
-    <button type="button" onClick={showDeleteTagDialog}>
+    <Button onClick={showDeleteTagDialog} size="xs" background="warning" wide>
       삭제
-    </button>
+    </Button>
   );
 }
 
