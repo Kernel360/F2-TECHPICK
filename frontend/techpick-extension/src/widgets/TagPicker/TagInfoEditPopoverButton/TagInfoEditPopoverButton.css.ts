@@ -1,11 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
 export const tagInfoEditPopoverContent = style({
-  position: 'absolute',
-  top: '0',
-  left: 0,
-  zIndex: '3',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  zIndex: '4',
   border: '1px solid black',
+  padding: '8px',
   backgroundColor: 'white',
 });
 

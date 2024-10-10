@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
-import * as Popover from '@radix-ui/react-popover';
-import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { useFloating, shift } from '@floating-ui/react';
 import sanitizeHtml from 'sanitize-html';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
@@ -12,19 +11,20 @@ import { tagInfoEditPopoverContent } from './TagInfoEditPopoverButton.css';
 export function TagInfoEditPopoverButton({
   tag,
 }: TagInfoEditPopoverButtonProps) {
-  const tagInfoEditPopoverButtonRef = useRef<HTMLDivElement | null>(null);
   const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { updateTag, updateSelectedTagList } = useTagStore();
+  const { refs, floatingStyles } = useFloating({
+    open: isPopoverOpen,
+    middleware: [shift({ padding: 4 })],
+  });
 
   const closePopover = () => {
     setIsPopoverOpen(false);
   };
 
-  // radix-ui popover는 space key를 이용해 popover를 열고 닫습니다.
-  // 따라서 space key를 입력 시 값을 더하는 식으로 우회했습니다.
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === ' ' && tagNameInputRef?.current) {
+    if (e.key === ' ' && tagNameInputRef.current) {
       tagNameInputRef.current.value += ' ';
       e.preventDefault();
     }
@@ -33,7 +33,7 @@ export function TagInfoEditPopoverButton({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!tagNameInputRef?.current) {
+    if (!tagNameInputRef.current) {
       return;
     }
 
@@ -50,23 +50,36 @@ export function TagInfoEditPopoverButton({
       closePopover();
     } catch (error) {
       if (error instanceof Error) {
-        // TODO:  Toast 알림
+        // TODO: Toast 알림
       }
     }
   };
 
   return (
-    <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTriggerButton ref={tagInfoEditPopoverButtonRef} />
-      {isPopoverOpen && <PopoverOverlay onClick={closePopover} />}
-      <Popover.Portal container={tagInfoEditPopoverButtonRef.current}>
-        <Popover.Content
-          className={tagInfoEditPopoverContent}
-          // 아래의 stopPropagation은 Enter시에 Popover 창이 닫히는 걸 막습니다.
-          onKeyDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <form onSubmit={handleSubmit}>
+    <>
+      <PopoverTriggerButton
+        ref={refs.setReference}
+        onClick={(e) => {
+          e.stopPropagation(); // 옵션 버튼을 눌렀을 때, 해당 태그를 선택하는 onSelect를 막기 위헤서 전파 방지
+          setIsPopoverOpen(true);
+        }}
+      />
+      {isPopoverOpen && (
+        <>
+          <PopoverOverlay
+            onClick={(e) => {
+              closePopover();
+              e.stopPropagation();
+            }}
+          />
+          <form
+            onSubmit={handleSubmit}
+            className={tagInfoEditPopoverContent}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
             <input
               type="text"
               defaultValue={tag.name}
@@ -75,17 +88,13 @@ export function TagInfoEditPopoverButton({
               onKeyDown={handleInputKeyDown}
             />
             <ShowDeleteTagDialogButton tag={tag} onClick={closePopover} />
-
-            <VisuallyHidden.Root>
-              <button type="submit" aria-label="제출">
-                제출
-              </button>
-            </VisuallyHidden.Root>
+            <button type="submit" aria-label="제출" style={{ display: 'none' }}>
+              제출
+            </button>
           </form>
-          <Popover.Close aria-label="Close"></Popover.Close>
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+        </>
+      )}
+    </>
   );
 }
 
