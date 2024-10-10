@@ -10,8 +10,8 @@ import kernel360.techpick.feature.tag.service.dto.TagResponse;
 @Component
 public class TagMapper {
 
-	public Tag toTagEntity(TagCreateRequest request, int order, User user) {
-		return Tag.createTag(request.tagName(), order, user);
+	public Tag toTagEntity(TagCreateRequest request, Integer order, User user) {
+		return Tag.createTag(request.tagName(), order, request.colorNumber(), user);
 	}
 
 	public TagResponse toTagResponse(Tag tag) {
@@ -19,6 +19,7 @@ public class TagMapper {
 			tag.getId(),
 			tag.getName(),
 			tag.getTagOrder(),
+			tag.getColorNumber(),
 			tag.getUser().getId()
 		);
 	}
