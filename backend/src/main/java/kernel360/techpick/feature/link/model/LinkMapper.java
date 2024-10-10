@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.feature.link.service.dto.LinkRequest;
 import kernel360.techpick.feature.link.service.dto.LinkResponse;
+import kernel360.techpick.feature.link.service.dto.LinkUrlResponse;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,14 @@ public class LinkMapper {
 			link.getUrl(),
 			link.getTitle(),
 			link.getDescription(),
+			link.getImageUrl()
+		);
+	}
+
+	public LinkUrlResponse createLinkUrlResponse(Link link) {
+		return new LinkUrlResponse(
+			link.getId(),
+			link.getUrl(),
 			link.getImageUrl()
 		);
 	}

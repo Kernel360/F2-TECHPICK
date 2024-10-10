@@ -37,6 +37,19 @@ public class LinkService {
 		return linkMapper.createLinkResponse(linkProvider.save(link));
 	}
 
+	@Transactional
+	public Link saveOrUpdateLink(LinkRequest linkRequest) {
+		Link link = linkProvider.findByUrlOrElseGet(linkRequest.url())
+			.map(existLink -> {
+				existLink.updateLink(linkRequest.title(), linkRequest.description(),
+					linkRequest.imageUrl());
+				return existLink;
+			})
+			.orElseGet(() -> linkMapper.createLink(linkRequest));
+
+		return linkProvider.save(link);
+	}
+
 	@Transactional(readOnly = true)
 	public LinkResponse getLinkById(Long id) throws ApiLinkException {
 
