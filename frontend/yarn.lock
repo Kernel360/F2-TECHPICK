@@ -12961,6 +12961,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-spinners@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "react-spinners@npm:0.14.1"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/5b3c101f789716331a0b6afad156293fb9aa05620e65494753001afcdb611788057f379b5979b34d570d527fa978003293266b59db505bf2d243ebab899ceeda
+  languageName: node
+  linkType: hard
+
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -14422,6 +14432,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-router-dom: "npm:^6.26.2"
+    react-spinners: "npm:^0.14.1"
     sanitize-html: "npm:^2.13.0"
     typescript: "npm:5.5.4"
     typescript-eslint: "npm:^8.0.1"

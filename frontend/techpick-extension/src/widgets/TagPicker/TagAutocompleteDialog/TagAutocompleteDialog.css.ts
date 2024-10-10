@@ -29,6 +29,13 @@ export const tagListStyle = style({
   },
 });
 
+export const tagListLoadingStyle = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '20px',
+});
+
 export const tagListItemStyle = style({
   display: 'flex',
   justifyContent: 'space-between',

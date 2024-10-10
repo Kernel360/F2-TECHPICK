@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
+import { BarLoader } from 'react-spinners';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -19,6 +20,7 @@ import {
   tagListItemContentStyle,
   tagCreateTextStyle,
   tagListStyle,
+  tagListLoadingStyle,
 } from './TagAutocompleteDialog.css';
 
 export function TagAutocompleteDialog({
@@ -93,10 +95,6 @@ export function TagAutocompleteDialog({
     [selectedTagList]
   );
 
-  if (fetchingTagState.isPending) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
     <Command.Dialog
       open={open}
@@ -129,7 +127,17 @@ export function TagAutocompleteDialog({
         className={tagListStyle}
         style={{ maxHeight: commandListHeight }}
       >
-        <Command.Empty>No results found.</Command.Empty>
+        {fetchingTagState.isPending && (
+          <Command.Loading className={tagListLoadingStyle}>
+            <BarLoader />
+          </Command.Loading>
+        )}
+
+        {!fetchingTagState.isPending && (
+          <Command.Empty className={tagListItemStyle}>
+            태그를 만들어보세요!
+          </Command.Empty>
+        )}
 
         {tagList.map((tag) => (
           <Command.Item
