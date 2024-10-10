@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.service.dto.TagResponse;
 import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
@@ -29,8 +30,9 @@ public class TagController implements TagApi {
 
 	@Override
 	@PostMapping
-	public ResponseEntity<TagResponse> createTag(@RequestBody TagCreateRequest request) {
-
+	public ResponseEntity<TagResponse> createTag(
+		@Valid @RequestBody TagCreateRequest request
+	) {
 		return ResponseEntity.ok(
 			tagService.createTag(userService.getCurrentUser(), request)
 		);
@@ -39,7 +41,6 @@ public class TagController implements TagApi {
 	@Override
 	@GetMapping
 	public ResponseEntity<List<TagResponse>> getTagListByUser() {
-
 		return ResponseEntity.ok(
 			tagService.getTagList(userService.getCurrentUser())
 		);
@@ -48,7 +49,7 @@ public class TagController implements TagApi {
 	@Override
 	@PutMapping
 	public ResponseEntity<List<TagResponse>> updateTagList(
-		@RequestBody List<TagUpdateRequest> tagUpdateRequests
+		@Valid @RequestBody List<TagUpdateRequest> tagUpdateRequests
 	) {
 		return ResponseEntity.ok(
 			tagService.updateTagList(userService.getCurrentUser(), tagUpdateRequests)
@@ -57,9 +58,10 @@ public class TagController implements TagApi {
 
 	@Override
 	@DeleteMapping("/{tagId}")
-	public ResponseEntity<Void> deleteTagById(@PathVariable Long tagId) {
+	public ResponseEntity<Void> deleteTagById(
+		@PathVariable Long tagId
+	) {
 		tagService.deleteByTagId(userService.getCurrentUser(), tagId);
-
 		return ResponseEntity.noContent().build();
 	}
 }

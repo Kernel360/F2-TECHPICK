@@ -39,14 +39,18 @@ public class Tag {
 	@Column(name = "tag_order", nullable = false)
 	private Integer tagOrder;
 
+	// 프론트가 쓸 컬러 넘버 (숫자 - 색상 매핑은 프론트에서 처리, 무조건 처리)
+	@Column(name = "color_number", nullable = false)
+	private Integer colorNumber;
+
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static Tag createTag(String name, int order, User user) {
-		return new Tag(name, order, user);
+	public static Tag createTag(String name, Integer order, Integer colorNumber, User user) {
+		return new Tag(name, order, colorNumber, user);
 	}
 
 	public void updateTag(String name, int tagOrder) {
@@ -54,9 +58,10 @@ public class Tag {
 		this.tagOrder = tagOrder;
 	}
 
-	private Tag(String name, int tagOrder, User user) {
+	private Tag(String name, Integer tagOrder, Integer colorNumber, User user) {
 		this.name = name;
 		this.tagOrder = tagOrder;
+		this.colorNumber = colorNumber;
 		this.user = user;
 	}
 }
