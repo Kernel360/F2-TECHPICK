@@ -73,7 +73,7 @@ public class TagService {
 		validateTagAccess(userId, targetTag);
 		// 해당 태그를 등록한 픽에서 해당 태그를 모두 삭제
 		// TODO: PickTagProvider 구현되면 PickTagProvider를 의존하도록 리팩토링 필요
-		pickTagRepository.deleteByTag_Id(tagId);
+		pickTagRepository.deleteByTagId(tagId);
 		tagProvider.deleteById(tagId);
 	}
 
