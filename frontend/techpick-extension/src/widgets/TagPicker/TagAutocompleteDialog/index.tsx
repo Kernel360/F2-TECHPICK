@@ -36,7 +36,6 @@ export function TagAutocompleteDialog({
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
   const randomNumber = useRef<number>(getRandomInt());
-
   const {
     tagList,
     selectedTagList,
@@ -137,7 +136,7 @@ export function TagAutocompleteDialog({
           </Command.Loading>
         )}
 
-        {!fetchingTagState.isPending && tagInputValue.trim() !== '' && (
+        {(!fetchingTagState.isPending || tagInputValue.trim()) !== '' && (
           <Command.Empty className={tagListItemStyle}>
             태그를 만들어보세요!
           </Command.Empty>
