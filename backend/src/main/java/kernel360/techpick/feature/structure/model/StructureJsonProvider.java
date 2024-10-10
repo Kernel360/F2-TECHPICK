@@ -22,9 +22,17 @@ public class StructureJsonProvider {
 			.orElseThrow(ApiStructureException::USER_STRUCTURE_JSON_NOT_FOUND);
 	}
 
+	public boolean existsByUser(User user) {
+		return structureJsonRepository.existsByUser(user);
+	}
+
 	public StructureJson updateStructureByUser(User user, Structure<ServerNode> structure) {
 		StructureJson structureJson = this.findStructure(user);
 		structureJson.updateStructure(structure);
+		return structureJsonRepository.save(structureJson);
+	}
+
+	public StructureJson saveStructure(StructureJson structureJson) {
 		return structureJsonRepository.save(structureJson);
 	}
 }

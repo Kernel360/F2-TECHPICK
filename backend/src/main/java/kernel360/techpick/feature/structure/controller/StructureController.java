@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,41 +36,45 @@ public class StructureController implements StructureApi {
 	}
 
 	@Override
-	@PutMapping("/folders")
+	@PutMapping("/folders/{folderId}")
 	public ResponseEntity<Void> moveFolder(
+		@PathVariable Long folderId,
 		@RequestBody StructureMoveRequest request
 	) {
-		structureService.moveFolder(userService.getCurrentUser(), request);
+		structureService.moveFolder(userService.getCurrentUser(), folderId, request);
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
-	@DeleteMapping("/folders")
+	@DeleteMapping("/folders/{folderId}")
 	public ResponseEntity<Void> deleteFolder(
+		@PathVariable Long folderId,
 		@RequestBody StructureDeleteRequest request
 	) {
-		structureService.deleteFolder(userService.getCurrentUser(), request);
+		structureService.deleteFolder(userService.getCurrentUser(), folderId, request);
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
-	@PutMapping("/picks")
+	@PutMapping("/picks/{pickId}")
 	public ResponseEntity<Void> movePick(
+		@PathVariable Long pickId,
 		@RequestBody StructureMoveRequest request
 	) {
-		structureService.movePick(userService.getCurrentUser(), request);
+		structureService.movePick(userService.getCurrentUser(), pickId, request);
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
-	@DeleteMapping("/picks")
+	@DeleteMapping("/picks/{pickId}")
 	public ResponseEntity<Void> deletePick(
+		@PathVariable Long pickId,
 		@RequestBody StructureDeleteRequest request
 	) {
-		structureService.deletePick(userService.getCurrentUser(), request);
+		structureService.deletePick(userService.getCurrentUser(), pickId, request);
 
 		return ResponseEntity.noContent().build();
 	}

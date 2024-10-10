@@ -39,9 +39,9 @@ public class StructureJson extends TimeTracking {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	private StructureJson(Structure<ServerNode> structure, User user) {
-		this.structure = structure;
+	private StructureJson(User user, Structure<ServerNode> structure) {
 		this.user = user;
+		this.structure = structure;
 	}
 
 	public void updateStructure(Structure<ServerNode> structure) {
@@ -49,7 +49,7 @@ public class StructureJson extends TimeTracking {
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static StructureJson create(Structure<ServerNode> structure, User user) {
-		return new StructureJson(structure, user);
+	public static StructureJson create(User user, Structure<ServerNode> structure) {
+		return new StructureJson(user, structure);
 	}
 }

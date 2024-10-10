@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
+import kernel360.techpick.core.model.folder.StructureJson;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.folder.service.FolderStructureService;
 import kernel360.techpick.feature.pick.service.PickStructureService;
+import kernel360.techpick.feature.structure.exception.ApiStructureException;
 import kernel360.techpick.feature.structure.model.StructureDataProxy;
 import kernel360.techpick.feature.structure.model.StructureMapper;
 import kernel360.techpick.feature.structure.model.StructureJsonProvider;
@@ -41,37 +43,40 @@ public class StructureService {
 
 	@Transactional
 	public void saveInitialStructure(User user) {
-		// TODO: 이미 Structure가 있는 경우 예외 처리가 필요한지?
-		structureJsonProvider.updateStructureByUser(user, new Structure<ServerNode>());
+		validateThatStructureDoesNotExist(user);
+		StructureJson initialStructure
+			= structureMapper.toStructureJsonEntity(user, new Structure<ServerNode>());
+
+		structureJsonProvider.saveStructure(initialStructure);
 	}
 
 	@Transactional
-	public void moveFolder(User user, StructureMoveRequest request) {
-		folderStructureService.moveFolder(user, structureMapper.toFolderMoveDto(request));
+	public void moveFolder(User user, Long folderId, StructureMoveRequest request) {
+		folderStructureService.moveFolder(user, structureMapper.toFolderMoveDto(folderId, request.parentFolderId()));
 		validateStructure(user, request.structure());
 
 		structureJsonProvider.updateStructureByUser(user, request.structure());
 	}
 
 	@Transactional
-	public void deleteFolder(User user, StructureDeleteRequest request) {
-		folderStructureService.deleteFolder(user, structureMapper.toFolderDeleteDto(request));
+	public void deleteFolder(User user, Long folderId, StructureDeleteRequest request) {
+		folderStructureService.deleteFolder(user, structureMapper.toFolderDeleteDto(folderId));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
 	}
 
 	@Transactional
-	public void movePick(User user, StructureMoveRequest request) {
-		pickStructureService.movePick(user, structureMapper.toPickMoveDto(request));
+	public void movePick(User user, Long pickId, StructureMoveRequest request) {
+		pickStructureService.movePick(user, structureMapper.toPickMoveDto(pickId, request.parentFolderId()));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
 	}
 
 	@Transactional
-	public void deletePick(User user, StructureDeleteRequest request) {
-		pickStructureService.deletePick(user, structureMapper.toPickDeleteDto(request));
+	public void deletePick(User user, Long pickId, StructureDeleteRequest request) {
+		pickStructureService.deletePick(user, structureMapper.toPickDeleteDto(pickId));
 		validateStructure(user, request.structure());
 
         structureJsonProvider.updateStructureByUser(user, request.structure());
@@ -84,5 +89,11 @@ public class StructureService {
 			= StructureDataProxy.fromStructureService(user, pickStructureService, folderStructureService);
 
 		structureValidator.validate(structure, dataProxy, root.getId(), recycleBin.getId());
+	}
+
+	private void validateThatStructureDoesNotExist(User user) {
+		if (structureJsonProvider.existsByUser(user)) {
+			throw ApiStructureException.USER_STRUCTURE_ALREADY_EXISTS();
+		};
 	}
 }

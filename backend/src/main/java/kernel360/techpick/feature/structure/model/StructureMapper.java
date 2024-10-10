@@ -2,6 +2,8 @@ package kernel360.techpick.feature.structure.model;
 
 import org.springframework.stereotype.Component;
 
+import kernel360.techpick.core.model.folder.StructureJson;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.folder.service.dto.FolderDeleteDto;
 import kernel360.techpick.feature.folder.service.dto.FolderMoveDto;
 import kernel360.techpick.feature.pick.service.dto.PickDeleteDto;
@@ -31,19 +33,23 @@ public class StructureMapper {
 		);
 	}
 
-	public FolderMoveDto toFolderMoveDto(StructureMoveRequest request) {
-		return new FolderMoveDto(request.targetId(), request.parentFolderId());
+	public FolderMoveDto toFolderMoveDto(Long folderId, Long parentFolderId) {
+		return new FolderMoveDto(folderId, parentFolderId);
 	}
 
-	public FolderDeleteDto toFolderDeleteDto(StructureDeleteRequest request) {
-		return new FolderDeleteDto(request.targetId());
+	public FolderDeleteDto toFolderDeleteDto(Long folderId) {
+		return new FolderDeleteDto(folderId);
 	}
 
-	public PickMoveDto toPickMoveDto(StructureMoveRequest request) {
-		return new PickMoveDto(request.targetId(), request.parentFolderId());
+	public PickMoveDto toPickMoveDto(Long pickId, Long parentFolderId) {
+		return new PickMoveDto(pickId, parentFolderId);
 	}
 
-	public PickDeleteDto toPickDeleteDto(StructureDeleteRequest request) {
-		return new PickDeleteDto(request.targetId());
+	public PickDeleteDto toPickDeleteDto(Long pickId) {
+		return new PickDeleteDto(pickId);
+	}
+
+	public StructureJson toStructureJsonEntity(User user, Structure<ServerNode> structure) {
+		return StructureJson.create(user, structure);
 	}
 }
