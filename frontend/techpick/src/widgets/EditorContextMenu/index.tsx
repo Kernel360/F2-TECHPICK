@@ -75,14 +75,14 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
           >
             Rename <div className={RightSlot}></div>
           </ContextMenu.Item>
-          <ContextMenu.Item className={ContextMenuItem}>
+          <ContextMenu.Item
+            className={ContextMenuItem}
+            onClick={() => {
+              treeRef.current!.delete(focusedNode!.id);
+            }}
+          >
             Delete
-            <div
-              className={RightSlot}
-              onClick={() => {
-                treeRef.current!.delete(focusedNode!.id);
-              }}
-            ></div>
+            <div className={RightSlot}></div>
           </ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Portal>

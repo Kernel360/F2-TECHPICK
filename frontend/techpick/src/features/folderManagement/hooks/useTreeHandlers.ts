@@ -24,6 +24,12 @@ export const useTreeHandlers = () => {
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
 
+  // const userId = defaultFolderIdData?.userId;
+  const rootFolderId = defaultFolderIdData?.ROOT;
+  const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
+  // const unclassifiedId = defaultFolderIdData?.UNCLASSIFIED;
+  let newFolderId = '';
+
   const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
     parentNode,
@@ -32,8 +38,9 @@ export const useTreeHandlers = () => {
   }): Promise<{ id: string }> => {
     try {
       // 폴더 생성 (서버)
-      const data = await createFolder('New Folder29');
-      console.log('Server: Folder created:', data);
+      const newFolderData = await createFolder('New Folder29');
+      console.log('Server: Folder created:', newFolderData);
+      newFolderId = newFolderData.id.toString();
 
       // 폴더 생성 (클라이언트)
       const updatedTreeData = createNode(
@@ -44,13 +51,13 @@ export const useTreeHandlers = () => {
         parentId,
         parentNode,
         index,
-        data.id,
-        data.name
+        newFolderData.id,
+        newFolderData.name
       );
 
       // 서버에 업데이트된 트리 전송
       const serverData = {
-        parentFolderId: defaultFolderIdData!.ROOT,
+        parentFolderId: rootFolderId,
         structure: {
           root: updatedTreeData,
           recycleBin: [],
@@ -59,17 +66,20 @@ export const useTreeHandlers = () => {
       console.log('defaultFolderIdData', defaultFolderIdData);
       console.log('서버용 data', serverData);
       // 폴더 이동 (서버)
-      await moveFolder({ folderId: data.id.toString(), structure: serverData });
+      await moveFolder({
+        folderId: newFolderData.id.toString(),
+        structure: serverData,
+      });
 
       // 구조 데이터 새로 가져오기
       refetchStructure();
     } catch (error) {
       console.error('Error creating folder:', error);
     }
-    return { id: 'id' };
+    return { id: newFolderId };
   };
 
-  const handleMove: MoveHandler<NodeData> = async ({
+  const handleDrag: MoveHandler<NodeData> = async ({
     dragIds,
     dragNodes,
     parentId,
@@ -110,7 +120,6 @@ export const useTreeHandlers = () => {
   };
 
   const handleRename = async ({
-    id,
     name,
     node,
   }: {
@@ -118,12 +127,63 @@ export const useTreeHandlers = () => {
     name: string;
     node: NodeApi;
   }) => {
-    console.log(id, name, node);
     const realNodeId =
       node.data.type === 'folder' ? node.data.folderId : node.data.pickId;
     await renameFolder({ folderId: realNodeId.toString(), name });
     refetchStructure();
   };
 
-  return { handleCreate, handleMove, handleRename };
+  const handleDelete = async ({
+    ids,
+    nodes,
+  }: {
+    ids: string[];
+    nodes: NodeApi[];
+  }) => {
+    const realNodeId =
+      nodes[0].data.type === 'folder'
+        ? nodes[0].data.folderId
+        : nodes[0].data.pickId;
+
+    const updatedRecycleBin = [...structureData!.recycleBin];
+    updatedRecycleBin.push(nodes[0].data);
+
+    const updatedTreeStructure = [...structureData!.root];
+    removeNodeById(updatedTreeStructure, ids[0]);
+
+    const serverData = {
+      parentFolderId: recycleBinId,
+      structure: {
+        root: updatedTreeStructure,
+        recycleBin: updatedRecycleBin,
+      },
+    };
+    await moveFolder({
+      folderId: realNodeId.toString(),
+      structure: serverData,
+    });
+    refetchStructure();
+  };
+
+  return { handleCreate, handleDrag, handleRename, handleDelete };
 };
+
+function removeNodeById(structure: NodeData[], targetId: string): NodeData[] {
+  // 트리의 모든 노드를 순회하는 대신, id를 찾으면 즉시 반환
+  for (let i = 0; i < structure.length; i++) {
+    const node = structure[i];
+
+    // 노드가 찾고자 하는 id와 일치하면 해당 노드를 제거
+    if (node.id === targetId) {
+      structure.splice(i, 1);
+      return structure;
+    }
+
+    // children이 있으면 재귀적으로 탐색
+    if (node.children && node.children.length > 0) {
+      node.children = removeNodeById(node.children, targetId);
+    }
+  }
+
+  return structure;
+}
