@@ -150,7 +150,14 @@ export function TagAutocompleteDialog({
             onSelect={() => onSelectTag(tag)}
             keywords={[tag.name]}
           >
-            <span className={tagListItemContentStyle}>{tag.name}</span>
+            <span
+              className={tagListItemContentStyle}
+              style={{
+                backgroundColor: numberToRandomColor(tag.colorNumber),
+              }}
+            >
+              {tag.name}
+            </span>
             <TagInfoEditPopoverButton tag={tag} />
           </Command.Item>
         ))}
@@ -160,9 +167,6 @@ export function TagAutocompleteDialog({
             className={tagListItemStyle}
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
-            style={{
-              backgroundColor: numberToRandomColor(randomNumber.current),
-            }}
             onSelect={async () => {
               const newTag = await createTag(
                 tagInputValue,
@@ -180,7 +184,14 @@ export function TagAutocompleteDialog({
             }}
             disabled={!canCreateTag}
           >
-            <span className={tagListItemContentStyle}>{tagInputValue}</span>
+            <span
+              className={tagListItemContentStyle}
+              style={{
+                backgroundColor: numberToRandomColor(randomNumber.current),
+              }}
+            >
+              {tagInputValue}
+            </span>
             <span className={tagCreateTextStyle}>생성</span>
           </Command.Item>
         )}

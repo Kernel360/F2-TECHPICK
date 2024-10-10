@@ -12,7 +12,7 @@ export const PopoverTriggerButtonStyle = style({
   cursor: 'pointer',
 
   ':hover': {
-    backgroundColor: '#43A047',
+    backgroundColor: '#e0e0e0',
     transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
   },
 });

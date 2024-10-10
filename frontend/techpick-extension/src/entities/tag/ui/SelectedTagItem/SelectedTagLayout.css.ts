@@ -6,5 +6,5 @@ export const selectedTagLayoutStyle = style({
   alignItems: 'center',
   maxWidth: `calc(${SelectedTagCommonStyle.width})`,
   height: '20px',
-  backgroundColor: 'silver',
+  borderRadius: '4px',
 });
