@@ -1,14 +1,15 @@
 package kernel360.techpick.feature.structure.validator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.stereotype.Component;
+
 import kernel360.techpick.core.model.folder.Folder;
-import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.feature.structure.exception.ApiStructureException;
+import kernel360.techpick.feature.structure.model.StructureDataProxy;
 import kernel360.techpick.feature.structure.service.Structure;
 import kernel360.techpick.feature.structure.service.node.common.NodeType;
 import kernel360.techpick.feature.structure.service.node.server.RelationalNode;
@@ -16,60 +17,54 @@ import kernel360.techpick.feature.structure.service.node.server.ServerNode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class StructureValidator {
 
-	private final Map<Long, Folder> folderMap;
-	private final Map<Long, Pick> pickMap;
-
-	public StructureValidator(List<Folder> folderList, List<Pick> pickList) {
-		folderMap = new HashMap<>();
-		pickMap = new HashMap<>();
-		folderList.forEach(folder -> folderMap.put(folder.getId(), folder));
-		pickList.forEach(pick -> pickMap.put(pick.getId(), pick));
-	}
-
-	public void validate(Structure<ServerNode> structure, Long rootId, Long recycleBinId) {
+	public void validate(Structure<ServerNode> structure, StructureDataProxy dataProxy, Long rootId, Long recycleBinId) {
 
 		List<RelationalNode> nodeList = new ArrayList<>();
 		nodeList.addAll(structure.convertRootToNodeList(rootId));
 		nodeList.addAll(structure.convertRecycleBinToNodeList(recycleBinId));
 
-		validateNodeSize(nodeList);
-		if (!validateNodeList(nodeList)) {
+		validateNodeSize(nodeList, dataProxy);
+		if (!validateNodeList(nodeList, dataProxy)) {
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
 
-	private void validateNodeSize(List<RelationalNode> nodeList) {
+	private void validateNodeSize(List<RelationalNode> nodeList, StructureDataProxy dataProxy) {
 
-		if (nodeList.size() != folderMap.size() + pickMap.size()) {
+		if (nodeList.size() != dataProxy.folderListSize() + dataProxy.pickListSize()) {
 			log.error("노드 개수가 일치하지 않습니다 size : {}", nodeList.size());
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
 
-	private boolean validateNodeList(List<RelationalNode> nodeList) {
+	// TODO: need refactor
+	private boolean validateNodeList(List<RelationalNode> nodeList, StructureDataProxy dataProxy) {
 
 		for (var node : nodeList) {
+			// Validate Folder List
 			if (node.nodeType() == NodeType.FOLDER) {
-				if (!folderMap.containsKey(node.nodeId())) {
+				if (!dataProxy.containsFolder(node.nodeId())) {
 					log.error("[FOLDER] 존재하지 않는 폴더 folderId : {}", node.nodeId());
 					return false;
 				}
-				var parentFolder = folderMap.get(node.nodeId()).getParentFolder();
-				if (!Objects.equals(node.parentFolderId(), parentFolder.getId())) {
+				Folder parentFolder = dataProxy.findFolderById(node.nodeId()).getParentFolder();
+				if (ObjectUtils.notEqual(node.parentFolderId(), parentFolder.getId())) {
 					log.error(
 						"[FOLDER] 올바르지 않은 부모폴더 folderId : {}, currentParentFolderId : {}, correctParentFolderId : {}",
 						node.nodeId(), node.parentFolderId(), parentFolder.getId());
 					return false;
 				}
+			// Validate Pick List
 			} else if (node.nodeType() == NodeType.PICK) {
-				if (!pickMap.containsKey(node.nodeId())) {
+				if (!dataProxy.containsPick(node.nodeId())) {
 					log.error("[PICK] 존재하지 않는 픽 pickId : {}", node.nodeId());
 					return false;
 				}
-				var parentFolder = folderMap.get(node.nodeId()).getParentFolder();
-				if (!Objects.equals(node.parentFolderId(), parentFolder.getId())) {
+				Folder parentFolder = dataProxy.findPickById(node.nodeId()).getParentFolder();
+				if (ObjectUtils.notEqual(node.parentFolderId(), parentFolder.getId())) {
 					log.error("[PICK] 올바르지 않은 부모폴더 pickId : {}, currentParentFolderId : {}, correctParentFolderId : {}",
 						node.nodeId(), node.parentFolderId(), parentFolder.getId());
 					return false;

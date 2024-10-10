@@ -5,5 +5,4 @@ public record FolderResponse(
 	String name,
 	Long parentFolderId,
 	Long userId
-) {
-}
+) {}

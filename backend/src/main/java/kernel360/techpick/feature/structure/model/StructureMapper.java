@@ -13,55 +13,43 @@ import kernel360.techpick.feature.structure.service.dto.StructureDeleteRequest;
 import kernel360.techpick.feature.structure.service.dto.StructureMoveRequest;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.structure.service.node.server.ServerNode;
-import kernel360.techpick.feature.user.UserRepository;
-import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class StructureMapper {
 
-	/**
-	 * toClientNode 변환 과정에서 name이 설정됩니다.
-	 */
-	private final NameProvider nameProvider;
-	private final UserRepository userRepository;
-
-	public Structure<ClientNode> toClientStructure(Structure<ServerNode> serverStructure) {
+	public Structure<ClientNode> toClientStructure(
+		Structure<ServerNode> serverStructure,
+		StructureDataProxy structureDataProxy
+	) {
 		return new Structure<>(
-
 			serverStructure.getRootFolder()
 				.stream()
-				.map(node -> node.toClientNode(nameProvider))
+				.map(node -> node.toClientNode(structureDataProxy))
 				.toList(),
-
 			serverStructure.getRecycleBinFolder()
 				.stream()
-				.map(node -> node.toClientNode(nameProvider))
+				.map(node -> node.toClientNode(structureDataProxy))
 				.toList()
 		);
 	}
 
-	public FolderMoveDto toFolderMoveDto(StructureMoveRequest request) {
-		return new FolderMoveDto(request.getUserId(), request.getTargetId(), request.getParentFolderId());
+	public FolderMoveDto toFolderMoveDto(Long folderId, Long parentFolderId) {
+		return new FolderMoveDto(folderId, parentFolderId);
 	}
 
-	public FolderDeleteDto toFolderDeleteDto(StructureDeleteRequest request) {
-		return new FolderDeleteDto(request.getUserId(), request.getTargetId());
+	public FolderDeleteDto toFolderDeleteDto(Long folderId) {
+		return new FolderDeleteDto(folderId);
 	}
 
-	public PickMoveDto toPickMoveDto(StructureMoveRequest request) {
-		return new PickMoveDto(request.getTargetId(), request.getUserId(), request.getParentFolderId());
+	public PickMoveDto toPickMoveDto(Long pickId, Long parentFolderId) {
+		return new PickMoveDto(pickId, parentFolderId);
 	}
 
-	public PickDeleteDto toPickDeleteDto(StructureDeleteRequest request) {
-		return new PickDeleteDto(request.getTargetId(), request.getUserId());
+	public PickDeleteDto toPickDeleteDto(Long pickId) {
+		return new PickDeleteDto(pickId);
 	}
 
-	public StructureJson toStructureJson(Long userId, Structure<ServerNode> structure) {
-
-		String json = structure.serialize();
-		User user = userRepository.findById(userId).get();
-
-		return StructureJson.create(json, user);
+	public StructureJson toStructureJsonEntity(User user, Structure<ServerNode> structure) {
+		return StructureJson.create(user, structure);
 	}
 }

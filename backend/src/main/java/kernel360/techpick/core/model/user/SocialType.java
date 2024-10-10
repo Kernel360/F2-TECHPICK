@@ -5,6 +5,7 @@ public enum SocialType {
 	GOOGLE("google"),
 	KAKAO("kakao"),
 	NAVER("naver"),
+
 	;
 
 	private final String providerId;

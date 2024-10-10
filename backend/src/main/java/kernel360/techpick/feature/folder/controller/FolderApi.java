@@ -31,10 +31,10 @@ public interface FolderApi {
 			description = "중복된 폴더 이름 입니다."
 		)
 	})
-	public ResponseEntity<FolderResponse> createFolder(Authentication auth, FolderCreateRequest request);
+	ResponseEntity<FolderResponse> createFolder(FolderCreateRequest request);
 
 	@Operation(
-		summary = "기본 폴더 id 조회",
+		summary = "기본 폴더 Id 조회",
 		description = "현재 로그인된 사용자의 기본폴더(ROOT, UNCLASSIFIED, RECYCLE_BIN)의 id를 조회합니다."
 	)
 	@ApiResponses(value = {
@@ -43,7 +43,7 @@ public interface FolderApi {
 			description = "기본폴더 id를 정상적으로 조회했습니다."
 		)
 	})
-	ResponseEntity<Map<String, Long>> getBasicFolderIdMap(Authentication auth);
+	ResponseEntity<Map<String, Long>> getBasicFolderIdMap();
 
 	@Operation(
 		summary = "자식 폴더 조회",
@@ -59,7 +59,7 @@ public interface FolderApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	ResponseEntity<List<FolderResponse>> getFolderListByParentFolderId(Authentication auth, Long folderId);
+	ResponseEntity<List<FolderResponse>> getFolderListByParentFolderId(Long folderId);
 
 	@Operation(
 		summary = "폴더 이름 변경",
@@ -79,6 +79,5 @@ public interface FolderApi {
 			description = "접근할 수 없는 폴더입니다."
 		)
 	})
-	ResponseEntity<Void> updateFolderName(Authentication auth, Long folderId, FolderUpdateRequest request);
-
+	ResponseEntity<Void> updateFolderName(Long folderId, FolderUpdateRequest request);
 }

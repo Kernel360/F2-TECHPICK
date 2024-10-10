@@ -45,7 +45,7 @@ public class LinkController implements LinkApi {
 
 	@Override
 	@DeleteMapping("/{linkId}")
-	public ResponseEntity<Void> deleteById(Long linkId) throws ApiLinkException {
+	public ResponseEntity<Void> deleteById(@PathVariable Long linkId) throws ApiLinkException {
 
 		linkService.deleteLinkById(linkId);
 		return ResponseEntity.noContent().build();

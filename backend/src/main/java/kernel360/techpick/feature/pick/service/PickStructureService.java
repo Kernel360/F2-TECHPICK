@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.pick.Pick;
+import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.folder.model.FolderProvider;
 import kernel360.techpick.feature.folder.validator.FolderValidator;
 import kernel360.techpick.feature.pick.model.PickProvider;
@@ -26,31 +27,31 @@ public class PickStructureService {
 
 	// 픽 이동
 	@Transactional
-	public void movePick(PickMoveDto pickMoveDto) {
+	public void movePick(User user, PickMoveDto pickMoveDto) {
 		// 본인 픽인지 검증 (pickId)
 		Pick pick = pickProvider.findById(pickMoveDto.id());
-		pickValidator.validatePickAccess(pickMoveDto.userId(), pick);
+		pickValidator.validatePickAccess(user, pick);
 
 		// 이동하려는 폴더가 본인 폴더인지 검증 (parentFolderId)
 		Folder parentFolder = folderProvider.findById(pickMoveDto.parentFolderId());
-		folderValidator.validateFolderAccess(pickMoveDto.userId(), parentFolder);
+		folderValidator.validateFolderAccess(user, parentFolder);
 
 		pick.updateParentFolder(parentFolder);
 	}
 
 	// 픽 삭제
 	@Transactional
-	public void deletePick(PickDeleteDto pickDeleteDto) {
+	public void deletePick(User user, PickDeleteDto pickDeleteDto) {
 		// 본인 픽인지 검증 (pickId)
 		Pick pick = pickProvider.findById(pickDeleteDto.id());
-		pickValidator.validatePickAccess(pickDeleteDto.userId(), pick);
+		pickValidator.validatePickAccess(user, pick);
 
 		// 휴지통인지 확인
 		folderValidator.validateFolderInRecycleBin(pick.getParentFolder());
 		pickProvider.deleteById(pickDeleteDto.id());
 	}
 
-	public List<Pick> getPickListByUserId(Long userId) {
-		return pickProvider.findAllByUserId(userId);
+	public List<Pick> getPickListByUser(User user) {
+		return pickProvider.findAllByUser(user);
 	}
 }

@@ -1,6 +1,6 @@
-package kernel360.techpick.folder.service.parser;
+package kernel360.techpick.folder.service.structure;
 
-public class ParserTestCase {
+public class StructureTestCase {
 
 	/**
 	 * 3개의 폴더에 대한 예외 케이스

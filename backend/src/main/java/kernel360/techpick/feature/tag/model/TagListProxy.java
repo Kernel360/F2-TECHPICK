@@ -11,35 +11,37 @@ import kernel360.techpick.feature.tag.exception.ApiTagException;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
 
-public class TagUpdater {
+/**
+ * 명명 규칙: DB에서 캐싱하는 1급 컬렉션은, Proxy라는 이름을 사용합니다.
+ * Tag 별로 검증 후 쿼리를 날리지 않고, 한번에 검증 하기 위한 프록시 컬렉션
+ */
+public class TagListProxy {
 
 	private final Map<Long, Tag> tagMap;
 
-	public static TagUpdater fromTagList(List<Tag> tagList) {
+	public static TagListProxy fromTagList(List<Tag> tagList) {
 
 		Map<Long, Tag> tagMap = new HashMap<>();
 		tagList.forEach(tag -> tagMap.put(tag.getId(), tag));
-		return new TagUpdater(tagMap);
+		return new TagListProxy(tagMap);
 	}
 
 	public void updateTag(TagUpdateRequest request) {
 
-		Tag target = getTagById(request.id());
-		target.updateTag(request.name(), request.tagOrder());
+		Tag target = getTagById(request.tagId());
+		target.updateTag(request.tagName(), request.tagOrder());
 	}
 
-	public void validateUpdateTag() throws ApiTagException {
+	public void validateTags() throws ApiTagException {
 		validateTagOrder();
 		validateTagName();
 	}
 
 	public Collection<Tag> getTags() {
-
 		return tagMap.values();
 	}
 
-	private TagUpdater(Map<Long, Tag> tagMap) {
-
+	private TagListProxy(Map<Long, Tag> tagMap) {
 		this.tagMap = tagMap;
 	}
 
@@ -72,5 +74,4 @@ public class TagUpdater {
 			}
 		}
 	}
-
 }

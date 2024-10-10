@@ -30,6 +30,7 @@ public class Folder extends TimeTracking {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "name", nullable = false)
@@ -71,7 +72,19 @@ public class Folder extends TimeTracking {
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static Folder create(String name, FolderType folderType, User user) {
-		return new Folder(name, folderType, null, user);
+	public static Folder generalFolder(String name, User user) {
+		return new Folder(name, FolderType.GENERAL, null, user);
+	}
+
+	public static Folder rootFolder(String name, User user) {
+		return new Folder(name, FolderType.ROOT, null, user);
+	}
+
+	public static Folder recycleBinFolder(String name, User user) {
+		return new Folder(name, FolderType.RECYCLE_BIN, null, user);
+	}
+
+	public static Folder unclassifedFolder(String name, User user) {
+		return new Folder(name, FolderType.UNCLASSIFIED, null, user);
 	}
 }

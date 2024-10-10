@@ -37,7 +37,7 @@ public class Tag {
 
 	// order로 하니까 db 키워드랑 겹쳐 안됨..
 	@Column(name = "tag_order", nullable = false)
-	private int tagOrder;
+	private Integer tagOrder;
 
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
