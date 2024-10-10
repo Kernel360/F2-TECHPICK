@@ -39,21 +39,24 @@ export function TagInfoEditPopoverButton({
 
     const newTagName = sanitizeHtml(tagNameInputRef.current.value.trim());
 
-    if (isEmptyString(newTagName) || isSameValue(newTagName, tag.name)) {
+    if (isEmptyString(newTagName) || isSameValue(newTagName, tag.tagName)) {
       closePopover();
       return;
     }
 
     try {
       await updateTag({
-        id: tag.id,
-        name: newTagName,
+        tagId: tag.tagId,
+        tagName: newTagName,
         colorNumber: tag.colorNumber,
+        tagOrder: Math.random(),
       });
       updateSelectedTagList({
-        id: tag.id,
-        name: newTagName,
+        tagId: tag.tagId,
+        tagName: newTagName,
         colorNumber: tag.colorNumber,
+        tagOrder: tag.tagOrder,
+        userId: tag.userId,
       });
       closePopover();
     } catch (error) {
@@ -90,7 +93,7 @@ export function TagInfoEditPopoverButton({
           >
             <input
               type="text"
-              defaultValue={tag.name}
+              defaultValue={tag.tagName}
               ref={tagNameInputRef}
               autoFocus
               onKeyDown={handleInputKeyDown}

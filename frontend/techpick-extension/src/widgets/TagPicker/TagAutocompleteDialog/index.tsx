@@ -69,7 +69,7 @@ export function TagAutocompleteDialog({
 
   useEffect(
     function checkIsCreatableTag() {
-      const isUnique = !tagList.some((tag) => tag.name === tagInputValue);
+      const isUnique = !tagList.some((tag) => tag.tagName === tagInputValue);
       const isNotInitialValue = tagInputValue.trim() !== '';
       const isCreatable = isUnique && isNotInitialValue;
 
@@ -113,7 +113,7 @@ export function TagAutocompleteDialog({
         focusStyle="focus"
       >
         {selectedTagList.map((tag) => (
-          <SelectedTagItem key={tag.id} tag={tag}>
+          <SelectedTagItem key={tag.tagId} tag={tag}>
             <DeselectTagButton tag={tag} onClick={focusTagInput} />
           </SelectedTagItem>
         ))}
@@ -145,10 +145,10 @@ export function TagAutocompleteDialog({
 
         {tagList.map((tag) => (
           <Command.Item
-            key={tag.id}
+            key={tag.tagId}
             className={tagListItemStyle}
             onSelect={() => onSelectTag(tag)}
-            keywords={[tag.name]}
+            keywords={[tag.tagName]}
           >
             <span
               className={tagListItemContentStyle}
@@ -156,7 +156,7 @@ export function TagAutocompleteDialog({
                 backgroundColor: numberToRandomColor(tag.colorNumber),
               }}
             >
-              {tag.name}
+              {tag.tagName}
             </span>
             <TagInfoEditPopoverButton tag={tag} />
           </Command.Item>

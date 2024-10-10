@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { TagType } from '../type';
-import { SAMPLE_DATA } from '@/constants';
+import { TagType, TagUpdateType } from '../type';
+import { getTagList } from '../api';
 
 type TagState = {
   tagList: TagType[];
@@ -13,14 +13,14 @@ type TagState = {
 type TagAction = {
   selectTag: (tag: TagType) => void;
   deselectTag: (tag: TagType) => void;
-  updateSelectedTagList: (updatedTag: TagType) => void;
+  updateSelectedTagList: (tag: TagType) => void;
   fetchingTagList: () => Promise<void>;
   createTag: (
     newTagName: string,
     tagNumber: number
   ) => Promise<TagType | undefined>;
   deleteTag: (tagId: number) => Promise<void>;
-  updateTag: (updatedTag: TagType) => Promise<void>;
+  updateTag: (updatedTag: TagUpdateType) => Promise<void>;
 };
 
 const initialState: TagState = {
@@ -35,7 +35,7 @@ export const useTagStore = create<TagState & TagAction>()(
     ...initialState,
     selectTag: (tag: TagType) =>
       set((state) => {
-        const exist = state.selectedTagList.some((t) => t.id === tag.id);
+        const exist = state.selectedTagList.some((t) => t.tagId === tag.tagId);
 
         // 이미 선택된 태그인지 확인
         if (exist) {
@@ -48,21 +48,23 @@ export const useTagStore = create<TagState & TagAction>()(
     deselectTag: (tag: TagType) =>
       set((state) => {
         state.selectedTagList = state.selectedTagList.filter(
-          (t) => t.id !== tag.id
+          (t) => t.tagId !== tag.tagId
         );
       }),
 
-    updateSelectedTagList: (updatedTag: TagType) => {
+    updateSelectedTagList: (updatedTag) => {
       set((state) => {
         const index = state.selectedTagList.findIndex(
-          (tag) => tag.id === updatedTag.id
+          (tag) => tag.tagId === updatedTag.tagId
         );
 
         if (index === -1) {
           return;
         }
 
-        state.selectedTagList[index] = { ...updatedTag };
+        state.selectedTagList[index] = {
+          ...updatedTag,
+        };
       });
     },
 
@@ -72,10 +74,11 @@ export const useTagStore = create<TagState & TagAction>()(
           state.fetchingTagState.isPending = true;
         });
 
-        // TODO 서버 통신 코드 호출.
+        const remoteTagList = await getTagList();
+
         setTimeout(() => {
           set((state) => {
-            state.tagList = SAMPLE_DATA;
+            state.tagList = [...remoteTagList];
             state.fetchingTagState.isPending = false;
           });
         }, 500);
@@ -101,9 +104,11 @@ export const useTagStore = create<TagState & TagAction>()(
         const newTag = await new Promise<TagType>((resolve) => {
           setTimeout(() => {
             const tag: TagType = {
-              id: Date.now(),
-              name: newTagName,
+              tagId: Date.now(),
+              tagName: newTagName,
               colorNumber: tagNumber,
+              tagOrder: Date.now(), // 임의의 값. 추후 수정해야한다.
+              userId: Date.now(), // 임의의 값. 추후 수정해야한다.
             };
 
             set((state) => {
@@ -141,7 +146,7 @@ export const useTagStore = create<TagState & TagAction>()(
         // TODO: 나중에 비동기 붙이기.
         setTimeout(() => {
           set((state) => {
-            const index = state.tagList.findIndex((tag) => tag.id === tagId);
+            const index = state.tagList.findIndex((tag) => tag.tagId === tagId);
 
             if (index === -1) {
               return;
@@ -168,7 +173,7 @@ export const useTagStore = create<TagState & TagAction>()(
       }
     },
 
-    updateTag: async (updatedTag: TagType) => {
+    updateTag: async (updatedTag) => {
       try {
         // TODO: optimistic update 추가
         set((state) => {
@@ -185,7 +190,7 @@ export const useTagStore = create<TagState & TagAction>()(
 
         set((state) => {
           const index = state.tagList.findIndex(
-            (tag) => tag.id === updatedTag.id
+            (tag) => tag.tagId === updatedTag.tagId
           );
 
           if (index === -1) {
@@ -193,7 +198,10 @@ export const useTagStore = create<TagState & TagAction>()(
           }
 
           // 태그 업데이트
-          state.tagList[index] = updatedTag;
+          state.tagList[index] = {
+            ...updatedTag,
+            userId: state.tagList[index].userId,
+          };
           state.postTagState = {
             ...state.postTagState,
             isPending: false,
