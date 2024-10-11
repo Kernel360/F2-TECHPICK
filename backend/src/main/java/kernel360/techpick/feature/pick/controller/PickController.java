@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/${api.version}/picks")
+@RequestMapping("/api/picks")
 @Slf4j
 public class PickController implements PickApi {
 

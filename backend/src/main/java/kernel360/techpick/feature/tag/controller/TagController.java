@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/${api.version}/tag")
+@RequestMapping("/api/tag")
 public class TagController implements TagApi {
 
 	private final UserService userService;

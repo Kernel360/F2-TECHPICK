@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/${api.version}/links")
+@RequestMapping("/api/links")
 public class LinkController implements LinkApi {
 
 	private final LinkService linkService;

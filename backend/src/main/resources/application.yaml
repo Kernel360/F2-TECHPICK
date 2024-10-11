@@ -42,4 +42,3 @@ springdoc:
 
 api:
   base-url: ${TECHPICK_BASE_URL}
-  version: v1
