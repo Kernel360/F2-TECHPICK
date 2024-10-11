@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addAccessTokenInAPIHeader, HOST_PERMISSIONS_HTTPS } from '@/shared';
+import { HOST_PERMISSIONS_HTTPS } from '@/shared';
 
 export function LoginGuard({ children }: PropsWithChildren) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,7 +19,6 @@ export function LoginGuard({ children }: PropsWithChildren) {
           return;
         }
 
-        addAccessTokenInAPIHeader(accessTokenCookie.value);
         setIsLoggedIn(true);
       };
 
