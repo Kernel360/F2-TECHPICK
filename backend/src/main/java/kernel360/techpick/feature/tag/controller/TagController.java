@@ -31,7 +31,7 @@ public class TagController implements TagApi {
 	@Override
 	@PostMapping
 	public ResponseEntity<TagResponse> createTag(
-		@Valid @RequestBody TagCreateRequest request
+		@RequestBody TagCreateRequest request
 	) {
 		return ResponseEntity.ok(
 			tagService.createTag(userService.getCurrentUser(), request)
@@ -49,7 +49,7 @@ public class TagController implements TagApi {
 	@Override
 	@PutMapping
 	public ResponseEntity<List<TagResponse>> updateTagList(
-		@Valid @RequestBody List<TagUpdateRequest> tagUpdateRequests
+		@RequestBody List<TagUpdateRequest> tagUpdateRequests
 	) {
 		return ResponseEntity.ok(
 			tagService.updateTagList(userService.getCurrentUser(), tagUpdateRequests)

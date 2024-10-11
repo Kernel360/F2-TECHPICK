@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import kernel360.techpick.feature.tag.service.dto.TagCreateRequest;
 import kernel360.techpick.feature.tag.service.dto.TagResponse;
 import kernel360.techpick.feature.tag.service.dto.TagUpdateRequest;
@@ -27,7 +28,7 @@ public interface TagApi {
 		)
 	)
 	ResponseEntity<TagResponse> createTag(
-		@RequestBody(description = "태그 생성 정보", required = true)
+		@Valid @RequestBody(description = "태그 생성 정보", required = true)
 		TagCreateRequest request
 	);
 
@@ -54,7 +55,7 @@ public interface TagApi {
 		)
 	)
 	ResponseEntity<List<TagResponse>> updateTagList(
-		@RequestBody(description = "태그 수정 정보", required = true)
+		@Valid @RequestBody(description = "태그 수정 정보", required = true)
 		List<TagUpdateRequest> tagUpdateRequests
 	);
 
