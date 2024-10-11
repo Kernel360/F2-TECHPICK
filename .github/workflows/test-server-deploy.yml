@@ -5,14 +5,14 @@
 
 name: Tech-pick V1 Testing Server Deploy
 
-env:
-  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
-
 on:
   push:
     branches:
-      - "backend-${{ env.api-version }}" # backend v1 브랜치
+      - "backend-v1" # backend v1 브랜치
       - "backend-v1-test" # CI/CD 테스트용 임시 브랜치
+      -
+env:
+  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
 
 jobs:
   build:
