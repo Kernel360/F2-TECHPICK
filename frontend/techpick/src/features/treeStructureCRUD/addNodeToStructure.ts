@@ -2,28 +2,29 @@ import { NodeData } from '@/shared/types';
 
 export function addNodeToStructure(
   structure: NodeData[],
-  parentId: string,
+  parentId: string | null,
   index: number,
   newNode: NodeData
 ): NodeData[] {
+  if (!parentId) {
+    structure.splice(index, 0, newNode);
+    console.log('AFTER: structure', structure);
+    return structure;
+  }
   return structure.map((node) => {
     if (node.id === parentId) {
-      return {
-        ...node,
-        children: [...(node.children || []), newNode]
-          .slice(0, index)
-          .concat([newNode])
-          .concat(node.children?.slice(index) || []),
-      };
+      if (!node.children) {
+        node.children = [];
+      }
+      node.children.splice(index, 0, newNode);
+    } else if (node.children) {
+      node.children = addNodeToStructure(
+        node.children,
+        parentId,
+        index,
+        newNode
+      );
     }
-
-    if (node.children && node.children.length > 0) {
-      return {
-        ...node,
-        children: addNodeToStructure(node.children, parentId, index, newNode),
-      };
-    }
-
     return node;
   });
 }

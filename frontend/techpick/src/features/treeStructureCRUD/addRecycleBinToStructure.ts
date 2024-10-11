@@ -17,10 +17,5 @@ export function addRecycleBinToStructure(
     children: recycleBin,
   };
 
-  return addNodeToStructure(
-    structure,
-    recycleBinId!.toString(),
-    lastIndex,
-    recycleBinNode
-  );
+  return addNodeToStructure(structure, null, lastIndex, recycleBinNode);
 }
