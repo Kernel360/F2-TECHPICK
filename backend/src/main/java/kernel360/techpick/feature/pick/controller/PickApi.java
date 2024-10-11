@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
+import kernel360.techpick.feature.pick.service.dto.PickDeleteRequest;
 import kernel360.techpick.feature.pick.service.dto.PickResponse;
 import kernel360.techpick.feature.pick.service.dto.PickUpdateRequest;
 
@@ -87,5 +88,17 @@ public interface PickApi {
 		)
 	})
 	ResponseEntity<PickResponse> updatePick(PickUpdateRequest pickUpdateRequest);
+
+	@Operation(
+		summary = "픽 삭제",
+		description = "픽을 수정합니다. (제목, 내용, 태그)"
+	)
+	@ApiResponses(value = {
+		@ApiResponse(
+			responseCode = "200",
+			description = "픽 삭제에 성공하였습니다."
+		)
+	})
+	ResponseEntity<Void> deletePick(PickDeleteRequest pickDeleteRequest);
 
 }

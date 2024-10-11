@@ -3,6 +3,7 @@ package kernel360.techpick.feature.pick.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.pick.service.PickService;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
+import kernel360.techpick.feature.pick.service.dto.PickDeleteRequest;
 import kernel360.techpick.feature.pick.service.dto.PickResponse;
 import kernel360.techpick.feature.pick.service.dto.PickUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +52,12 @@ public class PickController implements PickApi {
 	@Override
 	@GetMapping(params = "folderType")
 	public ResponseEntity<List<PickResponse>> getPickListByUnclassified(
-		@RequestParam(required = false) FolderType folderType) {
+		@RequestParam(required = false, defaultValue = "UNCLASSIFIED") FolderType folderType) {
 		if (FolderType.getUnclassifiedFolderTypes().contains(folderType)) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(pickService.getPickListByUnclassified());
 		}
 
-		return ResponseEntity.ok(pickService.getPickListByUnclassified());
+		return ResponseEntity.notFound().build();
 	}
 
 	@Override
@@ -68,5 +70,12 @@ public class PickController implements PickApi {
 	@PutMapping
 	public ResponseEntity<PickResponse> updatePick(@RequestBody PickUpdateRequest pickUpdateRequest) {
 		return ResponseEntity.ok(pickService.updatePick(pickUpdateRequest));
+	}
+
+	@Override
+	@DeleteMapping
+	public ResponseEntity<Void> deletePick(@RequestBody PickDeleteRequest pickDeleteRequest) {
+		pickService.deletePick(pickDeleteRequest.id());
+		return ResponseEntity.ok().build();
 	}
 }

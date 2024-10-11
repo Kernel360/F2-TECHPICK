@@ -23,7 +23,7 @@ public class PickValidator {
 	}
 
 	// 픽 생성 시 해당 링크가 존재하는 지 검증
-	public boolean validateExistLink(Long userId, PickCreateRequest pickCreateRequest) {
-		return pickProvider.existsByUserIdAndLinkUrl(userId, pickCreateRequest.linkRequest().url());
+	public boolean validateExistLink(User user, PickCreateRequest pickCreateRequest) {
+		return pickProvider.existsByUserAndLinkUrl(user, pickCreateRequest.linkRequest().url());
 	}
 }

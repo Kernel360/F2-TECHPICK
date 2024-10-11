@@ -18,7 +18,6 @@ import kernel360.techpick.feature.link.service.dto.LinkRequest;
 import kernel360.techpick.feature.link.service.dto.LinkUrlResponse;
 import kernel360.techpick.feature.pick.model.PickMapper;
 import kernel360.techpick.feature.pick.model.PickProvider;
-import kernel360.techpick.feature.pick.model.PickTagMapper;
 import kernel360.techpick.feature.pick.model.PickTagProvider;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
 import kernel360.techpick.feature.pick.service.dto.PickResponse;
@@ -27,7 +26,6 @@ import kernel360.techpick.feature.pick.validator.PickValidator;
 import kernel360.techpick.feature.tag.model.TagMapper;
 import kernel360.techpick.feature.tag.model.TagProvider;
 import kernel360.techpick.feature.tag.service.dto.TagResponse;
-import kernel360.techpick.feature.user.model.UserProvider;
 import kernel360.techpick.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +37,6 @@ public class PickService {
 
 	private final PickMapper pickMapper;
 	private final PickProvider pickProvider;
-	private final PickTagMapper pickTagMapper;
 	private final PickTagProvider pickTagProvider;
 	private final PickValidator pickValidator;
 	private final FolderProvider folderProvider;
@@ -50,6 +47,7 @@ public class PickService {
 	private final UserService userService;
 
 	// 픽 상세 조회
+	@Transactional(readOnly = true)
 	public PickResponse getPickById(Long pickId) {
 		Pick pick = pickProvider.findById(pickId);
 
@@ -58,34 +56,37 @@ public class PickService {
 
 		List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(pickId);
 		LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
-		List<TagResponse> tagResponseList = pickTagMapper.toTagResponse(pickTagList);
+		List<TagResponse> tagResponseList = tagMapper.toTagResponse(pickTagList);
 
 		return pickMapper.toPickResponse(pick, tagResponseList, linkUrlResponse);
 	}
 
 	// 사용자의 픽 리스트 조회
+	@Transactional(readOnly = true)
 	public List<PickResponse> getPickListByUser() {
 		List<Pick> picks = pickProvider.findAllByUser(userService.getCurrentUser());
-		return pickMapper.toPickResponseList(picks, pickTagProvider, pickTagMapper, linkMapper);
+		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
 	}
 
 	// 폴더에 있는 픽 리스트 조회
+	@Transactional(readOnly = true)
 	public List<PickResponse> getPickListByParentFolderId(Long parentFolderId) {
 		List<Pick> picks = pickProvider.findAllByParentFolderId(userService.getCurrentUser(), parentFolderId);
-		return pickMapper.toPickResponseList(picks, pickTagProvider, pickTagMapper, linkMapper);
+		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
 	}
 
 	// 미분류 폴더에 있는 픽 리스트 조회
+	@Transactional(readOnly = true)
 	public List<PickResponse> getPickListByUnclassified() {
 		List<Pick> picks = pickProvider.findAllByUnclassified(userService.getCurrentUser());
-		return pickMapper.toPickResponseList(picks, pickTagProvider, pickTagMapper, linkMapper);
+		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
 	}
 
 	// 픽 생성
 	@Transactional
 	public PickResponse createPick(PickCreateRequest pickCreateRequest) {
 		User user = userService.getCurrentUser();
-		Folder folder = folderProvider.findUnclassifiedByUser(user);
+		Folder folder = folderProvider.findUnclassified(user);
 
 		LinkRequest linkRequest = pickCreateRequest.linkRequest();
 		Link link = linkService.saveOrUpdateLink(linkRequest);
@@ -95,10 +96,9 @@ public class PickService {
 
 		List<Long> tagIdList = pickCreateRequest.tagIdList();
 		List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(savedPick.getId());
-		List<TagResponse> tagResponseList = pickMapper.toTagResponseList(savedPick, tagIdList, pickTagList,
+		List<TagResponse> tagResponseList = tagMapper.toTagResponseList(savedPick, tagIdList, pickTagList,
 			pickTagProvider,
-			tagProvider,
-			tagMapper);
+			tagProvider);
 		return pickMapper.toPickResponse(savedPick, tagResponseList, linkUrlResponse);
 	}
 
@@ -112,14 +112,24 @@ public class PickService {
 		List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(pick.getId());
 
 		deleteUnusedPickTagList(tagIdList, pickTagList);
-		List<TagResponse> tagResponseList = pickMapper.toTagResponseList(pick, tagIdList, pickTagList, pickTagProvider,
-			tagProvider,
-			tagMapper);
+		List<TagResponse> tagResponseList = tagMapper.toTagResponseList(pick, tagIdList, pickTagList, pickTagProvider,
+			tagProvider);
 
 		LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
 
 		pick.updatePick(pickUpdateRequest.title(), pickUpdateRequest.memo());
 		return pickMapper.toPickResponse(pick, tagResponseList, linkUrlResponse);
+	}
+
+	@Transactional
+	public void deletePick(Long pickId) {
+		pickTagProvider.deleteByPickId(pickId);
+		pickProvider.deleteById(pickId);
+	}
+
+	@Transactional
+	public void releaseTagFromEveryPick(Tag tag) {
+		pickTagProvider.deletePickTagRelationByTagId(tag.getId());
 	}
 
 	// tagIdList로 넘어온 태그들만 디비에 저장하기 위해 넘어오지 않은 태그들은 삭제
@@ -128,10 +138,5 @@ public class PickService {
 			.filter(pickTag -> !tagIdList.contains(pickTag.getTag().getId()))
 			.forEach(
 				pickTag -> pickTagProvider.deleteByPickIdAndTagId(pickTag.getPick().getId(), pickTag.getTag().getId()));
-	}
-
-	@Transactional
-	public void releaseTagFromEveryPick(Tag tag) {
-		pickTagProvider.deletePickTagRelationByTagId(tag.getId());
 	}
 }

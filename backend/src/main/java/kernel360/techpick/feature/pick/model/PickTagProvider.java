@@ -22,8 +22,8 @@ public class PickTagProvider {
 		return pickTagRepository.save(pickTag);
 	}
 
-	public boolean existsByTagId(Long tagId) {
-		return pickTagRepository.existsByTagId(tagId);
+	public void deleteByPickId(Long pickId) {
+		pickTagRepository.deleteByPickId(pickId);
 	}
 
 	public void deleteByPickIdAndTagId(Long pickId, Long tagId) {

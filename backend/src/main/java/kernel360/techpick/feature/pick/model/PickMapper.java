@@ -34,40 +34,14 @@ public class PickMapper {
 	}
 
 	public List<PickResponse> toPickResponseList(List<Pick> pickList, PickTagProvider pickTagProvider,
-		PickTagMapper pickTagMapper, LinkMapper linkMapper) {
+		TagMapper tagMapper, LinkMapper linkMapper) {
 		return pickList.stream().map(pick -> {
 			List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(pick.getId());
-			List<TagResponse> tagResponseList = pickTagMapper.toTagResponse(pickTagList);
+			List<TagResponse> tagResponseList = tagMapper.toTagResponse(pickTagList);
 			LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
 
 			return this.toPickResponse(pick, tagResponseList, linkUrlResponse);
 		}).toList();
 	}
 
-	// Tag Mapper로 이동해야 할 지 의문
-	public List<TagResponse> toTagResponseList(Pick pick, List<Long> tagIdList, List<PickTag> pickTagList,
-		PickTagProvider pickTagProvider, TagProvider tagProvider, TagMapper tagMapper) {
-
-		return tagIdList.stream()
-			.map(tagId -> createTagResponse(pick, tagId, pickTagList, tagProvider, tagMapper, pickTagProvider))
-			.toList();
-	}
-
-	// Tag 유무 확인 후 없으면 생성, 있으면 기존 것 반환
-	private TagResponse createTagResponse(Pick pick, Long tagId, List<PickTag> pickTagList, TagProvider tagProvider,
-		TagMapper tagMapper, PickTagProvider pickTagProvider) {
-		// 기존 태그가 존재하는지 확인
-		PickTag existingPickTag = pickTagList.stream()
-			.filter(pickTag -> pickTag.getTag().getId().equals(tagId))
-			.findFirst()
-			.orElse(null);
-
-		if (Objects.isNull(existingPickTag)) {
-			Tag tag = tagProvider.findById(tagId);
-			pickTagProvider.save(PickTag.create(pick, tag));
-			return tagMapper.toTagResponse(tag);
-		}
-
-		return tagMapper.toTagResponse(existingPickTag.getTag());
-	}
 }

@@ -41,8 +41,8 @@ public class PickProvider {
 			.collect(Collectors.toMap(Pick::getId, Function.identity()));
 	}
 
-	public boolean existsByUserIdAndLinkUrl(Long userId, String url) {
-		return pickRepository.existsByUserIdAndLinkUrl(userId, url);
+	public boolean existsByUserAndLinkUrl(User user, String url) {
+		return pickRepository.existsByUserAndLinkUrl(user, url);
 	}
 
 	public Pick save(Pick pick) {
