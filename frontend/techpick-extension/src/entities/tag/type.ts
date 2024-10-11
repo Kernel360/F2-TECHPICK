@@ -1,3 +1,5 @@
+import { components } from '@/schema';
+
 export type TagType = {
   tagId: number;
   tagName: string;
@@ -21,3 +23,7 @@ export type UpdateTagType = {
   tagOrder: 0;
   colorNumber: 0;
 };
+
+export type CreateTagRequestType = components['schemas']['TagCreateRequest'];
+export type CreateTagResponseType = TagType;
+// export type CreateTagResponse = components['schemas']['TagResponse'];

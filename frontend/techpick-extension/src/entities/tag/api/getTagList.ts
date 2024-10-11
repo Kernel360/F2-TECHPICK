@@ -15,8 +15,5 @@ export const getTagList = async () => {
   const response = await api.get<TagResponse>('tag');
   const data = await response.json();
 
-  console.log('response', response);
-  console.log('data', data);
-
   return data;
 };

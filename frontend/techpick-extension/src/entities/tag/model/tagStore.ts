@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { TagType, TagUpdateType } from '../type';
-import { getTagList } from '../api';
+import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
+import { getTagList, createTag } from '../api';
 
 type TagState = {
   tagList: TagType[];
@@ -15,10 +15,7 @@ type TagAction = {
   deselectTag: (tag: TagType) => void;
   updateSelectedTagList: (tag: TagType) => void;
   fetchingTagList: () => Promise<void>;
-  createTag: (
-    newTagName: string,
-    tagNumber: number
-  ) => Promise<TagType | undefined>;
+  createTag: (tagData: CreateTagRequestType) => Promise<TagType | undefined>;
   deleteTag: (tagId: number) => Promise<void>;
   updateTag: (updatedTag: TagUpdateType) => Promise<void>;
 };
@@ -76,12 +73,10 @@ export const useTagStore = create<TagState & TagAction>()(
 
         const remoteTagList = await getTagList();
 
-        setTimeout(() => {
-          set((state) => {
-            state.tagList = [...remoteTagList];
-            state.fetchingTagState.isPending = false;
-          });
-        }, 500);
+        set((state) => {
+          state.tagList = [...remoteTagList];
+          state.fetchingTagState.isPending = false;
+        });
       } catch (error) {
         if (error instanceof Error) {
           set((state) => {
@@ -94,31 +89,18 @@ export const useTagStore = create<TagState & TagAction>()(
       return;
     },
 
-    createTag: async (newTagName, tagNumber) => {
+    createTag: async (tagData) => {
       try {
         set((state) => {
           state.postTagState.isPending = true;
         });
 
-        // TODO: 나중에 비동기 더하기
-        const newTag = await new Promise<TagType>((resolve) => {
-          setTimeout(() => {
-            const tag: TagType = {
-              tagId: Date.now(),
-              tagName: newTagName,
-              colorNumber: tagNumber,
-              tagOrder: Date.now(), // 임의의 값. 추후 수정해야한다.
-              userId: Date.now(), // 임의의 값. 추후 수정해야한다.
-            };
+        const newTag = await createTag(tagData);
 
-            set((state) => {
-              state.tagList.push(tag);
-              state.postTagState.isPending = false;
-              state.postTagState.isSuccess = true;
-            });
-
-            resolve(tag);
-          }, 500);
+        set((state) => {
+          state.tagList.push(newTag!);
+          state.postTagState.isPending = false;
+          state.postTagState.isSuccess = true;
         });
 
         return newTag;

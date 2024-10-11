@@ -167,10 +167,10 @@ export function TagAutocompleteDialog({
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
             onSelect={async () => {
-              const newTag = await createTag(
-                tagInputValue,
-                randomNumber.current
-              );
+              const newTag = await createTag({
+                tagName: tagInputValue,
+                colorNumber: randomNumber.current,
+              });
 
               randomNumber.current = getRandomInt();
 
