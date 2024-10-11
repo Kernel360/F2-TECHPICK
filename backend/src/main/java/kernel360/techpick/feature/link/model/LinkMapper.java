@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class LinkMapper {
 
 	public Link toLinkEntity(LinkRequest linkRequest) {
-		return Link.create(linkRequest.title(), linkRequest.description(), linkRequest.url());
+		return Link.create(linkRequest.url(), linkRequest.title(), linkRequest.description());
 	}
 
 	public Link toLinkEntity(PickCreateRequest pickCreateRequest) {
