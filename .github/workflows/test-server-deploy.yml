@@ -79,9 +79,19 @@ jobs:
             cd /home/project/techpick
             
             echo "create .env file with github repository's ENV setting ..."
+            
+            cd /home/project/techpick/database
+            rm -rf .env
+            touch .env
+            echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
+            echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            
+            cd /home/project/techpick/${{ env.api-version }}
             rm -rf .env
             touch .env
             
+            echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
+            echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
             echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}${{ env.api-version }}" >> .env
             echo "DOCKER_MYSQL_URL=${{ secrets.DOCKER_MYSQL_URL }}" >> .env
             echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
@@ -96,11 +106,6 @@ jobs:
             echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
             echo "NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
             echo "TECHPICK_BASE_URL=${{ secrets.TECHPICK_BASE_URL }}" >> .env
-            
-            rm -rf .env /home/project/techpick/${{ env.api-version }}/.env
-            cp .env /home/project/techpick/${{ env.api-version }}
-            
-            cd /home/project/techpick/${{ env.api-version }}
             
             docker-compose down
             docker compose up -d
