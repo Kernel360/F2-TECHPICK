@@ -3,15 +3,14 @@
 #  - (1) https://docs.docker.com/build/ci/github-actions/#examples
 #  - (2) https://github.com/Kernel360/E2E2-LOOK-US/blob/deploy/.github/workflows/deploy.yml
 
-name: Tech-pick V1 Testing Server Deploy
+name: Tech-pick V2 Testing Server Deploy
 
 on:
   push:
     branches:
-      - "backend-v1" # backend v1 브랜치
-      - "backend-v1-test"
+      - "backend-v2" # backend v2 브랜치
 env:
-  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
+  api-version: 'v2' # 브랜치 명과 반드시 동일할 것!!!
 
 jobs:
   build:
