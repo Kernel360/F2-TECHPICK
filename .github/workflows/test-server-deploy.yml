@@ -91,7 +91,7 @@ jobs:
             echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
             echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
             echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}${{ env.api-version }}" >> .env
-            echo "DOCKER_MYSQL_URL=${{ secrets.DOCKER_MYSQL_URL }}" >> .env
+            echo "DOCKER_MYSQL_URL=jdbc:mysql://techpick-mysql:3306/${{ secrets.DOCKER_MYSQL_DATABASE }}${{ env.api-version }}?createDatabaseIfNotExist=true" >> .env
             echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
             echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
