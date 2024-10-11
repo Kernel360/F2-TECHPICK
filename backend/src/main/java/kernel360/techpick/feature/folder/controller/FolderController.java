@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/folders")
+@RequestMapping("/api/${api.version}/folders")
 public class FolderController implements FolderApi {
 
 	private final FolderService folderService;

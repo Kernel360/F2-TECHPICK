@@ -29,7 +29,7 @@ public class SecurityConfig {
 	private final OAuth2SuccessHandler oAuth2SuccessHandler;
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
-	@Value("${base.url}")
+	@Value("${api.base-url}")
 	private String baseUrl;
 
 	@Bean

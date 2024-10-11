@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/structures")
+@RequestMapping("/api/${api.version}/structures")
 public class StructureController implements StructureApi {
 
 	private final UserService userService;
