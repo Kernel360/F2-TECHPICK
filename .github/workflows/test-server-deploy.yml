@@ -43,7 +43,7 @@ jobs:
         name: Build docker image
         run: |
           cd ./backend
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }} .
       -
         # Docker hub 로그인
         name: Login to Docker Hub
@@ -54,7 +54,7 @@ jobs:
       -
         # Docker hub 업로드
         name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }}
       -
         # 서버 ssh 접속 후 방금 올린 이미지 pull 받고 실행
         name: Deploy on Test-Server
@@ -70,10 +70,10 @@ jobs:
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }}
 
             echo "docker - changing image name and tag ..."
-            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }} techpick:${{ env.api-version }}staging
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }} techpick:${{ env.api-version }}-staging
             
             cd /home/project/techpick
             
