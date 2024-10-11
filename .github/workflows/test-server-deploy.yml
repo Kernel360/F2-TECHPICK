@@ -6,12 +6,13 @@
 name: Tech-pick V1 Testing Server Deploy
 
 env:
-  api-version: 'v1-test' # 브랜치 명과 반드시 동일할 것!!!
+  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
 
 on:
   push:
     branches:
       - "backend-${{ env.api-version }}" # backend v1 브랜치
+      - "backend-v1-test" # CI/CD 테스트용 임시 브랜치
 
 jobs:
   build:
@@ -80,10 +81,12 @@ jobs:
             echo "create .env file with github repository's ENV setting ..."
             rm -rf .env
             touch .env
-            echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}" >> .env
+            
+            echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}${{ env.api-version }}" >> .env
             echo "DOCKER_MYSQL_URL=${{ secrets.DOCKER_MYSQL_URL }}" >> .env
             echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
             echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
             echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> .env
             echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
@@ -93,6 +96,11 @@ jobs:
             echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
             echo "NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
             echo "TECHPICK_BASE_URL=${{ secrets.TECHPICK_BASE_URL }}" >> .env
+            
+            rm -rf .env /home/project/techpick/${{ env.api-version }}/.env
+            cp .env /home/project/techpick/${{ env.api-version }}
+            
+            cd /home/project/techpick/${{ env.api-version }}
             
             docker-compose down
             docker compose up -d
