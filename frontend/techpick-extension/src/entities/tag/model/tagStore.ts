@@ -12,11 +12,11 @@ type TagState = {
 
 type TagAction = {
   selectTag: (tag: TagType) => void;
-  deselectTag: (tag: TagType) => void;
+  deselectTag: (tagId: TagType['tagId']) => void;
   updateSelectedTagList: (tag: TagType) => void;
   fetchingTagList: () => Promise<void>;
   createTag: (tagData: CreateTagRequestType) => Promise<TagType | undefined>;
-  deleteTag: (tagId: number) => Promise<void>;
+  deleteTag: (tagId: TagType['tagId']) => Promise<void>;
   updateTag: (updatedTag: TagUpdateType) => Promise<void>;
 };
 
@@ -42,10 +42,10 @@ export const useTagStore = create<TagState & TagAction>()(
         state.selectedTagList.push(tag);
       }),
 
-    deselectTag: (tag: TagType) =>
+    deselectTag: (tagId) =>
       set((state) => {
         state.selectedTagList = state.selectedTagList.filter(
-          (t) => t.tagId !== tag.tagId
+          (t) => t.tagId !== tagId
         );
       }),
 
