@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - "backend-v1" # backend v1 브랜치
-      - "backend-v1-test"
 env:
   api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
 
