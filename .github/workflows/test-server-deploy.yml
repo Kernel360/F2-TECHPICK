@@ -3,12 +3,15 @@
 #  - (1) https://docs.docker.com/build/ci/github-actions/#examples
 #  - (2) https://github.com/Kernel360/E2E2-LOOK-US/blob/deploy/.github/workflows/deploy.yml
 
-name: Tech-pick Testing Server Deploy
+name: Tech-pick V1 Testing Server Deploy
+
+env:
+  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
 
 on:
   push:
     branches:
-      - "backend" # Backend 브랜치
+      - "backend-${{ env.api-version }}" # backend v1 브랜치
 
 jobs:
   build:
@@ -40,7 +43,7 @@ jobs:
         name: Build docker image
         run: |
           cd ./backend
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }} .
       -
         # Docker hub 로그인
         name: Login to Docker Hub
@@ -51,7 +54,7 @@ jobs:
       -
         # Docker hub 업로드
         name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }}
       -
         # 서버 ssh 접속 후 방금 올린 이미지 pull 받고 실행
         name: Deploy on Test-Server
@@ -67,10 +70,10 @@ jobs:
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }}
 
             echo "docker - changing image name and tag ..."
-            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}${{ github.sha }} techpick:${{ env.api-version }}staging
             
             cd /home/project/techpick
             
@@ -104,8 +107,8 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: ${{ job.status }}
-          title: "Deployment Action Result"
-          description: "테스트 API 서버 배포 action 결과"
+          title: "Test API ${{ env.api-version }} Deployment Action Result"
+          description: "테스트 API ${{ env.api-version }} 서버 배포 완료"
           color: 0xff91a4
           url: "https://github.com/sarisia/actions-status-discord"
           username: GitHub Actions
