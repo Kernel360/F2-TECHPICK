@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Text, Button, Gap } from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
@@ -34,6 +35,13 @@ export function DeleteTagDialog() {
         <Dialog.Overlay className={dialogOverlayStyle} />
         <Dialog.Content className={dialogContentStyle}>
           <Text>이 태그를 삭제하시겠습니까?</Text>
+
+          <VisuallyHidden.Root>
+            <Dialog.Title>이 태그를 삭제하시겠습니까?</Dialog.Title>
+            <Dialog.Description>
+              태그를 삭제하실 거라면 삭제 버튼을 눌러주세요.
+            </Dialog.Description>
+          </VisuallyHidden.Root>
 
           <div>
             <Button

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
-import { getTagList, createTag, deleteTag } from '../api';
+import { getTagList, createTag, deleteTag, updateTag } from '../api';
 
 type TagState = {
   tagList: TagType[];
@@ -171,28 +171,36 @@ export const useTagStore = create<TagState & TagAction>()(
           state.postTagState = { ...state.postTagState, isPending: true };
         });
 
-        // TODO: 비동기 처리 예시. 나중에 서버 통신 등으로 교체.
-        await new Promise<void>((resolve) => {
-          setTimeout(() => {
-            // Promise를 resolve하여 비동기 처리가 끝났음을 알림
-            resolve();
-          }, 500);
-        });
+        const dataList = await updateTag(updatedTag);
+        const data = dataList[0];
 
         set((state) => {
           const index = state.tagList.findIndex(
-            (tag) => tag.tagId === updatedTag.tagId
+            (tag) => tag.tagId === data.tagId
           );
 
           if (index === -1) {
             return;
           }
 
-          // 태그 업데이트
           state.tagList[index] = {
-            ...updatedTag,
+            ...data,
             userId: state.tagList[index].userId,
           };
+
+          const selectedTagListIndex = state.selectedTagList.findIndex(
+            (tag) => tag.tagId === data.tagId
+          );
+
+          if (selectedTagListIndex === -1) {
+            return;
+          }
+
+          state.selectedTagList[selectedTagListIndex] = {
+            ...data,
+            userId: state.selectedTagList[selectedTagListIndex].userId,
+          };
+
           state.postTagState = {
             ...state.postTagState,
             isPending: false,

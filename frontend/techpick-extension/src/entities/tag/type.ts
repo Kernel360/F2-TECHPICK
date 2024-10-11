@@ -17,13 +17,22 @@ export type TagUpdateType = {
   colorNumber: number;
 };
 
-export type UpdateTagType = {
-  tagId: 0;
-  tagName: 'string';
-  tagOrder: 0;
-  colorNumber: 0;
-};
-
 export type CreateTagRequestType = components['schemas']['TagCreateRequest'];
 export type CreateTagResponseType = TagType;
 // export type CreateTagResponse = components['schemas']['TagResponse'];
+
+//export type UpdateTagRequestType = components['schemas']['TagUpdateRequest'][];
+export type UpdateTagRequestType = {
+  tagId: number;
+  tagName: string;
+  tagOrder: number;
+  colorNumber: number;
+}[];
+//export type UpdateTagResponseType = components['schemas']['TagResponse'][];
+export type UpdateTagResponseType = {
+  tagId: number;
+  tagName: string;
+  tagOrder: number;
+  colorNumber: number;
+  userId: number;
+}[];
