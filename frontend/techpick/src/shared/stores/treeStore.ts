@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { NodeData } from '@/shared/types';
-import { dynamicMockData } from '@/shared/const/mockdata';
 import { NodeApi, TreeApi } from 'react-arborist';
 import React from 'react';
 
@@ -21,7 +20,7 @@ interface TreeState {
 }
 
 export const useTreeStore = create<TreeState>((set) => ({
-  treeData: dynamicMockData,
+  treeData: [],
   treeRef: React.createRef(),
   focusedNode: null,
   prevFocusedNode: null,

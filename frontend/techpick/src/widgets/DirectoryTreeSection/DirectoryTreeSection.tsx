@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   directoryLabel,
   directoryLabelContainer,
@@ -23,12 +23,14 @@ import { EditorContextMenu } from '../EditorContextMenu';
 import { useGetStructure } from '@/features/folderManagement/hooks/useGetStructure';
 import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
+import { addRecycleBinToStructure } from '@/features/treeStructureCRUD/addRecycleBinToStructure';
+import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
-  const { setTreeRef, setFocusedNode } = useTreeStore();
+  const { treeData, setTreeData, setTreeRef, setFocusedNode } = useTreeStore();
   const { handleCreate, handleDrag, handleRename, handleDelete } =
     useTreeHandlers();
 
@@ -44,6 +46,20 @@ export function DirectoryTreeSection() {
     error: structureError,
     isLoading: isStructureLoading,
   } = useGetStructure();
+  const { data: defaultFolderIdData } = useGetDefaultFolderData();
+
+  useEffect(() => {
+    if (structureData && defaultFolderIdData) {
+      const updatedStructure = addRecycleBinToStructure(
+        structureData.root,
+        defaultFolderIdData!.RECYCLE_BIN,
+        structureData.recycleBin
+      );
+      setTreeData(updatedStructure);
+    }
+  }, [structureData, defaultFolderIdData, setTreeData]);
+
+  // const treeData = useTreeData();
 
   return (
     <div className={leftSidebarSection}>
@@ -86,7 +102,7 @@ export function DirectoryTreeSection() {
               <Tree
                 ref={handleTreeRef}
                 className={directoryTree}
-                data={structureData!.root}
+                data={treeData}
                 disableMultiSelection={true}
                 onFocus={(node: NodeApi) => {
                   setFocusedNode(node);

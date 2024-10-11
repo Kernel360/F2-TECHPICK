@@ -8,6 +8,7 @@ import { useCreateFolder } from '@/features/folderManagement/hooks/useCreateFold
 import { useMoveFolder } from '@/features/folderManagement/hooks/useMoveFolder';
 import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
 import { useRenameFolder } from '@/features/folderManagement/hooks/useRenameFolder';
+import { removeByIdFromStructure } from '@/features/treeStructureCRUD/removeByIdFromStructure';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } = useGetStructure();
@@ -36,6 +37,21 @@ export const useTreeHandlers = () => {
     index,
     type,
   }): Promise<{ id: string }> => {
+    console.log('parentId', parentId);
+    console.log('parentNode', parentNode);
+    console.log('index', index);
+    console.log('type', type);
+
+    // 로컬 폴더 구조 생성
+    // const tempStructure = [...structureData!.root];
+    //
+    //   const newStructure = addNodeToStructure(
+    //       tempStructure,
+    //       parentId!,
+    //       index,
+    //       newNode
+    //   );
+
     try {
       // 폴더 생성 (서버)
       const newFolderData = await createFolder('New Folder29');
@@ -106,7 +122,7 @@ export const useTreeHandlers = () => {
         : defaultFolderIdData!.ROOT,
       structure: {
         root: updatedTreeData,
-        recycleBin: [],
+        recycleBin: structureData!.recycleBin,
       },
     };
     console.log('defaultFolderIdData', defaultFolderIdData);
@@ -149,7 +165,7 @@ export const useTreeHandlers = () => {
     updatedRecycleBin.push(nodes[0].data);
 
     const updatedTreeStructure = [...structureData!.root];
-    removeNodeById(updatedTreeStructure, ids[0]);
+    removeByIdFromStructure(updatedTreeStructure, ids[0]);
 
     const serverData = {
       parentFolderId: recycleBinId,
@@ -165,25 +181,7 @@ export const useTreeHandlers = () => {
     refetchStructure();
   };
 
+  // 다른 곳으로 옮길 임시 함수들
+
   return { handleCreate, handleDrag, handleRename, handleDelete };
 };
-
-function removeNodeById(structure: NodeData[], targetId: string): NodeData[] {
-  // 트리의 모든 노드를 순회하는 대신, id를 찾으면 즉시 반환
-  for (let i = 0; i < structure.length; i++) {
-    const node = structure[i];
-
-    // 노드가 찾고자 하는 id와 일치하면 해당 노드를 제거
-    if (node.id === targetId) {
-      structure.splice(i, 1);
-      return structure;
-    }
-
-    // children이 있으면 재귀적으로 탐색
-    if (node.children && node.children.length > 0) {
-      node.children = removeNodeById(node.children, targetId);
-    }
-  }
-
-  return structure;
-}
