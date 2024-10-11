@@ -75,7 +75,11 @@ public class SecurityConfig {
 		CorsConfiguration config = new CorsConfiguration();
 
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(List.of(baseUrl, "https://local.minlife.me:3000" /* Frontend Local */));
+		config.setAllowedOrigins(List.of(
+			baseUrl, /* from env */
+			"https://local.minlife.me:3000" /* Frontend Local */,
+			"chrome-extension://nijonkmmpngclkmeddmgjgdhjefmnmbm" /* Chrome Extension */
+		));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));
 		config.setExposedHeaders(List.of("*"));
