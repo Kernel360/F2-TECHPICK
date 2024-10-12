@@ -3,12 +3,14 @@
 #  - (1) https://docs.docker.com/build/ci/github-actions/#examples
 #  - (2) https://github.com/Kernel360/E2E2-LOOK-US/blob/deploy/.github/workflows/deploy.yml
 
-name: Tech-pick Testing Server Deploy
+name: Tech-pick V1 Testing Server Deploy
 
 on:
   push:
     branches:
-      - "backend" # Backend 브랜치
+      - "backend-v1" # backend v1 브랜치
+env:
+  api-version: 'v1' # 브랜치 명과 반드시 동일할 것!!!
 
 jobs:
   build:
@@ -40,7 +42,7 @@ jobs:
         name: Build docker image
         run: |
           cd ./backend
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }} .
       -
         # Docker hub 로그인
         name: Login to Docker Hub
@@ -51,7 +53,7 @@ jobs:
       -
         # Docker hub 업로드
         name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }}
       -
         # 서버 ssh 접속 후 방금 올린 이미지 pull 받고 실행
         name: Deploy on Test-Server
@@ -67,20 +69,29 @@ jobs:
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             
             echo "docker - pulling..."
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }}
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }}
 
             echo "docker - changing image name and tag ..."
-            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ github.sha }} techpick:staging
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:${{ env.api-version }}-${{ github.sha }} techpick:${{ env.api-version }}-staging
             
             cd /home/project/techpick
             
             echo "create .env file with github repository's ENV setting ..."
+            
+            cd /home/project/techpick/database
             rm -rf .env
             touch .env
-            echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}" >> .env
-            echo "DOCKER_MYSQL_URL=${{ secrets.DOCKER_MYSQL_URL }}" >> .env
             echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
             echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            
+            cd /home/project/techpick/${{ env.api-version }}
+            rm -rf .env
+            touch .env
+            
+            echo "DOCKER_MYSQL_USERNAME=${{ secrets.DOCKER_MYSQL_USERNAME }}" >> .env
+            echo "DOCKER_MYSQL_PASSWORD=${{ secrets.DOCKER_MYSQL_PASSWORD }}" >> .env
+            echo "DOCKER_MYSQL_DATABASE=${{ secrets.DOCKER_MYSQL_DATABASE }}_${{ env.api-version }}" >> .env
+            echo "DOCKER_MYSQL_URL=jdbc:mysql://techpick-mysql:3306/${{ secrets.DOCKER_MYSQL_DATABASE }}_${{ env.api-version }}?createDatabaseIfNotExist=true" >> .env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
             echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> .env
             echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
@@ -89,7 +100,9 @@ jobs:
             echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
             echo "NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }}" >> .env
             echo "NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }}" >> .env
-            echo "TECHPICK_BASE_URL=${{ secrets.TECHPICK_BASE_URL }}" >> .env
+            echo "TECHPICK_BASE_URL=https://${{ env.api-version }}.${{ secrets.TECHPICK_DOMAIN }}" >> .env
+            https://minlife.me
+            
             
             docker-compose down
             docker compose up -d
@@ -104,8 +117,8 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           status: ${{ job.status }}
-          title: "Deployment Action Result"
-          description: "테스트 API 서버 배포 action 결과"
+          title: "Test API ${{ env.api-version }} Deployment Action Result"
+          description: "테스트 API ${{ env.api-version }} 서버 배포 완료"
           color: 0xff91a4
           url: "https://github.com/sarisia/actions-status-discord"
           username: GitHub Actions
