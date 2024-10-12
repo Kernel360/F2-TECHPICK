@@ -1,6 +1,6 @@
-import { useGetTabInfo } from '@/hooks';
 import { Button, Text, Gap, useChangeFocusUsingArrowKey } from '@/shared';
 import { useTagStore } from '@/entities/tag';
+import { createPick, useGetTabInfo } from '@/entities/pick';
 import { TagPicker } from '@/widgets';
 import { BookmarkHeader } from './BookmarkHeader';
 import { ThumbnailImage } from './ThumbnailImage';
@@ -21,7 +21,12 @@ export function BookmarkPage() {
   const memoInputRef = useRef<HTMLTextAreaElement>(null);
   const submitButtonRef = useRef<HTMLButtonElement>(null);
   const { selectedTagList } = useTagStore();
-  const { ogImage, title } = useGetTabInfo();
+  const {
+    ogImage: imageUrl,
+    title,
+    url,
+    ogDescription: description,
+  } = useGetTabInfo();
   useChangeFocusUsingArrowKey([
     titleInputRef,
     tagPickerRef,
@@ -30,10 +35,20 @@ export function BookmarkPage() {
   ]);
 
   const onSubmit = () => {
-    // todo: api 연결하기
-    console.log('titleInputRef', titleInputRef.current?.value);
-    console.log('memoInputRef', memoInputRef.current?.value);
-    console.log('selectedTagList', selectedTagList);
+    const userModifiedTitle = titleInputRef.current?.value ?? '';
+    const userMemo = memoInputRef.current?.value ?? '';
+
+    createPick({
+      title: userModifiedTitle,
+      memo: userMemo,
+      tagIdList: selectedTagList.map((tag) => tag.tagId),
+      linkRequest: {
+        title,
+        url,
+        imageUrl,
+        description,
+      },
+    });
   };
 
   return (
@@ -42,7 +57,7 @@ export function BookmarkPage() {
       <Gap verticalSize="gap24" />
       <form className={pickFormLayout} onSubmit={(e) => e.preventDefault()}>
         <div className={formFieldLayout}>
-          <ThumbnailImage image={ogImage} />
+          <ThumbnailImage image={imageUrl} />
           <input
             type="text"
             defaultValue={title}
