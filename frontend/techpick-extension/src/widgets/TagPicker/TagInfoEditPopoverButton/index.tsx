@@ -30,12 +30,17 @@ export function TagInfoEditPopoverButton({
       tagNameInputRef.current.value += ' ';
       e.preventDefault();
     }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit();
+    }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event?: React.FormEvent<HTMLFormElement>) => {
     console.log('handleSubmit work');
 
-    event.preventDefault();
+    event?.preventDefault();
 
     if (!tagNameInputRef.current) {
       return;
@@ -93,7 +98,9 @@ export function TagInfoEditPopoverButton({
               defaultValue={tag.tagName}
               ref={tagNameInputRef}
               autoFocus
-              onKeyDown={handleInputKeyDown}
+              onKeyDown={(e) => {
+                handleInputKeyDown(e);
+              }}
             />
             <ShowDeleteTagDialogButton
               tag={tag}
