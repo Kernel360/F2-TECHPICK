@@ -18,6 +18,7 @@ export const useTreeHandlers = () => {
     treeRef,
     focusedNode,
     focusedFolderNodeList,
+    newNodeName,
     focusedLinkNodeList,
     setFocusedLinkNodeList,
     setFocusedFolderNodeList,
@@ -42,14 +43,12 @@ export const useTreeHandlers = () => {
     console.log('parentNode', parentNode);
     console.log('index', index);
     console.log('type', type);
-    let idForReturn = '';
     const newLocalNodeId = getNewIdFromStructure(structureData!.root);
 
     try {
       // 폴더 생성 (서버)
-      const newFolderData = await createFolder('New Folder' + newLocalNodeId);
+      const newFolderData = await createFolder(newNodeName);
       console.log('Server: Folder created:', newFolderData);
-      idForReturn = newFolderData.id.toString();
 
       // 폴더 생성 (클라이언트)
       const updatedTreeData = createNode(
@@ -69,7 +68,7 @@ export const useTreeHandlers = () => {
         parentFolderId: rootFolderId,
         structure: {
           root: updatedTreeData,
-          recycleBin: [],
+          recycleBin: structureData!.recycleBin,
         },
       };
       console.log('defaultFolderIdData', defaultFolderIdData);
@@ -85,7 +84,7 @@ export const useTreeHandlers = () => {
     } catch (error) {
       console.error('Error creating folder:', error);
     }
-    return { id: idForReturn };
+    return { id: newLocalNodeId.toString() };
   };
 
   const handleDrag: MoveHandler<NodeData> = async ({

@@ -24,14 +24,11 @@ const slideLeftAndFade = keyframes({
 
 // 컴포넌트 스타일 정의
 export const popoverContent = style({
-  borderRadius: '4px',
+  borderRadius: '8px',
   padding: '20px',
   width: '260px',
   backgroundColor: 'white',
-  boxShadow: `
-    rgba(0, 0, 0, 0.35) 0px 10px 38px -10px,
-    rgba(0, 0, 0, 0.2) 0px 10px 20px -15px
-  `,
+  boxShadow: '1px 1px 10px #c9c9c9',
   animationDuration: '400ms',
   animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
   willChange: 'transform, opacity',
@@ -75,11 +72,16 @@ export const popoverClose = style({
 export const iconButton = style({
   fontFamily: 'inherit',
   border: 'none',
+  width: '28px',
+  height: '24px',
+  borderRadius: '4px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: '#4c1d95',
   backgroundColor: 'white',
+  cursor: 'pointer',
+  outline: 'none',
   selectors: {
     '&:hover': {
       backgroundColor: '#ede9fe',

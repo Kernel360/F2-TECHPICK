@@ -29,7 +29,7 @@ export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
-  const { setTreeRef, setFocusedNode } = useTreeStore();
+  const { setTreeRef, setFocusedNode, setNewNodeName } = useTreeStore();
   const { handleCreate, handleDrag, handleRename, handleDelete } =
     useTreeHandlers();
 
@@ -64,21 +64,12 @@ export function DirectoryTreeSection() {
         <div className={directoryLabelContainer}>
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
-          <button
-            onClick={() => {
+          <AddFolderPopoverButton
+            onEditEnded={(name: string) => {
               treeRef.current?.createInternal();
+              setNewNodeName(name);
             }}
-          >
-            +Folder
-          </button>
-          <AddFolderPopoverButton />
-          <button
-            onClick={() => {
-              treeRef.current?.createLeaf();
-            }}
-          >
-            +Pick
-          </button>
+          />
         </div>
         <div className={directoryTreeWrapper} ref={ref}>
           {isStructureLoading && <div>Loading...</div>}
@@ -99,7 +90,7 @@ export function DirectoryTreeSection() {
                 onDelete={handleDelete}
                 openByDefault={false}
                 width={width}
-                height={height && height - 8}
+                height={height}
                 rowHeight={32}
                 indent={24}
                 overscanCount={1}
@@ -109,6 +100,37 @@ export function DirectoryTreeSection() {
               </Tree>
             </EditorContextMenu>
           )}
+        </div>
+        <div className={directoryLabelContainer}>
+          <div className={directoryTreeWrapper}></div>
+          <Folder size={20} strokeWidth={1} />
+          <div className={directoryLabel}>Recycle Bin</div>
+        </div>
+        <div className={directoryTreeWrapper}>
+          <EditorContextMenu>
+            <Tree
+              ref={handleTreeRef}
+              className={directoryTree}
+              data={rootAndRecycleBinData?.recycleBin}
+              disableMultiSelection={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleDrag}
+              onCreate={handleCreate}
+              onRename={handleRename}
+              onDelete={handleDelete}
+              openByDefault={false}
+              width={width}
+              height={height}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
+          </EditorContextMenu>
         </div>
       </div>
       <div className={directoryTreeSectionFooter}></div>
