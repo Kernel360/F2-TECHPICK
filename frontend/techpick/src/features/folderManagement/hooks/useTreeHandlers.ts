@@ -1,7 +1,7 @@
 import { NodeData } from '@/shared/types';
 import { createNode } from '@/features/createNode';
 import { moveNode } from '@/features/moveNode';
-import { useGetStructure } from '@/features/folderManagement/hooks/useGetStructure';
+import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
 import { useCreateFolder } from '@/features/folderManagement/hooks/useCreateFolder';
@@ -9,9 +9,11 @@ import { useMoveFolder } from '@/features/folderManagement/hooks/useMoveFolder';
 import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
 import { useRenameFolder } from '@/features/folderManagement/hooks/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/treeStructureCRUD/removeByIdFromStructure';
+import { getNewIdFromStructure } from '@/features/treeStructureCRUD/getNewIdFromStructure';
 
 export const useTreeHandlers = () => {
-  const { data: structureData, refetch: refetchStructure } = useGetStructure();
+  const { data: structureData, refetch: refetchStructure } =
+    useGetRootAndRecycleBinStructure();
   const {
     treeRef,
     focusedNode,
@@ -29,7 +31,6 @@ export const useTreeHandlers = () => {
   const rootFolderId = defaultFolderIdData?.ROOT;
   const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
   // const unclassifiedId = defaultFolderIdData?.UNCLASSIFIED;
-  let newFolderId = '';
 
   const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
@@ -41,22 +42,14 @@ export const useTreeHandlers = () => {
     console.log('parentNode', parentNode);
     console.log('index', index);
     console.log('type', type);
-
-    // 로컬 폴더 구조 생성
-    // const tempStructure = [...structureData!.root];
-    //
-    //   const newStructure = addNodeToStructure(
-    //       tempStructure,
-    //       parentId!,
-    //       index,
-    //       newNode
-    //   );
+    let idForReturn = '';
+    const newLocalNodeId = getNewIdFromStructure(structureData!.root);
 
     try {
       // 폴더 생성 (서버)
-      const newFolderData = await createFolder('New Folder29');
+      const newFolderData = await createFolder('New Folder' + newLocalNodeId);
       console.log('Server: Folder created:', newFolderData);
-      newFolderId = newFolderData.id.toString();
+      idForReturn = newFolderData.id.toString();
 
       // 폴더 생성 (클라이언트)
       const updatedTreeData = createNode(
@@ -92,7 +85,7 @@ export const useTreeHandlers = () => {
     } catch (error) {
       console.error('Error creating folder:', error);
     }
-    return { id: newFolderId };
+    return { id: idForReturn };
   };
 
   const handleDrag: MoveHandler<NodeData> = async ({

@@ -20,9 +20,10 @@ import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
-import { useGetStructure } from '@/features/folderManagement/hooks/useGetStructure';
+import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
 import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
+import PopoverDemo from '@/widgets/DirectoryTreeSection/PopoverDemo';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -40,10 +41,10 @@ export function DirectoryTreeSection() {
   };
 
   const {
-    data: structureData,
+    data: rootAndRecycleBinData,
     error: structureError,
     isLoading: isStructureLoading,
-  } = useGetStructure();
+  } = useGetRootAndRecycleBinStructure();
 
   return (
     <div className={leftSidebarSection}>
@@ -70,6 +71,7 @@ export function DirectoryTreeSection() {
           >
             +Folder
           </button>
+          <PopoverDemo />
           <button
             onClick={() => {
               treeRef.current?.createLeaf();
@@ -86,7 +88,7 @@ export function DirectoryTreeSection() {
               <Tree
                 ref={handleTreeRef}
                 className={directoryTree}
-                data={structureData?.root}
+                data={rootAndRecycleBinData?.root}
                 disableMultiSelection={true}
                 onFocus={(node: NodeApi) => {
                   setFocusedNode(node);

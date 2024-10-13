@@ -4,10 +4,10 @@ export function addNodeToStructure(
   structure: NodeData[],
   parentId: string | null,
   index: number,
-  newNode: NodeData
+  newNodeData: NodeData
 ): NodeData[] {
   if (!parentId) {
-    structure.splice(index, 0, newNode);
+    structure.splice(index, 0, newNodeData);
     console.log('AFTER: structure', structure);
     return structure;
   }
@@ -16,13 +16,13 @@ export function addNodeToStructure(
       if (!node.children) {
         node.children = [];
       }
-      node.children.splice(index, 0, newNode);
+      node.children.splice(index, 0, newNodeData);
     } else if (node.children) {
       node.children = addNodeToStructure(
         node.children,
         parentId,
         index,
-        newNode
+        newNodeData
       );
     }
     return node;
