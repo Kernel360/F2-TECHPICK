@@ -78,6 +78,7 @@ public class SecurityConfig {
 		config.setAllowedOrigins(List.of(
 			baseUrl, /* from env */
 			"https://local.minlife.me:3000" /* Frontend Local */,
+			"https://app.minlife.me" /* Frontend App server */,
 			"chrome-extension://nijonkmmpngclkmeddmgjgdhjefmnmbm" /* Chrome Extension */
 		));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
