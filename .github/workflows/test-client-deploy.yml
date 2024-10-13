@@ -54,13 +54,6 @@ jobs:
             echo "docker - changing image name and tag ..."
             docker tag ${{ secrets.DOCKERHUB_USERNAME }}/techpick:client-${{ github.sha }} techpick:client-staging
 
-            cd /home/project/techpick/client
-            rm -rf .env
-            touch .env
-
-            echo "NEXT_PUBLIC_API=${{ secrets.FRONT_NEXT_PUBLIC_API }}" >> .env
-            echo "NEXT_PUBLIC_DOMAIN=${{ secrets.FRONT_NEXT_PUBLIC_DOMAIN }}" >> .env
-
             docker-compose down
             docker compose up -d
 
