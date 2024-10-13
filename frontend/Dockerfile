@@ -1,0 +1,22 @@
+# 가져올 이미지를 정의
+FROM node:20.9.0-alpine
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# 종속성 파일 복사
+COPY /techpick/package.json .
+COPY yarn.lock .
+
+# 종속성 설치
+RUN yarn install
+
+# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사
+COPY ./techpick .
+
+# Build
+RUN yarn run build
+
+EXPOSE 3000
+
+# 컨테이너 실행 시 실행될 명령 설정
+CMD ["yarn", "start"]
