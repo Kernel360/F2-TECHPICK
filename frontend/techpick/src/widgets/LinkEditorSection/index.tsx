@@ -6,7 +6,7 @@ import {
   linkEditorSection,
   searchSection,
   linkEditor,
-} from './linkEditorSection.css';
+} from './LinkEditorSection.css';
 import { NodeApi } from 'react-arborist';
 import { ArrowDownAZ, Search } from 'lucide-react';
 import { useTreeStore } from '@/shared/stores/treeStore';

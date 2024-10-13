@@ -10,7 +10,7 @@ import {
   logo,
   profileContainer,
   profileSection,
-} from './directoryTreeSection.css';
+} from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
@@ -23,7 +23,7 @@ import { EditorContextMenu } from '../EditorContextMenu';
 import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
 import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
-import PopoverDemo from '@/widgets/DirectoryTreeSection/PopoverDemo';
+import AddFolderPopoverButton from '@/widgets/DirectoryTreeSection/AddFolderPopoverButton';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -71,7 +71,7 @@ export function DirectoryTreeSection() {
           >
             +Folder
           </button>
-          <PopoverDemo />
+          <AddFolderPopoverButton />
           <button
             onClick={() => {
               treeRef.current?.createLeaf();

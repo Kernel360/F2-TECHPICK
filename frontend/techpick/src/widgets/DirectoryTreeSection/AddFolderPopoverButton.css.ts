@@ -1,17 +1,5 @@
 // directoryTreeSection.css.ts
-import { style, createTheme, keyframes } from '@vanilla-extract/css';
-
-// 테마 설정
-export const [themeClass, vars] = createTheme({
-  colors: {
-    violet7: 'var(--violet-7)',
-    violet8: 'var(--violet-8)',
-    violet11: 'var(--violet-11)',
-    violet4: 'var(--violet-4)',
-    blackA7: 'var(--black-a7)',
-    mauve12: 'var(--mauve-12)',
-  },
-});
+import { style, keyframes } from '@vanilla-extract/css';
 
 // 애니메이션 정의
 const slideUpAndFade = keyframes({
@@ -41,20 +29,13 @@ export const popoverContent = style({
   width: '260px',
   backgroundColor: 'white',
   boxShadow: `
-    hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-    hsl(206 22% 7% / 20%) 0px 10px 20px -15px
+    rgba(0, 0, 0, 0.35) 0px 10px 38px -10px,
+    rgba(0, 0, 0, 0.2) 0px 10px 20px -15px
   `,
   animationDuration: '400ms',
   animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
   willChange: 'transform, opacity',
   selectors: {
-    '&:focus': {
-      boxShadow: `
-        hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-        hsl(206 22% 7% / 20%) 0px 10px 20px -15px,
-        0 0 0 2px ${vars.colors.violet7}
-      `,
-    },
     '&[data-state="open"][data-side="top"]': {
       animationName: slideDownAndFade,
     },
@@ -70,49 +51,38 @@ export const popoverContent = style({
   },
 });
 
-export const popoverArrow = style({
-  fill: 'white',
-});
-
 export const popoverClose = style({
   fontFamily: 'inherit',
   borderRadius: '100%',
+  border: 'none',
   height: '25px',
   width: '25px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: vars.colors.violet11,
+  color: '#4c1d95',
+  backgroundColor: 'white',
   position: 'absolute',
   top: '5px',
   right: '5px',
   selectors: {
     '&:hover': {
-      backgroundColor: vars.colors.violet4,
-    },
-    '&:focus': {
-      boxShadow: `0 0 0 2px ${vars.colors.violet7}`,
+      backgroundColor: '#ede9fe',
     },
   },
 });
 
 export const iconButton = style({
   fontFamily: 'inherit',
-  borderRadius: '100%',
-  height: '35px',
-  width: '35px',
+  border: 'none',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: vars.colors.violet11,
+  color: '#4c1d95',
   backgroundColor: 'white',
-  boxShadow: `0 2px 10px ${vars.colors.blackA7}`,
   selectors: {
     '&:hover': {
-      backgroundColor: vars.colors.violet4,
-    },
-    '&:focus': {
-      boxShadow: '0 0 0 2px black',
+      backgroundColor: '#ede9fe',
     },
   },
 });
@@ -125,7 +95,7 @@ export const fieldset = style({
 
 export const label = style({
   fontSize: '13px',
-  color: vars.colors.violet11,
+  color: '#4c1d95',
   width: '75px',
 });
 
@@ -139,19 +109,17 @@ export const input = style({
   padding: '0 10px',
   fontSize: '13px',
   lineHeight: 1,
-  color: vars.colors.violet11,
-  boxShadow: `0 0 0 1px ${vars.colors.violet7}`,
+  color: '#4c1d95',
   height: '25px',
-  selectors: {
-    '&:focus': {
-      boxShadow: `0 0 0 2px ${vars.colors.violet8}`,
-    },
+  border: '1px solid #e5e5e5',
+  ':focus': {
+    outline: '1px solid #7c3aed',
   },
 });
 
 export const text = style({
-  margin: 0,
-  color: vars.colors.mauve12,
+  marginBottom: '8px',
+  color: '#3f3f46',
   fontSize: '15px',
   lineHeight: '19px',
   fontWeight: 500,

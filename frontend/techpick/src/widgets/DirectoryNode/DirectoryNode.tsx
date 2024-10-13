@@ -5,7 +5,7 @@ import {
   dirNodeWrapper,
   dirNodeWrapperFocused,
   nodeNameInput,
-} from './directoryNode.css';
+} from './DirectoryNode.css';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 

@@ -1,12 +1,13 @@
 import React, { useCallback, useRef } from 'react';
-import {
-  folderViewSection,
-  linkViewSection,
-} from '@/widgets/LinkEditorSection/linkEditorSection.css';
+
 import { Folder } from '@/features/DnD/Folder';
 import { Pick } from '@/features/DnD/Pick';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { useDropHook } from '@/hooks/useDropHook';
+import {
+  folderViewSection,
+  linkViewSection,
+} from '@/widgets/LinkEditorSection/LinkEditorSection.css';
 
 export const LinkEditor = () => {
   const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =

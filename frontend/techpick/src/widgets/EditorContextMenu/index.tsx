@@ -9,7 +9,7 @@ import {
   RightSlot,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-} from './contextMenu.css';
+} from './ContextMenu.css';
 import { useTreeStore } from '@/shared/stores/treeStore';
 
 interface ContextMenuWrapperProps {
