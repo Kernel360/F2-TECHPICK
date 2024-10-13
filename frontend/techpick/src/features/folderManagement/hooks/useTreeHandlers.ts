@@ -141,7 +141,7 @@ export const useTreeHandlers = () => {
     refetchStructure();
   };
 
-  const handleDelete = async ({
+  const handleMoveToTrash = async ({
     ids,
     nodes,
   }: {
@@ -175,5 +175,10 @@ export const useTreeHandlers = () => {
 
   // 다른 곳으로 옮길 임시 함수들
 
-  return { handleCreate, handleDrag, handleRename, handleDelete };
+  return {
+    handleCreate,
+    handleDrag,
+    handleRename,
+    handleDelete: handleMoveToTrash,
+  };
 };

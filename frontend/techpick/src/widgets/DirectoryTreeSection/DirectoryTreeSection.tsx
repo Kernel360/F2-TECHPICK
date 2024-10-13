@@ -6,10 +6,15 @@ import {
   directoryTreeContainer,
   directoryTreeSectionFooter,
   directoryTreeWrapper,
+  recycleBinTreeWrapperClosed,
   leftSidebarSection,
   logo,
   profileContainer,
   profileSection,
+  recycleBinLabelContainer,
+  recycleBinTreeWrapper,
+  recycleBinContainerOpen,
+  recycleBinContainerClosed,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { ToggleThemeButton } from '@/features/';
@@ -18,7 +23,7 @@ import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { Folder } from 'lucide-react';
+import { Folder, Trash2 } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
 import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
 import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
@@ -32,6 +37,7 @@ export function DirectoryTreeSection() {
   const { setTreeRef, setFocusedNode, setNewNodeName } = useTreeStore();
   const { handleCreate, handleDrag, handleRename, handleDelete } =
     useTreeHandlers();
+  const [isRecycleBinOpen, setIsRecycleBinOpen] = React.useState(false);
 
   const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
     if (instance && !treeRef.current) {
@@ -66,8 +72,10 @@ export function DirectoryTreeSection() {
           <div className={directoryLabel}>Directory</div>
           <AddFolderPopoverButton
             onEditEnded={(name: string) => {
-              treeRef.current?.createInternal();
               setNewNodeName(name);
+              setTimeout(() => {
+                treeRef.current?.createInternal();
+              }, 0);
             }}
           />
         </div>
@@ -101,36 +109,50 @@ export function DirectoryTreeSection() {
             </EditorContextMenu>
           )}
         </div>
-        <div className={directoryLabelContainer}>
-          <div className={directoryTreeWrapper}></div>
-          <Folder size={20} strokeWidth={1} />
-          <div className={directoryLabel}>Recycle Bin</div>
-        </div>
-        <div className={directoryTreeWrapper}>
-          <EditorContextMenu>
-            <Tree
-              ref={handleTreeRef}
-              className={directoryTree}
-              data={rootAndRecycleBinData?.recycleBin}
-              disableMultiSelection={true}
-              onFocus={(node: NodeApi) => {
-                setFocusedNode(node);
-              }}
-              onMove={handleDrag}
-              onCreate={handleCreate}
-              onRename={handleRename}
-              onDelete={handleDelete}
-              openByDefault={false}
-              width={width}
-              height={height}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-              dndManager={dragDropManager}
-            >
-              {DirectoryNode}
-            </Tree>
-          </EditorContextMenu>
+        <div
+          className={
+            isRecycleBinOpen
+              ? recycleBinContainerOpen
+              : recycleBinContainerClosed
+          }
+        >
+          <div
+            className={recycleBinLabelContainer}
+            onClick={() => {
+              setIsRecycleBinOpen(!isRecycleBinOpen);
+            }}
+          >
+            <Trash2 size={20} strokeWidth={1} />
+            <div className={directoryLabel}>Recycle Bin</div>
+          </div>
+          <div
+            className={
+              isRecycleBinOpen
+                ? recycleBinTreeWrapper
+                : recycleBinTreeWrapperClosed
+            }
+          >
+            <EditorContextMenu>
+              <Tree
+                className={directoryTree}
+                data={rootAndRecycleBinData?.recycleBin}
+                disableMultiSelection={true}
+                onMove={handleDrag}
+                onCreate={handleCreate}
+                onRename={handleRename}
+                onDelete={handleDelete}
+                openByDefault={false}
+                width={width}
+                height={height}
+                rowHeight={32}
+                indent={24}
+                overscanCount={1}
+                dndManager={dragDropManager}
+              >
+                {DirectoryNode}
+              </Tree>
+            </EditorContextMenu>
+          </div>
         </div>
       </div>
       <div className={directoryTreeSectionFooter}></div>

@@ -1,4 +1,3 @@
-// PopoverDemo.tsx
 import React, { useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
