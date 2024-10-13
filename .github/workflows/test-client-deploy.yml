@@ -4,7 +4,7 @@ name: Tech-pick Client Next.js Deploy
 on:
   push:
     branches:
-      - "frontend-deploy-test" # 테스트 완료시 frontend로 변경
+      - "frontend" # Frontend 브랜치와 연결
 
 jobs:
   build:
