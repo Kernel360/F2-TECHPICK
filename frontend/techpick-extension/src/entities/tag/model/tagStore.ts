@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { HTTPError } from 'ky';
+import { handleHTTPError } from '@/shared';
 import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
 import { getTagList, createTag, deleteTag, updateTag } from '../api';
 
@@ -78,7 +80,7 @@ export const useTagStore = create<TagState & TagAction>()(
           state.fetchingTagState.isPending = false;
         });
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof HTTPError) {
           set((state) => {
             state.fetchingTagState.isPending = false;
             state.fetchingTagState.isError = true;
@@ -105,7 +107,7 @@ export const useTagStore = create<TagState & TagAction>()(
 
         return newTag;
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof HTTPError) {
           set((state) => {
             state.postTagState = {
               isError: true,
@@ -113,6 +115,8 @@ export const useTagStore = create<TagState & TagAction>()(
               isPending: false,
             };
           });
+
+          await handleHTTPError(error);
         }
 
         return;
@@ -152,7 +156,7 @@ export const useTagStore = create<TagState & TagAction>()(
           state.selectedTagList.splice(selectedIndex, 1);
         });
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof HTTPError) {
           set((state) => {
             state.postTagState = {
               isError: true,
@@ -160,6 +164,8 @@ export const useTagStore = create<TagState & TagAction>()(
               isPending: false,
             };
           });
+
+          await handleHTTPError(error);
         }
       }
     },
@@ -208,7 +214,7 @@ export const useTagStore = create<TagState & TagAction>()(
           };
         });
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof HTTPError) {
           set((state) => {
             state.postTagState = {
               isError: true,
@@ -216,6 +222,8 @@ export const useTagStore = create<TagState & TagAction>()(
               isPending: false,
             };
           });
+
+          await handleHTTPError(error);
         }
       }
     },

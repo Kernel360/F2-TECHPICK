@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import sanitizeHtml from 'sanitize-html';
+import { notifyError } from '@/shared';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverTriggerButton } from './PopoverTriggerButton';
@@ -14,14 +15,14 @@ export function TagInfoEditPopoverButton({
 }: TagInfoEditPopoverButtonProps) {
   const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const { updateTag } = useTagStore();
+  const updateTag = useTagStore((state) => state.updateTag);
+
   const { refs, floatingStyles } = useFloating({
     open: isPopoverOpen,
     middleware: [shift({ padding: 4 })],
   });
 
   const closePopover = () => {
-    console.log('closePopover work');
     setIsPopoverOpen(false);
   };
 
@@ -38,8 +39,6 @@ export function TagInfoEditPopoverButton({
   };
 
   const handleSubmit = async (event?: React.FormEvent<HTMLFormElement>) => {
-    console.log('handleSubmit work');
-
     event?.preventDefault();
 
     if (!tagNameInputRef.current) {
@@ -54,16 +53,16 @@ export function TagInfoEditPopoverButton({
     }
 
     try {
+      closePopover();
       await updateTag({
         tagId: tag.tagId,
         tagName: newTagName,
         colorNumber: tag.colorNumber,
         tagOrder: tag.tagOrder,
       });
-      closePopover();
     } catch (error) {
       if (error instanceof Error) {
-        // TODO: Toast 알림
+        notifyError(error.message);
       }
     }
   };
@@ -98,17 +97,9 @@ export function TagInfoEditPopoverButton({
               defaultValue={tag.tagName}
               ref={tagNameInputRef}
               autoFocus
-              onKeyDown={(e) => {
-                handleInputKeyDown(e);
-              }}
+              onKeyDown={handleInputKeyDown}
             />
-            <ShowDeleteTagDialogButton
-              tag={tag}
-              onClick={() => {
-                console.log('ShowDeleteTagDialog wor');
-                closePopover();
-              }}
-            />
+            <ShowDeleteTagDialogButton tag={tag} onClick={closePopover} />
             <VisuallyHidden.Root>
               <button type="submit" aria-label="제출">
                 제출

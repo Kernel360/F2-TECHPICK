@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { Text, Button, Gap } from '@/shared';
+import { Text, Button, Gap, notifyError } from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
@@ -24,9 +24,14 @@ export function DeleteTagDialog() {
       return;
     }
 
-    // todo: delete 시에 선택된 태그라면 같이 제거되야함. 추가적인 login 필요.
-    deleteTag(deleteTagId);
-    closeDialog();
+    try {
+      deleteTag(deleteTagId);
+      closeDialog();
+    } catch (error) {
+      if (error instanceof Error) {
+        notifyError(error.message);
+      }
+    }
   };
 
   return (

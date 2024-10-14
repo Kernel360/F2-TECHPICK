@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
-import { numberToRandomColor } from '@/shared';
+import { notifyError, numberToRandomColor } from '@/shared';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -167,15 +167,23 @@ export function TagAutocompleteDialog({
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
             onSelect={async () => {
-              const newTag = await createTag({
-                tagName: tagInputValue,
-                colorNumber: randomNumber.current,
-              });
+              let newTag;
+
+              try {
+                newTag = await createTag({
+                  tagName: tagInputValue,
+                  colorNumber: randomNumber.current,
+                });
+              } catch (error) {
+                if (error instanceof Error) {
+                  notifyError(error.message);
+                }
+                return;
+              }
 
               randomNumber.current = getRandomInt();
 
               if (!newTag) {
-                // Todo: error handling
                 return;
               }
 
