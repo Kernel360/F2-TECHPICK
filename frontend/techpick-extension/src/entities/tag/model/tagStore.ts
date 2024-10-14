@@ -1,30 +1,30 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { TagType } from '../type';
-import { SAMPLE_DATA } from '@/constants';
+import { HTTPError } from 'ky';
+import { handleHTTPError } from '@/shared';
+import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
+import { getTagList, createTag, deleteTag, updateTag } from '../api';
 
 type TagState = {
   tagList: TagType[];
   selectedTagList: TagType[];
   fetchingTagState: { isError: boolean; isPending: boolean; data: TagType[] };
-  postTagState: { isError: boolean; isPending: boolean; isSuccess: boolean };
 };
 
 type TagAction = {
   selectTag: (tag: TagType) => void;
-  deselectTag: (tag: TagType) => void;
-  updateSelectedTagList: (updatedTag: TagType) => void;
+  deselectTag: (tagId: TagType['tagId']) => void;
+  updateSelectedTagList: (tag: TagType) => void;
   fetchingTagList: () => Promise<void>;
-  createTag: (newTagName: string) => Promise<TagType | undefined>;
-  deleteTag: (tagId: number) => Promise<void>;
-  updateTag: (updatedTag: TagType) => Promise<void>;
+  createTag: (tagData: CreateTagRequestType) => Promise<TagType | undefined>;
+  deleteTag: (tagId: TagType['tagId']) => Promise<void>;
+  updateTag: (updatedTag: TagUpdateType) => Promise<void>;
 };
 
 const initialState: TagState = {
   tagList: [],
   selectedTagList: [],
   fetchingTagState: { isError: false, isPending: false, data: [] },
-  postTagState: { isError: false, isPending: false, isSuccess: false },
 };
 
 export const useTagStore = create<TagState & TagAction>()(
@@ -32,7 +32,7 @@ export const useTagStore = create<TagState & TagAction>()(
     ...initialState,
     selectTag: (tag: TagType) =>
       set((state) => {
-        const exist = state.selectedTagList.some((t) => t.id === tag.id);
+        const exist = state.selectedTagList.some((t) => t.tagId === tag.tagId);
 
         // 이미 선택된 태그인지 확인
         if (exist) {
@@ -42,24 +42,26 @@ export const useTagStore = create<TagState & TagAction>()(
         state.selectedTagList.push(tag);
       }),
 
-    deselectTag: (tag: TagType) =>
+    deselectTag: (tagId) =>
       set((state) => {
         state.selectedTagList = state.selectedTagList.filter(
-          (t) => t.id !== tag.id
+          (t) => t.tagId !== tagId
         );
       }),
 
-    updateSelectedTagList: (updatedTag: TagType) => {
+    updateSelectedTagList: (updatedTag) => {
       set((state) => {
         const index = state.selectedTagList.findIndex(
-          (tag) => tag.id === updatedTag.id
+          (tag) => tag.tagId === updatedTag.tagId
         );
 
         if (index === -1) {
           return;
         }
 
-        state.selectedTagList[index] = { ...updatedTag };
+        state.selectedTagList[index] = {
+          ...updatedTag,
+        };
       });
     },
 
@@ -69,142 +71,154 @@ export const useTagStore = create<TagState & TagAction>()(
           state.fetchingTagState.isPending = true;
         });
 
-        // TODO 서버 통신 코드 호출.
-        setTimeout(() => {
-          set((state) => {
-            state.tagList = SAMPLE_DATA;
-            state.fetchingTagState.isPending = false;
-          });
-        }, 500);
+        const remoteTagList = await getTagList();
+
+        set((state) => {
+          state.tagList = [...remoteTagList];
+          state.fetchingTagState.isPending = false;
+        });
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof HTTPError) {
           set((state) => {
             state.fetchingTagState.isPending = false;
             state.fetchingTagState.isError = true;
           });
+
+          if (error instanceof HTTPError) {
+            await handleHTTPError(error);
+          }
         }
       }
 
       return;
     },
 
-    createTag: async (newTagName: string) => {
+    createTag: async (tagData) => {
       try {
+        const newTag = await createTag(tagData);
+
         set((state) => {
-          state.postTagState.isPending = true;
-        });
-
-        // TODO: 나중에 비동기 더하기
-        const newTag = await new Promise<TagType>((resolve) => {
-          setTimeout(() => {
-            const tag: TagType = {
-              id: Date.now(),
-              name: newTagName,
-            };
-
-            set((state) => {
-              state.tagList.push(tag);
-              state.postTagState.isPending = false;
-              state.postTagState.isSuccess = true;
-            });
-
-            resolve(tag);
-          }, 500);
+          state.tagList.push(newTag!);
         });
 
         return newTag;
       } catch (error) {
-        if (error instanceof Error) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
-            };
-          });
+        if (error instanceof HTTPError) {
+          await handleHTTPError(error);
         }
-
-        return;
       }
     },
 
     deleteTag: async (tagId: number) => {
+      let temporalDeleteTargetTag: TagType | undefined;
+      let deleteTargetTagIndex = -1;
+      let isSelected = false;
+      let deleteTargetSelectedIndex = -1;
+
       try {
         set((state) => {
-          state.postTagState = { ...state.postTagState, isPending: true };
+          deleteTargetTagIndex = state.tagList.findIndex(
+            (tag) => tag.tagId === tagId
+          );
+          deleteTargetSelectedIndex = state.selectedTagList.findIndex(
+            (tag) => tag.tagId === tagId
+          );
+
+          if (deleteTargetTagIndex !== -1) {
+            temporalDeleteTargetTag = {
+              ...state.tagList[deleteTargetTagIndex],
+            };
+            state.tagList.splice(deleteTargetTagIndex, 1);
+          }
+
+          if (deleteTargetSelectedIndex !== -1) {
+            isSelected = true;
+            state.selectedTagList.splice(deleteTargetSelectedIndex, 1);
+          }
         });
 
-        // TODO: 나중에 비동기 붙이기.
-        setTimeout(() => {
-          set((state) => {
-            const index = state.tagList.findIndex((tag) => tag.id === tagId);
-
-            if (index === -1) {
-              return;
-            }
-
-            state.tagList.splice(index, 1); // 태그 삭제
-            state.postTagState = {
-              ...state.postTagState,
-              isPending: false,
-              isSuccess: true,
-            };
-          });
-        }, 500);
+        await deleteTag(tagId);
       } catch (error) {
-        if (error instanceof Error) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
-            };
-          });
+        set((state) => {
+          if (!temporalDeleteTargetTag) {
+            return;
+          }
+
+          state.tagList.splice(
+            deleteTargetTagIndex,
+            0,
+            temporalDeleteTargetTag
+          );
+
+          if (isSelected) {
+            state.selectedTagList.splice(
+              deleteTargetSelectedIndex,
+              0,
+              temporalDeleteTargetTag
+            );
+          }
+        });
+
+        if (error instanceof HTTPError) {
+          await handleHTTPError(error);
         }
       }
     },
 
-    updateTag: async (updatedTag: TagType) => {
+    updateTag: async (updatedTag) => {
+      let previousTag: TagType | undefined;
+      let previousSelectedTag: TagType | undefined;
+
       try {
-        // TODO: optimistic update 추가
-        set((state) => {
-          state.postTagState = { ...state.postTagState, isPending: true };
-        });
-
-        // TODO: 비동기 처리 예시. 나중에 서버 통신 등으로 교체.
-        await new Promise<void>((resolve) => {
-          setTimeout(() => {
-            // Promise를 resolve하여 비동기 처리가 끝났음을 알림
-            resolve();
-          }, 500);
-        });
-
         set((state) => {
           const index = state.tagList.findIndex(
-            (tag) => tag.id === updatedTag.id
+            (tag) => tag.tagId === updatedTag.tagId
           );
 
-          if (index === -1) {
-            return;
+          if (index !== -1) {
+            previousTag = { ...state.tagList[index] };
+            state.tagList[index] = {
+              userId: state.tagList[index].userId,
+              ...updatedTag,
+            };
           }
 
-          // 태그 업데이트
-          state.tagList[index] = updatedTag;
-          state.postTagState = {
-            ...state.postTagState,
-            isPending: false,
-            isSuccess: true,
-          };
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
+          const selectedTagListIndex = state.selectedTagList.findIndex(
+            (tag) => tag.tagId === data.tagId
+          );
+
+          if (selectedTagListIndex !== -1) {
+            previousSelectedTag = {
+              ...state.selectedTagList[selectedTagListIndex],
             };
-          });
+            state.selectedTagList[selectedTagListIndex] = {
+              ...updatedTag,
+              userId: state.selectedTagList[selectedTagListIndex].userId,
+            };
+          }
+        });
+
+        const dataList = await updateTag(updatedTag);
+        const data = dataList[0];
+      } catch (error) {
+        set((state) => {
+          if (previousTag) {
+            const index = state.tagList.findIndex(
+              (tag) => tag.tagId === previousTag?.tagId
+            );
+            state.tagList[index] = previousTag;
+          }
+
+          if (previousSelectedTag) {
+            const selectedIndex = state.selectedTagList.findIndex(
+              (tag) => tag.tagId === previousSelectedTag?.tagId
+            );
+            state.selectedTagList[selectedIndex] = previousSelectedTag;
+          }
+        });
+
+        if (error instanceof HTTPError) {
+          await handleHTTPError(error);
         }
       }
     },

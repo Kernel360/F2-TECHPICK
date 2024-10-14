@@ -1,6 +1,6 @@
 import { createMemoryRouter } from 'react-router-dom';
 import { LoginGuard } from '@/features/auth';
-import { BookmarkPage, LoginPage } from '@/pages';
+import { BookmarkPage, LoginPage, ErrorPage } from '@/pages';
 
 export const router = createMemoryRouter([
   {
@@ -10,6 +10,7 @@ export const router = createMemoryRouter([
         <BookmarkPage />
       </LoginGuard>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: '/login',

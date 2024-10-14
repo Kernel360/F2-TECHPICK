@@ -13,7 +13,7 @@ export function DeselectTagButton({
       type="button"
       className={DeselectTagButtonStyle}
       onClick={() => {
-        deselectTag(tag);
+        deselectTag(tag.tagId);
         onClick();
       }}
     >

@@ -1,98 +1,114 @@
 import { useRef, useState } from 'react';
-import * as Popover from '@radix-ui/react-popover';
+import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import sanitizeHtml from 'sanitize-html';
+import { notifyError } from '@/shared';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverTriggerButton } from './PopoverTriggerButton';
 import { PopoverOverlay } from './PopoverOverlay';
 import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
-import { tagInfoEditPopoverContent } from './TagInfoEditPopoverButton.css';
+import { tagInfoEditFormLayout } from './TagInfoEditPopoverButton.css';
 
 export function TagInfoEditPopoverButton({
   tag,
 }: TagInfoEditPopoverButtonProps) {
-  const tagInfoEditPopoverButtonRef = useRef<HTMLButtonElement | null>(null);
   const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const { updateTag, updateSelectedTagList } = useTagStore();
+  const updateTag = useTagStore((state) => state.updateTag);
 
-  const openPopover = () => {
-    setIsPopoverOpen(true);
-  };
+  const { refs, floatingStyles } = useFloating({
+    open: isPopoverOpen,
+    middleware: [shift({ padding: 4 })],
+  });
 
   const closePopover = () => {
     setIsPopoverOpen(false);
   };
 
-  // radix-ui popover는 space key를 이용해 popover를 열고 닫습니다.
-  // 따라서 space key를 입력 시 값을 더하는 식으로 우회했습니다.
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === ' ' && tagNameInputRef?.current) {
+    if (e.key === ' ' && tagNameInputRef.current) {
       tagNameInputRef.current.value += ' ';
       e.preventDefault();
     }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit();
+    }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (event?: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
 
-    if (!tagNameInputRef?.current) {
+    if (!tagNameInputRef.current) {
       return;
     }
 
     const newTagName = sanitizeHtml(tagNameInputRef.current.value.trim());
 
-    if (isEmptyString(newTagName) || isSameValue(newTagName, tag.name)) {
+    if (isEmptyString(newTagName) || isSameValue(newTagName, tag.tagName)) {
       closePopover();
       return;
     }
 
     try {
-      await updateTag({ id: tag.id, name: newTagName });
-      updateSelectedTagList({ id: tag.id, name: newTagName });
       closePopover();
+      await updateTag({
+        tagId: tag.tagId,
+        tagName: newTagName,
+        colorNumber: tag.colorNumber,
+        tagOrder: tag.tagOrder,
+      });
     } catch (error) {
       if (error instanceof Error) {
-        // TODO:  Toast 알림
+        notifyError(error.message);
       }
     }
   };
 
   return (
-    <Popover.Root open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+    <>
       <PopoverTriggerButton
-        openPopover={openPopover}
-        ref={tagInfoEditPopoverButtonRef}
+        ref={refs.setReference}
+        onClick={(e) => {
+          e.stopPropagation(); // 옵션 버튼을 눌렀을 때, 해당 태그를 선택하는 onSelect를 막기 위헤서 전파 방지
+          setIsPopoverOpen(true);
+        }}
       />
-      {isPopoverOpen && <PopoverOverlay onClick={closePopover} />}
-      <Popover.Portal container={tagInfoEditPopoverButtonRef.current}>
-        <Popover.Content
-          className={tagInfoEditPopoverContent}
-          // 아래의 stopPropagation은 Enter시에 Popover 창이 닫히는 걸 막습니다.
-          onKeyDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <form onSubmit={handleSubmit}>
+      {isPopoverOpen && (
+        <>
+          <PopoverOverlay
+            onClick={(e) => {
+              closePopover();
+              e.stopPropagation();
+            }}
+          />
+          <form
+            onSubmit={handleSubmit}
+            className={tagInfoEditFormLayout}
+            ref={refs.setFloating}
+            style={floatingStyles}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
             <input
               type="text"
-              defaultValue={tag.name}
+              defaultValue={tag.tagName}
               ref={tagNameInputRef}
               autoFocus
               onKeyDown={handleInputKeyDown}
             />
             <ShowDeleteTagDialogButton tag={tag} onClick={closePopover} />
-
             <VisuallyHidden.Root>
               <button type="submit" aria-label="제출">
                 제출
               </button>
             </VisuallyHidden.Root>
           </form>
-          <Popover.Close aria-label="Close"></Popover.Close>
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+        </>
+      )}
+    </>
   );
 }
 

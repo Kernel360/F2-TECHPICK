@@ -1,11 +1,16 @@
+import { CSSProperties } from 'react';
+import { numberToRandomColor } from '@/shared';
 import { tagTypes } from '@/entities/tag';
 import { SelectedTagContent } from './SelectedTagContent';
 import { SelectedTagLayout } from './SelectedTagLayout';
 
 export function SelectedTagItem({ tag, children }: SelectedTagItemProps) {
+  const backgroundColor = numberToRandomColor(tag.colorNumber);
+  const style: CSSProperties = { backgroundColor };
+
   return (
-    <SelectedTagLayout>
-      <SelectedTagContent>{tag.name}</SelectedTagContent>
+    <SelectedTagLayout style={style}>
+      <SelectedTagContent>{tag.tagName}</SelectedTagContent>
       {children}
     </SelectedTagLayout>
   );

@@ -1,9 +1,10 @@
 import { style } from '@vanilla-extract/css';
+import { SelectedTagCommonStyle } from './SelectedTagCommonStyle.css';
 
 export const selectedTagLayoutStyle = style({
   display: 'inline-flex',
   alignItems: 'center',
-  maxWidth: 'calc(200px - 20px)', // maxWidth는 SelectedListLayout과 같아야함.
+  maxWidth: `calc(${SelectedTagCommonStyle.width})`,
   height: '20px',
-  backgroundColor: 'silver',
+  borderRadius: '4px',
 });

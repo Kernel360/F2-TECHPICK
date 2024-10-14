@@ -47,6 +47,9 @@ export const buttonBackgroundVariants = styleVariants({
   secondary: {
     backgroundColor: '#666666',
   },
+  warning: {
+    backgroundColor: '#CC4C4C',
+  },
 });
 
 export type buttonBackgroundVariantKeyTypes =
@@ -57,7 +60,25 @@ export const buttonStyle = style({
   borderRadius: '4px',
 
   ':hover': {
-    backgroundColor: 'black', // hover 시 배경색
-    transition: 'background-color 0.3s ease', // 애니메이션 효과
+    transition: 'background-color 0.3s ease',
   },
+
+  ':focus': {
+    outline: 'none',
+    transition: 'background-color 0.3s ease',
+  },
+
+  selectors: {
+    '&[data-variant="primary"]:hover, &[data-variant="primary"]:focus': {
+      backgroundColor: 'black',
+    },
+
+    '&[data-variant="warning"]:hover, &[data-variant="warning"]:focus': {
+      backgroundColor: '#FF5C5C',
+    },
+  },
+});
+
+export const wideButtonStyle = style({
+  width: '100%',
 });

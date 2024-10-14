@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react';
 import { fetchFaviconAndDescription } from './useGetTabInfo.lib';
 
 interface TabInfo {
-  title: string | undefined;
-  url: string | undefined;
-  favicon?: string | undefined | null;
-  ogDescription?: string | undefined | null;
+  title: string;
+  url: string;
+  ogDescription: string;
+  ogImage: string;
 }
 
 export function useGetTabInfo() {
   const [tabInfo, setTabInfo] = useState<TabInfo>({
-    title: undefined,
-    url: undefined,
+    title: '',
+    url: '',
+    ogImage: '',
+    ogDescription: '',
   });
 
   useEffect(() => {
@@ -22,10 +24,12 @@ export function useGetTabInfo() {
         currentWindow: true,
       });
       const tab = tabs[0];
-      setTabInfo({
-        title: tab.title,
-        url: tab.url,
-      });
+
+      setTabInfo((prev) => ({
+        ...prev,
+        title: tab.title ?? '',
+        url: tab.url ?? '',
+      }));
 
       // http가 아닌 다른 URL(ex: chrome)은 권한이 없어서 확장 프로그램에서 에러가 날 수 있습니다.
       if (tab.url && !tab.url.startsWith('http')) {
@@ -44,8 +48,8 @@ export function useGetTabInfo() {
 
       setTabInfo((prev) => ({
         ...prev,
-        favicon: result?.faviconUrl,
-        ogDescription: result?.ogDescription,
+        ogDescription: result.ogDescription,
+        ogImage: result.ogImage,
       }));
     };
 
