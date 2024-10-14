@@ -47,7 +47,8 @@ public class SecurityConfig {
 			.formLogin(AbstractHttpConfigurer::disable)
 			.logout(config -> {
 				config.logoutUrl("/api/logout")
-					.addLogoutHandler(techpickLogoutHandler);
+					.addLogoutHandler(techpickLogoutHandler)
+					.logoutSuccessHandler(techpickLogoutHandler);
 			})
 			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			// TokenAuthenticationFilter 를 UsernamePasswordAuthenticationFilter 앞에 추가
