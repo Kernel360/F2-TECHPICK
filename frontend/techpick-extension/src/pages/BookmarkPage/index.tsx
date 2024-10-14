@@ -1,4 +1,4 @@
-import sanitizeHtml from 'sanitize-html';
+import DOMPurify from 'dompurify';
 import {
   Button,
   Text,
@@ -49,8 +49,8 @@ export function BookmarkPage() {
     const userMemo = memoInputRef.current?.value ?? '';
 
     createPick({
-      title: sanitizeHtml(userModifiedTitle),
-      memo: sanitizeHtml(userMemo),
+      title: DOMPurify.sanitize(userModifiedTitle),
+      memo: DOMPurify.sanitize(userMemo),
       tagIdList: selectedTagList.map((tag) => tag.tagId),
       linkRequest: {
         title,
