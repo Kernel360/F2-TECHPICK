@@ -75,11 +75,11 @@ public class PickService {
 		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
 	}
 
-	// 미분류 폴더에 있는 픽 리스트 조회
 	@Transactional(readOnly = true)
-	public List<PickResponse> getPickListByUnclassified() {
-		List<Pick> picks = pickProvider.findAllByUnclassified(userService.getCurrentUser());
-		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
+	public Long getPickIdByUrl(String url) {
+		User user = userService.getCurrentUser();
+		Pick pick = pickProvider.getByUserAndLinkUrl(user, url);
+		return pick.getId();
 	}
 
 	// 픽 생성

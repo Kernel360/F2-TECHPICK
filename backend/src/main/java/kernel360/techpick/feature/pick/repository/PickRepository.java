@@ -1,6 +1,7 @@
 package kernel360.techpick.feature.pick.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -22,4 +23,6 @@ public interface PickRepository extends JpaRepository<Pick, Long> {
 	List<Pick> findAllByUserAndParentFolderFolderType(User user, FolderType folderType);
 
 	boolean existsByUserAndLinkUrl(User user, String url);
+
+	Optional<Pick> getByUserAndLinkUrl(User user, String url);
 }

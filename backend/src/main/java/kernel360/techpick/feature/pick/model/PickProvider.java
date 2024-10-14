@@ -2,6 +2,7 @@ package kernel360.techpick.feature.pick.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,11 @@ public class PickProvider {
 
 	public boolean existsByUserAndLinkUrl(User user, String url) {
 		return pickRepository.existsByUserAndLinkUrl(user, url);
+	}
+
+	public Pick getByUserAndLinkUrl(User user, String url) {
+		return pickRepository.getByUserAndLinkUrl(user, url)
+			.orElseThrow(ApiPickException::PICK_NOT_FOUND);
 	}
 
 	public Pick save(Pick pick) {

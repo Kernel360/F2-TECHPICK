@@ -32,15 +32,20 @@ public class SecurityConfig {
 	@Value("${api.base-url}")
 	private String baseUrl;
 
+	public static final String ACCESS_TOKEN_KEY = "access_token";
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// TODO: 이후 설정 추가 필요
 		http
-			.csrf(AbstractHttpConfigurer::disable)
+			// .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화 시 logout 했을 때 GET 메서드로 요청됨. POST로만 보내도록 하기 위해 주석 처리
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.httpBasic(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
-			.logout(AbstractHttpConfigurer::disable)
+			.logout(config -> {
+				config.logoutUrl("/api/logout")
+					.deleteCookies("JSESSIONID", SecurityConfig.ACCESS_TOKEN_KEY);
+			})
 			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			// TokenAuthenticationFilter 를 UsernamePasswordAuthenticationFilter 앞에 추가
 			.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -79,7 +84,8 @@ public class SecurityConfig {
 			baseUrl, /* from env */
 			"https://local.minlife.me:3000" /* Frontend Local */,
 			"https://app.minlife.me" /* Frontend App server */,
-			"chrome-extension://nijonkmmpngclkmeddmgjgdhjefmnmbm" /* Chrome Extension */
+			"chrome-extension://nijonkmmpngclkmeddmgjgdhjefmnmbm", /* Chrome Extension Local */
+			"chrome-extension://bbnefnfpfhiebljiigajahhbbkgndjne" /* Chrome Extension Deploy */
 		));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));

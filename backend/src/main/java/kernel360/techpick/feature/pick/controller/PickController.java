@@ -43,21 +43,16 @@ public class PickController implements PickApi {
 	}
 
 	@Override
+	@GetMapping("/url/{url}")
+	public ResponseEntity<Long> getPickIdByUrl(@PathVariable String url) {
+		return ResponseEntity.ok(pickService.getPickIdByUrl(url));
+	}
+
+	@Override
 	@GetMapping(params = "parentId")
 	public ResponseEntity<List<PickResponse>> getPickListByParentFolderId(
 		@RequestParam(value = "parentId", required = false) Long parentFolderId) {
 		return ResponseEntity.ok(pickService.getPickListByParentFolderId(parentFolderId));
-	}
-
-	@Override
-	@GetMapping(params = "folderType")
-	public ResponseEntity<List<PickResponse>> getPickListByUnclassified(
-		@RequestParam(required = false, defaultValue = "UNCLASSIFIED") FolderType folderType) {
-		if (FolderType.getUnclassifiedFolderTypes().contains(folderType)) {
-			return ResponseEntity.ok(pickService.getPickListByUnclassified());
-		}
-
-		return ResponseEntity.notFound().build();
 	}
 
 	@Override

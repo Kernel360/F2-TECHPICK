@@ -30,6 +30,22 @@ public interface PickApi {
 	ResponseEntity<PickResponse> getPickById(Long pickId);
 
 	@Operation(
+		summary = "URL로 픽 조회",
+		description = "URL로 픽 id를 획득합니다."
+	)
+	@ApiResponses(value = {
+		@ApiResponse(
+			responseCode = "200",
+			description = "픽 id 획득에 성공하였습니다."
+		),
+		@ApiResponse(
+			responseCode = "404",
+			description = "픽 id가 존재하지 않습니다."
+		)
+	})
+	ResponseEntity<Long> getPickIdByUrl(String url);
+
+	@Operation(
 		summary = "사용자 픽 리스트 조회",
 		description = "사용자가 가진 모든 픽 리스트를 조회합니다."
 	)
@@ -52,18 +68,6 @@ public interface PickApi {
 		)
 	})
 	ResponseEntity<List<PickResponse>> getPickListByParentFolderId(Long parentFolderId);
-
-	@Operation(
-		summary = "미분류 폴더에 있는 픽 리스트 조회",
-		description = "미분류 폴더에 있는 모든 픽 리스트를 조회합니다."
-	)
-	@ApiResponses(value = {
-		@ApiResponse(
-			responseCode = "200",
-			description = "미분류 폴더 픽 리스트 조회에 성공하였습니다."
-		)
-	})
-	ResponseEntity<List<PickResponse>> getPickListByUnclassified(FolderType folderType);
 
 	@Operation(
 		summary = "픽 생성",
