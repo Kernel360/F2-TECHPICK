@@ -102,8 +102,6 @@ export const useTagStore = create<TagState & TagAction>()(
         if (error instanceof HTTPError) {
           await handleHTTPError(error);
         }
-
-        return;
       }
     },
 
