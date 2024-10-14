@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kernel360.techpick.core.auth.model.OAuth2UserInfo;
+import kernel360.techpick.core.config.SecurityConfig;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.CookieUtil;
 import kernel360.techpick.core.util.JwtUtil;
@@ -24,7 +25,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private final JwtUtil jwtUtil;
 	private final UserRepository userRepository;
 	private static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
-	private static final String ACCESS_TOKEN_KEY = "access_token";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -53,7 +53,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 		int cookieMaxAge = (int)ACCESS_TOKEN_DURATION.toSeconds();
 
-		CookieUtil.deleteCookie(request, response, ACCESS_TOKEN_KEY);
-		CookieUtil.addCookie(response, ACCESS_TOKEN_KEY, refreshToken, cookieMaxAge);
+		CookieUtil.deleteCookie(request, response, SecurityConfig.ACCESS_TOKEN_KEY);
+		CookieUtil.addCookie(response, SecurityConfig.ACCESS_TOKEN_KEY, refreshToken, cookieMaxAge);
 	}
 }
