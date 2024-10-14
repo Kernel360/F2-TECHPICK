@@ -61,6 +61,21 @@ export function TagAutocompleteDialog({
     clearTagInputValue();
   };
 
+  const onSelectCreatableTag = async () => {
+    try {
+      const newTag = await createTag({
+        tagName: tagInputValue,
+        colorNumber: randomNumber.current,
+      });
+      randomNumber.current = getRandomInt();
+      onSelectTag(newTag!);
+    } catch (error) {
+      if (error instanceof Error) {
+        notifyError(error.message);
+      }
+    }
+  };
+
   useEffect(
     function fetchTagList() {
       fetchingTagList();
@@ -144,29 +159,7 @@ export function TagAutocompleteDialog({
             className={tagListItemStyle}
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
-            onSelect={async () => {
-              let newTag;
-
-              try {
-                newTag = await createTag({
-                  tagName: tagInputValue,
-                  colorNumber: randomNumber.current,
-                });
-              } catch (error) {
-                if (error instanceof Error) {
-                  notifyError(error.message);
-                }
-                return;
-              }
-
-              randomNumber.current = getRandomInt();
-
-              if (!newTag) {
-                return;
-              }
-
-              onSelectTag(newTag);
-            }}
+            onSelect={onSelectCreatableTag}
             disabled={!canCreateTag}
           >
             <span
