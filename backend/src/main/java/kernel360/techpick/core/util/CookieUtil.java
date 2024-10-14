@@ -18,7 +18,7 @@ public class CookieUtil {
 			.path("/")
 			.httpOnly(true)
 			.secure(true)
-			.domain("minlife.me")
+		    .domain("minlife.me") // WARN: must be set for Production
 			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", responseCookie.toString());
@@ -28,7 +28,7 @@ public class CookieUtil {
 			.maxAge(maxAge)
 			.path("/")
 			.secure(true)
-			.domain("minlife.me")
+			.domain("minlife.me") // WARN: must be set for Production
 			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", techPickLoginCookie.toString());
@@ -48,6 +48,7 @@ public class CookieUtil {
 				cookie.setValue("");
 				cookie.setPath("/");
 				cookie.setMaxAge(0);
+				cookie.setDomain("minlife.me"); // WARN: must be set for Production
 				cookie.setHttpOnly(true);
 				response.addCookie(cookie);
 			}

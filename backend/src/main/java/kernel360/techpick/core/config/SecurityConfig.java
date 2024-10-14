@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import kernel360.techpick.core.auth.Filter.TokenAuthenticationFilter;
 import kernel360.techpick.core.auth.handler.OAuth2SuccessHandler;
+import kernel360.techpick.core.auth.handler.TechpickLogoutHandler;
 import kernel360.techpick.core.auth.service.CustomOAuth2Service;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class SecurityConfig {
 	private final CustomOAuth2Service customOAuth2Service;
 	private final OAuth2SuccessHandler oAuth2SuccessHandler;
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
+	private final TechpickLogoutHandler techpickLogoutHandler;
 
 	@Value("${api.base-url}")
 	private String baseUrl;
@@ -44,7 +46,7 @@ public class SecurityConfig {
 			.formLogin(AbstractHttpConfigurer::disable)
 			.logout(config -> {
 				config.logoutUrl("/api/logout")
-					.deleteCookies("JSESSIONID", SecurityConfig.ACCESS_TOKEN_KEY);
+					.addLogoutHandler(techpickLogoutHandler);
 			})
 			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			// TokenAuthenticationFilter 를 UsernamePasswordAuthenticationFilter 앞에 추가
