@@ -123,7 +123,9 @@ export const useTagStore = create<TagState & TagAction>()(
           );
 
           if (deleteTargetTagIndex !== -1) {
-            temporalDeleteTargetTag = state.tagList[deleteTargetTagIndex];
+            temporalDeleteTargetTag = {
+              ...state.tagList[deleteTargetTagIndex],
+            };
             state.tagList.splice(deleteTargetTagIndex, 1);
           }
 
@@ -162,40 +164,57 @@ export const useTagStore = create<TagState & TagAction>()(
     },
 
     updateTag: async (updatedTag) => {
+      let previousTag: TagType | undefined;
+      let previousSelectedTag: TagType | undefined;
+
       try {
-        // TODO: optimistic update 추가
-
-        const dataList = await updateTag(updatedTag);
-        const data = dataList[0];
-
         set((state) => {
           const index = state.tagList.findIndex(
-            (tag) => tag.tagId === data.tagId
+            (tag) => tag.tagId === updatedTag.tagId
           );
 
-          if (index === -1) {
-            return;
+          if (index !== -1) {
+            previousTag = { ...state.tagList[index] };
+            state.tagList[index] = {
+              userId: state.tagList[index].userId,
+              ...updatedTag,
+            };
           }
-
-          state.tagList[index] = {
-            ...data,
-            userId: state.tagList[index].userId,
-          };
 
           const selectedTagListIndex = state.selectedTagList.findIndex(
             (tag) => tag.tagId === data.tagId
           );
 
-          if (selectedTagListIndex === -1) {
-            return;
+          if (selectedTagListIndex !== -1) {
+            previousSelectedTag = {
+              ...state.selectedTagList[selectedTagListIndex],
+            };
+            state.selectedTagList[selectedTagListIndex] = {
+              ...updatedTag,
+              userId: state.selectedTagList[selectedTagListIndex].userId,
+            };
+          }
+        });
+
+        const dataList = await updateTag(updatedTag);
+        const data = dataList[0];
+      } catch (error) {
+        set((state) => {
+          if (previousTag) {
+            const index = state.tagList.findIndex(
+              (tag) => tag.tagId === previousTag?.tagId
+            );
+            state.tagList[index] = previousTag;
           }
 
-          state.selectedTagList[selectedTagListIndex] = {
-            ...data,
-            userId: state.selectedTagList[selectedTagListIndex].userId,
-          };
+          if (previousSelectedTag) {
+            const selectedIndex = state.selectedTagList.findIndex(
+              (tag) => tag.tagId === previousSelectedTag?.tagId
+            );
+            state.selectedTagList[selectedIndex] = previousSelectedTag;
+          }
         });
-      } catch (error) {
+
         if (error instanceof HTTPError) {
           await handleHTTPError(error);
         }
