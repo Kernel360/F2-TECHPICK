@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import sanitizeHtml from 'sanitize-html';
+import DOMPurify from 'dompurify';
 import { notifyError } from '@/shared';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
@@ -45,7 +45,7 @@ export function TagInfoEditPopoverButton({
       return;
     }
 
-    const newTagName = sanitizeHtml(tagNameInputRef.current.value.trim());
+    const newTagName = DOMPurify.sanitize(tagNameInputRef.current.value.trim());
 
     if (isEmptyString(newTagName) || isSameValue(newTagName, tag.tagName)) {
       closePopover();
