@@ -88,10 +88,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 미분류 폴더에 있는 픽 리스트 조회
-         * @description 미분류 폴더에 있는 모든 픽 리스트를 조회합니다.
+         * 폴더에 있는 픽 리스트 조회
+         * @description 해당 폴더에 있는 모든 픽 리스트를 조회합니다.
          */
-        get: operations["getPickListByUser_1_1"];
+        get: operations["getPickListByUser_1"];
         /**
          * 픽 수정
          * @description 픽을 수정합니다. (제목, 내용, 태그)
@@ -172,22 +172,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/test": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["connectionTest"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/structures": {
         parameters: {
             query?: never;
@@ -220,6 +204,26 @@ export interface paths {
          * @description 하나의 픽에 대한 상세 정보를 조회합니다.
          */
         get: operations["getPickById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/picks/url/{url}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * URL로 픽 조회
+         * @description URL로 픽 id를 획득합니다.
+         */
+        get: operations["getPickIdByUrl"];
         put?: never;
         post?: never;
         delete?: never;
@@ -686,11 +690,10 @@ export interface operations {
             };
         };
     };
-    getPickListByUser_1_1: {
+    getPickListByUser_1: {
         parameters: {
             query?: {
                 parentId?: number;
-                folderType?: "UNCLASSIFIED" | "RECYCLE_BIN" | "ROOT" | "GENERAL";
             };
             header?: never;
             path?: never;
@@ -698,7 +701,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description 미분류 폴더 픽 리스트 조회에 성공하였습니다. */
+            /** @description 폴더 픽 리스트 조회에 성공하였습니다. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -892,26 +895,6 @@ export interface operations {
             };
         };
     };
-    connectionTest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-        };
-    };
     getStructure: {
         parameters: {
             query?: never;
@@ -950,6 +933,37 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PickResponse"];
+                };
+            };
+        };
+    };
+    getPickIdByUrl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                url: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 픽 id 획득에 성공하였습니다. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": number;
+                };
+            };
+            /** @description 픽 id가 존재하지 않습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": number;
                 };
             };
         };
