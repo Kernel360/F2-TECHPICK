@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, memo, KeyboardEvent, MouseEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Text, Button, Gap, notifyError } from '@/shared';
@@ -6,7 +6,7 @@ import { useTagStore } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
 
-export function DeleteTagDialog() {
+export const DeleteTagDialog = memo(function DeleteTagDialog() {
   const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
   const { deleteTag } = useTagStore();
   const { deleteTagId, isOpen, setIsOpen } = useDeleteTagDialogStore();
@@ -15,11 +15,15 @@ export function DeleteTagDialog() {
     setIsOpen(false);
   };
 
-  const handleDeleteTag = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
+  const closeDialogByEnterKey = (event: KeyboardEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
 
+    if (event.key === 'Enter') {
+      closeDialog();
+    }
+  };
+
+  const handleDeleteTag = async () => {
     if (!deleteTagId) {
       return;
     }
@@ -31,6 +35,19 @@ export function DeleteTagDialog() {
       if (error instanceof Error) {
         notifyError(error.message);
       }
+    }
+  };
+
+  const DeleteTagByClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    await handleDeleteTag();
+  };
+
+  const DeleteTagByEnterKey = async (e: KeyboardEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (e.key === 'Enter') {
+      await handleDeleteTag();
     }
   };
 
@@ -50,7 +67,8 @@ export function DeleteTagDialog() {
 
           <div>
             <Button
-              onClick={handleDeleteTag}
+              onClick={DeleteTagByClick}
+              onKeyDown={DeleteTagByEnterKey}
               size="xs"
               background="warning"
               wide
@@ -62,6 +80,7 @@ export function DeleteTagDialog() {
               <Button
                 ref={cancelButtonRef}
                 onClick={closeDialog}
+                onKeyDown={closeDialogByEnterKey}
                 size="xs"
                 wide
               >
@@ -73,4 +92,4 @@ export function DeleteTagDialog() {
       </Dialog.Portal>
     </Dialog.Root>
   );
-}
+});
