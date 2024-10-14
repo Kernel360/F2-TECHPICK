@@ -38,7 +38,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		// TODO: 이후 설정 추가 필요
 		http
-			// .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화 시 logout 했을 때 GET 메서드로 요청됨. POST로만 보내도록 하기 위해 주석 처리
+			.csrf(AbstractHttpConfigurer::disable) // csrf 비활성화 시 logout 했을 때 GET 메서드로 요청됨. POST로만 보내도록 하기 위해 주석 처리
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.httpBasic(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
