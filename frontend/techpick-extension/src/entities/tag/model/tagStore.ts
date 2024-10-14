@@ -98,7 +98,7 @@ export const useTagStore = create<TagState & TagAction>()(
         const newTag = await createTag(tagData);
 
         set((state) => {
-          state.tagList.push(newTag!);
+          state.tagList.push(newTag);
         });
 
         return newTag;
@@ -184,7 +184,7 @@ export const useTagStore = create<TagState & TagAction>()(
           }
 
           const selectedTagListIndex = state.selectedTagList.findIndex(
-            (tag) => tag.tagId === data.tagId
+            (tag) => tag.tagId === updatedTag.tagId
           );
 
           if (selectedTagListIndex !== -1) {
@@ -198,8 +198,7 @@ export const useTagStore = create<TagState & TagAction>()(
           }
         });
 
-        const dataList = await updateTag(updatedTag);
-        const data = dataList[0];
+        await updateTag(updatedTag);
       } catch (error) {
         set((state) => {
           if (previousTag) {

@@ -53,13 +53,13 @@ export function TagInfoEditPopoverButton({
     }
 
     try {
-      closePopover();
       await updateTag({
         tagId: tag.tagId,
         tagName: newTagName,
         colorNumber: tag.colorNumber,
         tagOrder: tag.tagOrder,
       });
+      closePopover();
     } catch (error) {
       if (error instanceof Error) {
         notifyError(error.message);
