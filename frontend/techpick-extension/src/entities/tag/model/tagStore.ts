@@ -83,6 +83,10 @@ export const useTagStore = create<TagState & TagAction>()(
             state.fetchingTagState.isPending = false;
             state.fetchingTagState.isError = true;
           });
+
+          if (error instanceof HTTPError) {
+            await handleHTTPError(error);
+          }
         }
       }
 
