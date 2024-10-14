@@ -15,7 +15,7 @@ export function DeleteTagDialog() {
     setIsOpen(false);
   };
 
-  const handleDeleteTag = (
+  const handleDeleteTag = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
@@ -25,8 +25,8 @@ export function DeleteTagDialog() {
     }
 
     try {
-      deleteTag(deleteTagId);
       closeDialog();
+      await deleteTag(deleteTagId);
     } catch (error) {
       if (error instanceof Error) {
         notifyError(error.message);

@@ -9,7 +9,6 @@ type TagState = {
   tagList: TagType[];
   selectedTagList: TagType[];
   fetchingTagState: { isError: boolean; isPending: boolean; data: TagType[] };
-  postTagState: { isError: boolean; isPending: boolean; isSuccess: boolean };
 };
 
 type TagAction = {
@@ -26,7 +25,6 @@ const initialState: TagState = {
   tagList: [],
   selectedTagList: [],
   fetchingTagState: { isError: false, isPending: false, data: [] },
-  postTagState: { isError: false, isPending: false, isSuccess: false },
 };
 
 export const useTagStore = create<TagState & TagAction>()(
@@ -93,29 +91,15 @@ export const useTagStore = create<TagState & TagAction>()(
 
     createTag: async (tagData) => {
       try {
-        set((state) => {
-          state.postTagState.isPending = true;
-        });
-
         const newTag = await createTag(tagData);
 
         set((state) => {
           state.tagList.push(newTag!);
-          state.postTagState.isPending = false;
-          state.postTagState.isSuccess = true;
         });
 
         return newTag;
       } catch (error) {
         if (error instanceof HTTPError) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
-            };
-          });
-
           await handleHTTPError(error);
         }
 
@@ -124,47 +108,54 @@ export const useTagStore = create<TagState & TagAction>()(
     },
 
     deleteTag: async (tagId: number) => {
+      let temporalDeleteTargetTag: TagType | undefined;
+      let deleteTargetTagIndex = -1;
+      let isSelected = false;
+      let deleteTargetSelectedIndex = -1;
+
       try {
         set((state) => {
-          state.postTagState = { ...state.postTagState, isPending: true };
-        });
-
-        await deleteTag(tagId);
-
-        set((state) => {
-          const index = state.tagList.findIndex((tag) => tag.tagId === tagId);
-
-          if (index === -1) {
-            return;
-          }
-
-          state.tagList.splice(index, 1); // 태그 삭제
-          state.postTagState = {
-            ...state.postTagState,
-            isPending: false,
-            isSuccess: true,
-          };
-
-          const selectedIndex = state.selectedTagList.findIndex(
+          deleteTargetTagIndex = state.tagList.findIndex(
+            (tag) => tag.tagId === tagId
+          );
+          deleteTargetSelectedIndex = state.selectedTagList.findIndex(
             (tag) => tag.tagId === tagId
           );
 
-          if (selectedIndex === -1) {
+          if (deleteTargetTagIndex !== -1) {
+            temporalDeleteTargetTag = state.tagList[deleteTargetTagIndex];
+            state.tagList.splice(deleteTargetTagIndex, 1);
+          }
+
+          if (deleteTargetSelectedIndex !== -1) {
+            isSelected = true;
+            state.selectedTagList.splice(deleteTargetSelectedIndex, 1);
+          }
+        });
+
+        await deleteTag(tagId);
+      } catch (error) {
+        set((state) => {
+          if (!temporalDeleteTargetTag) {
             return;
           }
 
-          state.selectedTagList.splice(selectedIndex, 1);
-        });
-      } catch (error) {
-        if (error instanceof HTTPError) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
-            };
-          });
+          state.tagList.splice(
+            deleteTargetTagIndex,
+            0,
+            temporalDeleteTargetTag
+          );
 
+          if (isSelected) {
+            state.selectedTagList.splice(
+              deleteTargetSelectedIndex,
+              0,
+              temporalDeleteTargetTag
+            );
+          }
+        });
+
+        if (error instanceof HTTPError) {
           await handleHTTPError(error);
         }
       }
@@ -173,9 +164,6 @@ export const useTagStore = create<TagState & TagAction>()(
     updateTag: async (updatedTag) => {
       try {
         // TODO: optimistic update 추가
-        set((state) => {
-          state.postTagState = { ...state.postTagState, isPending: true };
-        });
 
         const dataList = await updateTag(updatedTag);
         const data = dataList[0];
@@ -206,23 +194,9 @@ export const useTagStore = create<TagState & TagAction>()(
             ...data,
             userId: state.selectedTagList[selectedTagListIndex].userId,
           };
-
-          state.postTagState = {
-            ...state.postTagState,
-            isPending: false,
-            isSuccess: true,
-          };
         });
       } catch (error) {
         if (error instanceof HTTPError) {
-          set((state) => {
-            state.postTagState = {
-              isError: true,
-              isSuccess: false,
-              isPending: false,
-            };
-          });
-
           await handleHTTPError(error);
         }
       }
