@@ -1,0 +1,1 @@
+export { getLinkByUrl } from './getLinkByUrl';
