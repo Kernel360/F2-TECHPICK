@@ -1,4 +1,13 @@
-import { Button, Text, Gap, useChangeFocusUsingArrowKey } from '@/shared';
+import sanitizeHtml from 'sanitize-html';
+import {
+  Button,
+  Text,
+  Gap,
+  useChangeFocusUsingArrowKey,
+  notifySuccess,
+  notifyError,
+  returnErrorFromHTTPError,
+} from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { createPick, useGetTabInfo } from '@/entities/pick';
 import { TagPicker } from '@/widgets';
@@ -14,6 +23,7 @@ import {
   labelLayout,
 } from './BookmarkPage.css';
 import { useRef } from 'react';
+import { HTTPError } from 'ky';
 
 export function BookmarkPage() {
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -39,8 +49,8 @@ export function BookmarkPage() {
     const userMemo = memoInputRef.current?.value ?? '';
 
     createPick({
-      title: userModifiedTitle,
-      memo: userMemo,
+      title: sanitizeHtml(userModifiedTitle),
+      memo: sanitizeHtml(userMemo),
       tagIdList: selectedTagList.map((tag) => tag.tagId),
       linkRequest: {
         title,
@@ -48,7 +58,14 @@ export function BookmarkPage() {
         imageUrl,
         description,
       },
-    });
+    })
+      .then(() => {
+        notifySuccess('저장되었습니다!');
+      })
+      .catch(async (httpError: HTTPError) => {
+        const error = await returnErrorFromHTTPError(httpError);
+        notifyError(`${error.message}로 인해 북마크가 실패했습니다!`);
+      });
   };
 
   return (

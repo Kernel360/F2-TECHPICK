@@ -5,4 +5,4 @@ export const api = ky.create({
   headers: { 'content-type': 'application/json', credentials: 'include' },
 });
 
-export { handleHTTPError } from './error';
+export { handleHTTPError, returnErrorFromHTTPError } from './error';

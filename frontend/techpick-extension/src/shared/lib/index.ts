@@ -1,2 +1,2 @@
 export * from './color';
-export { notifyError } from './toast';
+export { notifyError, notifySuccess } from './toast';
