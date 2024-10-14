@@ -8,6 +8,7 @@ import org.springframework.util.SerializationUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kernel360.techpick.core.config.SecurityConfig;
 
 public class CookieUtil {
 
@@ -24,7 +25,7 @@ public class CookieUtil {
 		response.addHeader("Set-Cookie", responseCookie.toString());
 
 		// 로그인 확인용 쿠키 (techPickLogin = true) 추가
-		ResponseCookie techPickLoginCookie = ResponseCookie.from("techPickLogin", "true")
+		ResponseCookie techPickLoginCookie = ResponseCookie.from(SecurityConfig.LOGIN_FLAG_FOR_FRONTEND, "true")
 			.maxAge(maxAge)
 			.path("/")
 			.secure(true)

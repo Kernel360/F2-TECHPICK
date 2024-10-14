@@ -21,6 +21,7 @@ public class TechpickLogoutHandler implements LogoutHandler {
         Authentication authentication
     ) {
         CookieUtil.deleteCookie(request, response, SecurityConfig.ACCESS_TOKEN_KEY);
+        CookieUtil.deleteCookie(request, response, SecurityConfig.LOGIN_FLAG_FOR_FRONTEND);
         CookieUtil.deleteCookie(request, response, "JSESSIONID");
     }
 }

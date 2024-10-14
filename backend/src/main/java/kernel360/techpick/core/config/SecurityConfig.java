@@ -35,6 +35,7 @@ public class SecurityConfig {
 	private String baseUrl;
 
 	public static final String ACCESS_TOKEN_KEY = "access_token";
+	public static final String LOGIN_FLAG_FOR_FRONTEND = "techPickLogin";
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
