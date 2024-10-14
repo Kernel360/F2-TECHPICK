@@ -12,9 +12,9 @@ export const dirNodeWrapper = style({
 export const dirNodeWrapperFocused = style({
   width: '100%',
   lineHeight: '32px',
-  backgroundColor: 'rgba(216,211,202,0.5)',
+  backgroundColor: 'rgba(221,219,214,0.5)',
   ':hover': {
-    backgroundColor: 'rgba(216,211,202,0.5)',
+    backgroundColor: 'rgba(221,219,214,0.5)',
   },
 });
 

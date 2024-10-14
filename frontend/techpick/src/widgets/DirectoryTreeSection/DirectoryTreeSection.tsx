@@ -25,7 +25,7 @@ import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder, LogOut, Trash2 } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
-import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import AddFolderPopoverButton from '@/widgets/DirectoryTreeSection/AddFolderPopoverButton';
@@ -68,7 +68,7 @@ export function DirectoryTreeSection() {
     data: rootAndRecycleBinData,
     error: structureError,
     isLoading: isStructureLoading,
-  } = useGetRootAndRecycleBinStructure();
+  } = useGetRootAndRecycleBinData();
 
   return (
     <div className={leftSidebarSection}>
@@ -91,9 +91,11 @@ export function DirectoryTreeSection() {
           <AddFolderPopoverButton
             onEditEnded={(name: string) => {
               setNewNodeName(name);
-              setTimeout(() => {
-                treeRef.current?.createInternal();
-              }, 0);
+              treeRef.current?.create({
+                type: 'internal',
+                parentId: treeRef.current?.focusedNode?.id,
+                index: 0,
+              });
             }}
           />
         </div>
@@ -164,7 +166,7 @@ export function DirectoryTreeSection() {
                 height={height}
                 rowHeight={32}
                 indent={24}
-                overscanCount={1}
+                overscanCount={3}
                 dndManager={dragDropManager}
               >
                 {DirectoryNode}

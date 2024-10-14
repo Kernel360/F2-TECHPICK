@@ -1,4 +1,4 @@
-import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
 import { NodeData } from '@/shared/types';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
@@ -29,7 +29,7 @@ function addRecycleBinToStructure(
 }
 
 function useTreeData(): NodeData[] {
-  const { data: structureData } = useGetRootAndRecycleBinStructure();
+  const { data: structureData } = useGetRootAndRecycleBinData();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
 
   return useMemo(() => {

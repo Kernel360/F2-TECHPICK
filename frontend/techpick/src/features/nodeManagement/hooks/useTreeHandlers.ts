@@ -1,7 +1,7 @@
 import { NodeData } from '@/shared/types';
 import { createNode } from '@/features/createNode';
 import { moveNode } from '@/features/moveNode';
-import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
 import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
@@ -10,10 +10,12 @@ import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetD
 import { useRenameFolder } from '@/features/nodeManagement/hooks/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
+import { useQueryClient } from '@tanstack/react-query';
+import { StructureData } from '@/shared/types/ApiTypes';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
-    useGetRootAndRecycleBinStructure();
+    useGetRootAndRecycleBinData();
   const {
     treeRef,
     focusedNode,
@@ -27,13 +29,17 @@ export const useTreeHandlers = () => {
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
+  const queryClient = useQueryClient();
+  // const cashedStructureData = queryClient.getQueryData([
+  //   'rootAndRecycleBinData',
+  // ]);
 
   // const userId = defaultFolderIdData?.userId;
   const rootFolderId = defaultFolderIdData?.ROOT;
   const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
   // const unclassifiedId = defaultFolderIdData?.UNCLASSIFIED;
 
-  const handleCreate: CreateHandler<NodeData> = async ({
+  const handleCreateServer: CreateHandler<NodeData> = async ({
     parentId,
     parentNode,
     index,
@@ -84,6 +90,42 @@ export const useTreeHandlers = () => {
     } catch (error) {
       console.error('Error creating folder:', error);
     }
+    return { id: newLocalNodeId.toString() };
+  };
+
+  const handleCreate: CreateHandler<NodeData> = async ({
+    parentId,
+    parentNode,
+    index,
+    type,
+  }): Promise<{ id: string }> => {
+    console.log('parentId', parentId);
+    console.log('parentNode', parentNode);
+    console.log('index', index);
+    console.log('type', type);
+    const newLocalNodeId = getNewIdFromStructure(structureData!.root);
+
+    // 폴더 생성 (클라이언트)
+    const updatedTreeData = createNode(
+      structuredClone(structureData!.root),
+      focusedNode,
+      type,
+      treeRef.current!,
+      parentId,
+      parentNode,
+      index,
+      -1, // 가상 id, 서버에서 생성된 id로 대체됨
+      'New Folder' // 기본 이름
+    );
+
+    queryClient.setQueryData(
+      ['rootAndRecycleBinData'],
+      (oldData: StructureData) => ({
+        root: updatedTreeData,
+        recycleBin: oldData.recycleBin,
+      })
+    );
+
     return { id: newLocalNodeId.toString() };
   };
 
@@ -173,9 +215,8 @@ export const useTreeHandlers = () => {
     refetchStructure();
   };
 
-  // 다른 곳으로 옮길 임시 함수들
-
   return {
+    handleCreateServer,
     handleCreate,
     handleDrag,
     handleRename,

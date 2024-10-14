@@ -7,15 +7,14 @@ export const apiClient = ky.create({
   hooks: {},
 });
 
-export const getRootAndRecycleBinStructure =
-  async (): Promise<StructureData> => {
-    try {
-      return await apiClient.get('structures').json<StructureData>();
-    } catch (error) {
-      console.log('Error fetching structure data:', error);
-      throw error;
-    }
-  };
+export const getRootAndRecycleBinData = async (): Promise<StructureData> => {
+  try {
+    return await apiClient.get('structures').json<StructureData>();
+  } catch (error) {
+    console.log('Error fetching structure data:', error);
+    throw error;
+  }
+};
 
 export const getFoldersIdData = async (): Promise<DefaultFolderIdData> => {
   try {

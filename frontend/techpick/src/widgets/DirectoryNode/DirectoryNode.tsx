@@ -8,18 +8,32 @@ import {
 } from './DirectoryNode.css';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
 
 export const DirectoryNode = ({
   node,
   style,
   dragHandle,
 }: DirectoryNodeProps) => {
+  const queryClient = useQueryClient();
+  const { mutateAsync: createFolder } = useCreateFolder();
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      node.submit(event.currentTarget.value);
+      if (node.data.folderId === -1) {
+        // 폴더 생성 (서버)
+        const newFolderData = createFolder(event.currentTarget.value);
+        console.log('Server: Folder created:', newFolderData);
+      } else node.submit(event.currentTarget.value);
     }
     if (event.key === 'Escape') {
-      node.reset();
+      if (node.data.folderId === -1) {
+        queryClient.invalidateQueries({
+          queryKey: ['rootAndRecycleBinData'],
+          exact: true,
+        });
+      } else node.reset();
     }
   };
 
