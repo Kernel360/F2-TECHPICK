@@ -17,7 +17,6 @@ import {
   recycleBinContainerClosed,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
-import { ToggleThemeButton } from '@/features/';
 import { NodeData } from '@/shared/types/NodeData';
 import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
@@ -64,7 +63,6 @@ export function DirectoryTreeSection() {
           />
           <div className={logo}>TechPick</div>
         </div>
-        <ToggleThemeButton />
       </div>
       <div className={directoryTreeContainer}>
         <div className={directoryLabelContainer}>

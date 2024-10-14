@@ -22,7 +22,10 @@ export default function RootLayout({
         <ToastProvider>
           <ThemeProvider>
             <DndProviderWrapper>
-              <QueryProvider>{children}</QueryProvider>
+              <QueryProvider>
+                {children}
+                <div id="portal-container" />
+              </QueryProvider>
             </DndProviderWrapper>
           </ThemeProvider>
         </ToastProvider>

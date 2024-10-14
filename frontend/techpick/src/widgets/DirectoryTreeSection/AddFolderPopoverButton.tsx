@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
-import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon } from '@radix-ui/react-icons';
 import {
   popoverContent,
   popoverClose,
@@ -10,6 +10,7 @@ import {
   input,
   text,
 } from './AddFolderPopoverButton.css';
+import { Plus } from 'lucide-react';
 
 interface AddFolderPopoverButtonProps {
   onEditEnded: (name: string) => void;
@@ -23,10 +24,10 @@ const AddFolderPopoverButton = ({
     <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
       <Popover.Trigger asChild>
         <button className={iconButton} aria-label="Update dimensions">
-          <MixerHorizontalIcon />
+          <Plus width={20} strokeWidth="1.3px" />
         </button>
       </Popover.Trigger>
-      <Popover.Portal>
+      <Popover.Portal container={document.getElementById('portal-container')}>
         <Popover.Content className={popoverContent} sideOffset={5}>
           <div>
             <p className={text}>Add Folder</p>

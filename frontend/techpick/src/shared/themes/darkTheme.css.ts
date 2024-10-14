@@ -5,7 +5,7 @@ export const darkTheme = createTheme(themeContract, {
   color: {
     primary: '#00306e',
     secondary: '#95004d',
-    border: '#eaeaea',
+    border: '#3e3e3e',
     background: '#000',
     font: '#fff',
   },

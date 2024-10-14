@@ -5,16 +5,16 @@ export const dirNodeWrapper = style({
   width: '100%',
   lineHeight: '32px',
   ':hover': {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'rgba(223,223,223,0.3)',
   },
 });
 
 export const dirNodeWrapperFocused = style({
   width: '100%',
   lineHeight: '32px',
-  backgroundColor: '#e0e7f3',
+  backgroundColor: 'rgba(216,211,202,0.5)',
   ':hover': {
-    backgroundColor: '#e2e8f4',
+    backgroundColor: 'rgba(216,211,202,0.5)',
   },
 });
 

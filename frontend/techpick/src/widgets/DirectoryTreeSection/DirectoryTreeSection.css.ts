@@ -45,6 +45,7 @@ export const directoryLabelContainer = style({
   display: 'flex',
   alignItems: 'center',
   paddingLeft: commonThemeContract.space.lg,
+  paddingRight: commonThemeContract.space.sm,
   borderBottom: `1px solid ${themeContract.color.border}`,
 });
 

@@ -1,5 +1,6 @@
 // directoryTreeSection.css.ts
 import { style, keyframes } from '@vanilla-extract/css';
+import { themeContract } from '@/shared/themes';
 
 // 애니메이션 정의
 const slideUpAndFade = keyframes({
@@ -22,13 +23,12 @@ const slideLeftAndFade = keyframes({
   to: { opacity: 1, transform: 'translateX(0)' },
 });
 
-// 컴포넌트 스타일 정의
 export const popoverContent = style({
-  borderRadius: '8px',
+  borderRadius: '4px',
   padding: '20px',
   width: '260px',
-  backgroundColor: 'white',
-  boxShadow: '1px 1px 10px #c9c9c9',
+  backgroundColor: themeContract.color.background,
+  boxShadow: '1px 1px 10px rgba(180,180,180,0.5)',
   animationDuration: '400ms',
   animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
   willChange: 'transform, opacity',
@@ -57,34 +57,33 @@ export const popoverClose = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#4c1d95',
-  backgroundColor: 'white',
+  color: themeContract.color.font,
+  backgroundColor: themeContract.color.background,
   position: 'absolute',
   top: '5px',
   right: '5px',
   selectors: {
     '&:hover': {
-      backgroundColor: '#ede9fe',
+      backgroundColor: 'rgba(0,0,0,0.06)',
     },
   },
 });
 
 export const iconButton = style({
+  padding: '0',
   fontFamily: 'inherit',
   border: 'none',
-  width: '28px',
-  height: '24px',
   borderRadius: '4px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#4c1d95',
-  backgroundColor: 'white',
+  color: themeContract.color.font,
+  backgroundColor: 'transparent',
   cursor: 'pointer',
   outline: 'none',
   selectors: {
     '&:hover': {
-      backgroundColor: '#ede9fe',
+      backgroundColor: 'rgba(223,223,223,0.3)',
     },
   },
 });
@@ -97,11 +96,13 @@ export const fieldset = style({
 
 export const label = style({
   fontSize: '13px',
-  color: '#4c1d95',
+  color: themeContract.color.font,
   width: '75px',
+  fontWeight: 300,
 });
 
 export const input = style({
+  all: 'unset',
   width: '100%',
   display: 'inline-flex',
   alignItems: 'center',
@@ -111,17 +112,20 @@ export const input = style({
   padding: '0 10px',
   fontSize: '13px',
   lineHeight: 1,
-  color: '#4c1d95',
+  color: themeContract.color.font,
+  backgroundColor: themeContract.color.background,
   height: '25px',
-  border: '1px solid #e5e5e5',
+  border: `1px solid ${themeContract.color.border}`,
+
+  fontWeight: '350 ',
   ':focus': {
-    outline: '1px solid #7c3aed',
+    outline: `1px solid ${themeContract.color.border}`,
   },
 });
 
 export const text = style({
   marginBottom: '8px',
-  color: '#3f3f46',
+  color: themeContract.color.font,
   fontSize: '15px',
   lineHeight: '19px',
   fontWeight: 500,
