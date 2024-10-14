@@ -15,6 +15,7 @@ import {
   recycleBinTreeWrapper,
   recycleBinContainerOpen,
   recycleBinContainerClosed,
+  logout,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -22,12 +23,14 @@ import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { Folder, Trash2 } from 'lucide-react';
+import { Folder, LogOut, Trash2 } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
-import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
-import { useTreeHandlers } from '@/features/folderManagement/hooks/useTreeHandlers';
+import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import AddFolderPopoverButton from '@/widgets/DirectoryTreeSection/AddFolderPopoverButton';
+import { useLogout } from '@/features/userManagement/hooks/useLogout';
+import { useRouter } from 'next/navigation';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -38,11 +41,27 @@ export function DirectoryTreeSection() {
     useTreeHandlers();
   const [isRecycleBinOpen, setIsRecycleBinOpen] = React.useState(false);
 
+  const { mutate } = useLogout();
+  const router = useRouter();
+
   const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
     if (instance && !treeRef.current) {
       treeRef.current = instance;
       setTreeRef(treeRef);
     }
+  };
+
+  const handleLogout = async () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        console.log('Logout success');
+        router.replace('/login');
+      },
+      onError: (error) => {
+        console.error('Logout failed:', error);
+        alert('Logout failed');
+      },
+    });
   };
 
   const {
@@ -63,6 +82,7 @@ export function DirectoryTreeSection() {
           />
           <div className={logo}>TechPick</div>
         </div>
+        <LogOut width={24} className={logout} onClick={handleLogout} />
       </div>
       <div className={directoryTreeContainer}>
         <div className={directoryLabelContainer}>

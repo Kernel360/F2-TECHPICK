@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getRootAndRecycleBinStructure } from '@/features/queryFunctions';
+import { getRootAndRecycleBinStructure } from '@/features/nodeManagement/api/queryFunctions';
 
 export const useGetRootAndRecycleBinStructure = () => {
   return useQuery({

@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { folderWrapper } from '@/features/DnD/folder.css';
 import { NodeApi } from 'react-arborist';
-import { useDragHook } from '@/hooks/useDragHook';
+import { useDragHook } from '@/features/DnD/hooks/useDragHook';
 import { useTreeStore } from '@/shared/stores/treeStore';
 
 export function Folder({ node }: { node: NodeApi }) {

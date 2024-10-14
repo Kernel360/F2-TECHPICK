@@ -1,8 +1,8 @@
-import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
-import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
+import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
 import { NodeData } from '@/shared/types';
-import { getNewIdFromStructure } from '@/features/treeStructureCRUD/getNewIdFromStructure';
-import { addNodeToStructure } from '@/features/treeStructureCRUD/addNodeToStructure';
+import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
+import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { useMemo } from 'react';
 
 function addRecycleBinToStructure(

@@ -1,4 +1,4 @@
-import { postFolder } from '@/features/queryFunctions';
+import { postFolder } from '@/features/nodeManagement/api/queryFunctions';
 import { useMutation } from '@tanstack/react-query';
 
 export const useCreateFolder = () => {

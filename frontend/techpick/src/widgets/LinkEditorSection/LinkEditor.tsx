@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from 'react';
 import { Folder } from '@/features/DnD/Folder';
 import { Pick } from '@/features/DnD/Pick';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { useDropHook } from '@/hooks/useDropHook';
+import { useDropHook } from '@/features/DnD/hooks/useDropHook';
 import {
   folderViewSection,
   linkViewSection,

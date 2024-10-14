@@ -1,6 +1,6 @@
 import { NodeData } from '@/shared/types';
-import { addNodeToStructure } from '@/features/treeStructureCRUD/addNodeToStructure';
-import { getNewIdFromStructure } from '@/features/treeStructureCRUD/getNewIdFromStructure';
+import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
+import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 
 export function addRecycleBinToStructure(
   structure: NodeData[],

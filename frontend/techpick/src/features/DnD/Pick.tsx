@@ -3,7 +3,7 @@ import { NodeApi } from 'react-arborist';
 
 import Image from 'next/image';
 import { linkWrapper } from '@/features/DnD/pick.css';
-import { useDragHook } from '@/hooks/useDragHook';
+import { useDragHook } from '@/features/DnD/hooks/useDragHook';
 
 export function Pick({ node }: { node: NodeApi }) {
   const ref = useDragHook(node);

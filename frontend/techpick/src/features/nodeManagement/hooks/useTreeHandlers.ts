@@ -1,15 +1,15 @@
 import { NodeData } from '@/shared/types';
 import { createNode } from '@/features/createNode';
 import { moveNode } from '@/features/moveNode';
-import { useGetRootAndRecycleBinStructure } from '@/features/folderManagement/hooks/useGetRootAndRecycleBinStructure';
+import { useGetRootAndRecycleBinStructure } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinStructure';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useCreateFolder } from '@/features/folderManagement/hooks/useCreateFolder';
-import { useMoveFolder } from '@/features/folderManagement/hooks/useMoveFolder';
-import { useGetDefaultFolderData } from '@/features/folderManagement/hooks/useGetDefaultFolderData';
-import { useRenameFolder } from '@/features/folderManagement/hooks/useRenameFolder';
-import { removeByIdFromStructure } from '@/features/treeStructureCRUD/removeByIdFromStructure';
-import { getNewIdFromStructure } from '@/features/treeStructureCRUD/getNewIdFromStructure';
+import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
+import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
+import { useRenameFolder } from '@/features/nodeManagement/hooks/useRenameFolder';
+import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
+import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =

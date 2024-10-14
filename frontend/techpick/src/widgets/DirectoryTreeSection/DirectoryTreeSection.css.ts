@@ -30,6 +30,10 @@ export const logo = style({
   paddingLeft: '12px',
 });
 
+export const logout = style({
+  cursor: 'pointer',
+});
+
 export const directoryTreeContainer = style({
   width: '100%',
   height: '100%',
