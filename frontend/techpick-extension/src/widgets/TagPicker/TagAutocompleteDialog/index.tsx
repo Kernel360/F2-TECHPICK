@@ -10,6 +10,7 @@ import {
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
+import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
 import {
   filterCommandItems,
   CREATABLE_TAG_KEYWORD,
@@ -32,7 +33,6 @@ export function TagAutocompleteDialog({
 }: TagSelectionDialogProps) {
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
-  const [commandListHeight, setCommandListHeight] = useState(0);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
   const randomNumber = useRef<number>(getRandomInt());
@@ -44,6 +44,8 @@ export function TagAutocompleteDialog({
     fetchingTagList,
     createTag,
   } = useTagStore();
+  const { commandListHeight } =
+    useCalculateCommandListHeight(selectedTagListRef);
 
   const focusTagInput = () => {
     tagInputRef.current?.focus();
@@ -77,27 +79,6 @@ export function TagAutocompleteDialog({
     [tagInputValue, tagList]
   );
 
-  useEffect(
-    function calculateCommandListHeight() {
-      const COMMAND_LIST_INITIAL_HEIGHT = 160;
-      const COMMAND_LIST_MAX_HEIGHT = 208;
-
-      if (!selectedTagListRef.current) {
-        // 초기에는 초기값 부여
-        setCommandListHeight(COMMAND_LIST_INITIAL_HEIGHT);
-        return;
-      }
-
-      const { height } = selectedTagListRef.current.getBoundingClientRect();
-      const commandListHeight = Math.max(
-        0,
-        Math.min(COMMAND_LIST_INITIAL_HEIGHT, COMMAND_LIST_MAX_HEIGHT - height)
-      );
-      setCommandListHeight(commandListHeight);
-    },
-    [selectedTagList]
-  );
-
   return (
     <Command.Dialog
       open={open}
@@ -107,10 +88,7 @@ export function TagAutocompleteDialog({
       filter={filterCommandItems}
     >
       {/**선택한 태그 리스트 */}
-      <SelectedTagListLayout
-        ref={selectedTagListRef} // ref 추가
-        focusStyle="focus"
-      >
+      <SelectedTagListLayout ref={selectedTagListRef} focusStyle="focus">
         {selectedTagList.map((tag) => (
           <SelectedTagItem key={tag.tagId} tag={tag}>
             <DeselectTagButton tag={tag} onClick={focusTagInput} />
