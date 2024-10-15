@@ -43,7 +43,7 @@ public interface PickApi {
 			description = "픽 id가 존재하지 않습니다."
 		)
 	})
-	ResponseEntity<Long> getPickIdByUrl(String url);
+	ResponseEntity<PickResponse> getPickIdByUrl(String url);
 
 	@Operation(
 		summary = "사용자 픽 리스트 조회",

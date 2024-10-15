@@ -77,11 +77,20 @@ public class PickService {
 		return pickMapper.toPickResponseList(picks, pickTagProvider, tagMapper, linkMapper);
 	}
 
+	// Url로 픽 상세 조회
 	@Transactional(readOnly = true)
-	public Long getPickIdByUrl(String url) {
+	public PickResponse getPickIdByUrl(String url) {
 		User user = userService.getCurrentUser();
 		Pick pick = pickProvider.getByUserAndLinkUrl(user, url);
-		return pick.getId();
+
+		// 본인 픽인지 검증 (pickId)
+		pickValidator.validatePickAccess(userService.getCurrentUser(), pick);
+
+		List<PickTag> pickTagList = pickTagProvider.findAllPickTagByPickId(pick.getId());
+		LinkUrlResponse linkUrlResponse = linkMapper.toLinkUrlResponse(pick.getLink());
+		List<TagResponse> tagResponseList = tagMapper.toTagResponse(pickTagList);
+
+		return pickMapper.toPickResponse(pick, tagResponseList, linkUrlResponse);
 	}
 
 	// 픽 생성
