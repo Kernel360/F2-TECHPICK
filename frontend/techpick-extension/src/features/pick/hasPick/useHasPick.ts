@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { HTTPError } from 'ky';
-import { getLinkByUrl, GetLinkResponseType } from '@/entities/link';
+import { getPickByUrl, PickTypes } from '@/entities/pick';
 
-export function useHasLink(url: string | undefined): UseHasLinkResponseType {
+export function useHasPick(url: string | undefined): UseHasLinkResponseType {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<GetLinkResponseType>();
+  const [data, setData] = useState<PickTypes.GetPickResponseType>();
 
   useEffect(() => {
-    const fetchHasLink = async (url: string) => {
+    const fetchHasPick = async (url: string) => {
       try {
-        const linkData = await getLinkByUrl(url);
-        setData(linkData);
+        const pickData = await getPickByUrl(url);
+        setData(pickData);
         setIsLoading(false);
       } catch (error) {
         if (error instanceof HTTPError) {
@@ -20,8 +20,8 @@ export function useHasLink(url: string | undefined): UseHasLinkResponseType {
       }
     };
 
-    if (url) {
-      fetchHasLink(url);
+    if (url && url !== '') {
+      fetchHasPick(url);
     }
   }, [url]);
 
@@ -37,5 +37,5 @@ export function useHasLink(url: string | undefined): UseHasLinkResponseType {
 }
 
 type UseHasLinkResponseType =
-  | { isLoading: boolean; hasLink: true; data: GetLinkResponseType }
+  | { isLoading: boolean; hasLink: true; data: PickTypes.GetPickResponseType }
   | { isLoading: boolean; hasLink: false; data?: undefined };
