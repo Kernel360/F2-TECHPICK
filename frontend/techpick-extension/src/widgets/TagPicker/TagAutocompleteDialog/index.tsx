@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
+import { BarLoader } from 'react-spinners';
+import { notifyError, numberToRandomColor } from '@/shared';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -8,14 +10,20 @@ import {
 } from '@/entities/tag';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
+import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
 import {
   filterCommandItems,
   CREATABLE_TAG_KEYWORD,
+  getRandomInt,
 } from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
   commandInputStyle,
   tagListItemStyle,
+  tagListItemContentStyle,
+  tagCreateTextStyle,
+  tagListStyle,
+  tagListLoadingStyle,
 } from './TagAutocompleteDialog.css';
 
 export function TagAutocompleteDialog({
@@ -26,6 +34,8 @@ export function TagAutocompleteDialog({
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
+  const selectedTagListRef = useRef<HTMLDivElement | null>(null);
+  const randomNumber = useRef<number>(getRandomInt());
   const {
     tagList,
     selectedTagList,
@@ -34,6 +44,8 @@ export function TagAutocompleteDialog({
     fetchingTagList,
     createTag,
   } = useTagStore();
+  const { commandListHeight } =
+    useCalculateCommandListHeight(selectedTagListRef);
 
   const focusTagInput = () => {
     tagInputRef.current?.focus();
@@ -49,6 +61,21 @@ export function TagAutocompleteDialog({
     clearTagInputValue();
   };
 
+  const onSelectCreatableTag = async () => {
+    try {
+      const newTag = await createTag({
+        tagName: tagInputValue,
+        colorNumber: randomNumber.current,
+      });
+      randomNumber.current = getRandomInt();
+      onSelectTag(newTag!);
+    } catch (error) {
+      if (error instanceof Error) {
+        notifyError(error.message);
+      }
+    }
+  };
+
   useEffect(
     function fetchTagList() {
       fetchingTagList();
@@ -58,7 +85,7 @@ export function TagAutocompleteDialog({
 
   useEffect(
     function checkIsCreatableTag() {
-      const isUnique = !tagList.some((tag) => tag.name === tagInputValue);
+      const isUnique = !tagList.some((tag) => tag.tagName === tagInputValue);
       const isNotInitialValue = tagInputValue.trim() !== '';
       const isCreatable = isUnique && isNotInitialValue;
 
@@ -66,10 +93,6 @@ export function TagAutocompleteDialog({
     },
     [tagInputValue, tagList]
   );
-
-  if (fetchingTagState.isPending) {
-    return <h1>Loading...</h1>;
-  }
 
   return (
     <Command.Dialog
@@ -80,9 +103,9 @@ export function TagAutocompleteDialog({
       filter={filterCommandItems}
     >
       {/**선택한 태그 리스트 */}
-      <SelectedTagListLayout>
+      <SelectedTagListLayout ref={selectedTagListRef} focusStyle="focus">
         {selectedTagList.map((tag) => (
-          <SelectedTagItem key={tag.id} tag={tag}>
+          <SelectedTagItem key={tag.tagId} tag={tag}>
             <DeselectTagButton tag={tag} onClick={focusTagInput} />
           </SelectedTagItem>
         ))}
@@ -96,17 +119,37 @@ export function TagAutocompleteDialog({
       </SelectedTagListLayout>
 
       {/**전체 태그 리스트 */}
-      <Command.List>
-        <Command.Empty>No results found.</Command.Empty>
+      <Command.List
+        className={tagListStyle}
+        style={{ maxHeight: commandListHeight }}
+      >
+        {fetchingTagState.isPending && (
+          <Command.Loading className={tagListLoadingStyle}>
+            <BarLoader />
+          </Command.Loading>
+        )}
+
+        {(!fetchingTagState.isPending || tagInputValue.trim()) !== '' && (
+          <Command.Empty className={tagListItemStyle}>
+            태그를 만들어보세요!
+          </Command.Empty>
+        )}
 
         {tagList.map((tag) => (
           <Command.Item
-            key={tag.id}
+            key={tag.tagId}
             className={tagListItemStyle}
             onSelect={() => onSelectTag(tag)}
-            keywords={[tag.name]}
+            keywords={[tag.tagName]}
           >
-            {tag.name}
+            <span
+              className={tagListItemContentStyle}
+              style={{
+                backgroundColor: numberToRandomColor(tag.colorNumber),
+              }}
+            >
+              {tag.tagName}
+            </span>
             <TagInfoEditPopoverButton tag={tag} />
           </Command.Item>
         ))}
@@ -116,20 +159,18 @@ export function TagAutocompleteDialog({
             className={tagListItemStyle}
             value={tagInputValue}
             keywords={[CREATABLE_TAG_KEYWORD]}
-            onSelect={async () => {
-              const newTag = await createTag(tagInputValue);
-
-              if (!newTag) {
-                // Todo: error handling
-                // newTag or postTagState을 이용할 예정.
-                return;
-              }
-
-              onSelectTag(newTag);
-            }}
+            onSelect={onSelectCreatableTag}
             disabled={!canCreateTag}
           >
-            {tagInputValue} 생성
+            <span
+              className={tagListItemContentStyle}
+              style={{
+                backgroundColor: numberToRandomColor(randomNumber.current),
+              }}
+            >
+              {tagInputValue}
+            </span>
+            <span className={tagCreateTextStyle}>생성</span>
           </Command.Item>
         )}
       </Command.List>

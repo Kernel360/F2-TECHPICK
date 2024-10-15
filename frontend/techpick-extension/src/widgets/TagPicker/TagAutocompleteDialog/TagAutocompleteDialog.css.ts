@@ -1,9 +1,10 @@
 import { style } from '@vanilla-extract/css';
+import { SelectedTagCommonStyle } from '@/entities/tag';
 
 export const tagDialogPortalLayout = style({
   position: 'absolute',
   top: '0',
-  zIndex: '0',
+  zIndex: '1',
   backgroundColor: 'white',
 });
 
@@ -17,22 +18,57 @@ export const commandInputStyle = style({
   padding: '0 4px',
 });
 
+export const tagListStyle = style({
+  borderRadius: '4px',
+  padding: '4px 0',
+  boxShadow:
+    'rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 3px 6px, rgba(15, 15, 15, 0.4) 0px 9px 24px',
+  overflowY: 'auto',
+
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+});
+
+export const tagListLoadingStyle = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '20px',
+});
+
 export const tagListItemStyle = style({
   display: 'flex',
   justifyContent: 'space-between',
-
-  // 기본 스타일 (선택된 항목이 아닐 때)
+  alignItems: 'center',
+  borderRadius: '4px',
   backgroundColor: 'transparent',
-  ':hover': {
-    backgroundColor: '#f0f0f0', // 호버 시 색상
-  },
+  padding: '4px',
+
   // 선택된 상태일 때
   selectors: {
     '&[data-selected="true"]': {
-      backgroundColor: 'green',
+      backgroundColor: '#f5f5f4',
     },
     '&[data-disabled="true"]': {
       display: 'none',
     },
   },
+});
+
+export const tagListItemContentStyle = style({
+  maxWidth: `calc(${SelectedTagCommonStyle.width} - 34px)`, // 26px은 생성 텍스트의 영역 8px는 패딩
+  height: '20px',
+  lineHeight: '20px',
+  borderRadius: '4px',
+  padding: '0 4px',
+  fontSize: '14px',
+  whiteSpace: 'nowrap', // 줄 바꿈 방지
+  overflow: 'hidden', // 넘치는 내용 숨김
+  textOverflow: 'ellipsis', // 생략 부호 추가
+});
+
+export const tagCreateTextStyle = style({
+  width: '26px',
+  fontSize: '14px',
 });

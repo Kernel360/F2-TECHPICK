@@ -1,1 +1,0 @@
-export { CurrentTabInfo } from './CurrentTabInfo';

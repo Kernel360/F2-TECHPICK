@@ -1,13 +1,19 @@
 import { createMemoryRouter } from 'react-router-dom';
-import { BookmarkPage } from '../pages';
+import { LoginGuard } from '@/features/auth';
+import { BookmarkPage, LoginPage, ErrorPage } from '@/pages';
 
 export const router = createMemoryRouter([
   {
     path: '/',
-    element: <BookmarkPage />,
+    element: (
+      <LoginGuard>
+        <BookmarkPage />
+      </LoginGuard>
+    ),
+    errorElement: <ErrorPage />,
   },
   {
     path: '/login',
-    element: <h1>Login Page</h1>,
+    element: <LoginPage />,
   },
 ]);

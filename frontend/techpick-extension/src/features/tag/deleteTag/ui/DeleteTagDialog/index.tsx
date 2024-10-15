@@ -1,10 +1,12 @@
-import { useRef } from 'react';
+import { useRef, memo, KeyboardEvent, MouseEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { Text, Button, Gap, notifyError } from '@/shared';
 import { useTagStore } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
 
-export function DeleteTagDialog() {
+export const DeleteTagDialog = memo(function DeleteTagDialog() {
   const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
   const { deleteTag } = useTagStore();
   const { deleteTagId, isOpen, setIsOpen } = useDeleteTagDialogStore();
@@ -13,18 +15,40 @@ export function DeleteTagDialog() {
     setIsOpen(false);
   };
 
-  const handleDeleteTag = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
+  const closeDialogByEnterKey = (event: KeyboardEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
 
+    if (event.key === 'Enter') {
+      closeDialog();
+    }
+  };
+
+  const handleDeleteTag = async () => {
     if (!deleteTagId) {
       return;
     }
 
-    // todo: delete 시에 선택된 태그라면 같이 제거되야함. 추가적인 login 필요.
-    deleteTag(deleteTagId);
-    closeDialog();
+    try {
+      closeDialog();
+      await deleteTag(deleteTagId);
+    } catch (error) {
+      if (error instanceof Error) {
+        notifyError(error.message);
+      }
+    }
+  };
+
+  const DeleteTagByClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    await handleDeleteTag();
+  };
+
+  const DeleteTagByEnterKey = async (e: KeyboardEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (e.key === 'Enter') {
+      await handleDeleteTag();
+    }
   };
 
   return (
@@ -32,18 +56,40 @@ export function DeleteTagDialog() {
       <Dialog.Portal>
         <Dialog.Overlay className={dialogOverlayStyle} />
         <Dialog.Content className={dialogContentStyle}>
-          {/* 안의 내용과 디자인은 다음 PR에서 작업하겠습니다. */}
-          <p>정말 삭제하시겠습니까?</p>
+          <Text>이 태그를 삭제하시겠습니까?</Text>
 
-          <Dialog.Close asChild>
-            <button ref={cancelButtonRef} onClick={closeDialog}>
-              Cancel
-            </button>
-          </Dialog.Close>
+          <VisuallyHidden.Root>
+            <Dialog.Title>이 태그를 삭제하시겠습니까?</Dialog.Title>
+            <Dialog.Description>
+              태그를 삭제하실 거라면 삭제 버튼을 눌러주세요.
+            </Dialog.Description>
+          </VisuallyHidden.Root>
 
-          <button onClick={handleDeleteTag}>Yes, delete account</button>
+          <div>
+            <Button
+              onClick={DeleteTagByClick}
+              onKeyDown={DeleteTagByEnterKey}
+              size="xs"
+              background="warning"
+              wide
+            >
+              삭제
+            </Button>
+            <Gap verticalSize="gap4" />
+            <Dialog.Close asChild>
+              <Button
+                ref={cancelButtonRef}
+                onClick={closeDialog}
+                onKeyDown={closeDialogByEnterKey}
+                size="xs"
+                wide
+              >
+                취소
+              </Button>
+            </Dialog.Close>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
   );
-}
+});

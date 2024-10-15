@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import {
   useTagStore,
   SelectedTagItem,
@@ -7,32 +7,46 @@ import {
 import { TagAutocompleteDialog } from './TagAutocompleteDialog';
 import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 
-export function TagPicker() {
-  const [open, setOpen] = useState(false);
+export const TagPicker = forwardRef<HTMLDivElement>(
+  function TagPickerWithRef(_props, tabFocusRef) {
+    const [open, setOpen] = useState(false);
+    const tagInputContainerRef = useRef<HTMLDivElement>(null);
+    const { selectedTagList } = useTagStore();
 
-  const tagInputContainerRef = useRef<HTMLDivElement>(null);
+    const openDialog = () => {
+      setOpen(true);
+    };
 
-  const { selectedTagList } = useTagStore();
+    const onEnterKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key !== 'Enter') {
+        return;
+      }
 
-  const openDialog = () => {
-    setOpen(true);
-  };
+      openDialog();
+    };
 
-  return (
-    <div ref={tagInputContainerRef} className={tagPickerLayout}>
-      <div className={tagDialogTriggerLayout} onClick={openDialog}>
-        <SelectedTagListLayout>
-          {selectedTagList.map((tag) => (
-            <SelectedTagItem key={tag.id} tag={tag} />
-          ))}
-        </SelectedTagListLayout>
+    return (
+      <div ref={tagInputContainerRef} className={tagPickerLayout}>
+        <div
+          className={tagDialogTriggerLayout}
+          onClick={openDialog}
+          onKeyDown={onEnterKeyDown}
+          tabIndex={0}
+          ref={tabFocusRef}
+        >
+          <SelectedTagListLayout height="fixed">
+            {selectedTagList.map((tag) => (
+              <SelectedTagItem key={tag.tagName} tag={tag} />
+            ))}
+          </SelectedTagListLayout>
+        </div>
+
+        <TagAutocompleteDialog
+          open={open}
+          onOpenChange={setOpen}
+          container={tagInputContainerRef}
+        />
       </div>
-
-      <TagAutocompleteDialog
-        open={open}
-        onOpenChange={setOpen}
-        container={tagInputContainerRef}
-      />
-    </div>
-  );
-}
+    );
+  }
+);
