@@ -42,6 +42,9 @@ export const DirectoryNode = ({
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
     if (event.key === 'Escape') {
       if (node.data.folderId === -1) {
         await queryClient.invalidateQueries({
