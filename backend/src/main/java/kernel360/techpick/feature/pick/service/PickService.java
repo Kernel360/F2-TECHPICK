@@ -92,6 +92,11 @@ public class PickService {
 		}
 
 		User user = userService.getCurrentUser();
+
+		if (pickProvider.existsByUserAndLinkUrl(user, pickCreateRequest.linkRequest().url())) {
+			ApiPickException.PICK_ALREADY_EXIST();
+		}
+
 		Folder folder = folderProvider.findUnclassified(user);
 
 		LinkRequest linkRequest = pickCreateRequest.linkRequest();
