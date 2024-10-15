@@ -115,7 +115,7 @@ export const useTreeHandlers = () => {
       parentNode,
       index,
       -1, // 가상 id, 서버에서 생성된 id로 대체됨
-      'New Folder' // 기본 이름
+      'New Folder' // 가상 이름, 입력받은 이름으로 대체됨
     );
 
     queryClient.setQueryData(

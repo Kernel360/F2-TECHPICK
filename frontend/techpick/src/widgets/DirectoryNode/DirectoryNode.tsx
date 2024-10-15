@@ -10,6 +10,9 @@ import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
+import { StructureData } from '@/shared/types/ApiTypes';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
+import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
 
 export const DirectoryNode = ({
   node,
@@ -18,15 +21,26 @@ export const DirectoryNode = ({
 }: DirectoryNodeProps) => {
   const queryClient = useQueryClient();
   const { mutateAsync: createFolder } = useCreateFolder();
+  const { mutateAsync: moveFolder } = useMoveFolder();
+  const { data: defaultFolderIdData } = useGetDefaultFolderData();
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      if (node.data.folderId === -1) {
-        // 폴더 생성 (서버)
-        const newFolderData = createFolder(event.currentTarget.value);
-        console.log('Server: Folder created:', newFolderData);
-      } else node.submit(event.currentTarget.value);
-    }
+  const cashedStructureData: StructureData | undefined =
+    queryClient.getQueryData(['rootAndRecycleBinData']);
+
+  const realNodeId: number = node.data.folderId
+    ? node.data.folderId
+    : node.data.pickId;
+
+  const setRealNodeId = (id: number) => {
+    if (node.data.folderId) node.data.folderId = id;
+    else node.data.pickId = id;
+  };
+
+  const rootFolderId = defaultFolderIdData?.ROOT;
+
+  const handleKeyDown = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === 'Escape') {
       if (node.data.folderId === -1) {
         queryClient.invalidateQueries({
@@ -34,6 +48,49 @@ export const DirectoryNode = ({
           exact: true,
         });
       } else node.reset();
+    }
+    if (event.key === 'Enter') {
+      if (realNodeId === -1) {
+        // create 동작중 이름 입력인 경우(realId가 -1인 경우)
+        // 폴더 생성 api 호출 (서버)
+        // todo: error handling
+        try {
+          const newFolderData = await createFolder(event.currentTarget.value);
+          console.log('Server: Folder created:', newFolderData);
+
+          // 서버에서 생성한 폴더 아이디로 변경
+          setRealNodeId(newFolderData.id);
+
+          // 서버에 업데이트된 트리 전송
+          // todo: parent 확인해야 함.
+          const serverData = {
+            parentFolderId: node.parent!.isRoot
+              ? rootFolderId
+              : node.parent!.id,
+            structure: {
+              root: cashedStructureData!.root,
+              recycleBin: cashedStructureData!.recycleBin,
+            },
+          };
+          console.log('serverData', serverData);
+          // 폴더 이동 (서버)
+          await moveFolder({
+            folderId: newFolderData.id.toString(),
+            structure: serverData,
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['rootAndRecycleBinData'],
+            exact: true,
+          });
+          node.reset();
+        } catch (error) {
+          console.error('Folder creation failed:', error);
+          await queryClient.invalidateQueries({
+            queryKey: ['rootAndRecycleBinData'],
+            exact: true,
+          });
+        }
+      } else node.submit(event.currentTarget.value);
     }
   };
 
