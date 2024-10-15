@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useThemeStore } from '@/shared/stores/themeStore';
-import { iconButton } from '@/widgets/DirectoryTreeSection/AddFolderPopoverButton.css';
 import { Moon, Sun } from 'lucide-react';
 
 export function ToggleThemeButton() {
@@ -10,9 +9,9 @@ export function ToggleThemeButton() {
 
   return (
     <div>
-      <button className={iconButton} onClick={toggleTheme}>
+      <div onClick={toggleTheme}>
         {isDarkMode ? <Moon strokeWidth={1} /> : <Sun strokeWidth={1} />}
-      </button>
+      </div>
     </div>
   );
 }

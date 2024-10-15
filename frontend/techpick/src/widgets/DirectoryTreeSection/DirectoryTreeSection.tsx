@@ -23,12 +23,11 @@ import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { Folder, LogOut, Trash2 } from 'lucide-react';
+import { Folder, LogOut, Plus, Trash2 } from 'lucide-react';
 import { EditorContextMenu } from '../EditorContextMenu';
 import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
-import AddFolderPopoverButton from '@/widgets/DirectoryTreeSection/AddFolderPopoverButton';
 import { useLogout } from '@/features/userManagement/hooks/useLogout';
 import { useRouter } from 'next/navigation';
 
@@ -36,7 +35,7 @@ export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
-  const { setTreeRef, setFocusedNode, setNewNodeName } = useTreeStore();
+  const { setTreeRef, setFocusedNode } = useTreeStore();
   const { handleCreate, handleDrag, handleRename, handleDelete } =
     useTreeHandlers();
   const [isRecycleBinOpen, setIsRecycleBinOpen] = React.useState(false);
@@ -88,9 +87,10 @@ export function DirectoryTreeSection() {
         <div className={directoryLabelContainer}>
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
-          <AddFolderPopoverButton
-            onEditEnded={(name: string) => {
-              setNewNodeName(name);
+          <Plus
+            width={20}
+            strokeWidth="1.3px"
+            onClick={() => {
               treeRef.current?.create({
                 type: 'internal',
                 parentId: treeRef.current?.focusedNode?.id,
