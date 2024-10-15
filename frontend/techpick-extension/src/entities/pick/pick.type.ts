@@ -26,3 +26,12 @@ type LinkUrlResponse = {
   url: string;
   imageUrl: string;
 };
+
+// export type UpdatePickRequest = components['schemas']['PickUpdateRequest'];
+export type UpdatePickRequest = {
+  id: number;
+  title: string;
+  memo: string;
+  tagIdList: number[];
+};
+// export type UpdatePickRequestType = components['schemas']['PickResponse'];

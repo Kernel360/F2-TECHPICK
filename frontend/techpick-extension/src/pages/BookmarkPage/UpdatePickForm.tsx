@@ -7,8 +7,8 @@ import {
   notifyError,
   returnErrorFromHTTPError,
 } from '@/shared';
-import { useTagStore } from '@/entities/tag';
-import { createPick } from '@/entities/pick';
+import { tagTypes, useTagStore } from '@/entities/tag';
+import { updatePick } from '@/entities/pick';
 import { TagPicker } from '@/widgets';
 import { ThumbnailImage } from './ThumbnailImage';
 import {
@@ -19,20 +19,21 @@ import {
   submitButtonLayout,
   labelLayout,
 } from './BookmarkPage.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { HTTPError } from 'ky';
 
 export function UpdatePickForm({
+  id,
   title,
-  url,
+  tagList,
+  memo,
   imageUrl,
-  description,
 }: UpdatePickFormProps) {
   const titleInputRef = useRef<HTMLInputElement>(null);
   const tagPickerRef = useRef<HTMLDivElement>(null);
   const memoInputRef = useRef<HTMLTextAreaElement>(null);
   const submitButtonRef = useRef<HTMLButtonElement>(null);
-  const { selectedTagList } = useTagStore();
+  const { selectedTagList, replaceSelectedTagList } = useTagStore();
   useChangeFocusUsingArrowKey([
     titleInputRef,
     tagPickerRef,
@@ -40,23 +41,25 @@ export function UpdatePickForm({
     submitButtonRef,
   ]);
 
+  useEffect(
+    function onLoad() {
+      replaceSelectedTagList(tagList);
+    },
+    [tagList, replaceSelectedTagList]
+  );
+
   const onSubmit = () => {
     const userModifiedTitle = titleInputRef.current?.value ?? '';
     const userMemo = memoInputRef.current?.value ?? '';
 
-    createPick({
+    updatePick({
+      id,
       title: DOMPurify.sanitize(userModifiedTitle),
       memo: DOMPurify.sanitize(userMemo),
       tagIdList: selectedTagList.map((tag) => tag.tagId),
-      linkRequest: {
-        title,
-        url,
-        imageUrl,
-        description,
-      },
     })
       .then(() => {
-        notifySuccess('저장되었습니다!');
+        notifySuccess('수정되었습니다!');
       })
       .catch(async (httpError: HTTPError) => {
         const error = await returnErrorFromHTTPError(httpError);
@@ -93,6 +96,7 @@ export function UpdatePickForm({
           id="memo"
           className={textAreaStyle}
           ref={memoInputRef}
+          defaultValue={memo}
         ></textarea>
       </div>
       <div className={submitButtonLayout}>
@@ -105,8 +109,9 @@ export function UpdatePickForm({
 }
 
 interface UpdatePickFormProps {
-  imageUrl: string;
+  id: number;
   title: string;
-  url: string;
-  description: string;
+  tagList: tagTypes.TagType[];
+  imageUrl: string;
+  memo: string;
 }

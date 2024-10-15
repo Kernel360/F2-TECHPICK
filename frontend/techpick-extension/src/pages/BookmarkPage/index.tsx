@@ -1,8 +1,8 @@
 import { Gap } from '@/shared';
 import { useGetTabInfo } from '@/entities/pick';
-import { useHasLink } from '@/features/link';
+import { useHasPick } from '@/features/pick';
 import { BookmarkHeader } from './BookmarkHeader';
-import { SkeltonPickForm } from './SkeletonPickForm';
+import { SkeltonPickForm } from './SkeltonPickForm';
 import { CreatePickForm } from './CreatePickForm';
 import { UpdatePickForm } from './UpdatePickForm';
 import { bookmarkPageLayout } from './BookmarkPage.css';
@@ -14,7 +14,7 @@ export function BookmarkPage() {
     url,
     ogDescription: description,
   } = useGetTabInfo();
-  const { isLoading, hasLink, data } = useHasLink(url);
+  const { isLoading, hasLink, data: pickData } = useHasPick(url);
 
   if (isLoading) {
     return (
@@ -26,20 +26,17 @@ export function BookmarkPage() {
     );
   }
 
-  if (hasLink) {
-    console.log(data);
-  }
-
   return (
     <div className={bookmarkPageLayout}>
       <BookmarkHeader />
       <Gap verticalSize="gap24" />
       {hasLink ? (
         <UpdatePickForm
-          title={data.title}
-          url={url}
+          id={pickData.id}
+          title={pickData.title}
+          tagList={pickData.tagList}
+          memo={pickData.memo}
           imageUrl={imageUrl}
-          description={data.description}
         />
       ) : (
         <CreatePickForm
