@@ -29,7 +29,7 @@ public class FolderService {
 	private final FolderMapper folderMapper;
 
 	@Transactional
-	public FolderResponse createGeneralFolder(
+	public synchronized FolderResponse createGeneralFolder(
 		User user,
 		FolderCreateRequest request
 	) throws ApiFolderException {
