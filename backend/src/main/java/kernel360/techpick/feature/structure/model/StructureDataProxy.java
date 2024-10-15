@@ -27,8 +27,8 @@ public class StructureDataProxy {
         FolderStructureService folderStructureService
     ) {
         return new StructureDataProxy(
-            pickStructureService.getPickListByUser(user),
-            folderStructureService.getFolderListByUserAndParentFolderIsNotNull(user)
+            pickStructureService.getPickListOfRootAndRecycleBinByUser(user),
+            folderStructureService.getFolderListByUserAndParentFolderIsNotNull(user) // parent folder id가 포함됨...
         );
     }
 
