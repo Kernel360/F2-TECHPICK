@@ -223,7 +223,7 @@ export interface paths {
          * URL로 픽 조회
          * @description URL로 픽 id를 획득합니다.
          */
-        get: operations["getPickIdByUrl"];
+        get: operations["getPickByUrl"];
         put?: never;
         post?: never;
         delete?: never;
@@ -440,10 +440,6 @@ export interface components {
             creator?: string;
             category?: string[];
         };
-        ApiErrorBody: {
-            code?: string;
-            message?: string;
-        };
         LinkResponse: {
             /** Format: int64 */
             id?: number;
@@ -451,6 +447,10 @@ export interface components {
             title?: string;
             description?: string;
             imageUrl?: string;
+        };
+        ApiErrorBody: {
+            code?: string;
+            message?: string;
         };
         StructureDeleteRequest: {
             structure?: components["schemas"]["StructureServerNode"];
@@ -946,7 +946,7 @@ export interface operations {
             };
         };
     };
-    getPickIdByUrl: {
+    getPickByUrl: {
         parameters: {
             query: {
                 url: string;
@@ -963,7 +963,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": number;
+                    "*/*": components["schemas"]["PickResponse"];
                 };
             };
             /** @description 픽 id가 존재하지 않습니다. */
@@ -972,7 +972,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": number;
+                    "*/*": components["schemas"]["PickResponse"];
                 };
             };
         };
