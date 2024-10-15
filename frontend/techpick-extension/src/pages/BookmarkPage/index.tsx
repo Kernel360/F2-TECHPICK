@@ -1,4 +1,4 @@
-import { Gap } from '@/shared';
+import { Gap, DeferredComponent } from '@/shared';
 import { useGetTabInfo } from '@/entities/pick';
 import { useHasPick } from '@/features/pick';
 import { BookmarkHeader } from './BookmarkHeader';
@@ -21,7 +21,9 @@ export function BookmarkPage() {
       <div className={bookmarkPageLayout}>
         <BookmarkHeader />
         <Gap verticalSize="gap24" />
-        <SkeltonPickForm title={title} />
+        <DeferredComponent>
+          <SkeltonPickForm />
+        </DeferredComponent>
       </div>
     );
   }

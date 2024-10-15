@@ -1,6 +1,4 @@
 import { Button, Text } from '@/shared';
-import { TagPicker } from '@/widgets';
-import { ThumbnailImage } from './ThumbnailImage';
 import {
   pickFormLayout,
   formFieldLayout,
@@ -9,13 +7,21 @@ import {
   submitButtonLayout,
   labelLayout,
 } from './BookmarkPage.css';
+import {
+  skeleton,
+  skeletonImageStyle,
+  skeletonTagInputStyle,
+} from './SkeltonPickForm.css';
 
-export function SkeltonPickForm({ title }: SkeltonPickFormProps) {
+export function SkeltonPickForm() {
   return (
     <form className={pickFormLayout} onSubmit={(e) => e.preventDefault()}>
       <div className={formFieldLayout}>
-        <ThumbnailImage image={null} />
-        <input type="text" defaultValue={title} className={titleInputStyle} />
+        <div className={`${skeleton} ${skeletonImageStyle}`} />
+        <div
+          data-skeleton={true}
+          className={`${titleInputStyle} ${skeleton}`}
+        />
       </div>
       <div className={formFieldLayout}>
         <div className={labelLayout}>
@@ -23,7 +29,7 @@ export function SkeltonPickForm({ title }: SkeltonPickFormProps) {
             <label htmlFor="">태그</label>
           </Text>
         </div>
-        <TagPicker />
+        <div className={`${skeletonTagInputStyle} ${skeleton}`}></div>
       </div>
       <div className={formFieldLayout}>
         <div className={labelLayout}>
@@ -31,15 +37,11 @@ export function SkeltonPickForm({ title }: SkeltonPickFormProps) {
             <label htmlFor="">메모</label>
           </Text>
         </div>
-        <textarea id="memo" className={textAreaStyle}></textarea>
+        <div className={`${textAreaStyle} ${skeleton}`}></div>
       </div>
       <div className={submitButtonLayout}>
         <Button>제출</Button>
       </div>
     </form>
   );
-}
-
-interface SkeltonPickFormProps {
-  title: string;
 }
