@@ -212,7 +212,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/picks/url/{url}": {
+    "/api/picks/url": {
         parameters: {
             query?: never;
             header?: never;
@@ -440,6 +440,10 @@ export interface components {
             creator?: string;
             category?: string[];
         };
+        ApiErrorBody: {
+            code?: string;
+            message?: string;
+        };
         LinkResponse: {
             /** Format: int64 */
             id?: number;
@@ -447,10 +451,6 @@ export interface components {
             title?: string;
             description?: string;
             imageUrl?: string;
-        };
-        ApiErrorBody: {
-            code?: string;
-            message?: string;
         };
         StructureDeleteRequest: {
             structure?: components["schemas"]["StructureServerNode"];
@@ -758,6 +758,15 @@ export interface operations {
                     "*/*": components["schemas"]["PickResponse"];
                 };
             };
+            /** @description 픽이 이미 존재합니다. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PickResponse"];
+                };
+            };
         };
     };
     deletePick_1: {
@@ -939,11 +948,11 @@ export interface operations {
     };
     getPickIdByUrl: {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
+            query: {
                 url: string;
             };
+            header?: never;
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
