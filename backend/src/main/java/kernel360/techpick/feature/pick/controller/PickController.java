@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.pick.service.PickService;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
 import kernel360.techpick.feature.pick.service.dto.PickDeleteRequest;
@@ -44,8 +43,8 @@ public class PickController implements PickApi {
 
 	@Override
 	@GetMapping("/url")
-	public ResponseEntity<PickResponse> getPickIdByUrl(@RequestParam String url) {
-		return ResponseEntity.ok(pickService.getPickIdByUrl(url));
+	public ResponseEntity<PickResponse> getPickByUrl(@RequestParam String url) {
+		return ResponseEntity.ok(pickService.getPickByUrl(url));
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package kernel360.techpick.feature.pick.service;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +78,7 @@ public class PickService {
 
 	// Url로 픽 상세 조회
 	@Transactional(readOnly = true)
-	public PickResponse getPickIdByUrl(String url) {
+	public PickResponse getPickByUrl(String url) {
 		User user = userService.getCurrentUser();
 		Pick pick = pickProvider.getByUserAndLinkUrl(user, url);
 

@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kernel360.techpick.core.model.folder.FolderType;
 import kernel360.techpick.feature.pick.service.dto.PickCreateRequest;
 import kernel360.techpick.feature.pick.service.dto.PickDeleteRequest;
 import kernel360.techpick.feature.pick.service.dto.PickResponse;
@@ -43,7 +42,7 @@ public interface PickApi {
 			description = "픽 id가 존재하지 않습니다."
 		)
 	})
-	ResponseEntity<PickResponse> getPickIdByUrl(String url);
+	ResponseEntity<PickResponse> getPickByUrl(String url);
 
 	@Operation(
 		summary = "사용자 픽 리스트 조회",
