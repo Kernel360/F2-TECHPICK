@@ -12,6 +12,7 @@ type TagState = {
 };
 
 type TagAction = {
+  replaceSelectedTagList: (tagList: TagType[]) => void;
   selectTag: (tag: TagType) => void;
   deselectTag: (tagId: TagType['tagId']) => void;
   updateSelectedTagList: (tag: TagType) => void;
@@ -30,6 +31,12 @@ const initialState: TagState = {
 export const useTagStore = create<TagState & TagAction>()(
   immer((set) => ({
     ...initialState,
+
+    replaceSelectedTagList: (tagList) =>
+      set((state) => {
+        state.selectedTagList = tagList;
+      }),
+
     selectTag: (tag: TagType) =>
       set((state) => {
         const exist = state.selectedTagList.some((t) => t.tagId === tag.tagId);

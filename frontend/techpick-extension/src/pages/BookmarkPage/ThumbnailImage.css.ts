@@ -22,5 +22,5 @@ export const imagePlaceholderStyle = style({
   flexShrink: '0',
   width: '48px',
   height: '48px',
-  backgroundColor: 'black',
+  backgroundColor: '#f9f9f9',
 });
