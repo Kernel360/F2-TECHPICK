@@ -12,6 +12,7 @@ import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdF
 import { useQueryClient } from '@tanstack/react-query';
 import { StructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
+import { deleteFolder } from '@/features/nodeManagement/api/queryFunctions';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
@@ -161,10 +162,42 @@ export const useTreeHandlers = () => {
     await refetchStructure();
   };
 
+  const handleDelete = async ({
+    ids,
+    nodes,
+  }: {
+    ids: string[];
+    nodes: NodeApi[];
+  }) => {
+    const realNodeId =
+      nodes[0].data.type === 'folder'
+        ? nodes[0].data.folderId
+        : nodes[0].data.pickId;
+
+    const updatedRecycleBin = removeByIdFromStructure(
+      structuredClone(structureData!.recycleBin),
+      ids[0]
+    );
+
+    const serverData = {
+      parentFolderId: recycleBinId,
+      structure: {
+        root: structuredClone(structureData!.root),
+        recycleBin: updatedRecycleBin,
+      },
+    };
+    await deleteFolder({
+      folderId: realNodeId.toString(),
+      structure: serverData,
+    });
+    await refetchStructure();
+  };
+
   return {
     handleCreate,
     handleDrag,
     handleRename,
     handleMoveToTrash,
+    handleDelete,
   };
 };

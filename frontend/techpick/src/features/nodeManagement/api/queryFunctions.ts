@@ -67,3 +67,17 @@ export const putFolderRename = async ({
     })
     .json();
 };
+
+export const deleteFolder = async ({
+  folderId,
+  structure,
+}: {
+  folderId: string;
+  structure: object;
+}): Promise<void> => {
+  return await apiClient
+    .delete(`structures/folders/${folderId}`, {
+      json: structure,
+    })
+    .json();
+};

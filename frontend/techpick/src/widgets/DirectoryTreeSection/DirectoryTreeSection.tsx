@@ -37,8 +37,13 @@ export function DirectoryTreeSection() {
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
-  const { handleCreate, handleDrag, handleRename, handleMoveToTrash } =
-    useTreeHandlers();
+  const {
+    handleCreate,
+    handleDrag,
+    handleRename,
+    handleMoveToTrash,
+    handleDelete,
+  } = useTreeHandlers();
   const [isRecycleBinOpen, setIsRecycleBinOpen] = React.useState(false);
 
   const { mutate } = useLogout();
@@ -158,16 +163,19 @@ export function DirectoryTreeSection() {
                 className={directoryTree}
                 data={rootAndRecycleBinData?.recycleBin}
                 disableMultiSelection={true}
+                onFocus={(node: NodeApi) => {
+                  setFocusedNode(node);
+                }}
                 onMove={handleDrag}
                 onCreate={handleCreate}
                 onRename={handleRename}
-                onDelete={handleMoveToTrash}
+                onDelete={handleDelete}
                 openByDefault={false}
                 width={width}
                 height={height}
                 rowHeight={32}
                 indent={24}
-                overscanCount={3}
+                overscanCount={1}
                 dndManager={dragDropManager}
               >
                 {DirectoryNode}
