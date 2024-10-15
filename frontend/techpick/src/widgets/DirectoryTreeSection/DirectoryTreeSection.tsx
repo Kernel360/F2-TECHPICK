@@ -97,6 +97,9 @@ export function DirectoryTreeSection() {
             width={20}
             strokeWidth="1.3px"
             onClick={() => {
+              if (treeRef.current?.isEditing) {
+                return;
+              }
               treeRef.current?.create({
                 type: 'internal',
                 parentId: treeRef.current?.focusedNode?.id,

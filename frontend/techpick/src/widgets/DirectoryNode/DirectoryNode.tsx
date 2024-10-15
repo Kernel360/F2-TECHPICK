@@ -54,6 +54,10 @@ export const DirectoryNode = ({
       } else node.reset();
     }
     if (event.key === 'Enter') {
+      if (event.currentTarget.value === '') {
+        toast.error('폴더 이름을 입력해주세요.');
+        return;
+      }
       if (realNodeId === -1) {
         // create 동작중 이름 입력인 경우(realId가 -1인 경우)
         // 폴더 생성 api 호출 (서버)
