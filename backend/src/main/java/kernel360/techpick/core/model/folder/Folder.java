@@ -33,7 +33,8 @@ public class Folder extends TimeTracking {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name", nullable = false)
+	// NOTE: 10.15 김민규 - 한글 이름이 0.01초 차이로 2번 요청와서, 긴급하게 막고자 추가합니다.
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
 	@Enumerated(EnumType.STRING)
