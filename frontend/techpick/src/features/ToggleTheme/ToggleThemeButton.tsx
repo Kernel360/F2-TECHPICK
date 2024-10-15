@@ -2,13 +2,16 @@
 
 import React from 'react';
 import { useThemeStore } from '@/shared/stores/themeStore';
+import { Moon, Sun } from 'lucide-react';
 
 export function ToggleThemeButton() {
   const { isDarkMode, toggleTheme } = useThemeStore();
 
   return (
     <div>
-      <button onClick={toggleTheme}>{isDarkMode ? 'Dark' : 'Light'}</button>
+      <div onClick={toggleTheme}>
+        {isDarkMode ? <Moon strokeWidth={1} /> : <Sun strokeWidth={1} />}
+      </div>
     </div>
   );
 }

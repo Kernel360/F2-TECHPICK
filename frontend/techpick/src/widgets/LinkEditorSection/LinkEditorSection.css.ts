@@ -4,6 +4,7 @@ import { commonThemeContract, themeContract } from '@/shared/themes';
 export const linkEditorLabel = style({
   display: 'flex',
   gap: commonThemeContract.space.sm,
+  fontWeight: 370,
 });
 
 export const searchSection = style({
@@ -37,33 +38,16 @@ export const linkEditor = style({
 
 export const folderViewSection = style({
   width: '100%',
-  height: '160px',
   display: 'flex',
+  flexWrap: 'wrap',
   borderBottom: `1px solid ${themeContract.color.border}`,
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 
-export const folderWrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '100px',
-  height: '100px',
-  padding: `0 ${commonThemeContract.space.md}`,
-  fontWeight: 300,
-  textAlign: 'center',
-  borderRadius: '4px',
-  ':hover': {
-    backgroundColor: '#efefef',
-  },
-});
-
 export const linkViewSection = style({
   width: '100%',
-  height: '100%',
   display: 'flex',
-  alignItems: 'start',
+  flexWrap: 'wrap',
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 

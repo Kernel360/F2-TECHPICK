@@ -10,6 +10,13 @@ export interface NodeData {
   pickId?: number; // pick에만 적용
 }
 
+export interface ArboristCreateProps {
+  parentId: string | null;
+  parentNode: NodeApi | null;
+  index: number;
+  type: 'internal' | 'leaf';
+}
+
 export interface DirectoryNodeProps {
   node: NodeApi;
   style: CSSProperties;

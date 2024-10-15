@@ -30,10 +30,15 @@ export const logo = style({
   paddingLeft: '12px',
 });
 
+export const logout = style({
+  cursor: 'pointer',
+});
+
 export const directoryTreeContainer = style({
   width: '100%',
   height: '100%',
   display: 'flex',
+  position: 'relative',
   flexDirection: 'column',
   backgroundColor: themeContract.color.background,
 });
@@ -44,7 +49,34 @@ export const directoryLabelContainer = style({
   display: 'flex',
   alignItems: 'center',
   paddingLeft: commonThemeContract.space.lg,
+  paddingRight: commonThemeContract.space.sm,
   borderBottom: `1px solid ${themeContract.color.border}`,
+});
+
+export const recycleBinContainerClosed = style({
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: 'auto',
+  marginBottom: '28px',
+  transition: 'transform 0.3s ease-out, height 0.3s ease-out',
+  height: '28px',
+  transform: 'translateY(100%)',
+  overflow: 'hidden',
+});
+export const recycleBinContainerOpen = style({
+  height: 'calc(50%)',
+  transform: 'translateY(0)',
+  transition: 'transform 0.3s ease-out',
+});
+
+export const recycleBinLabelContainer = style({
+  width: '100%',
+  height: '28px',
+  display: 'flex',
+  alignItems: 'center',
+  paddingLeft: commonThemeContract.space.lg,
+  borderTop: `1px solid ${themeContract.color.border}`,
+  cursor: 'pointer',
 });
 
 export const directoryLabel = style({
@@ -55,7 +87,21 @@ export const directoryLabel = style({
 });
 
 export const directoryTreeWrapper = style({
-  height: '100%',
+  outline: 'none',
+  height: 'calc(50% - 32px)',
+});
+
+export const recycleBinTreeWrapper = style({
+  outline: 'none',
+  height: 'calc(100% - 32px)',
+  overflow: 'hidden',
+  transition: 'height 0.4s',
+  borderTop: `1px solid ${themeContract.color.border}`,
+});
+
+export const recycleBinTreeWrapperClosed = style({
+  height: '0',
+  overflow: 'hidden',
 });
 
 export const directoryTreeSectionFooter = style({
@@ -67,4 +113,5 @@ export const directoryTreeSectionFooter = style({
 export const directoryTree = style({
   width: '100%',
   height: '100%',
+  outline: 'none',
 });

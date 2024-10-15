@@ -1,18 +1,22 @@
 import React, { useCallback, useRef } from 'react';
-import {
-  folderViewSection,
-  linkViewSection,
-} from '@/widgets/LinkEditorSection/linkEditorSection.css';
+
 import { Folder } from '@/features/DnD/Folder';
 import { Pick } from '@/features/DnD/Pick';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { useDropHook } from '@/hooks/useDropHook';
+import { useDropHook } from '@/features/DnD/hooks/useDropHook';
+import {
+  folderViewSection,
+  linkViewSection,
+} from '@/widgets/LinkEditorSection/LinkEditorSection.css';
 
 export const LinkEditor = () => {
-  const { treeApi, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
+  const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
     useTreeStore();
   const el = useRef<HTMLDivElement | null>(null);
-  const dropRef = useDropHook(el, focusedNode ? focusedNode : treeApi!.root);
+  const dropRef = useDropHook(
+    el,
+    focusedNode ? focusedNode : treeRef.current!.root
+  );
 
   const innerRef = useCallback(
     (n: HTMLDivElement) => {

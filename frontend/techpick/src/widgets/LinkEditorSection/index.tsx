@@ -6,11 +6,12 @@ import {
   linkEditorSection,
   searchSection,
   linkEditor,
-} from './linkEditorSection.css';
+} from './LinkEditorSection.css';
 import { NodeApi } from 'react-arborist';
 import { ArrowDownAZ, Search } from 'lucide-react';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { LinkEditor } from '@/widgets/LinkEditorSection/LinkEditor';
+import { ToggleThemeButton } from '@/features';
 
 export function LinkEditorSection() {
   const { focusedNode } = useTreeStore();
@@ -37,10 +38,13 @@ export function LinkEditorSection() {
         </div>
         <div className={searchSection}>
           <div>
-            <ArrowDownAZ size={24} />
+            <ToggleThemeButton />
           </div>
           <div>
-            <Search size={24} />
+            <ArrowDownAZ size={24} strokeWidth={1.3} />
+          </div>
+          <div>
+            <Search size={24} strokeWidth={1.3} />
           </div>
         </div>
       </div>
