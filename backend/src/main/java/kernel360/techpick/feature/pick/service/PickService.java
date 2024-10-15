@@ -87,11 +87,12 @@ public class PickService {
 	// 픽 생성
 	@Transactional
 	public PickResponse createPick(PickCreateRequest pickCreateRequest) {
-		if (Objects.nonNull(getPickIdByUrl(pickCreateRequest.linkRequest().url()))) {
+		User user = userService.getCurrentUser();
+
+		if (pickProvider.existsByUserAndLinkUrl(user, pickCreateRequest.linkRequest().url())) {
 			ApiPickException.PICK_ALREADY_EXIST();
 		}
 
-		User user = userService.getCurrentUser();
 		Folder folder = folderProvider.findUnclassified(user);
 
 		LinkRequest linkRequest = pickCreateRequest.linkRequest();
