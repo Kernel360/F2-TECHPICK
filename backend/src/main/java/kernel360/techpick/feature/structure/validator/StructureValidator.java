@@ -36,7 +36,10 @@ public class StructureValidator {
 		int nodeSize = nodeList.size();
 		int expected = dataProxy.folderListSize() + dataProxy.pickListSize();
 		if (nodeSize != expected) {
-			log.error("노드 개수가 일치하지 않습니다 root's child node count:{}, expected count:{}", nodeSize, expected);
+			log.error(
+				"노드 개수가 일치하지 않습니다 root's child node count:{}, expected count: [folder {} + pick {}]"
+				, nodeSize, dataProxy.folderListSize(), dataProxy.pickListSize()
+			);
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
