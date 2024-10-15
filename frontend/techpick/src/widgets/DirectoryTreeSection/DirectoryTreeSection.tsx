@@ -30,6 +30,7 @@ import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import { useLogout } from '@/features/userManagement/hooks/useLogout';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -58,7 +59,7 @@ export function DirectoryTreeSection() {
       },
       onError: (error) => {
         console.error('Logout failed:', error);
-        alert('Logout failed');
+        toast.error('Logout failed');
       },
     });
   };

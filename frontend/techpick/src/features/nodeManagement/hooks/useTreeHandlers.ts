@@ -11,6 +11,7 @@ import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeB
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { StructureData } from '@/shared/types/ApiTypes';
+import toast from 'react-hot-toast';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
@@ -112,7 +113,7 @@ export const useTreeHandlers = () => {
       folderId: dragNodes[0].data.folderId!.toString(),
       structure: serverData,
     });
-    refetchStructure();
+    await refetchStructure();
   };
 
   const handleRename = async ({
@@ -125,8 +126,14 @@ export const useTreeHandlers = () => {
   }) => {
     const realNodeId =
       node.data.type === 'folder' ? node.data.folderId : node.data.pickId;
-    await renameFolder({ folderId: realNodeId.toString(), name });
-    refetchStructure();
+    try {
+      await renameFolder({ folderId: realNodeId.toString(), name });
+      await refetchStructure();
+    } catch (error) {
+      console.error('Folder rename failed:', error);
+      toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+      await refetchStructure();
+    }
   };
 
   const handleMoveToTrash = async ({
@@ -158,7 +165,7 @@ export const useTreeHandlers = () => {
       folderId: realNodeId.toString(),
       structure: serverData,
     });
-    refetchStructure();
+    await refetchStructure();
   };
 
   return {

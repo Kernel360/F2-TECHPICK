@@ -13,6 +13,7 @@ import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder
 import { StructureData } from '@/shared/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
 import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
+import toast from 'react-hot-toast';
 
 export const DirectoryNode = ({
   node,
@@ -43,7 +44,7 @@ export const DirectoryNode = ({
   ) => {
     if (event.key === 'Escape') {
       if (node.data.folderId === -1) {
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
           queryKey: ['rootAndRecycleBinData'],
           exact: true,
         });
@@ -88,6 +89,8 @@ export const DirectoryNode = ({
             queryKey: ['rootAndRecycleBinData'],
             exact: true,
           });
+
+          toast.error('동일한 이름을 가진 폴더가 존재합니다.');
         }
       } else node.submit(event.currentTarget.value);
     }
