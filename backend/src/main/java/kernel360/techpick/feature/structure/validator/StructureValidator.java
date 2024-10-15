@@ -2,7 +2,6 @@ package kernel360.techpick.feature.structure.validator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
@@ -34,8 +33,10 @@ public class StructureValidator {
 
 	private void validateNodeSize(List<RelationalNode> nodeList, StructureDataProxy dataProxy) {
 
-		if (nodeList.size() != dataProxy.folderListSize() + dataProxy.pickListSize()) {
-			log.error("노드 개수가 일치하지 않습니다 size : {}", nodeList.size());
+		int nodeSize = nodeList.size();
+		int expected = dataProxy.folderListSize() + dataProxy.pickListSize();
+		if (nodeSize != expected) {
+			log.error("노드 개수가 일치하지 않습니다 root's child node count:{}, expected count:{}", nodeSize, expected);
 			throw ApiStructureException.INVALID_JSON_STRUCTURE();
 		}
 	}
