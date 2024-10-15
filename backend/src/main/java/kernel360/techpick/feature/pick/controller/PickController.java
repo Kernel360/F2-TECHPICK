@@ -43,8 +43,8 @@ public class PickController implements PickApi {
 	}
 
 	@Override
-	@GetMapping("/url/{url}")
-	public ResponseEntity<Long> getPickIdByUrl(@PathVariable String url) {
+	@GetMapping("/url")
+	public ResponseEntity<Long> getPickIdByUrl(@RequestParam String url) {
 		return ResponseEntity.ok(pickService.getPickIdByUrl(url));
 	}
 

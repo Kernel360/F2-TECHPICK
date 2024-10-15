@@ -77,6 +77,10 @@ public interface PickApi {
 		@ApiResponse(
 			responseCode = "200",
 			description = "픽 생성에 성공하였습니다."
+		),
+		@ApiResponse(
+			responseCode = "400",
+			description = "픽이 이미 존재합니다."
 		)
 	})
 	ResponseEntity<PickResponse> createPick(PickCreateRequest pickCreateRequest);

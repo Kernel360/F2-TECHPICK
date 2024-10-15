@@ -1,6 +1,7 @@
 package kernel360.techpick.feature.pick.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import kernel360.techpick.feature.link.model.LinkMapper;
 import kernel360.techpick.feature.link.service.LinkService;
 import kernel360.techpick.feature.link.service.dto.LinkRequest;
 import kernel360.techpick.feature.link.service.dto.LinkUrlResponse;
+import kernel360.techpick.feature.pick.exception.ApiPickException;
 import kernel360.techpick.feature.pick.model.PickMapper;
 import kernel360.techpick.feature.pick.model.PickProvider;
 import kernel360.techpick.feature.pick.model.PickTagProvider;
@@ -85,6 +87,10 @@ public class PickService {
 	// 픽 생성
 	@Transactional
 	public PickResponse createPick(PickCreateRequest pickCreateRequest) {
+		if (Objects.nonNull(getPickIdByUrl(pickCreateRequest.linkRequest().url()))) {
+			ApiPickException.PICK_ALREADY_EXIST();
+		}
+
 		User user = userService.getCurrentUser();
 		Folder folder = folderProvider.findUnclassified(user);
 
