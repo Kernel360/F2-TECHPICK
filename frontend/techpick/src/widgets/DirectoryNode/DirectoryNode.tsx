@@ -62,11 +62,10 @@ export const DirectoryNode = ({
           setRealNodeId(newFolderData.id);
 
           // 서버에 업데이트된 트리 전송
-          // todo: parent 확인해야 함.
           const serverData = {
             parentFolderId: node.parent!.isRoot
               ? rootFolderId
-              : node.parent!.id,
+              : node.parent!.data.folderId,
             structure: {
               root: cashedStructureData!.root,
               recycleBin: cashedStructureData!.recycleBin,

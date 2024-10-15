@@ -1,5 +1,6 @@
 import { NodeApi, TreeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types';
+import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 
 export const createNode = (
   treeData: NodeData[],
@@ -17,16 +18,10 @@ export const createNode = (
     children = [];
   }
 
-  const nextId = () => {
-    const maxId = treeData.reduce((acc, cur) => {
-      const id = parseInt(cur.id, 10);
-      return id > acc ? id : acc;
-    }, 0);
-    return String(maxId + 1);
-  };
+  const nextId = getNewIdFromStructure(treeData);
 
   const newFolder: NodeData = {
-    id: nextId(),
+    id: nextId,
     folderId: newId,
     type: 'folder',
     name: newName,
@@ -34,7 +29,7 @@ export const createNode = (
   };
 
   const newPick: NodeData = {
-    id: nextId(),
+    id: nextId,
     pickId: newId,
     type: 'pick',
     name: newName,

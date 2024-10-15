@@ -47,7 +47,9 @@ export const useTreeHandlers = () => {
     console.log('parentNode', parentNode);
     console.log('index', index);
     console.log('type', type);
-    const newLocalNodeId = getNewIdFromStructure(structureData!.root);
+    const newLocalNodeId = getNewIdFromStructure(
+      structuredClone(structureData!.root)
+    );
 
     // 폴더 생성 (클라이언트)
     const updatedTreeData = createNode(
