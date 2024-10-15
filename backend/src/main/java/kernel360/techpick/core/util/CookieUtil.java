@@ -19,8 +19,8 @@ public class CookieUtil {
 			.path("/")
 			.httpOnly(true)
 			.secure(true)
-		    .domain("minlife.me") // WARN: must be set for Production
-			// .sameSite("None")
+			.domain("minlife.me") // WARN: must be set for Production
+			// .sameSite("Ngne")
 			.build();
 		response.addHeader("Set-Cookie", responseCookie.toString());
 
