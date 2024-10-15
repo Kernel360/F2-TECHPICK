@@ -4,18 +4,16 @@ export function removeByIdFromStructure(
   structure: NodeData[],
   targetId: string
 ): NodeData[] {
-  for (let i = 0; i < structure.length; i++) {
-    const node = structure[i];
-
+  return structure.reduce<NodeData[]>((acc, node) => {
     if (node.id === targetId) {
-      structure.splice(i, 1);
-      return structure;
+      return acc;
     }
 
-    if (node.children && node.children.length > 0) {
-      node.children = removeByIdFromStructure(node.children, targetId);
-    }
-  }
+    const children = node.children
+      ? removeByIdFromStructure(node.children, targetId)
+      : [];
 
-  return structure;
+    acc.push({ ...node, children });
+    return acc;
+  }, []);
 }

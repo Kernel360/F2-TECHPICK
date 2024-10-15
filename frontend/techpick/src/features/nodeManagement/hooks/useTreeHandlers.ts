@@ -17,7 +17,6 @@ export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
     useGetRootAndRecycleBinData();
   const {
-    treeRef,
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
@@ -29,14 +28,7 @@ export const useTreeHandlers = () => {
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
   const queryClient = useQueryClient();
-  // const cashedStructureData = queryClient.getQueryData([
-  //   'rootAndRecycleBinData',
-  // ]);
-
-  // const userId = defaultFolderIdData?.userId;
-  // const rootFolderId = defaultFolderIdData?.ROOT;
   const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
-  // const unclassifiedId = defaultFolderIdData?.UNCLASSIFIED;
 
   const handleCreate: CreateHandler<NodeData> = async ({
     parentId,
@@ -49,15 +41,13 @@ export const useTreeHandlers = () => {
     console.log('index', index);
     console.log('type', type);
     const newLocalNodeId = getNewIdFromStructure(
-      structuredClone(structureData!.root)
+      structuredClone(structureData!)
     );
 
     // 폴더 생성 (클라이언트)
     const updatedTreeData = createNode(
-      structuredClone(structureData!.root),
-      focusedNode,
+      structuredClone(structureData!),
       type,
-      treeRef.current!,
       parentId,
       parentNode,
       index,
@@ -84,7 +74,7 @@ export const useTreeHandlers = () => {
     index,
   }) => {
     const updatedTreeData = moveNode(
-      structureData!.root,
+      structuredClone(structureData!.root),
       focusedNode,
       focusedFolderNodeList,
       focusedLinkNodeList,
@@ -148,11 +138,14 @@ export const useTreeHandlers = () => {
         ? nodes[0].data.folderId
         : nodes[0].data.pickId;
 
-    const updatedRecycleBin = [...structureData!.recycleBin];
-    updatedRecycleBin.push(nodes[0].data);
+    const updatedRecycleBin = structuredClone(structureData!.recycleBin);
+    updatedRecycleBin.splice(0, 0, nodes[0].data);
+    console.log('LOCAL : updatedRecycleBin', updatedRecycleBin);
 
-    const updatedTreeStructure = [...structureData!.root];
-    removeByIdFromStructure(updatedTreeStructure, ids[0]);
+    const updatedTreeStructure = removeByIdFromStructure(
+      structuredClone(structureData!.root),
+      ids[0]
+    );
 
     const serverData = {
       parentFolderId: recycleBinId,
@@ -172,6 +165,6 @@ export const useTreeHandlers = () => {
     handleCreate,
     handleDrag,
     handleRename,
-    handleDelete: handleMoveToTrash,
+    handleMoveToTrash,
   };
 };

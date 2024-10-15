@@ -1,12 +1,11 @@
-import { NodeApi, TreeApi } from 'react-arborist';
+import { NodeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
+import { StructureData } from '@/shared/types/ApiTypes';
 
 export const createNode = (
-  treeData: NodeData[],
-  focusedNode: NodeApi | null,
+  structureData: StructureData,
   type: 'internal' | 'leaf',
-  treeApi: TreeApi<NodeData> | undefined,
   parentId: string | null,
   parentNode: NodeApi | null,
   index: number,
@@ -18,7 +17,7 @@ export const createNode = (
     children = [];
   }
 
-  const nextId = getNewIdFromStructure(treeData);
+  const nextId = getNewIdFromStructure(structureData);
 
   const newFolder: NodeData = {
     id: nextId,
@@ -67,5 +66,5 @@ export const createNode = (
     });
   };
 
-  return insertNodeToData(treeData, newNode);
+  return insertNodeToData(structureData.root, newNode);
 };

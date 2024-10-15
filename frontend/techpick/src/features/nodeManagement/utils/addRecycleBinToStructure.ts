@@ -1,13 +1,14 @@
 import { NodeData } from '@/shared/types';
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
+import { StructureData } from '@/shared/types/ApiTypes';
 
 export function addRecycleBinToStructure(
-  structure: NodeData[],
+  structure: StructureData,
   recycleBinId: number,
   recycleBin: NodeData[]
 ) {
-  const lastIndex = structure.length;
+  const lastIndex = structure.root.length;
   const newId = getNewIdFromStructure(structure);
   const recycleBinNode: NodeData = {
     id: newId,
@@ -17,5 +18,5 @@ export function addRecycleBinToStructure(
     children: recycleBin,
   };
 
-  return addNodeToStructure(structure, null, lastIndex, recycleBinNode);
+  return addNodeToStructure(structure.root, null, lastIndex, recycleBinNode);
 }

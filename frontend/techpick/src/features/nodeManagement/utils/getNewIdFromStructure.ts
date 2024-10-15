@@ -1,4 +1,5 @@
 import { NodeData } from '@/shared/types';
+import { StructureData } from '@/shared/types/ApiTypes';
 
 function getMaxIdFromNodes(nodes: NodeData[]): number {
   let maxId = 0;
@@ -18,7 +19,10 @@ function getMaxIdFromNodes(nodes: NodeData[]): number {
   return maxId;
 }
 
-export function getNewIdFromStructure(structure: NodeData[]): string {
-  const maxId = getMaxIdFromNodes(structure);
+export function getNewIdFromStructure(structure: StructureData): string {
+  const maxIdInRoot = getMaxIdFromNodes(structure.root);
+  const maxIdInRecycleBin = getMaxIdFromNodes(structure.recycleBin);
+  const maxId = Math.max(maxIdInRoot, maxIdInRecycleBin);
+
   return String(maxId + 1);
 }

@@ -37,7 +37,7 @@ export function DirectoryTreeSection() {
   const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
-  const { handleCreate, handleDrag, handleRename, handleDelete } =
+  const { handleCreate, handleDrag, handleRename, handleMoveToTrash } =
     useTreeHandlers();
   const [isRecycleBinOpen, setIsRecycleBinOpen] = React.useState(false);
 
@@ -116,7 +116,7 @@ export function DirectoryTreeSection() {
                 onMove={handleDrag}
                 onCreate={handleCreate}
                 onRename={handleRename}
-                onDelete={handleDelete}
+                onDelete={handleMoveToTrash}
                 openByDefault={false}
                 width={width}
                 height={height}
@@ -161,7 +161,7 @@ export function DirectoryTreeSection() {
                 onMove={handleDrag}
                 onCreate={handleCreate}
                 onRename={handleRename}
-                onDelete={handleDelete}
+                onDelete={handleMoveToTrash}
                 openByDefault={false}
                 width={width}
                 height={height}
