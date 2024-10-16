@@ -1,9 +1,12 @@
 package kernel360.techpick.core.model.pick;
 
+import java.util.List;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,10 +15,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.model.common.TimeTracking;
+import kernel360.techpick.core.model.common.BaseEntity;
 import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.core.model.user.User;
+import kernel360.techpick.core.util.OrderConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pick extends TimeTracking {
+public class Pick extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +46,7 @@ public class Pick extends TimeTracking {
 	private Link link;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	// 부모 폴더가 삭제되면 자식픽 또한 삭제됨
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "parent_folder_id", nullable = false)
 	private Folder parentFolder;
@@ -64,26 +69,28 @@ public class Pick extends TimeTracking {
 	@Column(name = "memo") // nullable
 	private String memo;
 
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	// 픽에 속한 tag id들을 공백으로 분리된 String으로 변환하여 db에 저장
+	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
+	@Convert(converter = OrderConverter.class)
+	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
+	private List<Long> tagOrder;
 
-	private Pick(User user, Link link, Folder parentFolder, String customTitle, String memo) {
+	private Pick(
+		User user,
+		Link link,
+		Folder parentFolder,
+		String customTitle,
+		String memo,
+		List<Long> tagOrder
+	) {
 		this.user = user;
 		this.link = link;
 		this.parentFolder = parentFolder;
 		this.customTitle = customTitle;
 		this.memo = memo;
+		this.tagOrder = tagOrder;
 	}
 
-	public static Pick create(User user, Link link, Folder parentFolder, String customTitle, String memo) {
-		return new Pick(user, link, parentFolder, customTitle, memo);
-	}
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 
-	public void updateParentFolder(Folder parentFolder) {
-		this.parentFolder = parentFolder;
-	}
-
-	public void updatePick(String title, String memo) {
-		this.customTitle = title;
-		this.memo = memo;
-	}
 }
