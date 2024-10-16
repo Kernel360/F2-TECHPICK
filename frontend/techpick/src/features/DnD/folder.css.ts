@@ -13,6 +13,6 @@ export const folderWrapper = style({
   textAlign: 'center',
   borderRadius: '4px',
   ':hover': {
-    backgroundColor: '#efefef',
+    backgroundColor: 'rgba(223,223,223,0.3)',
   },
 });

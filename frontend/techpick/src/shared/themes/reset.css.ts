@@ -67,3 +67,8 @@ globalStyle('table', {
   borderCollapse: 'collapse',
   borderSpacing: 0,
 });
+
+// NOTE(Jason): disable react-arborist node focus outline style
+globalStyle('[role="treeitem"]', {
+  outline: 'none',
+});
