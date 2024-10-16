@@ -16,6 +16,7 @@ import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
 import { EditorContextMenu } from '@/widgets/EditorContextMenu';
 import { useTreeStore } from '@/shared/stores/treeStore';
+import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 
 export const DirectoryNode = ({
   node,
@@ -27,22 +28,15 @@ export const DirectoryNode = ({
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
-
   const cashedStructureData: StructureData | undefined =
     queryClient.getQueryData(['rootAndRecycleBinData']);
-
   const realNodeId = node.data.folderId || node.data.pickId;
-
+  const rootFolderId = defaultFolderIdData?.ROOT;
+  const currentTree = getCurrentTreeTypeByNode(node, treeRef);
   const setRealNodeId = (id: number) => {
     if (node.data.folderId) node.data.folderId = id;
     else node.data.pickId = id;
   };
-
-  const rootFolderId = defaultFolderIdData?.ROOT;
-
-  const currentTree = treeRef.rootRef.current?.get(node.id)
-    ? 'root'
-    : 'recycleBin';
 
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -129,6 +123,11 @@ export const DirectoryNode = ({
         onContextMenu={() => {
           setFocusedNode(node);
           node.select();
+          if (currentTree === 'root') {
+            treeRef.recycleBinRef.current!.deselectAll();
+          } else {
+            treeRef.rootRef.current!.deselectAll();
+          }
         }}
       >
         <div className={dirNode}>

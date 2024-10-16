@@ -11,6 +11,8 @@ import {
   ContextMenuSubTrigger,
 } from './ContextMenu.css';
 import { useTreeStore } from '@/shared/stores/treeStore';
+import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
+import toast from 'react-hot-toast';
 
 interface ContextMenuWrapperProps {
   children: React.ReactNode;
@@ -20,6 +22,9 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
   const { treeRef, focusedNode } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
 
+  const currentTree =
+    focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
+
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger className={ContextMenuTrigger}>
@@ -27,7 +32,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
       </ContextMenu.Trigger>
       <ContextMenu.Portal container={portalContainer}>
         <ContextMenu.Content className={ContextMenuContent}>
-          {focusedNode?.data.type === 'folder' && (
+          {focusedNode?.data.type === 'folder' && currentTree === 'root' && (
             <ContextMenu.Sub>
               <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
                 New
@@ -62,19 +67,34 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
               </ContextMenu.Portal>
             </ContextMenu.Sub>
           )}
-
+          {currentTree === 'root' && (
+            <ContextMenu.Item
+              className={ContextMenuItem}
+              onClick={() => {
+                focusedNode!.edit();
+              }}
+            >
+              Rename <div className={RightSlot}></div>
+            </ContextMenu.Item>
+          )}
+          {currentTree === 'recycleBin' && (
+            <ContextMenu.Item
+              className={ContextMenuItem}
+              onClick={() => {
+                toast.success('Restored');
+              }}
+            >
+              Restore <div className={RightSlot}></div>
+            </ContextMenu.Item>
+          )}
           <ContextMenu.Item
             className={ContextMenuItem}
             onClick={() => {
-              focusedNode!.edit();
-            }}
-          >
-            Rename <div className={RightSlot}></div>
-          </ContextMenu.Item>
-          <ContextMenu.Item
-            className={ContextMenuItem}
-            onClick={() => {
-              treeRef.rootRef.current!.delete(focusedNode!.id);
+              if (currentTree === 'root') {
+                treeRef.rootRef.current!.delete(focusedNode!.id);
+              } else {
+                treeRef.recycleBinRef.current!.delete(focusedNode!.id);
+              }
             }}
           >
             Delete
