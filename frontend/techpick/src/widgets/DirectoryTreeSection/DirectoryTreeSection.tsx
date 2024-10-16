@@ -183,6 +183,8 @@ export function DirectoryTreeSection() {
               className={directoryTree}
               data={rootAndRecycleBinData?.recycleBin}
               disableMultiSelection={true}
+              disableDrag={true}
+              disableDrop={true}
               onFocus={(node: NodeApi) => {
                 setFocusedNode(node);
               }}
