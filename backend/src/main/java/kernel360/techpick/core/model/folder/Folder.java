@@ -14,13 +14,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import kernel360.techpick.core.model.common.TimeTracking;
 import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "folder")
+@Table(
+	name = "folder",
+	uniqueConstraints = {
+		@UniqueConstraint(
+			name = "UC_FOLDER_NAME_PER_USER",
+			columnNames = {"user_id, parent_folder_id, name"}
+		)
+	}
+)
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

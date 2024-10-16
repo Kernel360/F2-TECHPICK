@@ -18,7 +18,7 @@ spring:
         format_sql: false
         show_sql: false
     hibernate:
-      ddl-auto: update # 이 부분 설정 주의 필요
+      ddl-auto: validate # DDL을 직접 설정합니다.
   datasource:
     url: ${DOCKER_MYSQL_URL}
     username: ${DOCKER_MYSQL_USERNAME}
