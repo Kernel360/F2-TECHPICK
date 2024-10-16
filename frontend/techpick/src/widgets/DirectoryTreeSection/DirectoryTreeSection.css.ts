@@ -74,7 +74,7 @@ export const recycleBinLabelContainer = style({
   display: 'flex',
   alignItems: 'center',
   paddingLeft: commonThemeContract.space.lg,
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
@@ -95,7 +95,7 @@ export const recycleBinTreeWrapper = style({
   height: 'calc(100% - 32px)',
   overflow: 'hidden',
   transition: 'height 0.4s',
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
 });
 
 export const recycleBinTreeWrapperClosed = style({

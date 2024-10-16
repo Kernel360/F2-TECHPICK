@@ -39,8 +39,8 @@ export const nodeNameInput = style({
   margin: '4px 0',
   padding: '3px',
   backgroundColor: 'white',
-  color: themeContract.color.font,
+  color: colorThemeContract.color.font,
   outline: 'none',
-  border: `1px solid ${themeContract.color.border}`,
+  border: `1px solid ${colorThemeContract.color.border}`,
   borderRadius: '4px',
 });
