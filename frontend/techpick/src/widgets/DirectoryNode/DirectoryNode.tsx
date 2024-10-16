@@ -106,30 +106,30 @@ export const DirectoryNode = ({
   };
 
   return (
-    <EditorContextMenu>
-      <div
-        style={{ ...style }}
-        className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
-        ref={dragHandle}
-        onClick={() => {
-          setFocusedNode(node);
-          if (currentTree === 'root') {
-            treeRef.recycleBinRef.current!.deselectAll();
-          } else {
-            treeRef.rootRef.current!.deselectAll();
-          }
-          node.toggle();
-        }}
-        onContextMenu={() => {
-          setFocusedNode(node);
-          node.select();
-          if (currentTree === 'root') {
-            treeRef.recycleBinRef.current!.deselectAll();
-          } else {
-            treeRef.rootRef.current!.deselectAll();
-          }
-        }}
-      >
+    <div
+      style={{ ...style }}
+      className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
+      ref={dragHandle}
+      onClick={() => {
+        setFocusedNode(node);
+        if (currentTree === 'root') {
+          treeRef.recycleBinRef.current!.deselectAll();
+        } else {
+          treeRef.rootRef.current!.deselectAll();
+        }
+        node.toggle();
+      }}
+      onContextMenu={() => {
+        setFocusedNode(node);
+        node.select();
+        if (currentTree === 'root') {
+          treeRef.recycleBinRef.current!.deselectAll();
+        } else {
+          treeRef.rootRef.current!.deselectAll();
+        }
+      }}
+    >
+      <EditorContextMenu>
         <div className={dirNode}>
           {node.isOpen ? (
             <ChevronDown size={13} />
@@ -166,7 +166,7 @@ export const DirectoryNode = ({
             node.data.name
           )}
         </div>
-      </div>
-    </EditorContextMenu>
+      </EditorContextMenu>
+    </div>
   );
 };
