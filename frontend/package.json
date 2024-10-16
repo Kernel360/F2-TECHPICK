@@ -4,12 +4,14 @@
   "workspaces": {
     "packages": [
       "techpick",
-      "techpick-extension"
+      "techpick-extension",
+      "techpick-shared"
     ]
   },
   "scripts": {
     "service": "yarn workspace tech-pick-service",
     "extension": "yarn workspace techpick-extension",
+    "shared": "yarn workspace techpick-shared",
     "lint": "yarn workspaces foreach --all run lint",
     "all": "yarn workspaces foreach --all",
     "postinstall": "cd .. && husky"
