@@ -76,6 +76,11 @@ export const useTreeHandlers = () => {
     parentNode,
     index,
   }) => {
+    console.log('dragIds', dragIds);
+    console.log('dragNodes', dragNodes);
+    console.log('parentId', parentId);
+    console.log('parentNode', parentNode);
+    console.log('index', index);
     const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
     const currentStructureData = isRoot
       ? structuredClone(structureData!.root)
@@ -105,8 +110,6 @@ export const useTreeHandlers = () => {
         recycleBin: isRoot ? structureData!.recycleBin : updatedTreeData,
       },
     };
-    console.log('defaultFolderIdData', defaultFolderIdData);
-    console.log('서버에 보낼 데이터', serverData);
 
     await moveFolder({
       folderId: dragNodes[0].data.folderId!.toString(),

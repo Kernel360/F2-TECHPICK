@@ -16,6 +16,7 @@ import {
   recycleBinContainerOpen,
   recycleBinContainerClosed,
   logout,
+  directoryTreeWrapperFullSize,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -119,7 +120,14 @@ export function DirectoryTreeSection() {
             }}
           />
         </div>
-        <div className={directoryTreeWrapper} ref={ref}>
+        <div
+          className={
+            isRecycleBinOpen
+              ? directoryTreeWrapper
+              : directoryTreeWrapperFullSize
+          }
+          ref={ref}
+        >
           {isStructureLoading && <div>Loading...</div>}
           {structureError && <div>Error: {structureError.message}</div>}
           {!isStructureLoading && !structureError && (
