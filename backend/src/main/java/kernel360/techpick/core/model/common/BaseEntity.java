@@ -14,7 +14,7 @@ import lombok.Getter;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class TimeTracking {
+public abstract class BaseEntity {
 
 	// 생성 시간 자동 부여
 	@CreatedDate
