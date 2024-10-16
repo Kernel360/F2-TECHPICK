@@ -45,9 +45,9 @@ public class Folder extends BaseEntity {
 	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// 부모 폴더가 삭제되면 자식폴더 또한 삭제됨
+	// 부모 폴더가 삭제되면 자식폴더 또한 삭제됨, OnDelete 옵션을 위해 FK필요
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name = "parent_folder_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "parent_folder_id")
 	private Folder parentFolder;
 
 	@ManyToOne(fetch = FetchType.LAZY)

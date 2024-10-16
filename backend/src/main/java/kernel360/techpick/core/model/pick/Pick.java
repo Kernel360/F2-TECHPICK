@@ -48,9 +48,9 @@ public class Pick extends BaseEntity {
 	private Link link;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// 부모 폴더가 삭제되면 자식픽 또한 삭제됨
+	// 부모 폴더가 삭제되면 자식픽 또한 삭제됨, OnDelete 옵션을 위해 FK필요
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name = "parent_folder_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "parent_folder_id", nullable = false)
 	private Folder parentFolder;
 
 	/**
