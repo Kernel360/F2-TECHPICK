@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { commonThemeContract, themeContract } from '@/shared/themes';
+import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 
 export const linkEditorLabel = style({
   display: 'flex',
@@ -24,7 +24,7 @@ export const linkEditorHeader = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${themeContract.color.border}`,
+  borderBottom: `1px solid ${colorThemeContract.color.border}`,
   padding: `0 ${commonThemeContract.space.md}`,
 });
 
@@ -39,7 +39,7 @@ export const folderViewSection = style({
   width: '100%',
   height: '160px',
   display: 'flex',
-  borderBottom: `1px solid ${themeContract.color.border}`,
+  borderBottom: `1px solid ${colorThemeContract.color.border}`,
   padding: `${commonThemeContract.space.lg} ${commonThemeContract.space.md}`,
 });
 
@@ -70,5 +70,5 @@ export const linkViewSection = style({
 export const linkEditorSectionFooter = style({
   width: '100%',
   height: '56px',
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
 });

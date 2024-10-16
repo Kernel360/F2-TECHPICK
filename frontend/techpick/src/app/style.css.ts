@@ -1,17 +1,16 @@
 import { style } from '@vanilla-extract/css';
+import { colorThemeContract } from 'techpick-shared';
 
 export const rootLayout = style({
   width: '100%',
   height: '100vh',
 });
 
-import { themeContract } from '@/shared/themes';
-
 export const viewWrapper = style({
   width: '100%',
   height: '100%',
-  backgroundColor: themeContract.color.background,
-  color: themeContract.color.font,
+  backgroundColor: colorThemeContract.color.background,
+  color: colorThemeContract.color.font,
 });
 
 export const viewContainer = style({

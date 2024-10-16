@@ -1,4 +1,4 @@
-import { commonThemeContract, themeContract } from '@/shared/themes';
+import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
 
 export const dirNodeWrapper = style({
@@ -21,7 +21,7 @@ export const dirNodeWrapperFocused = style({
 export const dirNode = style({
   display: 'flex',
   alignItems: 'center',
-  color: themeContract.color.font,
+  color: colorThemeContract.color.font,
   fontWeight: 300,
   padding: `0 ${commonThemeContract.space.md}`,
 });
