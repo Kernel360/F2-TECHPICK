@@ -40,15 +40,15 @@ public class Link {
 	@Column(name = "imageUrl", columnDefinition = "VARCHAR(600)")
 	private String imageUrl;
 
-	@Column(name = "deleted_at")
-	private LocalDateTime deletedAt;
+	@Column(name = "invalidatedAt_at")
+	private LocalDateTime invalidatedAt;
 
-	private Link(String url, String title, String description, String imageUrl, LocalDateTime deletedAt) {
+	private Link(String url, String title, String description, String imageUrl, LocalDateTime invalidatedAt) {
 		this.url = url;
 		this.title = title;
 		this.description = description;
 		this.imageUrl = imageUrl;
-		this.deletedAt = deletedAt;
+		this.invalidatedAt = invalidatedAt;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
