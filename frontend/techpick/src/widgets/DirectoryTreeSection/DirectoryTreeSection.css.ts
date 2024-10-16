@@ -36,7 +36,7 @@ export const logout = style({
 
 export const directoryTreeContainer = style({
   width: '100%',
-  height: 'calc(100% - 56px)',
+  height: '100%',
   display: 'flex',
   position: 'relative',
   flexDirection: 'column',
@@ -98,7 +98,7 @@ export const directoryTreeWrapper = style({
 });
 
 export const directoryTreeWrapperFullSize = style({
-  height: 'calc(100% - 80px)',
+  height: 'calc(100% - 56px)',
   overflow: 'hidden',
   transition: 'height 0.3s',
 });
