@@ -25,6 +25,12 @@ export const commonThemeContract = createThemeContract({
       lg: '',
       xl: '',
     },
+    fontWeight: {
+      regular: '',
+      semibold: '',
+      bold: '',
+      extrabold: '',
+    },
   },
   breakpoints: {
     mobile: '',

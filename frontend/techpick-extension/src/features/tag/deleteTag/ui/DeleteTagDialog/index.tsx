@@ -53,7 +53,7 @@ export const DeleteTagDialog = memo(function DeleteTagDialog() {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Portal>
+      <Dialog.Portal container={document.querySelector('#dialogContainer')}>
         <Dialog.Overlay className={dialogOverlayStyle} />
         <Dialog.Content className={dialogContentStyle}>
           <Text>이 태그를 삭제하시겠습니까?</Text>

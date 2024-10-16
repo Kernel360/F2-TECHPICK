@@ -1,4 +1,4 @@
-import { commonThemeContract } from '@/shared/themes';
+import { commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
 
 export const linkWrapper = style({
