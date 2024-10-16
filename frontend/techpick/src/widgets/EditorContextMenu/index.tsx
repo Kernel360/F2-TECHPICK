@@ -87,7 +87,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   ids: [focusedNode!.id],
                   nodes: [focusedNode!],
                 });
-                toast.success('성공적으로 복원되었습니다!');
+                toast('성공적으로 복원되었습니다!');
               }}
             >
               복원 <div className={RightSlot}></div>
@@ -98,8 +98,10 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             onClick={() => {
               if (currentTree === 'root') {
                 treeRef.rootRef.current!.delete(focusedNode!.id);
+                toast('휴지통으로 이동되었습니다.');
               } else {
                 treeRef.recycleBinRef.current!.delete(focusedNode!.id);
+                toast('완전히 삭제되었습니다.');
               }
             }}
           >

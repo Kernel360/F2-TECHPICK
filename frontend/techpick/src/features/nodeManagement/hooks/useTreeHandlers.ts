@@ -21,6 +21,7 @@ export const useTreeHandlers = () => {
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
+    setFocusedNode,
     setFocusedLinkNodeList,
     setFocusedFolderNodeList,
   } = useTreeStore();
@@ -159,6 +160,7 @@ export const useTreeHandlers = () => {
       structure: serverData,
     });
     await refetchStructure();
+    setFocusedNode(null);
   };
 
   const handleDelete = async ({
@@ -190,6 +192,8 @@ export const useTreeHandlers = () => {
       structure: serverData,
     });
     await refetchStructure();
+
+    setFocusedNode(null);
   };
 
   return {
