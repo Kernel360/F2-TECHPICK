@@ -12,7 +12,8 @@ import {
 } from './ContextMenu.css';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
-import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
+import { useRestoreNode } from '@/features/nodeManagement/hooks/useRestoreNode';
+import toast from 'react-hot-toast';
 
 interface ContextMenuWrapperProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ interface ContextMenuWrapperProps {
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
   const { treeRef, focusedNode } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
-  const { handleRestore } = useTreeHandlers();
+  const { restoreNode } = useRestoreNode();
 
   const currentTree =
     focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
@@ -36,7 +37,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
           {focusedNode?.data.type === 'folder' && currentTree === 'root' && (
             <ContextMenu.Sub>
               <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
-                New
+                새로 만들기
                 <div className={RightSlot}>
                   <ChevronRightIcon />
                 </div>
@@ -75,20 +76,21 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                 focusedNode!.edit();
               }}
             >
-              Rename <div className={RightSlot}></div>
+              이름 변경 <div className={RightSlot}></div>
             </ContextMenu.Item>
           )}
           {currentTree === 'recycleBin' && (
             <ContextMenu.Item
               className={ContextMenuItem}
               onClick={() => {
-                handleRestore({
+                restoreNode({
                   ids: [focusedNode!.id],
                   nodes: [focusedNode!],
                 });
+                toast.success('성공적으로 복원되었습니다!');
               }}
             >
-              Restore <div className={RightSlot}></div>
+              복원 <div className={RightSlot}></div>
             </ContextMenu.Item>
           )}
           <ContextMenu.Item
@@ -101,7 +103,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
               }
             }}
           >
-            Delete
+            삭제
             <div className={RightSlot}></div>
           </ContextMenu.Item>
         </ContextMenu.Content>
