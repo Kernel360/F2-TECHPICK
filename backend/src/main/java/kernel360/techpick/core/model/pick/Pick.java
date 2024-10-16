@@ -77,13 +77,18 @@ public class Pick extends BaseEntity {
 	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> tagOrder;
 
+	// 연결된 링크가 유효하지 않을 때 true
+	@Column(name = "link_deleted")
+	private boolean linkDeleted;
+
 	private Pick(
 		User user,
 		Link link,
 		Folder parentFolder,
 		String customTitle,
 		String memo,
-		List<Long> tagOrder
+		List<Long> tagOrder,
+		boolean linkDeleted
 	) {
 		this.user = user;
 		this.link = link;
@@ -91,6 +96,7 @@ public class Pick extends BaseEntity {
 		this.customTitle = customTitle;
 		this.memo = memo;
 		this.tagOrder = tagOrder;
+		this.linkDeleted = linkDeleted;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요

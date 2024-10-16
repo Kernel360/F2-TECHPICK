@@ -1,5 +1,7 @@
 package kernel360.techpick.core.model.link;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,11 +40,15 @@ public class Link {
 	@Column(name = "imageUrl", columnDefinition = "VARCHAR(600)")
 	private String imageUrl;
 
-	private Link(String url, String title, String description, String imageUrl) {
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
+
+	private Link(String url, String title, String description, String imageUrl, LocalDateTime deletedAt) {
 		this.url = url;
 		this.title = title;
 		this.description = description;
 		this.imageUrl = imageUrl;
+		this.deletedAt = deletedAt;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
