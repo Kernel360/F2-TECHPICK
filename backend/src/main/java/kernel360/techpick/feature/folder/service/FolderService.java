@@ -28,7 +28,8 @@ public class FolderService {
 	private final FolderValidator folderValidator;
 	private final FolderMapper folderMapper;
 
-	public synchronized FolderResponse createGeneralFolder(
+	@Transactional
+	public FolderResponse createGeneralFolder(
 		User user,
 		FolderCreateRequest request
 	) throws ApiFolderException {
