@@ -1,4 +1,4 @@
-import { useThemeStore } from '../themeStore';
+import { useThemeStore } from '@/shared';
 
 export function ToggleThemeButton() {
   const { isDarkMode, toggleTheme } = useThemeStore();

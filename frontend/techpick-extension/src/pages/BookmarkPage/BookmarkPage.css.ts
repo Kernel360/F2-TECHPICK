@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { colorThemeContract } from 'techpick-shared';
+const { color } = colorThemeContract;
 
 export const bookmarkPageLayout = style({
   width: '360px',
@@ -27,13 +28,14 @@ export const titleInputStyle = style({
   border: '1px solid transparent',
   borderRadius: '4px',
   padding: '8px',
-  backgroundColor: '#f9f9f9',
+  backgroundColor: color.inputBackground,
   fontSize: '1rem',
+  color: color.font,
 
   ':focus': {
-    border: '1px solid #444C52',
+    border: `1px solid ${color.inputBorderFocus}`,
     outline: 'none',
-    backgroundColor: '#ffffff',
+    backgroundColor: color.inputBackground,
     transition: 'border 0.3s ease',
   },
 });
@@ -45,13 +47,14 @@ export const textAreaStyle = style({
   fontSize: '1rem',
   border: '1px solid transparent',
   borderRadius: '4px',
-  backgroundColor: '#f9f9f9',
+  backgroundColor: color.inputBackground,
   resize: 'none',
+  color: color.font,
 
   ':focus': {
-    border: '1px solid #444C52',
+    border: `1px solid ${color.inputBorderFocus}`,
     outline: 'none',
-    backgroundColor: '#ffffff',
+    backgroundColor: color.inputBackground,
     transition: 'border 0.3s ease',
   },
 });

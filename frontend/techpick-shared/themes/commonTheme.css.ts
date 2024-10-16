@@ -13,18 +13,24 @@ export const commonTheme = createTheme(commonThemeContract, {
     fontFamily: 'Arial, sans-serif',
     fontColor: '#fff',
     fontSize: {
-      xs: '12px',
-      sm: '14px',
-      md: '16px',
-      lg: '20px',
-      xl: '24px',
+      xs: '0.75rem', // 12
+      sm: '0.875rem', // 14
+      md: '1rem', // 16
+      lg: '1.25rem', // 20
+      xl: '1.5rem', // 24
     },
     lineHeight: {
-      xs: '16px',
-      sm: '20px',
-      md: '24px',
-      lg: '28px',
-      xl: '32px',
+      xs: '1rem', // 16px
+      sm: '1.25rem', // 20px
+      md: '1.5rem', // 24px
+      lg: '1.75rem', // 28px
+      xl: '2rem', // 32px
+    },
+    fontWeight: {
+      regular: '400',
+      semibold: '600',
+      bold: '700',
+      extrabold: '800',
     },
   },
   breakpoints: {

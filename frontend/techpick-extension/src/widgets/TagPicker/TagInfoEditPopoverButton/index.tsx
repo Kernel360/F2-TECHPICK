@@ -8,7 +8,10 @@ import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverTriggerButton } from './PopoverTriggerButton';
 import { PopoverOverlay } from './PopoverOverlay';
 import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
-import { tagInfoEditFormLayout } from './TagInfoEditPopoverButton.css';
+import {
+  tagInfoEditFormLayout,
+  tagInputStyle,
+} from './TagInfoEditPopoverButton.css';
 
 export function TagInfoEditPopoverButton({
   tag,
@@ -98,6 +101,7 @@ export function TagInfoEditPopoverButton({
               ref={tagNameInputRef}
               autoFocus
               onKeyDown={handleInputKeyDown}
+              className={tagInputStyle}
             />
             <ShowDeleteTagDialogButton tag={tag} onClick={closePopover} />
             <VisuallyHidden.Root>

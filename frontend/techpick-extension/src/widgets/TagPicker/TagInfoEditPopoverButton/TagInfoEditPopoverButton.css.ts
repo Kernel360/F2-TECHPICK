@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { color } from 'techpick-shared';
 
 export const tagInfoEditFormLayout = style({
   position: 'relative',
@@ -8,9 +9,15 @@ export const tagInfoEditFormLayout = style({
   zIndex: '3',
   borderRadius: '4px',
   padding: '8px',
-  backgroundColor: 'white',
+  backgroundColor: color.background,
   boxShadow:
     'rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 3px 6px, rgba(15, 15, 15, 0.4) 0px 9px 24px',
+});
+
+export const tagInputStyle = style({
+  outline: 'none',
+  border: `1px solid ${color.font}`,
+  color: color.font,
 });
 
 export const popoverOverlayStyle = style({
