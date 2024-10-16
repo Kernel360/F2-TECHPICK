@@ -9,11 +9,12 @@ import {
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
+import { useCreateFolder } from '@/features/nodeManagement/api/useCreateFolder';
 import { StructureData } from '@/shared/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
-import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
+import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
+import { EditorContextMenu } from '@/widgets/EditorContextMenu';
 
 export const DirectoryNode = ({
   node,
@@ -28,9 +29,7 @@ export const DirectoryNode = ({
   const cashedStructureData: StructureData | undefined =
     queryClient.getQueryData(['rootAndRecycleBinData']);
 
-  const realNodeId: number = node.data.folderId
-    ? node.data.folderId
-    : node.data.pickId;
+  const realNodeId = node.data.folderId ? node.data.folderId : node.data.pickId;
 
   const setRealNodeId = (id: number) => {
     if (node.data.folderId) node.data.folderId = id;
@@ -104,54 +103,56 @@ export const DirectoryNode = ({
   };
 
   return (
-    <div
-      style={{ ...style }}
-      className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
-      ref={dragHandle}
-      onClick={() => {
-        node.toggle();
-        console.log('Clicked Node', node);
-      }}
-      onContextMenu={() => {
-        node.select();
-      }}
-    >
-      <div className={dirNode}>
-        {node.isOpen ? (
-          <ChevronDown size={13} />
-        ) : node.isLeaf ? (
-          <div style={{ marginLeft: '13px' }}></div>
-        ) : (
-          <ChevronRight size={13} />
-        )}
-        {node.data.type === 'folder' ? (
-          <Image
-            src={`image/ic_folder.svg`}
-            alt={`${node.data.name}'s image`}
-            className={dirIcFolder}
-            width={8}
-            height={8}
-          />
-        ) : (
-          <Image
-            src={`image/ic_doc.svg`}
-            width={8}
-            height={8}
-            alt={`${node.data.name}'s image`}
-            className={dirIcFolder}
-          />
-        )}
-        {node.isEditing ? (
-          <input
-            type="text"
-            className={nodeNameInput}
-            onKeyDown={handleKeyDown}
-            autoFocus
-          />
-        ) : (
-          node.data.name
-        )}
+    <EditorContextMenu>
+      <div
+        style={{ ...style }}
+        className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
+        ref={dragHandle}
+        onClick={() => {
+          node.toggle();
+          console.log('Clicked Node', node);
+        }}
+        onContextMenu={() => {
+          node.select();
+        }}
+      >
+        <div className={dirNode}>
+          {node.isOpen ? (
+            <ChevronDown size={13} />
+          ) : node.isLeaf ? (
+            <div style={{ marginLeft: '13px' }}></div>
+          ) : (
+            <ChevronRight size={13} />
+          )}
+          {node.data.type === 'folder' ? (
+            <Image
+              src={`image/ic_folder.svg`}
+              alt={`${node.data.name}'s image`}
+              className={dirIcFolder}
+              width={8}
+              height={8}
+            />
+          ) : (
+            <Image
+              src={`image/ic_doc.svg`}
+              width={8}
+              height={8}
+              alt={`${node.data.name}'s image`}
+              className={dirIcFolder}
+            />
+          )}
+          {node.isEditing ? (
+            <input
+              type="text"
+              className={nodeNameInput}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+          ) : (
+            node.data.name
+          )}
+        </div>
       </div>
-    </div>
+    </EditorContextMenu>
   );
 };

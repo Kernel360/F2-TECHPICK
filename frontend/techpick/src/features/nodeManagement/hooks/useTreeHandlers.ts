@@ -1,12 +1,12 @@
 import { NodeData } from '@/shared/types';
 import { createNode } from '@/features/createNode';
 import { moveNode } from '@/features/moveNode';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
-import { useRenameFolder } from '@/features/nodeManagement/hooks/useRenameFolder';
+import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
+import { useRenameFolder } from '@/features/nodeManagement/api/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,7 +25,6 @@ export const useTreeHandlers = () => {
     setFocusedFolderNodeList,
   } = useTreeStore();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
-  // const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
   const queryClient = useQueryClient();

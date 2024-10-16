@@ -38,7 +38,7 @@ export const nodeNameInput = style({
   fontWeight: 300,
   margin: '4px 0',
   padding: '3px',
-  backgroundColor: 'white',
+  backgroundColor: themeContract.color.background,
   color: themeContract.color.font,
   outline: 'none',
   border: `1px solid ${themeContract.color.border}`,

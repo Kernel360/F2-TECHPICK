@@ -19,13 +19,14 @@ interface ContextMenuWrapperProps {
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
   const { treeRef } = useTreeStore();
   const focusedNode = treeRef.current?.focusedNode;
+  const portalContainer = document.getElementById('portalContainer');
 
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger className={ContextMenuTrigger}>
         {children}
       </ContextMenu.Trigger>
-      <ContextMenu.Portal>
+      <ContextMenu.Portal container={portalContainer}>
         <ContextMenu.Content className={ContextMenuContent}>
           {focusedNode?.data.type === 'folder' && (
             <ContextMenu.Sub>
@@ -35,7 +36,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   <ChevronRightIcon />
                 </div>
               </ContextMenu.SubTrigger>
-              <ContextMenu.Portal>
+              <ContextMenu.Portal container={portalContainer}>
                 <ContextMenu.SubContent
                   className={ContextMenuSubContent}
                   sideOffset={2}

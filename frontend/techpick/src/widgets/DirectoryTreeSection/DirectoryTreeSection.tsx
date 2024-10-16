@@ -24,8 +24,7 @@ import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder, LogOut, Plus, Trash2 } from 'lucide-react';
-import { EditorContextMenu } from '../EditorContextMenu';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import { useLogout } from '@/features/userManagement/hooks/useLogout';
@@ -112,30 +111,28 @@ export function DirectoryTreeSection() {
           {isStructureLoading && <div>Loading...</div>}
           {structureError && <div>Error: {structureError.message}</div>}
           {!isStructureLoading && !structureError && (
-            <EditorContextMenu>
-              <Tree
-                ref={handleTreeRef}
-                className={directoryTree}
-                data={rootAndRecycleBinData?.root}
-                disableMultiSelection={true}
-                onFocus={(node: NodeApi) => {
-                  setFocusedNode(node);
-                }}
-                onMove={handleDrag}
-                onCreate={handleCreate}
-                onRename={handleRename}
-                onDelete={handleMoveToTrash}
-                openByDefault={false}
-                width={width}
-                height={height}
-                rowHeight={32}
-                indent={24}
-                overscanCount={1}
-                dndManager={dragDropManager}
-              >
-                {DirectoryNode}
-              </Tree>
-            </EditorContextMenu>
+            <Tree<NodeData>
+              ref={handleTreeRef}
+              className={directoryTree}
+              data={rootAndRecycleBinData?.root}
+              disableMultiSelection={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleDrag}
+              onCreate={handleCreate}
+              onRename={handleRename}
+              onDelete={handleMoveToTrash}
+              openByDefault={false}
+              width={width}
+              height={height}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
           )}
         </div>
         <div
@@ -161,29 +158,27 @@ export function DirectoryTreeSection() {
                 : recycleBinTreeWrapperClosed
             }
           >
-            <EditorContextMenu>
-              <Tree
-                className={directoryTree}
-                data={rootAndRecycleBinData?.recycleBin}
-                disableMultiSelection={true}
-                onFocus={(node: NodeApi) => {
-                  setFocusedNode(node);
-                }}
-                onMove={handleDrag}
-                onCreate={handleCreate}
-                onRename={handleRename}
-                onDelete={handleDelete}
-                openByDefault={false}
-                width={width}
-                height={height}
-                rowHeight={32}
-                indent={24}
-                overscanCount={1}
-                dndManager={dragDropManager}
-              >
-                {DirectoryNode}
-              </Tree>
-            </EditorContextMenu>
+            <Tree<NodeData>
+              className={directoryTree}
+              data={rootAndRecycleBinData?.recycleBin}
+              disableMultiSelection={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleDrag}
+              onCreate={handleCreate}
+              onRename={handleRename}
+              onDelete={handleDelete}
+              openByDefault={false}
+              width={width}
+              height={height}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
           </div>
         </div>
       </div>
