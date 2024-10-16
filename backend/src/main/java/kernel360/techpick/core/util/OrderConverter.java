@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter
 public class OrderConverter implements AttributeConverter<List<Long>, String> {
 
 	@Override
