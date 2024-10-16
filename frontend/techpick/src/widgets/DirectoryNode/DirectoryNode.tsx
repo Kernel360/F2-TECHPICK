@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateFolder } from '@/features/nodeManagement/api/useCreateFolder';
-import { StructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
 import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
@@ -28,7 +28,7 @@ export const DirectoryNode = ({
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
-  const cashedStructureData: StructureData | undefined =
+  const cashedStructureData: ApiStructureData | undefined =
     queryClient.getQueryData(['rootAndRecycleBinData']);
   const realNodeId = node.data.folderId || node.data.pickId;
   const rootFolderId = defaultFolderIdData?.ROOT;

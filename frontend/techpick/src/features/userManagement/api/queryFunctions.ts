@@ -1,10 +1,4 @@
-import ky from 'ky';
-
-export const apiClient = ky.create({
-  credentials: 'include',
-  prefixUrl: process.env.NEXT_PUBLIC_API,
-  hooks: {},
-});
+import { apiClient } from '@/shared/api/apiClient';
 
 export const postLogout = async () => {
   return await apiClient.post('logout').json();

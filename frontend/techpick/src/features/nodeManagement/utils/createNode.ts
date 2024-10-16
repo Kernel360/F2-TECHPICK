@@ -1,10 +1,10 @@
 import { NodeApi } from 'react-arborist';
 import { NodeData } from '@/shared/types';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
-import { StructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 
 export const createNode = (
-  structureData: StructureData,
+  structureData: ApiStructureData,
   type: 'internal' | 'leaf',
   parentId: string | null,
   parentNode: NodeApi | null,

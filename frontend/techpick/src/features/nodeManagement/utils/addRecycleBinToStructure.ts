@@ -1,10 +1,10 @@
 import { NodeData } from '@/shared/types';
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
-import { StructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 
 export function addRecycleBinToStructure(
-  structure: StructureData,
+  structure: ApiStructureData,
   recycleBinId: number,
   recycleBin: NodeData[]
 ) {

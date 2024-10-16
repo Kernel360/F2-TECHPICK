@@ -11,12 +11,7 @@ import React, { useEffect, useMemo } from 'react';
 import { NodeApi } from 'react-arborist';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { useRouter } from 'next/navigation';
-
-function getCookie(name: string): string | undefined {
-  const cookies = document.cookie.split(';');
-  const cookie = cookies.find((row) => row.startsWith(`${name}`));
-  return cookie ? decodeURIComponent(cookie.split('=')[1]) : undefined;
-}
+import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
 
 export default function MainPage() {
   const router = useRouter();
@@ -52,7 +47,7 @@ export default function MainPage() {
 
   useEffect(
     function loginValidation() {
-      const techPickLogin = getCookie('techPickLogin');
+      const techPickLogin = getClientCookie('techPickLogin');
 
       if (!techPickLogin) {
         alert('로그인이 필요합니다.');

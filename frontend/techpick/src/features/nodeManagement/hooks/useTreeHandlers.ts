@@ -10,7 +10,7 @@ import { useRenameFolder } from '@/features/nodeManagement/api/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
-import { StructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
 import { deleteFolder } from '@/features/nodeManagement/api/queryFunctions';
 
@@ -57,7 +57,7 @@ export const useTreeHandlers = () => {
 
     queryClient.setQueryData(
       ['rootAndRecycleBinData'],
-      (oldData: StructureData) => ({
+      (oldData: ApiStructureData) => ({
         root: updatedTreeData,
         recycleBin: oldData.recycleBin,
       })
