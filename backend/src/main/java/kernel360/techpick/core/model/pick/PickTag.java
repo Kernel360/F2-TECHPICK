@@ -1,8 +1,10 @@
 package kernel360.techpick.core.model.pick;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,12 +29,12 @@ public class PickTag {
 
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pick_id", nullable = false)
+	@JoinColumn(name = "pick_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Pick pick;
 
 	// 사용자 정의 태그 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tag_id", nullable = false)
+	@JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Tag tag;
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
