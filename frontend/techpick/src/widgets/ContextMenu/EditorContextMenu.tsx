@@ -20,13 +20,14 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { treeRef, focusedNode } = useTreeStore();
+  const { treeRef, focusedNodeInEditorSection: focusedNode } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
   const { restoreNode } = useRestoreNode();
 
   const currentTree =
     focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
 
+  console.log('currentTree:', currentTree);
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger className={ContextMenuTrigger}>

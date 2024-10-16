@@ -17,6 +17,7 @@ import {
   recycleBinContainerClosed,
   logout,
   directoryTreeWrapperFullSize,
+  plusButton,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -106,6 +107,7 @@ export function DirectoryTreeSection() {
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
           <Plus
+            className={plusButton}
             width={20}
             strokeWidth="1.3px"
             onClick={() => {

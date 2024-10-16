@@ -10,6 +10,7 @@ interface TreeState {
     recycleBinRef: React.RefObject<TreeApi<NodeData> | undefined>;
   };
   focusedNode: NodeApi | null;
+  focusedNodeInEditorSection: NodeApi | null;
   focusedFolderNodeList: NodeApi[];
   focusedLinkNodeList: NodeApi[];
 
@@ -19,6 +20,7 @@ interface TreeState {
     recycleBinRef: React.RefObject<TreeApi<NodeData> | undefined>
   ) => void;
   setFocusedNode: (node: NodeApi | null) => void;
+  setFocusedNodeInEditorSection: (node: NodeApi | null) => void;
   setFocusedFolderNodeList: (node: NodeApi[]) => void;
   setFocusedLinkNodeList: (node: NodeApi[]) => void;
 }
@@ -30,6 +32,7 @@ export const useTreeStore = create<TreeState>((set) => ({
     recycleBinRef: createRef(),
   },
   focusedNode: null,
+  focusedNodeInEditorSection: null,
   focusedFolderNodeList: [],
   focusedLinkNodeList: [],
 
@@ -37,6 +40,8 @@ export const useTreeStore = create<TreeState>((set) => ({
   setTreeRef: (rootRef, recycleBinRef) =>
     set({ treeRef: { rootRef, recycleBinRef } }),
   setFocusedNode: (node) => set({ focusedNode: node }),
+  setFocusedNodeInEditorSection: (node) =>
+    set({ focusedNodeInEditorSection: node }),
   setFocusedFolderNodeList: (node) => set({ focusedFolderNodeList: node }),
   setFocusedLinkNodeList: (node) => set({ focusedLinkNodeList: node }),
 }));

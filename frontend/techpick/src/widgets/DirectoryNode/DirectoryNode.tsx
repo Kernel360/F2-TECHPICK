@@ -14,9 +14,9 @@ import { ApiStructureData } from '@/shared/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
 import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
-import { EditorContextMenu } from '@/widgets/EditorContextMenu';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { TreeContextMenu } from '@/widgets/ContextMenu/TreeContextMenu';
 
 export const DirectoryNode = ({
   node,
@@ -130,7 +130,7 @@ export const DirectoryNode = ({
         }
       }}
     >
-      <EditorContextMenu>
+      <TreeContextMenu>
         <div className={dirNode}>
           {node.isOpen ? (
             <ChevronDown size={13} />
@@ -167,7 +167,7 @@ export const DirectoryNode = ({
             node.data.name
           )}
         </div>
-      </EditorContextMenu>
+      </TreeContextMenu>
     </div>
   );
 };

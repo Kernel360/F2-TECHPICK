@@ -2,13 +2,13 @@ import { style } from '@vanilla-extract/css';
 import { themeContract } from '@/shared/themes';
 
 export const ContextMenuTrigger = style({
-  display: 'block',
-  color: 'white',
-  borderRadius: '4px',
-  fontSize: '15px',
-  userSelect: 'none',
-  width: '300px',
-  textAlign: 'center',
+  // display: 'block',
+  // color: 'white',
+  // borderRadius: '4px',
+  // fontSize: '15px',
+  // userSelect: 'none',
+  // width: '300px',
+  // textAlign: 'center',
 });
 
 export const ContextMenuContent = style({

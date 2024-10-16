@@ -90,6 +90,10 @@ export const directoryLabel = style({
   fontWeight: 350,
 });
 
+export const plusButton = style({
+  cursor: 'pointer',
+});
+
 export const directoryTreeWrapper = style({
   outline: 'none',
   height: 'calc(50% - 32px)',
