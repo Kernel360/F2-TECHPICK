@@ -28,8 +28,6 @@ public class FolderService {
 	private final FolderValidator folderValidator;
 	private final FolderMapper folderMapper;
 
-	// WARN: 긴급 패치. Synchronized 붙여도 문제가 해결되지 않았음. 일단 냅둡니다.
-	@Transactional
 	public synchronized FolderResponse createGeneralFolder(
 		User user,
 		FolderCreateRequest request
