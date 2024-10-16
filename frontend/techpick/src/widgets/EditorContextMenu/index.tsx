@@ -12,7 +12,7 @@ import {
 } from './ContextMenu.css';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
-import toast from 'react-hot-toast';
+import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 
 interface ContextMenuWrapperProps {
   children: React.ReactNode;
@@ -21,6 +21,7 @@ interface ContextMenuWrapperProps {
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
   const { treeRef, focusedNode } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
+  const { handleRestore } = useTreeHandlers();
 
   const currentTree =
     focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
@@ -81,7 +82,10 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             <ContextMenu.Item
               className={ContextMenuItem}
               onClick={() => {
-                toast.success('Restored');
+                handleRestore({
+                  ids: [focusedNode!.id],
+                  nodes: [focusedNode!],
+                });
               }}
             >
               Restore <div className={RightSlot}></div>
