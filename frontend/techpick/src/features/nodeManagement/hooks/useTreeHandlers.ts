@@ -39,10 +39,6 @@ export const useTreeHandlers = () => {
     index,
     type,
   }): Promise<{ id: string }> => {
-    console.log('parentId', parentId);
-    console.log('parentNode', parentNode);
-    console.log('index', index);
-    console.log('type', type);
     const newLocalNodeId = getNewIdFromStructure(
       structuredClone(structureData!)
     );
@@ -134,6 +130,7 @@ export const useTreeHandlers = () => {
     } catch (error) {
       console.error('Folder rename failed:', error);
       toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+      treeRef.rootRef.current?.root?.reset();
       await refetchStructure();
     }
   };

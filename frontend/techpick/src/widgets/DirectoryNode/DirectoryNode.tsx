@@ -100,6 +100,7 @@ export const DirectoryNode = ({
           });
 
           toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+          node.reset();
         }
       } else node.submit(event.currentTarget.value);
     }
