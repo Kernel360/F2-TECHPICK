@@ -27,7 +27,7 @@ import { Folder, LogOut, Plus, Trash2 } from 'lucide-react';
 import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
-import { useLogout } from '@/features/userManagement/hooks/useLogout';
+import { useLogout } from '@/features/userManagement/api/useLogout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
