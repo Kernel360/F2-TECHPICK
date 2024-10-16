@@ -18,7 +18,8 @@ interface ContextMenuWrapperProps {
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
   const { treeRef } = useTreeStore();
-  const focusedNode = treeRef.current?.focusedNode;
+  const focusedNode = treeRef.rootRef.current?.focusedNode;
+
   const portalContainer = document.getElementById('portalContainer');
 
   return (
@@ -45,7 +46,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   <ContextMenu.Item
                     className={ContextMenuItem}
                     onClick={() => {
-                      treeRef.current!.createInternal();
+                      treeRef.rootRef.current!.createInternal();
                     }}
                   >
                     Folder <div className={RightSlot}></div>
@@ -54,7 +55,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                   <ContextMenu.Item
                     className={ContextMenuItem}
                     onClick={() => {
-                      treeRef.current!.createLeaf();
+                      treeRef.rootRef.current!.createLeaf();
                     }}
                   >
                     Pick
@@ -68,10 +69,6 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             className={ContextMenuItem}
             onClick={() => {
               focusedNode!.edit();
-              console.log(
-                'EditIng Mode - focusedNode:',
-                treeRef.current!.focusedNode
-              );
             }}
           >
             Rename <div className={RightSlot}></div>
@@ -79,7 +76,7 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
           <ContextMenu.Item
             className={ContextMenuItem}
             onClick={() => {
-              treeRef.current!.delete(focusedNode!.id);
+              treeRef.rootRef.current!.delete(focusedNode!.id);
             }}
           >
             Delete

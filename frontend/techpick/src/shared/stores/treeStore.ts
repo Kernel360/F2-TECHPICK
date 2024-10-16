@@ -1,36 +1,42 @@
 import { create } from 'zustand';
 import { NodeData } from '@/shared/types';
 import { NodeApi, TreeApi } from 'react-arborist';
-import React from 'react';
+import React, { createRef } from 'react';
 
 interface TreeState {
   treeData: NodeData[];
-  treeRef: React.RefObject<TreeApi<NodeData> | undefined>;
+  treeRef: {
+    rootRef: React.RefObject<TreeApi<NodeData> | undefined>;
+    recycleBinRef: React.RefObject<TreeApi<NodeData> | undefined>;
+  };
   focusedNode: NodeApi | null;
-  prevFocusedNode: NodeApi | null;
   focusedFolderNodeList: NodeApi[];
   focusedLinkNodeList: NodeApi[];
 
   setTreeData: (data: NodeData[]) => void;
-  setTreeRef: (ref: React.RefObject<TreeApi<NodeData> | undefined>) => void;
+  setTreeRef: (
+    rootRef: React.RefObject<TreeApi<NodeData> | undefined>,
+    recycleBinRef: React.RefObject<TreeApi<NodeData> | undefined>
+  ) => void;
   setFocusedNode: (node: NodeApi | null) => void;
-  setPrevFocusedNode: (node: NodeApi | null) => void;
   setFocusedFolderNodeList: (node: NodeApi[]) => void;
   setFocusedLinkNodeList: (node: NodeApi[]) => void;
 }
 
 export const useTreeStore = create<TreeState>((set) => ({
   treeData: [],
-  treeRef: React.createRef(),
+  treeRef: {
+    rootRef: createRef(),
+    recycleBinRef: createRef(),
+  },
   focusedNode: null,
-  prevFocusedNode: null,
   focusedFolderNodeList: [],
   focusedLinkNodeList: [],
 
   setTreeData: (data) => set({ treeData: data }),
-  setTreeRef: (ref) => set({ treeRef: ref }),
+  setTreeRef: (rootRef, recycleBinRef) =>
+    set({ treeRef: { rootRef, recycleBinRef } }),
   setFocusedNode: (node) => set({ focusedNode: node }),
-  setPrevFocusedNode: (node) => set({ prevFocusedNode: node }),
   setFocusedFolderNodeList: (node) => set({ focusedFolderNodeList: node }),
   setFocusedLinkNodeList: (node) => set({ focusedLinkNodeList: node }),
 }));

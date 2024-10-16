@@ -33,7 +33,8 @@ import toast from 'react-hot-toast';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
-  const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
+  const rootTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
+  const recycleBinTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
   const {
@@ -48,12 +49,23 @@ export function DirectoryTreeSection() {
   const { mutate } = useLogout();
   const router = useRouter();
 
-  const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
-    if (instance && !treeRef.current) {
-      treeRef.current = instance;
-      setTreeRef(treeRef);
-    }
-  };
+  const handleTreeRef =
+    (type: 'root' | 'recycleBin') =>
+    (instance: TreeApi<NodeData> | null | undefined) => {
+      if (!instance) {
+        return;
+      }
+
+      if (type === 'root' && !rootTreeRef.current) {
+        rootTreeRef.current = instance;
+        setTreeRef(rootTreeRef, recycleBinTreeRef);
+      }
+
+      if (type === 'recycleBin' && !recycleBinTreeRef.current) {
+        recycleBinTreeRef.current = instance;
+        setTreeRef(rootTreeRef, recycleBinTreeRef);
+      }
+    };
 
   const handleLogout = async () => {
     mutate(undefined, {
@@ -96,12 +108,12 @@ export function DirectoryTreeSection() {
             width={20}
             strokeWidth="1.3px"
             onClick={() => {
-              if (treeRef.current?.isEditing) {
+              if (rootTreeRef.current?.isEditing) {
                 return;
               }
-              treeRef.current?.create({
+              rootTreeRef.current?.create({
                 type: 'internal',
-                parentId: treeRef.current?.focusedNode?.id,
+                parentId: rootTreeRef.current?.focusedNode?.id,
                 index: 0,
               });
             }}
@@ -112,7 +124,7 @@ export function DirectoryTreeSection() {
           {structureError && <div>Error: {structureError.message}</div>}
           {!isStructureLoading && !structureError && (
             <Tree<NodeData>
-              ref={handleTreeRef}
+              ref={handleTreeRef('root')}
               className={directoryTree}
               data={rootAndRecycleBinData?.root}
               disableMultiSelection={true}
@@ -159,6 +171,7 @@ export function DirectoryTreeSection() {
             }
           >
             <Tree<NodeData>
+              ref={handleTreeRef('recycleBin')}
               className={directoryTree}
               data={rootAndRecycleBinData?.recycleBin}
               disableMultiSelection={true}

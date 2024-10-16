@@ -13,10 +13,7 @@ export const LinkEditor = () => {
   const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
     useTreeStore();
   const el = useRef<HTMLDivElement | null>(null);
-  const dropRef = useDropHook(
-    el,
-    focusedNode ? focusedNode : treeRef.current!.root
-  );
+  const dropRef = useDropHook(el, focusedNode || treeRef.rootRef.current!.root);
 
   const innerRef = useCallback(
     (n: HTMLDivElement) => {

@@ -15,6 +15,7 @@ import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDef
 import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
 import { EditorContextMenu } from '@/widgets/EditorContextMenu';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 export const DirectoryNode = ({
   node,
@@ -22,6 +23,7 @@ export const DirectoryNode = ({
   dragHandle,
 }: DirectoryNodeProps) => {
   const queryClient = useQueryClient();
+  const { setFocusedNode, treeRef } = useTreeStore();
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
@@ -38,12 +40,17 @@ export const DirectoryNode = ({
 
   const rootFolderId = defaultFolderIdData?.ROOT;
 
+  const currentTree = treeRef.rootRef.current?.get(node.id)
+    ? 'root'
+    : 'recycleBin';
+
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.nativeEvent.isComposing) {
       return;
     }
+
     if (event.key === 'Escape') {
       if (node.data.folderId === -1) {
         await queryClient.invalidateQueries({
@@ -52,11 +59,13 @@ export const DirectoryNode = ({
         });
       } else node.reset();
     }
+
     if (event.key === 'Enter') {
       if (event.currentTarget.value === '') {
         toast.error('폴더 이름을 입력해주세요.');
         return;
       }
+
       if (realNodeId === -1) {
         // create 동작중 이름 입력인 경우(realId가 -1인 경우)
         // 폴더 생성 api 호출 (서버)
@@ -109,10 +118,19 @@ export const DirectoryNode = ({
         className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
         ref={dragHandle}
         onClick={() => {
+          setFocusedNode(node);
+          console.log('FOCUSEDNODE', node);
+          if (currentTree === 'root') {
+            treeRef.recycleBinRef.current!.deselectAll();
+            console.log('current tree is root');
+          } else {
+            treeRef.rootRef.current!.deselectAll();
+            console.log('current tree is recycleBin');
+          }
           node.toggle();
-          console.log('Clicked Node', node);
         }}
         onContextMenu={() => {
+          setFocusedNode(node);
           node.select();
         }}
       >
