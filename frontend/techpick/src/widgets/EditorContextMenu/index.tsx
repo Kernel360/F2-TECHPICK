@@ -17,9 +17,7 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { treeRef } = useTreeStore();
-  const focusedNode = treeRef.rootRef.current?.focusedNode;
-
+  const { treeRef, focusedNode } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
 
   return (

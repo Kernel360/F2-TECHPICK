@@ -31,7 +31,7 @@ export const DirectoryNode = ({
   const cashedStructureData: StructureData | undefined =
     queryClient.getQueryData(['rootAndRecycleBinData']);
 
-  const realNodeId = node.data.folderId ? node.data.folderId : node.data.pickId;
+  const realNodeId = node.data.folderId || node.data.pickId;
 
   const setRealNodeId = (id: number) => {
     if (node.data.folderId) node.data.folderId = id;
@@ -119,13 +119,10 @@ export const DirectoryNode = ({
         ref={dragHandle}
         onClick={() => {
           setFocusedNode(node);
-          console.log('FOCUSEDNODE', node);
           if (currentTree === 'root') {
             treeRef.recycleBinRef.current!.deselectAll();
-            console.log('current tree is root');
           } else {
             treeRef.rootRef.current!.deselectAll();
-            console.log('current tree is recycleBin');
           }
           node.toggle();
         }}

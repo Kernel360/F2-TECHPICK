@@ -1,1 +1,1 @@
-export { ToggleThemeButton } from './ToggleTheme/ToggleThemeButton';
+export { ToggleThemeButton } from '@/features/themeManagement/ToggleThemeButton';

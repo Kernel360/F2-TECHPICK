@@ -1,6 +1,6 @@
 import { NodeData } from '@/shared/types';
-import { createNode } from '@/features/createNode';
-import { moveNode } from '@/features/moveNode';
+import { createNode } from '@/features/nodeManagement/utils/createNode';
+import { moveNode } from '@/features/nodeManagement/utils/moveNode';
 import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
