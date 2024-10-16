@@ -13,11 +13,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
 import { deleteFolder } from '@/features/nodeManagement/api/queryFunctions';
+import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
     useGetRootAndRecycleBinData();
   const {
+    treeRef,
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
@@ -74,8 +76,16 @@ export const useTreeHandlers = () => {
     parentNode,
     index,
   }) => {
+    const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
+    const currentStructureData = isRoot
+      ? structuredClone(structureData!.root)
+      : structuredClone(structureData!.recycleBin);
+    const currentRootId = isRoot
+      ? defaultFolderIdData!.ROOT
+      : defaultFolderIdData!.RECYCLE_BIN;
+
     const updatedTreeData = moveNode(
-      structuredClone(structureData!.root),
+      currentStructureData,
       focusedNode,
       focusedFolderNodeList,
       focusedLinkNodeList,
@@ -89,12 +99,10 @@ export const useTreeHandlers = () => {
     );
     // 서버에 업데이트된 트리 전송
     const serverData = {
-      parentFolderId: parentNode
-        ? parentNode.data.folderId
-        : defaultFolderIdData!.ROOT,
+      parentFolderId: parentNode ? parentNode.data.folderId : currentRootId,
       structure: {
-        root: updatedTreeData,
-        recycleBin: structureData!.recycleBin,
+        root: isRoot ? updatedTreeData : structureData!.root,
+        recycleBin: isRoot ? structureData!.recycleBin : updatedTreeData,
       },
     };
     console.log('defaultFolderIdData', defaultFolderIdData);
