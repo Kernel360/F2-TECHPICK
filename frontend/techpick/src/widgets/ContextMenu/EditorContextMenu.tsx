@@ -20,14 +20,14 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { treeRef, focusedNodeInEditorSection: focusedNode } = useTreeStore();
+  const { treeRef, focusedNode, focusedNodeInEditorSection } = useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
   const { restoreNode } = useRestoreNode();
 
   const currentTree =
     focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
+  console.log('focusedNode:', focusedNode);
 
-  console.log('currentTree:', currentTree);
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger className={ContextMenuTrigger}>
@@ -35,46 +35,47 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
       </ContextMenu.Trigger>
       <ContextMenu.Portal container={portalContainer}>
         <ContextMenu.Content className={ContextMenuContent}>
-          {focusedNode?.data.type === 'folder' && currentTree === 'root' && (
-            <ContextMenu.Sub>
-              <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
-                새로 만들기
-                <div className={RightSlot}>
-                  <ChevronRightIcon />
-                </div>
-              </ContextMenu.SubTrigger>
-              <ContextMenu.Portal container={portalContainer}>
-                <ContextMenu.SubContent
-                  className={ContextMenuSubContent}
-                  sideOffset={2}
-                  alignOffset={-5}
-                >
-                  <ContextMenu.Item
-                    className={ContextMenuItem}
-                    onClick={() => {
-                      treeRef.rootRef.current!.createInternal();
-                    }}
+          {focusedNodeInEditorSection?.data.type === 'folder' &&
+            currentTree === 'root' && (
+              <ContextMenu.Sub>
+                <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
+                  새로 만들기
+                  <div className={RightSlot}>
+                    <ChevronRightIcon />
+                  </div>
+                </ContextMenu.SubTrigger>
+                <ContextMenu.Portal container={portalContainer}>
+                  <ContextMenu.SubContent
+                    className={ContextMenuSubContent}
+                    sideOffset={2}
+                    alignOffset={-5}
                   >
-                    Folder <div className={RightSlot}></div>
-                  </ContextMenu.Item>
+                    <ContextMenu.Item
+                      className={ContextMenuItem}
+                      onClick={() => {
+                        treeRef.rootRef.current!.createInternal();
+                      }}
+                    >
+                      Folder <div className={RightSlot}></div>
+                    </ContextMenu.Item>
 
-                  <ContextMenu.Item
-                    className={ContextMenuItem}
-                    onClick={() => {
-                      treeRef.rootRef.current!.createLeaf();
-                    }}
-                  >
-                    Pick
-                  </ContextMenu.Item>
-                </ContextMenu.SubContent>
-              </ContextMenu.Portal>
-            </ContextMenu.Sub>
-          )}
+                    <ContextMenu.Item
+                      className={ContextMenuItem}
+                      onClick={() => {
+                        treeRef.rootRef.current!.createLeaf();
+                      }}
+                    >
+                      Pick
+                    </ContextMenu.Item>
+                  </ContextMenu.SubContent>
+                </ContextMenu.Portal>
+              </ContextMenu.Sub>
+            )}
           {currentTree === 'root' && (
             <ContextMenu.Item
               className={ContextMenuItem}
               onClick={() => {
-                focusedNode!.edit();
+                focusedNodeInEditorSection!.edit();
               }}
             >
               이름 변경 <div className={RightSlot}></div>
@@ -85,8 +86,8 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
               className={ContextMenuItem}
               onClick={() => {
                 restoreNode({
-                  ids: [focusedNode!.id],
-                  nodes: [focusedNode!],
+                  ids: [focusedNodeInEditorSection!.id],
+                  nodes: [focusedNodeInEditorSection!],
                 });
                 toast('성공적으로 복원되었습니다!');
               }}
@@ -98,10 +99,12 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
             className={ContextMenuItem}
             onClick={() => {
               if (currentTree === 'root') {
-                treeRef.rootRef.current!.delete(focusedNode!.id);
+                treeRef.rootRef.current!.delete(focusedNodeInEditorSection!.id);
                 toast('휴지통으로 이동되었습니다.');
               } else {
-                treeRef.recycleBinRef.current!.delete(focusedNode!.id);
+                treeRef.recycleBinRef.current!.delete(
+                  focusedNodeInEditorSection!.id
+                );
                 toast('완전히 삭제되었습니다.');
               }
             }}

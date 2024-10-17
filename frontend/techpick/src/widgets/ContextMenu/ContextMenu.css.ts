@@ -12,7 +12,7 @@ export const ContextMenuTrigger = style({
 });
 
 export const ContextMenuContent = style({
-  minWidth: '220px',
+  minWidth: '190px',
   backgroundColor: themeContract.color.background,
   borderRadius: '6px',
   overflow: 'hidden',
