@@ -24,7 +24,7 @@ export default function RootLayout({
             <DndProviderWrapper>
               <QueryProvider>
                 {children}
-                <div id="portal-container" />
+                <div id="portalContainer" />
               </QueryProvider>
             </DndProviderWrapper>
           </ThemeProvider>

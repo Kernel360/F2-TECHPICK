@@ -34,6 +34,7 @@ export const linkEditor = style({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
+  overflow: 'scroll',
 });
 
 export const folderViewSection = style({

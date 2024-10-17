@@ -13,7 +13,7 @@ function App() {
       <ThemeProvider>
         <RouterProvider router={router} />
         <Toaster />
-        <div id="dialogContainer" />
+        <div id="portalContainer" />
       </ThemeProvider>
     </QueryClientProvider>
   );

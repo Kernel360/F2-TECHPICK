@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { linkWrapper } from '@/features/DnD/pick.css';
 import { useDragHook } from '@/features/DnD/hooks/useDragHook';
 
+// 여기에 PickCard카드될 예정입니다.
 export function Pick({ node }: { node: NodeApi }) {
   const ref = useDragHook(node);
 

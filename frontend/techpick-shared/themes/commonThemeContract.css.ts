@@ -38,3 +38,7 @@ export const commonThemeContract = createThemeContract({
     desktop: '',
   },
 });
+
+export const { breakpoints, space, typography } = commonThemeContract;
+export const { fontColor, fontFamily, fontSize, fontWeight, lineHeight } =
+  typography;
