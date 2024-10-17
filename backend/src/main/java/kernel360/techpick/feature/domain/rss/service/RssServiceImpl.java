@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.domain.rss.service.service;
+package kernel360.techpick.feature.domain.rss.service;
 
 import org.springframework.stereotype.Service;
 
