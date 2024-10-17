@@ -8,10 +8,17 @@ import {
   folderViewSection,
   linkViewSection,
 } from '@/widgets/LinkEditorSection/LinkEditorSection.css';
+import { PickCard, PickCardGridLayout } from '@/entities/pick';
+import { TagPicker } from '@/widgets/TagPicker';
 
 export const LinkEditor = () => {
-  const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
-    useTreeStore();
+  const {
+    treeRef,
+    focusedNode,
+    focusedFolderNodeList,
+    focusedLinkNodeList,
+    unClassifiedPicks,
+  } = useTreeStore();
   const el = useRef<HTMLDivElement | null>(null);
   const dropRef = useDropHook(el, focusedNode || treeRef.rootRef.current!.root);
 
@@ -38,7 +45,17 @@ export const LinkEditor = () => {
           ))}
         </div>
       )}
-      {}
+      {!!unClassifiedPicks?.length && !focusedNode && (
+        <PickCardGridLayout>
+          {unClassifiedPicks.map((node, index) => {
+            return (
+              <PickCard key={index} pickId={node.id}>
+                <TagPicker />
+              </PickCard>
+            );
+          })}
+        </PickCardGridLayout>
+      )}
     </div>
   );
 };

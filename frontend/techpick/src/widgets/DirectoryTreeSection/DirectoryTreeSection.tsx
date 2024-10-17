@@ -48,7 +48,7 @@ export function DirectoryTreeSection() {
   const rootTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const recycleBinTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
-  const { setTreeRef, setFocusedNode } = useTreeStore();
+  const { setTreeRef, setFocusedNode, setUnClassifiedPicks } = useTreeStore();
   const {
     handleCreate,
     handleDrag,
@@ -98,7 +98,7 @@ export function DirectoryTreeSection() {
     isLoading: isStructureLoading,
   } = useGetRootAndRecycleBinData();
 
-  const { data: unClassifiedPicks, isLoading } = useGetUnclassifiedPicks();
+  const { data: unClassifiedPicks } = useGetUnclassifiedPicks();
 
   return (
     <div className={leftSidebarSection}>
@@ -118,26 +118,18 @@ export function DirectoryTreeSection() {
         <div
           className={unClassifiedLabelContainer}
           onClick={() => {
+            if (!unClassifiedPicks) {
+              return;
+            }
             setFocusedNode(null);
+            console.log('clicked');
+            console.log('unClassifiedPicks :', unClassifiedPicks);
+            setUnClassifiedPicks(unClassifiedPicks);
           }}
+          onDoubleClick={() => {}}
         >
           <CircleAlert size={20} strokeWidth={1} />
-          <div
-            className={directoryLabel}
-            onClick={() => {
-              setFocusedNode(null);
-
-              if (isLoading) {
-                console.log('isLoading', isLoading);
-                return;
-              }
-
-              console.log('unClassifiedPicks :', unClassifiedPicks);
-              // setUnClassifiedPicks(unClassifiedPicks);
-            }}
-          >
-            Unclassified
-          </div>
+          <div className={directoryLabel}>Unclassified</div>
           <ChevronRight className={rightIcon} size={20} strokeWidth={1.3} />
         </div>
         <div className={directoryLabelContainer}>

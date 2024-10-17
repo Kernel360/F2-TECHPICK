@@ -106,6 +106,7 @@ export const directoryLabel = style({
 export const plusButton = style({
   cursor: 'pointer',
   marginRight: commonThemeContract.space.sm,
+  zIndex: 100,
 });
 
 export const directoryTreeWrapper = style({

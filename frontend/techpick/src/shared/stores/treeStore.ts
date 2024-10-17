@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { NodeData } from '@/shared/types';
 import { NodeApi, TreeApi } from 'react-arborist';
 import React, { createRef } from 'react';
+import { ApiPickData } from '@/shared/types/ApiTypes';
 
 interface TreeState {
   treeData: NodeData[];
@@ -13,9 +14,9 @@ interface TreeState {
   focusedNodeInEditorSection: NodeApi | null;
   focusedFolderNodeList: NodeApi[];
   focusedLinkNodeList: NodeApi[];
-  unClassifiedPicks: NodeData[];
+  unClassifiedPicks: ApiPickData[];
 
-  setUnClassifiedPicks: (data: NodeData[]) => void;
+  setUnClassifiedPicks: (data: ApiPickData[]) => void;
   setTreeData: (data: NodeData[]) => void;
   setTreeRef: (
     rootRef: React.RefObject<TreeApi<NodeData> | undefined>,
