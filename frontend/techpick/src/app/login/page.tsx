@@ -1,7 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
 import {
   googleLoginContainer,
   kakaoLoginContainer,
@@ -11,6 +14,14 @@ import {
 } from '@/app/login/page.css';
 
 export default function LoginPage() {
+  useEffect(() => {
+    const isLoggedInCookie = getClientCookie('techPickLogin');
+
+    if (isLoggedInCookie) {
+      redirect('/');
+    }
+  }, []);
+
   return (
     <div className={loginContainer}>
       <div className={logoContainer}>
