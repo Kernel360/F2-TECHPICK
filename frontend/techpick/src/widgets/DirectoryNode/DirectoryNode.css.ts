@@ -1,4 +1,4 @@
-import { commonThemeContract, themeContract } from '@/shared/themes';
+import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
 
 export const dirNodeWrapper = style({
@@ -21,7 +21,7 @@ export const dirNodeWrapperFocused = style({
 export const dirNode = style({
   display: 'flex',
   alignItems: 'center',
-  color: themeContract.color.font,
+  color: colorThemeContract.color.font,
   fontWeight: 300,
   padding: `0 ${commonThemeContract.space.md}`,
 });
@@ -38,9 +38,9 @@ export const nodeNameInput = style({
   fontWeight: 300,
   margin: '4px 0',
   padding: '3px',
-  backgroundColor: themeContract.color.background,
-  color: themeContract.color.font,
+  backgroundColor: colorThemeContract.color.background,
+  color: colorThemeContract.color.font,
   outline: 'none',
-  border: `1px solid ${themeContract.color.border}`,
+  border: `1px solid ${colorThemeContract.color.border}`,
   borderRadius: '4px',
 });

@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { themeContract } from '@/shared/themes';
+import { colorThemeContract } from 'techpick-shared';
 
 export const ContextMenuTrigger = style({
   // display: 'block',
@@ -13,7 +13,7 @@ export const ContextMenuTrigger = style({
 
 export const ContextMenuContent = style({
   minWidth: '190px',
-  backgroundColor: themeContract.color.background,
+  backgroundColor: colorThemeContract.color.background,
   borderRadius: '6px',
   overflow: 'hidden',
   padding: '5px',
@@ -25,7 +25,7 @@ export const ContextMenuSubContent = ContextMenuContent;
 export const ContextMenuItem = style({
   fontSize: '13px',
   lineHeight: '1',
-  color: themeContract.color.font,
+  color: colorThemeContract.color.font,
   borderRadius: '3px',
   display: 'flex',
   alignItems: 'center',

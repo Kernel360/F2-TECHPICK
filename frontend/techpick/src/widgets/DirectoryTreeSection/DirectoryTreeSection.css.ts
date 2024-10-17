@@ -1,12 +1,12 @@
+import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
-import { themeContract, commonThemeContract } from '@/shared/themes';
 
 export const leftSidebarSection = style({
   width: '400px',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  borderRight: `1px solid ${themeContract.color.border}`,
+  borderRight: `1px solid ${colorThemeContract.color.border}`,
 });
 
 export const profileSection = style({
@@ -15,7 +15,7 @@ export const profileSection = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${themeContract.color.border}`,
+  borderBottom: `1px solid ${colorThemeContract.color.border}`,
   padding: `0 ${commonThemeContract.space.md}`,
 });
 
@@ -40,7 +40,7 @@ export const directoryTreeContainer = style({
   display: 'flex',
   position: 'relative',
   flexDirection: 'column',
-  backgroundColor: themeContract.color.background,
+  backgroundColor: colorThemeContract.color.background,
 });
 
 export const directoryLabelContainer = style({
@@ -49,8 +49,7 @@ export const directoryLabelContainer = style({
   display: 'flex',
   alignItems: 'center',
   paddingLeft: commonThemeContract.space.lg,
-  paddingRight: commonThemeContract.space.sm,
-  borderBottom: `1px solid ${themeContract.color.border}`,
+  borderBottom: `1px solid ${colorThemeContract.color.border}`,
 });
 
 export const recycleBinContainerClosed = style({
@@ -79,14 +78,14 @@ export const recycleBinLabelContainer = style({
   display: 'flex',
   alignItems: 'center',
   paddingLeft: commonThemeContract.space.lg,
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
 export const directoryLabel = style({
   width: '100%',
   paddingLeft: commonThemeContract.space.sm,
-  color: themeContract.color.font,
+  color: colorThemeContract.color.font,
   fontWeight: 350,
 });
 
@@ -112,7 +111,7 @@ export const recycleBinTreeWrapper = style({
   height: 'calc(100% - 32px)',
   overflow: 'hidden',
   transition: 'height 0.4s',
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
 });
 
 export const recycleBinTreeWrapperClosed = style({
@@ -123,7 +122,7 @@ export const recycleBinTreeWrapperClosed = style({
 export const directoryTreeSectionFooter = style({
   width: '100%',
   height: '56px',
-  borderTop: `1px solid ${themeContract.color.border}`,
+  borderTop: `1px solid ${colorThemeContract.color.border}`,
 });
 
 export const directoryTree = style({
