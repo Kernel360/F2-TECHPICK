@@ -1,11 +1,14 @@
 import { style } from '@vanilla-extract/css';
 import { SelectedTagCommonStyle } from '@/entities/tag';
+import { colorThemeContract } from 'techpick-shared';
+
+const { color } = colorThemeContract;
 
 export const tagDialogPortalLayout = style({
   position: 'absolute',
   top: '0',
   zIndex: '1',
-  backgroundColor: 'white',
+  backgroundColor: color.inputBackground,
 });
 
 export const commandInputStyle = style({
@@ -16,15 +19,16 @@ export const commandInputStyle = style({
   outline: 'none',
   border: 'none',
   padding: '0 4px',
+  color: color.font,
 });
 
 export const tagListStyle = style({
+  border: `1px solid ${color.tagBorder}`,
   borderRadius: '4px',
   padding: '4px 0',
   boxShadow:
     'rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.2) 0px 3px 6px, rgba(15, 15, 15, 0.4) 0px 9px 24px',
   overflowY: 'auto',
-
   '::-webkit-scrollbar': {
     display: 'none',
   },
@@ -48,7 +52,7 @@ export const tagListItemStyle = style({
   // 선택된 상태일 때
   selectors: {
     '&[data-selected="true"]': {
-      backgroundColor: '#f5f5f4',
+      backgroundColor: color.tagSelectedBackground,
     },
     '&[data-disabled="true"]': {
       display: 'none',
@@ -66,9 +70,11 @@ export const tagListItemContentStyle = style({
   whiteSpace: 'nowrap', // 줄 바꿈 방지
   overflow: 'hidden', // 넘치는 내용 숨김
   textOverflow: 'ellipsis', // 생략 부호 추가
+  color: color.font,
 });
 
 export const tagCreateTextStyle = style({
   width: '26px',
   fontSize: '14px',
+  color: color.font,
 });

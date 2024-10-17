@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
-import { notifyError, numberToRandomColor } from '@/shared';
+import { color } from 'techpick-shared';
+import { notifyError, numberToRandomColor, useThemeStore } from '@/shared';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -46,6 +47,7 @@ export function TagAutocompleteDialog({
   } = useTagStore();
   const { commandListHeight } =
     useCalculateCommandListHeight(selectedTagListRef);
+  const { isDarkMode } = useThemeStore();
 
   const focusTagInput = () => {
     tagInputRef.current?.focus();
@@ -125,7 +127,7 @@ export function TagAutocompleteDialog({
       >
         {fetchingTagState.isPending && (
           <Command.Loading className={tagListLoadingStyle}>
-            <BarLoader />
+            <BarLoader color={color.font} />
           </Command.Loading>
         )}
 
@@ -142,14 +144,7 @@ export function TagAutocompleteDialog({
             onSelect={() => onSelectTag(tag)}
             keywords={[tag.tagName]}
           >
-            <span
-              className={tagListItemContentStyle}
-              style={{
-                backgroundColor: numberToRandomColor(tag.colorNumber),
-              }}
-            >
-              {tag.tagName}
-            </span>
+            <SelectedTagItem key={tag.tagId} tag={tag} />
             <TagInfoEditPopoverButton tag={tag} />
           </Command.Item>
         ))}
@@ -165,7 +160,10 @@ export function TagAutocompleteDialog({
             <span
               className={tagListItemContentStyle}
               style={{
-                backgroundColor: numberToRandomColor(randomNumber.current),
+                backgroundColor: numberToRandomColor(
+                  randomNumber.current,
+                  isDarkMode ? 'dark' : 'light'
+                ),
               }}
             >
               {tagInputValue}

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { SelectedTagCommonStyle } from './SelectedTagCommonStyle.css';
+import { color } from 'techpick-shared';
 
 export const selectedTagContentStyle = style({
   boxSizing: 'border-box',
@@ -10,4 +11,5 @@ export const selectedTagContentStyle = style({
   whiteSpace: 'nowrap', // 줄 바꿈 방지
   overflow: 'hidden', // 넘치는 내용 숨김
   textOverflow: 'ellipsis', // 생략 부호 추가
+  color: color.font,
 });

@@ -5,6 +5,7 @@ import {
   fontWeightVariants,
   fontSizeVariantKeyTypes,
   fontWeightVariantKeyTypes,
+  textStyle,
 } from './Text.css';
 
 export function Text({
@@ -17,7 +18,7 @@ export function Text({
 
   return (
     <Component
-      className={`${fontSizeVariants[size]} ${fontWeightVariants[weight]}`}
+      className={`${fontSizeVariants[size]} ${fontWeightVariants[weight]} ${textStyle}`}
     >
       <Slottable>{children}</Slottable>
     </Component>

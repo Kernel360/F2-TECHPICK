@@ -1,5 +1,8 @@
 import { style } from '@vanilla-extract/css';
+import { colorThemeContract } from 'techpick-shared';
 import { SelectedTagCommonStyle } from '@/entities/tag';
+
+const { color } = colorThemeContract;
 
 export const tagPickerLayout = style({
   position: 'relative',
@@ -14,12 +17,12 @@ export const tagDialogTriggerLayout = style({
   maxHeight: '60px',
   border: '1px solid transparent',
   borderRadius: '4px',
-  backgroundColor: '#f9f9f9',
+  backgroundColor: color.inputBackground,
   transition: 'border 0.3s ease',
 
   ':focus': {
-    border: '1px solid #444C52',
+    border: `1px solid ${color.inputBorderFocus}`,
     outline: 'none',
-    backgroundColor: '#ffffff',
+    backgroundColor: color.inputBackgroundFocus,
   },
 });
