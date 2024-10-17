@@ -9,10 +9,10 @@ public interface PickApiSpecification {
     //                                        pick_id: nullable (null == 픽 안함)
     //                                      }
 
-    // [ 나의 픽 조회 ]
+    // [ 나의 픽 상세 조회 ]
     // GET api/picks/{pick_id}
     // -------------------- Request Body = X
-    // -------------------- Response Body = { name, parent_folder_id, 태그 ... 등등 }
+    // -------------------- Response Body = { name, parent_folder_id, 태그, 제목 ... 등등 }
 
     // [ 나의 픽 정보 수정 - null이 아닌 값만 업데이트 ]
     // PATCH api/picks/data/{pick_id}
