@@ -4,9 +4,12 @@ import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolde
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
 
 export const useRestoreNode = () => {
   const { mutateAsync: moveFolder } = useMoveFolder();
+  const { mutateAsync: movePick } = useMovePick();
+
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
   const queryClient = useQueryClient();
   const structureData: ApiStructureData | undefined = queryClient.getQueryData([
@@ -20,10 +23,8 @@ export const useRestoreNode = () => {
     ids: string[];
     nodes: NodeApi[];
   }) => {
-    const realNodeId =
-      nodes[0].data.type === 'folder'
-        ? nodes[0].data.folderId
-        : nodes[0].data.pickId;
+    const isFolder = nodes[0].data.type === 'folder';
+    const realNodeId = isFolder ? nodes[0].data.folderId : nodes[0].data.pickId;
 
     const updatedRoot = structuredClone(structureData!.root);
     updatedRoot.splice(0, 0, nodes[0].data);
@@ -41,10 +42,17 @@ export const useRestoreNode = () => {
       },
     };
 
-    await moveFolder({
-      folderId: realNodeId.toString(),
-      structure: serverData,
-    });
+    if (isFolder) {
+      await moveFolder({
+        folderId: realNodeId.toString(),
+        structure: serverData,
+      });
+    } else {
+      await movePick({
+        pickId: realNodeId.toString(),
+        structure: serverData,
+      });
+    }
 
     await queryClient.invalidateQueries({
       queryKey: ['rootAndRecycleBinData'],

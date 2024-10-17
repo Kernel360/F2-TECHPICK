@@ -16,12 +16,8 @@ import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/us
 
 export default function MainPage() {
   const router = useRouter();
-  const {
-    focusedNode,
-    setFocusedFolderNodeList,
-    setFocusedLinkNodeList,
-    setDeFaultFolderIdData,
-  } = useTreeStore();
+  const { focusedNode, setFocusedFolderNodeList, setFocusedLinkNodeList } =
+    useTreeStore();
   const { data: defaultFolderData, isLoading } = useGetDefaultFolderData();
 
   const [tempFocusedFolderList, tempFocusedPickList] = useMemo(() => {
@@ -41,12 +37,6 @@ export default function MainPage() {
 
     return [folderList, linkList];
   }, [focusedNode]);
-
-  useEffect(() => {
-    if (defaultFolderData && !isLoading) {
-      setDeFaultFolderIdData(defaultFolderData);
-    }
-  }, [defaultFolderData, isLoading, setDeFaultFolderIdData]);
 
   useEffect(() => {
     setFocusedFolderNodeList(tempFocusedFolderList);

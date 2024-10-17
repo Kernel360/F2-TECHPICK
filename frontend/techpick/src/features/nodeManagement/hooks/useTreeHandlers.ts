@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
 import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
+import { deletePick } from '@/features/nodeManagement/api/pick/pickQueryFunctions';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
@@ -149,10 +150,8 @@ export const useTreeHandlers = () => {
     ids: string[];
     nodes: NodeApi[];
   }) => {
-    const realNodeId =
-      nodes[0].data.type === 'folder'
-        ? nodes[0].data.folderId
-        : nodes[0].data.pickId;
+    const isFolder = nodes[0].data.type === 'folder';
+    const realNodeId = isFolder ? nodes[0].data.folderId : nodes[0].data.pickId;
 
     const updatedRecycleBin = structuredClone(structureData!.recycleBin);
     updatedRecycleBin.splice(0, 0, nodes[0].data);
@@ -170,10 +169,18 @@ export const useTreeHandlers = () => {
         recycleBin: updatedRecycleBin,
       },
     };
-    await moveFolder({
-      folderId: realNodeId.toString(),
-      structure: serverData,
-    });
+    if (isFolder) {
+      await moveFolder({
+        folderId: realNodeId.toString(),
+        structure: serverData,
+      });
+    } else {
+      await movePick({
+        pickId: realNodeId.toString(),
+        structure: serverData,
+      });
+    }
+
     await refetchStructure();
     setFocusedNode(null);
   };
@@ -185,10 +192,8 @@ export const useTreeHandlers = () => {
     ids: string[];
     nodes: NodeApi[];
   }) => {
-    const realNodeId =
-      nodes[0].data.type === 'folder'
-        ? nodes[0].data.folderId
-        : nodes[0].data.pickId;
+    const isFolder = nodes[0].data.type === 'folder';
+    const realNodeId = isFolder ? nodes[0].data.folderId : nodes[0].data.pickId;
 
     const updatedRecycleBin = removeByIdFromStructure(
       structuredClone(structureData!.recycleBin),
@@ -202,10 +207,18 @@ export const useTreeHandlers = () => {
         recycleBin: updatedRecycleBin,
       },
     };
-    await deleteFolder({
-      folderId: realNodeId.toString(),
-      structure: serverData,
-    });
+    if (isFolder) {
+      await deleteFolder({
+        folderId: realNodeId.toString(),
+        structure: serverData,
+      });
+    } else {
+      await deletePick({
+        pickId: realNodeId.toString(),
+        structure: serverData,
+      });
+    }
+
     await refetchStructure();
 
     setFocusedNode(null);

@@ -221,6 +221,7 @@ export function DirectoryTreeSection({
           {isStructureLoading && isUnClassifiedPickDataLoading && (
             <div>Loading...</div>
           )}
+
           {structureError && <div>Error: {structureError.message}</div>}
           {!isStructureLoading &&
             !isUnClassifiedPickDataLoading &&

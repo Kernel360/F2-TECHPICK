@@ -47,3 +47,17 @@ export const getPicksByParentId = async (
     throw error;
   }
 };
+
+export const deletePick = async ({
+  pickId,
+  structure,
+}: {
+  pickId: string;
+  structure: object;
+}): Promise<void> => {
+  return await apiClient
+    .delete(`structures/picks/${pickId}`, {
+      json: structure,
+    })
+    .json();
+};
