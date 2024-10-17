@@ -1,24 +1,21 @@
-import ky from 'ky';
-import { DefaultFolderIdData, StructureData } from '@/shared/types/ApiTypes';
+import {
+  ApiDefaultFolderIdData,
+  ApiStructureData,
+} from '@/shared/types/ApiTypes';
+import { apiClient } from '@/shared/api/apiClient';
 
-export const apiClient = ky.create({
-  credentials: 'include',
-  prefixUrl: process.env.NEXT_PUBLIC_API,
-  hooks: {},
-});
-
-export const getRootAndRecycleBinData = async (): Promise<StructureData> => {
+export const getRootAndRecycleBinData = async (): Promise<ApiStructureData> => {
   try {
-    return await apiClient.get('structures').json<StructureData>();
+    return await apiClient.get('structures').json<ApiStructureData>();
   } catch (error) {
     console.log('Error fetching structure data:', error);
     throw error;
   }
 };
 
-export const getFoldersIdData = async (): Promise<DefaultFolderIdData> => {
+export const getFoldersIdData = async (): Promise<ApiDefaultFolderIdData> => {
   try {
-    return await apiClient.get('folders').json<DefaultFolderIdData>();
+    return await apiClient.get('folders').json<ApiDefaultFolderIdData>();
   } catch (error) {
     console.log('Error fetching folder ID data:', error);
     throw error;

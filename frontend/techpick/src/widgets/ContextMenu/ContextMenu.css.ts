@@ -2,23 +2,22 @@ import { style } from '@vanilla-extract/css';
 import { colorThemeContract } from 'techpick-shared';
 
 export const ContextMenuTrigger = style({
-  display: 'block',
-  color: 'white',
-  borderRadius: '4px',
-  fontSize: '15px',
-  userSelect: 'none',
-  width: '300px',
-  textAlign: 'center',
+  // display: 'block',
+  // color: 'white',
+  // borderRadius: '4px',
+  // fontSize: '15px',
+  // userSelect: 'none',
+  // width: '300px',
+  // textAlign: 'center',
 });
 
 export const ContextMenuContent = style({
-  minWidth: '220px',
-  backgroundColor: 'white',
+  minWidth: '190px',
+  backgroundColor: colorThemeContract.color.background,
   borderRadius: '6px',
   overflow: 'hidden',
   padding: '5px',
-  boxShadow:
-    '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
+  boxShadow: '1px 1px 10px rgba(160,160,160,0.5)',
 });
 
 export const ContextMenuSubContent = ContextMenuContent;
@@ -37,7 +36,7 @@ export const ContextMenuItem = style({
   userSelect: 'none',
   outline: 'none',
   ':hover': {
-    backgroundColor: '#e2e8f4',
+    backgroundColor: 'rgba(221,219,214,0.5)',
   },
 });
 

@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 
-import { Folder } from '@/features/DnD/Folder';
-import { Pick } from '@/features/DnD/Pick';
+import { Folder } from '@/features/nodeManagement/ui/Folder';
+import { Pick } from '@/features/nodeManagement/ui/Pick';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { useDropHook } from '@/features/DnD/hooks/useDropHook';
+import { useDropHook } from '@/features/nodeManagement/hooks/useDropHook';
 import {
   folderViewSection,
   linkViewSection,
@@ -13,10 +13,7 @@ export const LinkEditor = () => {
   const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
     useTreeStore();
   const el = useRef<HTMLDivElement | null>(null);
-  const dropRef = useDropHook(
-    el,
-    focusedNode ? focusedNode : treeRef.current!.root
-  );
+  const dropRef = useDropHook(el, focusedNode || treeRef.rootRef.current!.root);
 
   const innerRef = useCallback(
     (n: HTMLDivElement) => {

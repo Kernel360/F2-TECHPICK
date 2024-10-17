@@ -16,6 +16,8 @@ import {
   recycleBinContainerOpen,
   recycleBinContainerClosed,
   logout,
+  directoryTreeWrapperFullSize,
+  plusButton,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -24,17 +26,17 @@ import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { Folder, LogOut, Plus, Trash2 } from 'lucide-react';
-import { EditorContextMenu } from '../EditorContextMenu';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
-import { useLogout } from '@/features/userManagement/hooks/useLogout';
+import { useLogout } from '@/features/userManagement/api/useLogout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
-  const treeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
+  const rootTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
+  const recycleBinTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
   const { setTreeRef, setFocusedNode } = useTreeStore();
   const {
@@ -49,12 +51,23 @@ export function DirectoryTreeSection() {
   const { mutate } = useLogout();
   const router = useRouter();
 
-  const handleTreeRef = (instance: TreeApi<NodeData> | null | undefined) => {
-    if (instance && !treeRef.current) {
-      treeRef.current = instance;
-      setTreeRef(treeRef);
-    }
-  };
+  const handleTreeRef =
+    (type: 'root' | 'recycleBin') =>
+    (instance: TreeApi<NodeData> | null | undefined) => {
+      if (!instance) {
+        return;
+      }
+
+      if (type === 'root' && !rootTreeRef.current) {
+        rootTreeRef.current = instance;
+        setTreeRef(rootTreeRef, recycleBinTreeRef);
+      }
+
+      if (type === 'recycleBin' && !recycleBinTreeRef.current) {
+        recycleBinTreeRef.current = instance;
+        setTreeRef(rootTreeRef, recycleBinTreeRef);
+      }
+    };
 
   const handleLogout = async () => {
     mutate(undefined, {
@@ -94,45 +107,54 @@ export function DirectoryTreeSection() {
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
           <Plus
+            className={plusButton}
             width={20}
             strokeWidth="1.3px"
             onClick={() => {
-              treeRef.current?.create({
+              if (rootTreeRef.current?.isEditing) {
+                return;
+              }
+              rootTreeRef.current?.create({
                 type: 'internal',
-                parentId: treeRef.current?.focusedNode?.id,
+                parentId: rootTreeRef.current?.focusedNode?.id,
                 index: 0,
               });
             }}
           />
         </div>
-        <div className={directoryTreeWrapper} ref={ref}>
+        <div
+          className={
+            isRecycleBinOpen
+              ? directoryTreeWrapper
+              : directoryTreeWrapperFullSize
+          }
+          ref={ref}
+        >
           {isStructureLoading && <div>Loading...</div>}
           {structureError && <div>Error: {structureError.message}</div>}
           {!isStructureLoading && !structureError && (
-            <EditorContextMenu>
-              <Tree
-                ref={handleTreeRef}
-                className={directoryTree}
-                data={rootAndRecycleBinData?.root}
-                disableMultiSelection={true}
-                onFocus={(node: NodeApi) => {
-                  setFocusedNode(node);
-                }}
-                onMove={handleDrag}
-                onCreate={handleCreate}
-                onRename={handleRename}
-                onDelete={handleMoveToTrash}
-                openByDefault={false}
-                width={width}
-                height={height}
-                rowHeight={32}
-                indent={24}
-                overscanCount={1}
-                dndManager={dragDropManager}
-              >
-                {DirectoryNode}
-              </Tree>
-            </EditorContextMenu>
+            <Tree<NodeData>
+              ref={handleTreeRef('root')}
+              className={directoryTree}
+              data={rootAndRecycleBinData?.root}
+              disableMultiSelection={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleDrag}
+              onCreate={handleCreate}
+              onRename={handleRename}
+              onDelete={handleMoveToTrash}
+              openByDefault={false}
+              width={width}
+              height={height}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
           )}
         </div>
         <div
@@ -158,29 +180,30 @@ export function DirectoryTreeSection() {
                 : recycleBinTreeWrapperClosed
             }
           >
-            <EditorContextMenu>
-              <Tree
-                className={directoryTree}
-                data={rootAndRecycleBinData?.recycleBin}
-                disableMultiSelection={true}
-                onFocus={(node: NodeApi) => {
-                  setFocusedNode(node);
-                }}
-                onMove={handleDrag}
-                onCreate={handleCreate}
-                onRename={handleRename}
-                onDelete={handleDelete}
-                openByDefault={false}
-                width={width}
-                height={height}
-                rowHeight={32}
-                indent={24}
-                overscanCount={1}
-                dndManager={dragDropManager}
-              >
-                {DirectoryNode}
-              </Tree>
-            </EditorContextMenu>
+            <Tree<NodeData>
+              ref={handleTreeRef('recycleBin')}
+              className={directoryTree}
+              data={rootAndRecycleBinData?.recycleBin}
+              disableMultiSelection={true}
+              disableDrag={true}
+              disableDrop={true}
+              onFocus={(node: NodeApi) => {
+                setFocusedNode(node);
+              }}
+              onMove={handleDrag}
+              onCreate={handleCreate}
+              onRename={handleRename}
+              onDelete={handleDelete}
+              openByDefault={false}
+              width={width}
+              height={height}
+              rowHeight={32}
+              indent={24}
+              overscanCount={1}
+              dndManager={dragDropManager}
+            >
+              {DirectoryNode}
+            </Tree>
           </div>
         </div>
       </div>

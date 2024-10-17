@@ -9,11 +9,14 @@ import {
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateFolder } from '@/features/nodeManagement/hooks/useCreateFolder';
-import { StructureData } from '@/shared/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
-import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
+import { useCreateFolder } from '@/features/nodeManagement/api/useCreateFolder';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
+import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
 import toast from 'react-hot-toast';
+import { useTreeStore } from '@/shared/stores/treeStore';
+import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { TreeContextMenu } from '@/widgets/ContextMenu/TreeContextMenu';
 
 export const DirectoryNode = ({
   node,
@@ -21,27 +24,27 @@ export const DirectoryNode = ({
   dragHandle,
 }: DirectoryNodeProps) => {
   const queryClient = useQueryClient();
+  const { setFocusedNode, treeRef } = useTreeStore();
   const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
-
-  const cashedStructureData: StructureData | undefined =
+  const cashedStructureData: ApiStructureData | undefined =
     queryClient.getQueryData(['rootAndRecycleBinData']);
-
-  const realNodeId: number = node.data.folderId
-    ? node.data.folderId
-    : node.data.pickId;
-
+  const realNodeId = node.data.folderId || node.data.pickId;
+  const rootFolderId = defaultFolderIdData?.ROOT;
+  const currentTree = getCurrentTreeTypeByNode(node, treeRef);
   const setRealNodeId = (id: number) => {
     if (node.data.folderId) node.data.folderId = id;
     else node.data.pickId = id;
   };
 
-  const rootFolderId = defaultFolderIdData?.ROOT;
-
   const handleKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       if (node.data.folderId === -1) {
         await queryClient.invalidateQueries({
@@ -50,7 +53,13 @@ export const DirectoryNode = ({
         });
       } else node.reset();
     }
+
     if (event.key === 'Enter') {
+      if (event.currentTarget.value === '') {
+        toast.error('폴더 이름을 입력해주세요.');
+        return;
+      }
+
       if (realNodeId === -1) {
         // create 동작중 이름 입력인 경우(realId가 -1인 경우)
         // 폴더 생성 api 호출 (서버)
@@ -91,6 +100,7 @@ export const DirectoryNode = ({
           });
 
           toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+          node.reset();
         }
       } else node.submit(event.currentTarget.value);
     }
@@ -102,49 +112,62 @@ export const DirectoryNode = ({
       className={node.isSelected ? dirNodeWrapperFocused : dirNodeWrapper}
       ref={dragHandle}
       onClick={() => {
+        setFocusedNode(node);
+        if (currentTree === 'root') {
+          treeRef.recycleBinRef.current!.deselectAll();
+        } else {
+          treeRef.rootRef.current!.deselectAll();
+        }
         node.toggle();
-        console.log('Clicked Node', node);
       }}
       onContextMenu={() => {
+        setFocusedNode(node);
         node.select();
+        if (currentTree === 'root') {
+          treeRef.recycleBinRef.current!.deselectAll();
+        } else {
+          treeRef.rootRef.current!.deselectAll();
+        }
       }}
     >
-      <div className={dirNode}>
-        {node.isOpen ? (
-          <ChevronDown size={13} />
-        ) : node.isLeaf ? (
-          <div style={{ marginLeft: '13px' }}></div>
-        ) : (
-          <ChevronRight size={13} />
-        )}
-        {node.data.type === 'folder' ? (
-          <Image
-            src={`image/ic_folder.svg`}
-            alt={`${node.data.name}'s image`}
-            className={dirIcFolder}
-            width={8}
-            height={8}
-          />
-        ) : (
-          <Image
-            src={`image/ic_doc.svg`}
-            width={8}
-            height={8}
-            alt={`${node.data.name}'s image`}
-            className={dirIcFolder}
-          />
-        )}
-        {node.isEditing ? (
-          <input
-            type="text"
-            className={nodeNameInput}
-            onKeyDown={handleKeyDown}
-            autoFocus
-          />
-        ) : (
-          node.data.name
-        )}
-      </div>
+      <TreeContextMenu>
+        <div className={dirNode}>
+          {node.isOpen ? (
+            <ChevronDown size={13} />
+          ) : node.isLeaf ? (
+            <div style={{ marginLeft: '13px' }}></div>
+          ) : (
+            <ChevronRight size={13} />
+          )}
+          {node.data.type === 'folder' ? (
+            <Image
+              src={`image/ic_folder.svg`}
+              alt={`${node.data.name}'s image`}
+              className={dirIcFolder}
+              width={8}
+              height={8}
+            />
+          ) : (
+            <Image
+              src={`image/ic_doc.svg`}
+              width={8}
+              height={8}
+              alt={`${node.data.name}'s image`}
+              className={dirIcFolder}
+            />
+          )}
+          {node.isEditing ? (
+            <input
+              type="text"
+              className={nodeNameInput}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+          ) : (
+            node.data.name
+          )}
+        </div>
+      </TreeContextMenu>
     </div>
   );
 };

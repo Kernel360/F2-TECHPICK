@@ -1,31 +1,33 @@
 import { NodeData } from '@/shared/types';
-import { createNode } from '@/features/createNode';
-import { moveNode } from '@/features/moveNode';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/hooks/useGetRootAndRecycleBinData';
+import { createNode } from '@/features/nodeManagement/utils/createNode';
+import { moveNode } from '@/features/nodeManagement/utils/moveNode';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/features/nodeManagement/hooks/useMoveFolder';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/hooks/useGetDefaultFolderData';
-import { useRenameFolder } from '@/features/nodeManagement/hooks/useRenameFolder';
+import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
+import { useRenameFolder } from '@/features/nodeManagement/api/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
-import { StructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
 import { deleteFolder } from '@/features/nodeManagement/api/queryFunctions';
+import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
     useGetRootAndRecycleBinData();
   const {
+    treeRef,
     focusedNode,
     focusedFolderNodeList,
     focusedLinkNodeList,
+    setFocusedNode,
     setFocusedLinkNodeList,
     setFocusedFolderNodeList,
   } = useTreeStore();
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
-  // const { mutateAsync: createFolder } = useCreateFolder();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
   const queryClient = useQueryClient();
@@ -37,10 +39,6 @@ export const useTreeHandlers = () => {
     index,
     type,
   }): Promise<{ id: string }> => {
-    console.log('parentId', parentId);
-    console.log('parentNode', parentNode);
-    console.log('index', index);
-    console.log('type', type);
     const newLocalNodeId = getNewIdFromStructure(
       structuredClone(structureData!)
     );
@@ -58,7 +56,7 @@ export const useTreeHandlers = () => {
 
     queryClient.setQueryData(
       ['rootAndRecycleBinData'],
-      (oldData: StructureData) => ({
+      (oldData: ApiStructureData) => ({
         root: updatedTreeData,
         recycleBin: oldData.recycleBin,
       })
@@ -74,8 +72,21 @@ export const useTreeHandlers = () => {
     parentNode,
     index,
   }) => {
+    console.log('dragIds', dragIds);
+    console.log('dragNodes', dragNodes);
+    console.log('parentId', parentId);
+    console.log('parentNode', parentNode);
+    console.log('index', index);
+    const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
+    const currentStructureData = isRoot
+      ? structuredClone(structureData!.root)
+      : structuredClone(structureData!.recycleBin);
+    const currentRootId = isRoot
+      ? defaultFolderIdData!.ROOT
+      : defaultFolderIdData!.RECYCLE_BIN;
+
     const updatedTreeData = moveNode(
-      structuredClone(structureData!.root),
+      currentStructureData,
       focusedNode,
       focusedFolderNodeList,
       focusedLinkNodeList,
@@ -89,16 +100,12 @@ export const useTreeHandlers = () => {
     );
     // 서버에 업데이트된 트리 전송
     const serverData = {
-      parentFolderId: parentNode
-        ? parentNode.data.folderId
-        : defaultFolderIdData!.ROOT,
+      parentFolderId: parentNode ? parentNode.data.folderId : currentRootId,
       structure: {
-        root: updatedTreeData,
-        recycleBin: structureData!.recycleBin,
+        root: isRoot ? updatedTreeData : structureData!.root,
+        recycleBin: isRoot ? structureData!.recycleBin : updatedTreeData,
       },
     };
-    console.log('defaultFolderIdData', defaultFolderIdData);
-    console.log('서버에 보낼 데이터', serverData);
 
     await moveFolder({
       folderId: dragNodes[0].data.folderId!.toString(),
@@ -123,6 +130,7 @@ export const useTreeHandlers = () => {
     } catch (error) {
       console.error('Folder rename failed:', error);
       toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+      treeRef.rootRef.current?.root?.reset();
       await refetchStructure();
     }
   };
@@ -160,6 +168,7 @@ export const useTreeHandlers = () => {
       structure: serverData,
     });
     await refetchStructure();
+    setFocusedNode(null);
   };
 
   const handleDelete = async ({
@@ -191,6 +200,8 @@ export const useTreeHandlers = () => {
       structure: serverData,
     });
     await refetchStructure();
+
+    setFocusedNode(null);
   };
 
   return {

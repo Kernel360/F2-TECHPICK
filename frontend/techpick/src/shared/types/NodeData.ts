@@ -12,13 +12,13 @@ export interface NodeData {
 
 export interface ArboristCreateProps {
   parentId: string | null;
-  parentNode: NodeApi | null;
+  parentNode: NodeApi<NodeData> | null;
   index: number;
   type: 'internal' | 'leaf';
 }
 
 export interface DirectoryNodeProps {
-  node: NodeApi;
+  node: NodeApi<NodeData>;
   style: CSSProperties;
   dragHandle?: (el: HTMLDivElement | null) => void;
 }

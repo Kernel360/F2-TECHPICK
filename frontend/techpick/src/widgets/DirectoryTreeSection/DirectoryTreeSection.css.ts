@@ -61,11 +61,15 @@ export const recycleBinContainerClosed = style({
   height: '28px',
   transform: 'translateY(100%)',
   overflow: 'hidden',
+  position: 'absolute',
+  bottom: '0',
 });
 export const recycleBinContainerOpen = style({
   height: 'calc(50%)',
   transform: 'translateY(0)',
   transition: 'transform 0.3s ease-out',
+  position: 'absolute',
+  bottom: '0',
 });
 
 export const recycleBinLabelContainer = style({
@@ -85,9 +89,21 @@ export const directoryLabel = style({
   fontWeight: 350,
 });
 
+export const plusButton = style({
+  cursor: 'pointer',
+});
+
 export const directoryTreeWrapper = style({
   outline: 'none',
   height: 'calc(50% - 32px)',
+  overflow: 'hidden',
+  transition: 'height 0.3s',
+});
+
+export const directoryTreeWrapperFullSize = style({
+  height: 'calc(100% - 56px)',
+  overflow: 'hidden',
+  transition: 'height 0.3s',
 });
 
 export const recycleBinTreeWrapper = style({
