@@ -6,11 +6,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,12 +37,12 @@ public class Pick extends BaseEntity {
 
 	// 사용자
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	// 북마크 대상 링크
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "link_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "link_id", nullable = false)
 	private Link link;
 
 	@ManyToOne(fetch = FetchType.LAZY)

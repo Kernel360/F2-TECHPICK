@@ -1,10 +1,8 @@
 package kernel360.techpick.core.model.tag;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +35,7 @@ public class Tag {
 
 	// 사용자 FK
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	private Tag(String name, Integer tagOrder, Integer colorNumber, User user) {
