@@ -10,6 +10,7 @@ export interface ApiDefaultFolderIdData {
 export interface ApiStructureData {
   root: NodeData[];
   recycleBin: NodeData[];
+  unclassified?: NodeData[];
 }
 
 export interface ApiFolderData {
@@ -35,7 +36,7 @@ export interface ApiLinkUrlData {
 
 export interface ApiPickData {
   id: number;
-  name: string;
+  title: string;
   memo: string;
   folderId: number;
   userId: number;

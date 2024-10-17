@@ -6,20 +6,20 @@ import {
   directoryTreeContainer,
   directoryTreeSectionFooter,
   directoryTreeWrapper,
-  recycleBinTreeWrapperClosed,
+  directoryTreeWrapperFullSize,
   leftSidebarSection,
   logo,
+  logout,
+  plusButton,
   profileContainer,
   profileSection,
+  recycleBinContainerClosed,
+  recycleBinContainerOpen,
   recycleBinLabelContainer,
   recycleBinTreeWrapper,
-  recycleBinContainerOpen,
-  recycleBinContainerClosed,
-  logout,
-  directoryTreeWrapperFullSize,
-  plusButton,
-  unClassifiedLabelContainer,
+  recycleBinTreeWrapperClosed,
   rightIcon,
+  unClassifiedLabelContainer,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -42,13 +42,24 @@ import { useLogout } from '@/features/userManagement/api/useLogout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useGetUnclassifiedPicks } from '@/features/nodeManagement/api/pick/useGetUnclassifiedPicks';
+import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
+import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
+import { useQueryClient } from '@tanstack/react-query';
+import { ApiStructureData } from '@/shared/types/ApiTypes';
 
 export function DirectoryTreeSection() {
+  const queryClient = useQueryClient();
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const rootTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const recycleBinTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
   const dragDropManager = useDragDropManager();
-  const { setTreeRef, setFocusedNode, setUnClassifiedPicks } = useTreeStore();
+  const {
+    treeRef,
+    setTreeRef,
+    setFocusedNode,
+    setUnClassifiedPickDataList,
+    setUnclassifiedNodeRoot,
+  } = useTreeStore();
   const {
     handleCreate,
     handleDrag,
@@ -96,9 +107,48 @@ export function DirectoryTreeSection() {
     data: rootAndRecycleBinData,
     error: structureError,
     isLoading: isStructureLoading,
+    refetch: refetchStructure,
   } = useGetRootAndRecycleBinData();
 
-  const { data: unClassifiedPicks } = useGetUnclassifiedPicks();
+  const {
+    data: unClassifiedPickDataList,
+    isLoading: isUnClassifiedPickDataLoading,
+    refetch: refetchUnclassifiedPickDataList,
+  } = useGetUnclassifiedPicks();
+
+  function convertUnClassifiedPickDataToNodeApi() {
+    if (unClassifiedPickDataList && rootAndRecycleBinData) {
+      // NodeData 타입으로 변환해야함
+      const unClassifiedNodeData = convertPickDataToNodeData(
+        unClassifiedPickDataList,
+        rootAndRecycleBinData
+      );
+      //  Tree에 추가해야 함
+      const newRootData = addNodeToStructure(
+        rootAndRecycleBinData.root,
+        null,
+        0,
+        unClassifiedNodeData
+      );
+      queryClient.setQueryData(
+        ['rootAndRecycleBinData'],
+        (oldData: ApiStructureData) => ({
+          root: newRootData,
+          recycleBin: oldData.recycleBin,
+        })
+      );
+      // NodeApi 타입으로 변환된 데이터를 Store 에 저장, focusedNode 설정
+      setTimeout(() => {
+        const unClassifiedNodeRoot = rootTreeRef.current?.get('-2');
+        if (unClassifiedNodeRoot) {
+          setUnclassifiedNodeRoot(unClassifiedNodeRoot);
+          setFocusedNode(unClassifiedNodeRoot);
+        }
+      }, 0);
+      // Tree에서 삭제
+      refetchStructure();
+    }
+  }
 
   return (
     <div className={leftSidebarSection}>
@@ -118,13 +168,15 @@ export function DirectoryTreeSection() {
         <div
           className={unClassifiedLabelContainer}
           onClick={() => {
-            if (!unClassifiedPicks) {
+            refetchUnclassifiedPickDataList();
+            if (!unClassifiedPickDataList) {
               return;
             }
-            setFocusedNode(null);
-            console.log('clicked');
-            console.log('unClassifiedPicks :', unClassifiedPicks);
-            setUnClassifiedPicks(unClassifiedPicks);
+            treeRef.rootRef.current?.deselectAll();
+            treeRef.recycleBinRef.current?.deselectAll();
+            setUnClassifiedPickDataList(unClassifiedPickDataList);
+
+            convertUnClassifiedPickDataToNodeApi();
           }}
           onDoubleClick={() => {}}
         >
@@ -159,32 +211,36 @@ export function DirectoryTreeSection() {
           }
           ref={ref}
         >
-          {isStructureLoading && <div>Loading...</div>}
-          {structureError && <div>Error: {structureError.message}</div>}
-          {!isStructureLoading && !structureError && (
-            <Tree<NodeData>
-              ref={handleTreeRef('root')}
-              className={directoryTree}
-              data={rootAndRecycleBinData?.root}
-              disableMultiSelection={true}
-              onFocus={(node: NodeApi) => {
-                setFocusedNode(node);
-              }}
-              onMove={handleDrag}
-              onCreate={handleCreate}
-              onRename={handleRename}
-              onDelete={handleMoveToTrash}
-              openByDefault={false}
-              width={width}
-              height={height}
-              rowHeight={32}
-              indent={24}
-              overscanCount={1}
-              dndManager={dragDropManager}
-            >
-              {DirectoryNode}
-            </Tree>
+          {isStructureLoading && isUnClassifiedPickDataLoading && (
+            <div>Loading...</div>
           )}
+          {structureError && <div>Error: {structureError.message}</div>}
+          {!isStructureLoading &&
+            !isUnClassifiedPickDataLoading &&
+            !structureError && (
+              <Tree<NodeData>
+                ref={handleTreeRef('root')}
+                className={directoryTree}
+                data={rootAndRecycleBinData?.root}
+                disableMultiSelection={true}
+                onFocus={(node: NodeApi) => {
+                  setFocusedNode(node);
+                }}
+                onMove={handleDrag}
+                onCreate={handleCreate}
+                onRename={handleRename}
+                onDelete={handleMoveToTrash}
+                openByDefault={false}
+                width={width}
+                height={height}
+                rowHeight={32}
+                indent={24}
+                overscanCount={1}
+                dndManager={dragDropManager}
+              >
+                {DirectoryNode}
+              </Tree>
+            )}
         </div>
         <div
           className={

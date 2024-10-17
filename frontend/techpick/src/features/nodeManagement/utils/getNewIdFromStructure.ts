@@ -22,7 +22,12 @@ function getMaxIdFromNodes(nodes: NodeData[]): number {
 export function getNewIdFromStructure(structure: ApiStructureData): string {
   const maxIdInRoot = getMaxIdFromNodes(structure.root);
   const maxIdInRecycleBin = getMaxIdFromNodes(structure.recycleBin);
-  const maxId = Math.max(maxIdInRoot, maxIdInRecycleBin);
+  if (structure.unclassified) {
+    const maxIdInUnclassified = getMaxIdFromNodes(structure.unclassified);
+    return String(
+      Math.max(maxIdInRoot, maxIdInRecycleBin, maxIdInUnclassified) + 1
+    );
+  }
 
-  return String(maxId + 1);
+  return String(Math.max(maxIdInRoot, maxIdInRecycleBin) + 1);
 }

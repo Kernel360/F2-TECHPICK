@@ -1,24 +1,15 @@
 import React, { useCallback, useRef } from 'react';
 
 import { Folder } from '@/features/nodeManagement/ui/Folder';
-import { Pick } from '@/features/nodeManagement/ui/Pick';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { useDropHook } from '@/features/nodeManagement/hooks/useDropHook';
-import {
-  folderViewSection,
-  linkViewSection,
-} from '@/widgets/LinkEditorSection/LinkEditorSection.css';
+import { folderViewSection } from '@/widgets/LinkEditorSection/LinkEditorSection.css';
 import { PickCard, PickCardGridLayout } from '@/entities/pick';
 import { TagPicker } from '@/widgets/TagPicker';
 
 export const LinkEditor = () => {
-  const {
-    treeRef,
-    focusedNode,
-    focusedFolderNodeList,
-    focusedLinkNodeList,
-    unClassifiedPicks,
-  } = useTreeStore();
+  const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =
+    useTreeStore();
   const el = useRef<HTMLDivElement | null>(null);
   const dropRef = useDropHook(el, focusedNode || treeRef.rootRef.current!.root);
 
@@ -38,18 +29,18 @@ export const LinkEditor = () => {
           ))}
         </div>
       )}
+      {/*{!!focusedLinkNodeList?.length && (*/}
+      {/*  <div className={linkViewSection}>*/}
+      {/*    {focusedLinkNodeList?.map((node, index) => (*/}
+      {/*      <Pick key={index} node={node} />*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*)}*/}
       {!!focusedLinkNodeList?.length && (
-        <div className={linkViewSection}>
-          {focusedLinkNodeList?.map((node, index) => (
-            <Pick key={index} node={node} />
-          ))}
-        </div>
-      )}
-      {!!unClassifiedPicks?.length && !focusedNode && (
         <PickCardGridLayout>
-          {unClassifiedPicks.map((node, index) => {
+          {focusedLinkNodeList.map((node, index) => {
             return (
-              <PickCard key={index} pickId={node.id}>
+              <PickCard key={index} pickId={Number(node.id)} node={node}>
                 <TagPicker />
               </PickCard>
             );
