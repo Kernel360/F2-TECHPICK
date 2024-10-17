@@ -41,12 +41,13 @@ import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import { useLogout } from '@/features/userManagement/api/useLogout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useGetUnclassifiedPicks } from '@/features/nodeManagement/api/pick/useGetUnclassifiedPicks';
 import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
 import { debounce } from 'lodash';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useGetPicksByParentId } from '@/features/nodeManagement/api/pick/useGetPicksByParentId';
 
 export function DirectoryTreeSection() {
   const queryClient = useQueryClient();
@@ -111,11 +112,15 @@ export function DirectoryTreeSection() {
     refetch: refetchStructure,
   } = useGetRootAndRecycleBinData();
 
+  const { data: defaultFolderData } = useGetDefaultFolderData();
+
   const {
     data: unClassifiedPickDataList,
     isLoading: isUnClassifiedPickDataLoading,
     refetch: refetchUnclassifiedPickDataList,
-  } = useGetUnclassifiedPicks();
+  } = useGetPicksByParentId(
+    defaultFolderData ? defaultFolderData.UNCLASSIFIED.toString() : ''
+  );
 
   function convertUnClassifiedPickDataToNodeApi() {
     if (unClassifiedPickDataList && rootAndRecycleBinData) {

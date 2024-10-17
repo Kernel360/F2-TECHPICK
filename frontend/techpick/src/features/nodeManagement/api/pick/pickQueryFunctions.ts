@@ -22,3 +22,28 @@ export const postPick = async ({
     })
     .json();
 };
+
+export const putPickMove = async ({
+  pickId,
+  structure,
+}: {
+  pickId: string;
+  structure: object;
+}): Promise<void> => {
+  return await apiClient
+    .put(`structures/picks/${pickId}`, {
+      json: structure,
+    })
+    .json();
+};
+
+export const getPicksByParentId = async (
+  parentId: string
+): Promise<ApiPickData[]> => {
+  try {
+    return await apiClient.get(`picks?parentId=${parentId}`).json();
+  } catch (error) {
+    console.error('Error fetching picks by parent ID:', error);
+    throw error;
+  }
+};

@@ -14,6 +14,7 @@ import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
+import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
@@ -30,6 +31,8 @@ export const useTreeHandlers = () => {
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
+
+  const { mutateAsync: movePick } = useMovePick();
   const queryClient = useQueryClient();
   const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
 
@@ -78,6 +81,7 @@ export const useTreeHandlers = () => {
     console.log('parentNode', parentNode);
     console.log('index', index);
     const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
+    const isPick = dragNodes[0].data.type === 'pick';
     const currentStructureData = isRoot
       ? structuredClone(structureData!.root)
       : structuredClone(structureData!.recycleBin);
@@ -98,6 +102,7 @@ export const useTreeHandlers = () => {
       parentNode,
       index
     );
+
     // 서버에 업데이트된 트리 전송
     const serverData = {
       parentFolderId: parentNode ? parentNode.data.folderId : currentRootId,
@@ -107,10 +112,17 @@ export const useTreeHandlers = () => {
       },
     };
 
-    await moveFolder({
-      folderId: dragNodes[0].data.folderId!.toString(),
-      structure: serverData,
-    });
+    if (isPick) {
+      await movePick({
+        pickId: dragNodes[0].data.pickId!.toString(),
+        structure: serverData,
+      });
+    } else {
+      await moveFolder({
+        folderId: dragNodes[0].data.folderId!.toString(),
+        structure: serverData,
+      });
+    }
     await refetchStructure();
   };
 
