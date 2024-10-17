@@ -7,6 +7,7 @@ import {
   cardImageSectionStyle,
   cardTitleSectionStyle,
   cardDescriptionSectionStyle,
+  cardImageStyle,
 } from './pickCard.css';
 
 export function PickCard({ children }: PropsWithChildren) {
@@ -18,13 +19,15 @@ export function PickCard({ children }: PropsWithChildren) {
 
   return (
     <div className={pickCardLayout}>
-      <Image
-        src={imageUrl}
-        width={280}
-        height={64}
-        className={cardImageSectionStyle}
-        alt=""
-      />
+      <div className={cardImageSectionStyle}>
+        <Image
+          src={imageUrl}
+          width={280}
+          height={64}
+          className={cardImageStyle}
+          alt=""
+        />
+      </div>
 
       <div className={cardTitleSectionStyle}>
         <p>{titleValue}</p>

@@ -16,6 +16,9 @@ export const pickCardLayout = style({
 export const cardImageSectionStyle = style({
   width: '100%',
   height: '64px',
+});
+
+export const cardImageStyle = style({
   objectFit: 'cover',
 });
 
