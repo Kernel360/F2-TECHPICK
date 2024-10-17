@@ -88,8 +88,7 @@ public class SecurityConfig {
 			baseUrl, /* from env */
 			"https://local.minlife.me:3000" /* Frontend Local */,
 			"https://app.minlife.me" /* Frontend App server */,
-			"chrome-extension://nijonkmmpngclkmeddmgjgdhjefmnmbm", /* Chrome Extension Local */
-			"chrome-extension://bbnefnfpfhiebljiigajahhbbkgndjne" /* Chrome Extension Deploy */
+			"chrome-extension://**" /* Chrome Extension Local */
 		));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));
