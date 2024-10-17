@@ -1,38 +1,15 @@
-import { components } from '@/schema';
+import { ApiTagData } from '@/shared/types/ApiTypes';
+// import { components } from '@/schema';
+// export type GetPickResponseType = components['schemas']['PickResponse'];
 
-export type TagType = {
-  tagId: number;
-  tagName: string;
-  tagOrder: number;
-  colorNumber: number;
+export type GetPickResponseType = {
+  id: number;
+  title: string;
+  memo: string;
+  folderId: number;
   userId: number;
+  tagList: ApiTagData[];
+  linkUrlResponse: LinkUrlResponse;
 };
 
-// type TagUpdateRequest = components['schemas']['TagUpdateRequest'][];
-
-export type TagUpdateType = {
-  tagId: number;
-  tagName: string;
-  tagOrder: number;
-  colorNumber: number;
-};
-
-export type CreateTagRequestType = components['schemas']['TagCreateRequest'];
-export type CreateTagResponseType = TagType;
-// export type CreateTagResponse = components['schemas']['TagResponse'];
-
-//export type UpdateTagRequestType = components['schemas']['TagUpdateRequest'][];
-export type UpdateTagRequestType = {
-  tagId: number;
-  tagName: string;
-  tagOrder: number;
-  colorNumber: number;
-}[];
-//export type UpdateTagResponseType = components['schemas']['TagResponse'][];
-export type UpdateTagResponseType = {
-  tagId: number;
-  tagName: string;
-  tagOrder: number;
-  colorNumber: number;
-  userId: number;
-}[];
+type LinkUrlResponse = { id: number; url: string; imageUrl: string | null };
