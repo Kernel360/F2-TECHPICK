@@ -16,7 +16,7 @@ COPY /schema ./schema
 RUN yarn install
 RUN yarn all install
 
-# 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사
+# teckpick build전에 WORKDIR 변경
 WORKDIR /app/techpick
 
 # Build
