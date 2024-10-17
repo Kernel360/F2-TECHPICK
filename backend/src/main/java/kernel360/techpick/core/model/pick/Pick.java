@@ -79,6 +79,18 @@ public class Pick extends BaseEntity {
 	@Column(name = "link_invalidated")
 	private boolean linkInvalidated;
 
+	// 같은 부모 폴더 내에서의 위치 이동
+	public void changeOrderTo(int destPickPos) {
+		parentFolder.changeChildPickPosition(this.id, destPickPos);
+	}
+
+	// TODO: 구현 필요
+	public void moveToOtherFolder(Folder destFolder, int destPickPos) {
+		// 1. remove from parent folder;
+
+		// 2. move to destination folder
+	}
+
 	private Pick(
 		User user,
 		Link link,

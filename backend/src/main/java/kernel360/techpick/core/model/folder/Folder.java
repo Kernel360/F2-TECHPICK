@@ -1,5 +1,6 @@
 package kernel360.techpick.core.model.folder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
@@ -56,28 +57,51 @@ public class Folder extends BaseEntity {
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "child_folder_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> childFolderOrder;
+	private List<Long> childFolderOrderList;
 
 	// 폴더에 속한 pick id들을 공백으로 분리된 String으로 변환하여 db에 저장
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> childPickOrder;
+	private List<Long> childPickOrderList;
+
+	public void changeChildPickPosition(Long targetPickId, int destPos) {
+		if (!childPickOrderList.contains(targetPickId)) {
+			throw new RuntimeException(/* TODO: change to api exception */);
+		}
+		if (destPos < 0 || childPickOrderList.size() < destPos) {
+			throw new RuntimeException(/* TODO: change to api exception */);
+		}
+
+		List<Long> newOrderList = new ArrayList<>();
+		for (int pos = 0; pos <= childPickOrderList.size(); pos++) {
+			Long currentPickId = childPickOrderList.get(pos);
+			if (currentPickId.equals(targetPickId)) {
+				continue;
+			}
+			if (pos == destPos) {
+				newOrderList.add(targetPickId);
+				continue;
+			}
+			newOrderList.add(currentPickId);
+		}
+		childPickOrderList = newOrderList;
+	}
 
 	private Folder(
 		String name,
 		FolderType folderType,
 		Folder parentFolder,
 		User user,
-		List<Long> childFolderOrder,
-		List<Long> childPickOrder
+		List<Long> childFolderOrderList,
+		List<Long> childPickOrderList
 	) {
 		this.name = name;
 		this.folderType = folderType;
 		this.parentFolder = parentFolder;
 		this.user = user;
-		this.childFolderOrder = childFolderOrder;
-		this.childPickOrder = childPickOrder;
+		this.childFolderOrderList = childFolderOrderList;
+		this.childPickOrderList = childPickOrderList;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
