@@ -10,7 +10,7 @@ export const commonTheme = createTheme(commonThemeContract, {
     xl: '32px',
   },
   typography: {
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'Arial, sans-serif', // todo: 나중에 제거.
     fontColor: '#fff',
     fontSize: {
       xs: '0.75rem', // 12
