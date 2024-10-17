@@ -65,29 +65,6 @@ public class Folder extends BaseEntity {
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList;
 
-	public void changeChildPickPosition(Long targetPickId, int destPos) {
-		if (!childPickOrderList.contains(targetPickId)) {
-			throw new RuntimeException(/* TODO: change to api exception */);
-		}
-		if (destPos < 0 || childPickOrderList.size() < destPos) {
-			throw new RuntimeException(/* TODO: change to api exception */);
-		}
-
-		List<Long> newOrderList = new ArrayList<>();
-		for (int pos = 0; pos <= childPickOrderList.size(); pos++) {
-			Long currentPickId = childPickOrderList.get(pos);
-			if (currentPickId.equals(targetPickId)) {
-				continue;
-			}
-			if (pos == destPos) {
-				newOrderList.add(targetPickId);
-				continue;
-			}
-			newOrderList.add(currentPickId);
-		}
-		childPickOrderList = newOrderList;
-	}
-
 	private Folder(
 		String name,
 		FolderType folderType,

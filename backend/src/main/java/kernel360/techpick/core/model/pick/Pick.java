@@ -51,19 +51,9 @@ public class Pick extends BaseEntity {
 	@JoinColumn(name = "parent_folder_id", nullable = false)
 	private Folder parentFolder;
 
-	/**
-	 * NOTE: 사용자가 설정한 커스텀 제목
-	 * [#1] 사용자가 저장시 제목을 설정 하지 않았을 경우
-	 *     1. 프론트에서 메타 데이터 조회
-	 *     2. 있으면 메타에서 제목 가져오기
-	 *     3. 없으면 쌩 URL을 제목으로 쓰기
-	 *     4. 사용자가 추후에 제목을 자신만의 이름으로 변경 가능
-	 *
-	 * #2. 사용자가 저장시 제목을 설정 했을 경우
-	 *     1. 이걸 보여준다.
-	 */
-	@Column(name = "custom_title") // nullable
-	private String customTitle;
+	// 사용자가 수정 가능한 Pick 제목. 기본값은 원문 제목과 동일
+	@Column(name = "title") // nullable
+	private String title;
 
 	// 사용자가 링크에 대해 남기는 메모
 	@Column(name = "memo") // nullable
@@ -79,23 +69,11 @@ public class Pick extends BaseEntity {
 	@Column(name = "link_invalidated")
 	private boolean linkInvalidated;
 
-	// 같은 부모 폴더 내에서의 위치 이동
-	public void changeOrderTo(int destPickPos) {
-		parentFolder.changeChildPickPosition(this.id, destPickPos);
-	}
-
-	// TODO: 구현 필요
-	public void moveToOtherFolder(Folder destFolder, int destPickPos) {
-		// 1. remove from parent folder;
-
-		// 2. move to destination folder
-	}
-
 	private Pick(
 		User user,
 		Link link,
 		Folder parentFolder,
-		String customTitle,
+		String title,
 		String memo,
 		List<Long> tagOrder,
 		boolean linkInvalidated
@@ -103,7 +81,7 @@ public class Pick extends BaseEntity {
 		this.user = user;
 		this.link = link;
 		this.parentFolder = parentFolder;
-		this.customTitle = customTitle;
+		this.title = title;
 		this.memo = memo;
 		this.tagOrder = tagOrder;
 		this.linkInvalidated = linkInvalidated;
