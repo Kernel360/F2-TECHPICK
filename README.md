@@ -27,6 +27,9 @@ Chrome 북마크바를 대체하는 유틸리티성 SaaS 애플리케이션
         <img src="https://img.shields.io/badge/Mysql_8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
     </div>
     <p><strong>Others</strong></p>
+    <div>
+        <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/>
+    </div>
 </div>
 
 ## ERD
