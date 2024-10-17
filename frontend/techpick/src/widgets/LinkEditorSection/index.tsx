@@ -12,11 +12,9 @@ import { ArrowDownAZ, Search } from 'lucide-react';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { LinkEditor } from '@/widgets/LinkEditorSection/LinkEditor';
 import { ToggleThemeButton } from '@/features';
-import { PickCard, PickCardGridLayout } from '@/entities/pick';
-import { TagPicker } from '../TagPicker';
 
 export function LinkEditorSection() {
-  const { focusedNode } = useTreeStore();
+  const { focusedNode, treeRef } = useTreeStore();
 
   function renderDirectoryName(node: NodeApi) {
     const nameList = [];
@@ -51,32 +49,7 @@ export function LinkEditorSection() {
         </div>
       </div>
       <div className={linkEditor}>
-        {focusedNode && <LinkEditor />}
-        <PickCardGridLayout>
-          <PickCard>
-            <TagPicker />
-          </PickCard>
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-          <PickCard />
-        </PickCardGridLayout>
+        {treeRef.rootRef.current && <LinkEditor />}
       </div>
       <div className={linkEditorSectionFooter}></div>
     </div>

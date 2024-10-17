@@ -1,9 +1,9 @@
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
+import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 
 export const useRestoreNode = () => {
   const { mutateAsync: moveFolder } = useMoveFolder();

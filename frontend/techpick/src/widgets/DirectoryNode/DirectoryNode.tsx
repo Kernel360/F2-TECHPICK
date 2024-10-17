@@ -9,10 +9,10 @@ import {
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateFolder } from '@/features/nodeManagement/api/useCreateFolder';
+import { useCreateFolder } from '@/features/nodeManagement/api/folder/useCreateFolder';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
-import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
 import toast from 'react-hot-toast';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';

@@ -1,19 +1,19 @@
 import { NodeData } from '@/shared/types';
 import { createNode } from '@/features/nodeManagement/utils/createNode';
 import { moveNode } from '@/features/nodeManagement/utils/moveNode';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/folder/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/features/nodeManagement/api/useMoveFolder';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/useGetDefaultFolderData';
-import { useRenameFolder } from '@/features/nodeManagement/api/useRenameFolder';
+import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useRenameFolder } from '@/features/nodeManagement/api/folder/useRenameFolder';
 import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
-import { deleteFolder } from '@/features/nodeManagement/api/queryFunctions';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =

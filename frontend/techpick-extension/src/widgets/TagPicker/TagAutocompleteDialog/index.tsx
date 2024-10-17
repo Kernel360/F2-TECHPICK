@@ -36,7 +36,9 @@ export function TagAutocompleteDialog({
   const [canCreateTag, setCanCreateTag] = useState(false);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
+  const isCreateFetchPendingRef = useRef<boolean>(false);
   const randomNumber = useRef<number>(getRandomInt());
+
   const {
     tagList,
     selectedTagList,
@@ -64,7 +66,13 @@ export function TagAutocompleteDialog({
   };
 
   const onSelectCreatableTag = async () => {
+    if (isCreateFetchPendingRef.current) {
+      return;
+    }
+
     try {
+      isCreateFetchPendingRef.current = true;
+
       const newTag = await createTag({
         tagName: tagInputValue,
         colorNumber: randomNumber.current,
@@ -75,6 +83,8 @@ export function TagAutocompleteDialog({
       if (error instanceof Error) {
         notifyError(error.message);
       }
+    } finally {
+      isCreateFetchPendingRef.current = false;
     }
   };
 
