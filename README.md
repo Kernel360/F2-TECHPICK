@@ -6,7 +6,7 @@
 | :-: | :-: | :-: | :-: | :-: |
 | <a href="https://github.com/enigsuss"><img src="https://avatars.githubusercontent.com/enigsuss" width=200px /> | <a href="https://github.com/dmdgpdi"><img src="https://avatars.githubusercontent.com/dmdgpdi" width=200px /> | <a href="https://github.com/kimminkyeu"><img src="https://avatars.githubusercontent.com/kimminkyeu" width=200px /> | <a href="https://github.com/Gyaak"><img src="https://avatars.githubusercontent.com/Gyaak" width=200px /> | <a href="https://github.com/sangwonsheep"><img src="https://avatars.githubusercontent.com/sangwonsheep" width=200px /> |
 | Front-End | Front-End | Back-End | Back-End | Back-End |
-| 디렉토리 구조<br> 폴더 구조 | 크롬 익스텐션 | 배포<br> 디렉토리 구조 | 인증/인가(JWT)<br> 태그, 폴더 API<br> 폴더 구조 검증로직 작성 | RSS 스케줄러<br> 픽 API |
+| 디렉토리 구조<br> 폴더 구조 | 크롬 익스텐션 | 배포<br> 디렉토리 구조 | 인증/인가(JWT)<br> 태그, 폴더 API<br> 폴더 구조 검증 로직 | RSS 스케줄러<br> 픽 API |
 
 ## 프로젝트 소개
 웹에서 지식을 찾는 사람들을 위한 링크 관리 유틸리티<br>
