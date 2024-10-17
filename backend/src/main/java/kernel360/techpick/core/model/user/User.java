@@ -71,7 +71,11 @@ public class User extends BaseEntity /* implements UserDetails --> 시큐리티 
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> tagOrder;
+	private List<Long> tagOrderList;
+
+	public void updateTagOrderList(List<Long> tagOrderList) {
+		this.tagOrderList = tagOrderList;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -96,7 +100,7 @@ public class User extends BaseEntity /* implements UserDetails --> 시큐리티 
 		String password,
 		String email,
 		Role role,
-		List<Long> tagOrder
+		List<Long> tagOrderList
 	) {
 		this.socialProviderId = socialProviderId;
 		this.socialProvider = socialProvider;
@@ -104,7 +108,7 @@ public class User extends BaseEntity /* implements UserDetails --> 시큐리티 
 		this.password = password;
 		this.email = email;
 		this.role = role;
-		this.tagOrder = tagOrder;
+		this.tagOrderList = tagOrderList;
 	}
 
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요

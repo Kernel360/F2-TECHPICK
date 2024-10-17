@@ -38,12 +38,10 @@ public class Tag {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	private Tag(String name, Integer tagOrder, Integer colorNumber, User user) {
+	private Tag(String name, Integer colorNumber, User user) {
 		this.name = name;
 		this.colorNumber = colorNumber;
 		this.user = user;
 	}
-
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-
 }
