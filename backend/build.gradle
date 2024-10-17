@@ -66,6 +66,10 @@ dependencies {
 
     // Thymeleaf 테스트 혹은 관리자에서 추후에 사용하기 위해서 추가
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // map struct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 }
 
 tasks.named('test') {
