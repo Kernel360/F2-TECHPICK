@@ -1,4 +1,4 @@
-import { api } from '@/shared/api';
+import { apiClient } from '@/shared/api';
 
 type TagResponse = {
   tagId: number;
@@ -9,7 +9,7 @@ type TagResponse = {
 }[];
 
 export const getTagList = async () => {
-  const response = await api.get<TagResponse>('tag');
+  const response = await apiClient.get<TagResponse>('tag');
   const data = await response.json();
 
   return data;
