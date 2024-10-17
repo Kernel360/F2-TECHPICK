@@ -8,5 +8,7 @@ export const getCurrentTreeTypeByNode = (
     recycleBinRef: React.RefObject<TreeApi<NodeData> | undefined>;
   }
 ) => {
-  return treeRef.rootRef.current?.get(currentNode.id) ? 'root' : 'recycleBin';
+  return treeRef.recycleBinRef.current?.get(currentNode.id)
+    ? 'recycleBin'
+    : 'root';
 };

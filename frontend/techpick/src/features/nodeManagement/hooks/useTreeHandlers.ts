@@ -75,11 +75,6 @@ export const useTreeHandlers = () => {
     parentNode,
     index,
   }) => {
-    console.log('dragIds', dragIds);
-    console.log('dragNodes', dragNodes);
-    console.log('parentId', parentId);
-    console.log('parentNode', parentNode);
-    console.log('index', index);
     const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
     const isPick = dragNodes[0].data.type === 'pick';
     const currentStructureData = isRoot

@@ -44,12 +44,18 @@ import toast from 'react-hot-toast';
 import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { useQueryClient } from '@tanstack/react-query';
-import { ApiStructureData } from '@/shared/types/ApiTypes';
+import {
+  ApiDefaultFolderIdData,
+  ApiStructureData,
+} from '@/shared/types/ApiTypes';
 import { debounce } from 'lodash';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 import { useGetPicksByParentId } from '@/features/nodeManagement/api/pick/useGetPicksByParentId';
 
-export function DirectoryTreeSection() {
+export function DirectoryTreeSection({
+  defaultFolderIdData,
+}: {
+  defaultFolderIdData: ApiDefaultFolderIdData;
+}) {
   const queryClient = useQueryClient();
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
   const rootTreeRef = useRef<TreeApi<NodeData> | undefined>(undefined);
@@ -112,15 +118,11 @@ export function DirectoryTreeSection() {
     refetch: refetchStructure,
   } = useGetRootAndRecycleBinData();
 
-  const { data: defaultFolderData } = useGetDefaultFolderData();
-
   const {
     data: unClassifiedPickDataList,
     isLoading: isUnClassifiedPickDataLoading,
     refetch: refetchUnclassifiedPickDataList,
-  } = useGetPicksByParentId(
-    defaultFolderData ? defaultFolderData.UNCLASSIFIED.toString() : ''
-  );
+  } = useGetPicksByParentId(defaultFolderIdData.UNCLASSIFIED.toString());
 
   function convertUnClassifiedPickDataToNodeApi() {
     if (unClassifiedPickDataList && rootAndRecycleBinData) {
