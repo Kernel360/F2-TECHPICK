@@ -20,13 +20,13 @@ interface ContextMenuWrapperProps {
 }
 
 export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
-  const { treeRef, focusedNode, focusedNodeInEditorSection } = useTreeStore();
+  const { treeRef, focusedNode, focusedNodeInEditorSection, setFocusedNode } =
+    useTreeStore();
   const portalContainer = document.getElementById('portalContainer');
   const { restoreNode } = useRestoreNode();
 
   const currentTree =
     focusedNode && getCurrentTreeTypeByNode(focusedNode, treeRef);
-  console.log('focusedNode:', focusedNode);
 
   return (
     <ContextMenu.Root>
@@ -53,6 +53,10 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                     <ContextMenu.Item
                       className={ContextMenuItem}
                       onClick={() => {
+                        setFocusedNode(focusedNodeInEditorSection);
+                        treeRef.rootRef.current!.open(
+                          focusedNodeInEditorSection.id
+                        );
                         treeRef.rootRef.current!.createInternal();
                       }}
                     >
