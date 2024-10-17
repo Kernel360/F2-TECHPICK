@@ -33,6 +33,7 @@ export const LinkEditor = () => {
       )}
       {!!focusedLinkNodeList?.length && (
         <div className={linkViewSection}>
+          {/*todo:  pick id 넘져줘야 함*/}
           {focusedLinkNodeList?.map((node, index) => (
             <Pick key={index} node={node} />
           ))}
