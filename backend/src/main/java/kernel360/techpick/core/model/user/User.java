@@ -1,23 +1,23 @@
 package kernel360.techpick.core.model.user;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import kernel360.techpick.core.model.common.TimeTracking;
+import kernel360.techpick.core.model.common.BaseEntity;
+import kernel360.techpick.core.util.OrderConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends TimeTracking /* implements UserDetails --> 시큐리티 도입시 추가 */ {
+public class User extends BaseEntity /* implements UserDetails --> 시큐리티 도입시 추가 */ {
 
 	private static final String SOCIAL_USER_HAS_NO_PASSWORD = null;
 
@@ -67,47 +67,11 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 	@Column(name = "deleted_at") // nullable
 	private LocalDateTime deletedAt;
 
-	// TODO: 전화번호 - 일단 넣었으며, 토의 후 결정.
-	@Column(name = "tel") // nullable
-	private String tel;
-
-	// TODO: 연령대 - 일단 넣었으며, 토의 후 결정.
-	@Column(name = "age_group") // nullable
-	@Enumerated(EnumType.STRING)
-	private AgeGroup ageGroup;
-
-	// TODO: 직군 분류 - 일단 넣었으며, 토의 후 결정.
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "job_group_id") // nullable
-	private JobGroup jobGroup;
-
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-	public static User basicSocialUser(SocialType provider, String providerId, String nickname, String email) {
-		return new User(
-			provider,
-			providerId,
-			nickname,
-			SOCIAL_USER_HAS_NO_PASSWORD,
-			email,
-			Role.ROLE_USER
-		);
-	}
-
-	private User(
-		SocialType socialProvider,
-		String socialProviderId,
-		String nickname,
-		String password,
-		String email,
-		Role role
-	) {
-		this.socialProviderId = socialProviderId;
-		this.socialProvider = socialProvider;
-		this.nickname = nickname;
-		this.password = password;
-		this.email = email;
-		this.role = role;
-	}
+	// 유저의 tag id들을 공백으로 분리된 String으로 변환하여 db에 저장
+	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
+	@Convert(converter = OrderConverter.class)
+	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
+	private List<Long> tagOrder;
 
 	@Override
 	public boolean equals(Object o) {
@@ -117,11 +81,31 @@ public class User extends TimeTracking /* implements UserDetails --> 시큐리�
 		if (!(o instanceof User user)) {
 			return false;
 		}
-        return Objects.equals(id, user.id);
+		return Objects.equals(id, user.id);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
 	}
+
+	private User(
+		SocialType socialProvider,
+		String socialProviderId,
+		String nickname,
+		String password,
+		String email,
+		Role role,
+		List<Long> tagOrder
+	) {
+		this.socialProviderId = socialProviderId;
+		this.socialProvider = socialProvider;
+		this.nickname = nickname;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.tagOrder = tagOrder;
+	}
+
+	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
 }
