@@ -9,12 +9,17 @@ import {
   cardDescriptionSectionStyle,
 } from './pickCard.css';
 
-export function PickCard({ children }: PropsWithChildren) {
+export function PickCard({
+  children,
+  pickId,
+}: PropsWithChildren<PickCardProps>) {
   // 아래 값들은 다음 PR에서 id값으로 api통신을 이용해 값 받아올 예정.
   const imageUrl =
     'https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_602702633-1024x351-1.png';
   const titleValue = 'title';
   const memoValue = 'memo';
+
+  console.log('pickId:', pickId);
 
   return (
     <div className={pickCardLayout}>
@@ -35,4 +40,7 @@ export function PickCard({ children }: PropsWithChildren) {
       <div>{children}</div>
     </div>
   );
+}
+interface PickCardProps {
+  pickId: number;
 }
