@@ -87,9 +87,9 @@ public class SecurityConfig {
 		config.setAllowedOrigins(List.of(
 			baseUrl, /* from env */
 			"https://local.minlife.me:3000" /* Frontend Local */,
-			"https://app.minlife.me" /* Frontend App server */,
-			"chrome-extension://*" /* Chrome Extension Local */
+			"https://app.minlife.me" /* Frontend App server */
 		));
+		config.addAllowedOriginPattern("chrome-extension://*");
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));
 		config.setExposedHeaders(List.of("*"));
