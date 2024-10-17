@@ -18,6 +18,8 @@ import {
   logout,
   directoryTreeWrapperFullSize,
   plusButton,
+  unClassifiedLabelContainer,
+  rightIcon,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
 import { NodeData } from '@/shared/types/NodeData';
@@ -25,13 +27,21 @@ import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
 import { useTreeStore } from '@/shared/stores/treeStore';
-import { Folder, LogOut, Plus, Trash2 } from 'lucide-react';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/useGetRootAndRecycleBinData';
+import {
+  ChevronRight,
+  CircleAlert,
+  Folder,
+  LogOut,
+  Plus,
+  Trash2,
+} from 'lucide-react';
+import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/folder/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import { useLogout } from '@/features/userManagement/api/useLogout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useGetUnclassifiedPicks } from '@/features/nodeManagement/api/pick/useGetUnclassifiedPicks';
 
 export function DirectoryTreeSection() {
   const { ref, width, height } = useResizeObserver<HTMLDivElement>();
@@ -88,6 +98,8 @@ export function DirectoryTreeSection() {
     isLoading: isStructureLoading,
   } = useGetRootAndRecycleBinData();
 
+  const { data: unClassifiedPicks, isLoading } = useGetUnclassifiedPicks();
+
   return (
     <div className={leftSidebarSection}>
       <div className={profileSection}>
@@ -103,13 +115,38 @@ export function DirectoryTreeSection() {
         <LogOut width={24} className={logout} onClick={handleLogout} />
       </div>
       <div className={directoryTreeContainer}>
+        <div
+          className={unClassifiedLabelContainer}
+          onClick={() => {
+            setFocusedNode(null);
+          }}
+        >
+          <CircleAlert size={20} strokeWidth={1} />
+          <div
+            className={directoryLabel}
+            onClick={() => {
+              setFocusedNode(null);
+
+              if (isLoading) {
+                console.log('isLoading', isLoading);
+                return;
+              }
+
+              console.log('unClassifiedPicks :', unClassifiedPicks);
+              // setUnClassifiedPicks(unClassifiedPicks);
+            }}
+          >
+            Unclassified
+          </div>
+          <ChevronRight className={rightIcon} size={20} strokeWidth={1.3} />
+        </div>
         <div className={directoryLabelContainer}>
           <Folder size={20} strokeWidth={1} />
           <div className={directoryLabel}>Directory</div>
           <Plus
             className={plusButton}
             width={20}
-            strokeWidth="1.3px"
+            strokeWidth={1.3}
             onClick={() => {
               if (rootTreeRef.current?.isEditing) {
                 return;

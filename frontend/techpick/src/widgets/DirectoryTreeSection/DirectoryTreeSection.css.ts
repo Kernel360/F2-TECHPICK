@@ -43,6 +43,20 @@ export const directoryTreeContainer = style({
   backgroundColor: colorThemeContract.color.background,
 });
 
+export const unClassifiedLabelContainer = style({
+  width: '100%',
+  height: '28px',
+  display: 'flex',
+  alignItems: 'center',
+  paddingLeft: commonThemeContract.space.lg,
+  borderBottom: `1px solid ${colorThemeContract.color.border}`,
+  cursor: 'pointer',
+});
+
+export const rightIcon = style({
+  marginRight: commonThemeContract.space.sm,
+});
+
 export const directoryLabelContainer = style({
   width: '100%',
   height: '28px',
@@ -91,17 +105,18 @@ export const directoryLabel = style({
 
 export const plusButton = style({
   cursor: 'pointer',
+  marginRight: commonThemeContract.space.sm,
 });
 
 export const directoryTreeWrapper = style({
   outline: 'none',
-  height: 'calc(50% - 32px)',
+  height: 'calc(50% - 64px)',
   overflow: 'hidden',
   transition: 'height 0.3s',
 });
 
 export const directoryTreeWrapperFullSize = style({
-  height: 'calc(100% - 56px)',
+  height: 'calc(100% - 84px)',
   overflow: 'hidden',
   transition: 'height 0.3s',
 });

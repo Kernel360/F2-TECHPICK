@@ -13,7 +13,9 @@ interface TreeState {
   focusedNodeInEditorSection: NodeApi | null;
   focusedFolderNodeList: NodeApi[];
   focusedLinkNodeList: NodeApi[];
+  unClassifiedPicks: NodeData[];
 
+  setUnClassifiedPicks: (data: NodeData[]) => void;
   setTreeData: (data: NodeData[]) => void;
   setTreeRef: (
     rootRef: React.RefObject<TreeApi<NodeData> | undefined>,
@@ -35,7 +37,9 @@ export const useTreeStore = create<TreeState>((set) => ({
   focusedNodeInEditorSection: null,
   focusedFolderNodeList: [],
   focusedLinkNodeList: [],
+  unClassifiedPicks: [],
 
+  setUnClassifiedPicks: (data) => set({ unClassifiedPicks: data }),
   setTreeData: (data) => set({ treeData: data }),
   setTreeRef: (rootRef, recycleBinRef) =>
     set({ treeRef: { rootRef, recycleBinRef } }),

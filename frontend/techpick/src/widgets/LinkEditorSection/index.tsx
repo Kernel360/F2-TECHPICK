@@ -52,6 +52,7 @@ export function LinkEditorSection() {
       </div>
       <div className={linkEditor}>
         {focusedNode && <LinkEditor />}
+
         <PickCardGridLayout>
           <PickCard>
             <TagPicker />
