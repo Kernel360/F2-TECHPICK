@@ -11,19 +11,13 @@ import {
 import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
 import { NodeApi } from 'react-arborist';
 
-export function PickCard({
-  children,
-  pickId,
-  node,
-}: PropsWithChildren<PickCardProps>) {
+export function PickCard({ children, node }: PropsWithChildren<PickCardProps>) {
   // 아래 값들은 다음 PR에서 id값으로 api통신을 이용해 값 받아올 예정.
   const imageUrl =
     'https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_602702633-1024x351-1.png';
   const titleValue = node.data.name;
   const memoValue = 'memo';
   const ref = useDragHook(node);
-
-  console.log('pickId:', pickId);
 
   return (
     <div

@@ -46,6 +46,7 @@ import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/conve
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/shared/types/ApiTypes';
+import { debounce } from 'lodash';
 
 export function DirectoryTreeSection() {
   const queryClient = useQueryClient();
@@ -167,8 +168,8 @@ export function DirectoryTreeSection() {
       <div className={directoryTreeContainer}>
         <div
           className={unClassifiedLabelContainer}
-          onClick={() => {
-            refetchUnclassifiedPickDataList();
+          onClick={debounce(async () => {
+            await refetchUnclassifiedPickDataList();
             if (!unClassifiedPickDataList) {
               return;
             }
@@ -177,8 +178,7 @@ export function DirectoryTreeSection() {
             setUnClassifiedPickDataList(unClassifiedPickDataList);
 
             convertUnClassifiedPickDataToNodeApi();
-          }}
-          onDoubleClick={() => {}}
+          }, 300)}
         >
           <CircleAlert size={20} strokeWidth={1} />
           <div className={directoryLabel}>Unclassified</div>
