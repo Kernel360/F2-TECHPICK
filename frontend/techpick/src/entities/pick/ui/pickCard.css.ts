@@ -16,6 +16,9 @@ export const pickCardLayout = style({
 export const cardImageSectionStyle = style({
   width: '100%',
   height: '64px',
+});
+
+export const cardImageStyle = style({
   objectFit: 'cover',
 });
 
@@ -29,7 +32,7 @@ export const cardTitleSectionStyle = style({
 
 export const cardDescriptionSectionStyle = style({
   width: '264px',
-  height: '72px',
+  height: '64px',
   whiteSpace: 'normal',
   wordBreak: 'break-all',
   overflowY: 'scroll',

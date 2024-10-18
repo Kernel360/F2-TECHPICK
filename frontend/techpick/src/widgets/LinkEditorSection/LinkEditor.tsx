@@ -40,8 +40,8 @@ export const LinkEditor = () => {
         <PickCardGridLayout>
           {focusedLinkNodeList.map((node, index) => {
             return (
-              <PickCard key={index} pickId={Number(node.id)} node={node}>
-                <TagPicker />
+              <PickCard key={index} pickId={Number(node.data.id)} node={node}>
+                <TagPicker pickId={Number(node.data.id)} />
               </PickCard>
             );
           })}

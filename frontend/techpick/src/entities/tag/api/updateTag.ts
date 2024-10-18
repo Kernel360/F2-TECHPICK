@@ -1,4 +1,4 @@
-import { api } from '@/shared/api';
+import { apiClient } from '@/shared/api';
 import { TagUpdateType, UpdateTagResponseType } from '../type';
 
 const findTargetTag = (
@@ -10,7 +10,7 @@ const findTargetTag = (
 };
 
 export const updateTag = async (updateTag: TagUpdateType) => {
-  const response = await api.put<UpdateTagResponseType>('tag', {
+  const response = await apiClient.put<UpdateTagResponseType>('tag', {
     json: [updateTag],
   });
   const totalTagList = await response.json();
