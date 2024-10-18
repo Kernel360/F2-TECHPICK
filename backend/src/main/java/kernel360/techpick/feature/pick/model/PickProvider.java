@@ -2,7 +2,6 @@ package kernel360.techpick.feature.pick.model;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -57,5 +56,9 @@ public class PickProvider {
 
 	public void deleteById(Long pickId) {
 		pickRepository.deleteById(pickId);
+	}
+
+	public List<Pick> findAllByUserAndParentFolderIsNotNull(User user) {
+		return pickRepository.findAllByUserAndParentFolderIsNotNull(user);
 	}
 }

@@ -1,7 +1,6 @@
 package kernel360.techpick.feature.pick.service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,12 +53,14 @@ public class PickStructureService {
 	}
 
 	public List<Pick> getPickListOfRootAndRecycleBinByUser(User user) {
-		Folder recycleBin = folderProvider.findRecycleBin(user);
-		Folder root = folderProvider.findRoot(user);
+		// Folder recycleBin = folderProvider.findRecycleBin(user);
+		// Folder root = folderProvider.findRoot(user);
+		//
+		// List<Pick> recycleBinPicks = pickProvider.findAllByParentFolderId(user, recycleBin.getId());
+		// List<Pick> rootPicks = pickProvider.findAllByParentFolderId(user, root.getId());
+		// return Stream.concat(recycleBinPicks.stream(), rootPicks.stream()).toList();
 
-		List<Pick> recycleBinPicks = pickProvider.findAllByParentFolderId(user, recycleBin.getId());
-		List<Pick> rootPicks = pickProvider.findAllByParentFolderId(user, root.getId());
-		return Stream.concat(recycleBinPicks.stream(), rootPicks.stream()).toList();
+		return pickProvider.findAllByUserAndParentFolderIsNotNull(user);
 	}
 
 	public List<Pick> getPickListByUser(User user) {
