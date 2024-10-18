@@ -25,7 +25,6 @@ public class PickStructureService {
 	private final FolderProvider folderProvider;
 	private final PickValidator pickValidator;
 	private final FolderValidator folderValidator;
-	private final PickService pickService;
 
 	// 픽 이동
 	@Transactional
