@@ -9,38 +9,47 @@ import {
   cardTitleSectionStyle,
   cardDescriptionSectionStyle,
   cardImageStyle,
+  defaultCardImageSectionStyle,
+  skeleton,
 } from './pickCard.css';
 
 export function PickCard({
   children,
   pickId,
 }: PropsWithChildren<PickCardProps>) {
-  // 아래 값들은 다음 PR에서 id값으로 api통신을 이용해 값 받아올 예정.
-  const baseImageUrl =
-    'https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_602702633-1024x351-1.png';
-
   const { data: pickData, isLoading, isError } = useGetPickQuery(pickId);
 
   if (isLoading) {
-    return <p>loading</p>;
+    return (
+      <div className={`${pickCardLayout} ${skeleton}`}>
+        <div className={`${cardImageSectionStyle} ${skeleton}`}>
+          <div className={defaultCardImageSectionStyle} />
+        </div>
+      </div>
+    );
   }
 
   if (isError || !pickData) {
     return <p>oops! something is wrong</p>;
   }
 
-  const { memo, title } = pickData;
+  const { memo, title, linkUrlResponse } = pickData;
+  const { imageUrl } = linkUrlResponse;
 
   return (
     <div className={pickCardLayout}>
       <div className={cardImageSectionStyle}>
-        <Image
-          src={baseImageUrl}
-          width={280}
-          height={64}
-          className={cardImageStyle}
-          alt=""
-        />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            width={278}
+            height={64}
+            className={cardImageStyle}
+            alt=""
+          />
+        ) : (
+          <div className={defaultCardImageSectionStyle} />
+        )}
       </div>
 
       <div className={cardTitleSectionStyle}>
