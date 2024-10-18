@@ -12,6 +12,7 @@ Chrome 북마크바를 대체하는 유틸리티성 SaaS 애플리케이션입�
 
 #### 북마크 생성 화면
 <img width="361" alt="스크린샷 2024-10-18 오후 6 29 46" src="https://github.com/user-attachments/assets/8d8245b2-7326-478b-86be-37128cb36c15">
+
 ![extension-addPick](https://github.com/user-attachments/assets/c134f6ec-ff5e-4a7e-8820-125debcd00ca)
 
 #### 북마크 수정 화면
