@@ -20,6 +20,7 @@ export const LinkEditor = () => {
     },
     [dropRef]
   );
+
   return (
     <div ref={innerRef}>
       {!!focusedFolderNodeList?.length && (
@@ -39,9 +40,10 @@ export const LinkEditor = () => {
       {!!focusedLinkNodeList?.length && (
         <PickCardGridLayout>
           {focusedLinkNodeList.map((node, index) => {
+            console.log(node.data);
             return (
-              <PickCard key={index} pickId={Number(node.data.id)} node={node}>
-                <TagPicker pickId={Number(node.data.id)} />
+              <PickCard key={index} pickId={Number(node)} node={node}>
+                <TagPicker pickId={Number(node.data.pickId)} />
               </PickCard>
             );
           })}

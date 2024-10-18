@@ -13,6 +13,7 @@ export function convertPickDataToNodeData(
       name: pickData.title,
       type: 'pick',
       pickId: pickData.id,
+      url: pickData.linkUrlResponse.url,
     };
   });
   return {

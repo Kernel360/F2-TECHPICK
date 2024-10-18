@@ -116,6 +116,13 @@ export const DirectoryNode = ({
         setFocusedNode(node);
         if (currentTree === 'root') {
           treeRef.recycleBinRef.current!.deselectAll();
+          if (node.isLeaf) {
+            console.log('node', node);
+            // const pickData = getPickDetail(node.data.pickId!.toString());
+            // pickData.then((data) => {
+            //   alert(data.linkUrlResponse.url);
+            // });
+          }
         } else {
           treeRef.rootRef.current!.deselectAll();
         }

@@ -61,3 +61,12 @@ export const deletePick = async ({
     })
     .json();
 };
+
+export const getPickDetail = async (pickId: string): Promise<ApiPickData> => {
+  try {
+    return await apiClient.get(`/api/picks/${pickId}`).json();
+  } catch (error) {
+    console.error('Failed to fetch pick details:', error);
+    throw error;
+  }
+};
