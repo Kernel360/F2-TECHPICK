@@ -2,7 +2,7 @@
 웹에서 지식을 찾는 사람들을 위한 링크 관리 유틸리티
 
 ## 팀원 소개
-| **[이재용](https://github.com/enigsuss)** | **[김승태](https://github.com/dmdgpdi)** | **[김민규](https://github.com/kimminkyeu)** | **[박수형](https://github.com/Gyaak)** | **[양상원](https://github.com/sangwonsheep)** |
+| **[팀장 : 이재용](https://github.com/enigsuss)** | **[팀원 : 김승태](https://github.com/dmdgpdi)** | **[팀원 : 김민규](https://github.com/kimminkyeu)** | **[팀원 : 박수형](https://github.com/Gyaak)** | **[팀원 : 양상원](https://github.com/sangwonsheep)** |
 | :-: | :-: | :-: | :-: | :-: |
 | <a href="https://github.com/enigsuss"><img src="https://avatars.githubusercontent.com/enigsuss" width=200px /> | <a href="https://github.com/dmdgpdi"><img src="https://avatars.githubusercontent.com/dmdgpdi" width=200px /> | <a href="https://github.com/kimminkyeu"><img src="https://avatars.githubusercontent.com/kimminkyeu" width=200px /> | <a href="https://github.com/Gyaak"><img src="https://avatars.githubusercontent.com/Gyaak" width=200px /> | <a href="https://github.com/sangwonsheep"><img src="https://avatars.githubusercontent.com/sangwonsheep" width=200px /> |
 | Front-End | Front-End | Back-End | Back-End | Back-End |
