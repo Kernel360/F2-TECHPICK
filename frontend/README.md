@@ -18,6 +18,8 @@ Chrome 북마크바를 대체하는 유틸리티성 SaaS 애플리케이션입�
 #### 북마크 수정 화면
 <img width="362" alt="스크린샷 2024-10-18 오후 6 30 55" src="https://github.com/user-attachments/assets/53185057-52e3-4858-be81-1d6cb37006ba">
 
+![ext-updatePick](https://github.com/user-attachments/assets/b1cd8706-dbaa-4a31-a406-31e03158a396)
+
 
 ### 웹 서비스
 #### 메인 페이지
