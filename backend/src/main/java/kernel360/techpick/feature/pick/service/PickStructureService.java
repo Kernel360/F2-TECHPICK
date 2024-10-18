@@ -25,6 +25,7 @@ public class PickStructureService {
 	private final FolderProvider folderProvider;
 	private final PickValidator pickValidator;
 	private final FolderValidator folderValidator;
+	private final PickService pickService;
 
 	// 픽 이동
 	@Transactional
@@ -38,6 +39,7 @@ public class PickStructureService {
 		folderValidator.validateFolderAccess(user, parentFolder);
 
 		pick.updateParentFolder(parentFolder);
+		pickProvider.save(pick);
 	}
 
 	// 픽 삭제
