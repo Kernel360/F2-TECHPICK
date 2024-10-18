@@ -14,6 +14,8 @@ import { ApiStructureData } from '@/shared/types/ApiTypes';
 import toast from 'react-hot-toast';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
+import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
+import { deletePick } from '@/features/nodeManagement/api/pick/pickQueryFunctions';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
@@ -30,6 +32,8 @@ export const useTreeHandlers = () => {
   const { data: defaultFolderIdData } = useGetDefaultFolderData();
   const { mutateAsync: moveFolder } = useMoveFolder();
   const { mutateAsync: renameFolder } = useRenameFolder();
+
+  const { mutateAsync: movePick } = useMovePick();
   const queryClient = useQueryClient();
   const recycleBinId = defaultFolderIdData?.RECYCLE_BIN;
 
@@ -72,12 +76,8 @@ export const useTreeHandlers = () => {
     parentNode,
     index,
   }) => {
-    console.log('dragIds', dragIds);
-    console.log('dragNodes', dragNodes);
-    console.log('parentId', parentId);
-    console.log('parentNode', parentNode);
-    console.log('index', index);
     const isRoot = getCurrentTreeTypeByNode(dragNodes[0], treeRef) === 'root';
+    const isPick = dragNodes[0].data.type === 'pick';
     const currentStructureData = isRoot
       ? structuredClone(structureData!.root)
       : structuredClone(structureData!.recycleBin);
@@ -98,6 +98,7 @@ export const useTreeHandlers = () => {
       parentNode,
       index
     );
+
     // 서버에 업데이트된 트리 전송
     const serverData = {
       parentFolderId: parentNode ? parentNode.data.folderId : currentRootId,
@@ -107,10 +108,17 @@ export const useTreeHandlers = () => {
       },
     };
 
-    await moveFolder({
-      folderId: dragNodes[0].data.folderId!.toString(),
-      structure: serverData,
-    });
+    if (isPick) {
+      await movePick({
+        pickId: dragNodes[0].data.pickId!.toString(),
+        structure: serverData,
+      });
+    } else {
+      await moveFolder({
+        folderId: dragNodes[0].data.folderId!.toString(),
+        structure: serverData,
+      });
+    }
     await refetchStructure();
   };
 
@@ -129,7 +137,7 @@ export const useTreeHandlers = () => {
       await refetchStructure();
     } catch (error) {
       console.error('Folder rename failed:', error);
-      toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+      toast.error('이름이 중복됩니다.\n 다른 이름을 입력해주세요.');
       treeRef.rootRef.current?.root?.reset();
       await refetchStructure();
     }
@@ -142,10 +150,8 @@ export const useTreeHandlers = () => {
     ids: string[];
     nodes: NodeApi[];
   }) => {
-    const realNodeId =
-      nodes[0].data.type === 'folder'
-        ? nodes[0].data.folderId
-        : nodes[0].data.pickId;
+    const isFolder = nodes[0].data.type === 'folder';
+    const realNodeId = isFolder ? nodes[0].data.folderId : nodes[0].data.pickId;
 
     const updatedRecycleBin = structuredClone(structureData!.recycleBin);
     updatedRecycleBin.splice(0, 0, nodes[0].data);
@@ -163,10 +169,18 @@ export const useTreeHandlers = () => {
         recycleBin: updatedRecycleBin,
       },
     };
-    await moveFolder({
-      folderId: realNodeId.toString(),
-      structure: serverData,
-    });
+    if (isFolder) {
+      await moveFolder({
+        folderId: realNodeId.toString(),
+        structure: serverData,
+      });
+    } else {
+      await movePick({
+        pickId: realNodeId.toString(),
+        structure: serverData,
+      });
+    }
+
     await refetchStructure();
     setFocusedNode(null);
   };
@@ -178,10 +192,8 @@ export const useTreeHandlers = () => {
     ids: string[];
     nodes: NodeApi[];
   }) => {
-    const realNodeId =
-      nodes[0].data.type === 'folder'
-        ? nodes[0].data.folderId
-        : nodes[0].data.pickId;
+    const isFolder = nodes[0].data.type === 'folder';
+    const realNodeId = isFolder ? nodes[0].data.folderId : nodes[0].data.pickId;
 
     const updatedRecycleBin = removeByIdFromStructure(
       structuredClone(structureData!.recycleBin),
@@ -195,10 +207,18 @@ export const useTreeHandlers = () => {
         recycleBin: updatedRecycleBin,
       },
     };
-    await deleteFolder({
-      folderId: realNodeId.toString(),
-      structure: serverData,
-    });
+    if (isFolder) {
+      await deleteFolder({
+        folderId: realNodeId.toString(),
+        structure: serverData,
+      });
+    } else {
+      await deletePick({
+        pickId: realNodeId.toString(),
+        structure: serverData,
+      });
+    }
+
     await refetchStructure();
 
     setFocusedNode(null);

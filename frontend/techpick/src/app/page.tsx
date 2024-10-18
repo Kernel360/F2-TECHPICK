@@ -12,11 +12,14 @@ import { NodeApi } from 'react-arborist';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { useRouter } from 'next/navigation';
 import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
+import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 
 export default function MainPage() {
   const router = useRouter();
   const { focusedNode, setFocusedFolderNodeList, setFocusedLinkNodeList } =
     useTreeStore();
+  const { data: defaultFolderData, isLoading } = useGetDefaultFolderData();
+
   const [tempFocusedFolderList, tempFocusedPickList] = useMemo(() => {
     if (!focusedNode || !focusedNode.children?.length) {
       return [[], []];
@@ -60,11 +63,18 @@ export default function MainPage() {
   return (
     <div className={rootLayout}>
       <div className={viewWrapper}>
-        <div className={viewContainer}>
-          <DirectoryTreeSection />
-          <LinkEditorSection />
-          <FeaturedSection />
-        </div>
+        {!isLoading && (
+          <div
+            className={viewContainer}
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
+          >
+            <DirectoryTreeSection defaultFolderIdData={defaultFolderData!} />
+            <LinkEditorSection />
+            <FeaturedSection />
+          </div>
+        )}
       </div>
     </div>
   );

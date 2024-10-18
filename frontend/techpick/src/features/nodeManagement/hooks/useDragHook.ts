@@ -7,9 +7,12 @@ import { safeRun } from 'react-arborist/dist/main/utils';
 import { ROOT_ID } from 'react-arborist/dist/main/data/create-root';
 import { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
+import { useTreeStore } from '@/shared/stores/treeStore';
 
 export function useDragHook(node: NodeApi): ConnectDragSource {
-  const tree = node.tree;
+  const { treeRef } = useTreeStore();
+  const tree = treeRef.rootRef.current!;
+
   const [_, ref, preview] = useDrag<DragItem, DropResult, void>(
     () => ({
       canDrag: () => node.isDraggable,

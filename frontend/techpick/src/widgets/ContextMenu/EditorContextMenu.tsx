@@ -63,14 +63,14 @@ export function EditorContextMenu({ children }: ContextMenuWrapperProps) {
                       Folder <div className={RightSlot}></div>
                     </ContextMenu.Item>
 
-                    <ContextMenu.Item
-                      className={ContextMenuItem}
-                      onClick={() => {
-                        treeRef.rootRef.current!.createLeaf();
-                      }}
-                    >
-                      Pick
-                    </ContextMenu.Item>
+                    {/*<ContextMenu.Item*/}
+                    {/*  className={ContextMenuItem}*/}
+                    {/*  onClick={() => {*/}
+                    {/*    treeRef.rootRef.current!.createLeaf();*/}
+                    {/*  }}*/}
+                    {/*>*/}
+                    {/*  Pick*/}
+                    {/*</ContextMenu.Item>*/}
                   </ContextMenu.SubContent>
                 </ContextMenu.Portal>
               </ContextMenu.Sub>

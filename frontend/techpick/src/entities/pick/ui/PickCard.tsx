@@ -14,12 +14,15 @@ import {
   skeleton,
   linkStyle,
 } from './pickCard.css';
+import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
+import { NodeApi } from 'react-arborist';
 
 export function PickCard({
   children,
-  pickId,
+  node,
 }: PropsWithChildren<PickCardProps>) {
-  const { data: pickData, isLoading, isError } = useGetPickQuery(pickId);
+  const { data: pickData, isLoading, isError } = useGetPickQuery(node.data.pickId);
+    const ref = useDragHook(node);
 
   if (isLoading) {
     return (
@@ -40,7 +43,9 @@ export function PickCard({
 
   return (
     <Link href={url} target="_blank" className={linkStyle}>
-      <div className={pickCardLayout}>
+      <div className={pickCardLayout}
+           ref={ref as unknown as React.LegacyRef<HTMLDivElement>}
+      >
         <div className={cardImageSectionStyle}>
           {imageUrl ? (
             <Image
@@ -68,4 +73,5 @@ export function PickCard({
 }
 interface PickCardProps {
   pickId: number;
+  node: NodeApi;
 }

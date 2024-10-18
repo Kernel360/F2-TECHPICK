@@ -8,6 +8,7 @@ export interface NodeData {
   name: string;
   folderId?: number; // folder에만 적용
   pickId?: number; // pick에만 적용
+  url?: string; // pick에만 적용
 }
 
 export interface ArboristCreateProps {
