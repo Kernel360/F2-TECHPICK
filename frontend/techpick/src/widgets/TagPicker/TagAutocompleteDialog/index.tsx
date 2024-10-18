@@ -94,6 +94,23 @@ export function TagAutocompleteDialog({
       });
       randomNumber.current = getRandomInt();
       onSelectTag(newTag!);
+
+      if (!pickData || !newTag) {
+        return;
+      }
+
+      const { title, memo, id } = pickData;
+
+      const previousTagIdList = selectedTagList.map(
+        (selectedTag) => selectedTag.tagId
+      );
+
+      updatePickInfo({
+        title,
+        memo,
+        id,
+        tagIdList: [...previousTagIdList, newTag.tagId],
+      });
     } catch (error) {
       if (error instanceof Error) {
         notifyError(error.message);
