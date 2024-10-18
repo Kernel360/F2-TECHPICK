@@ -1,5 +1,6 @@
 # TECH PICK
-웹에서 지식을 찾는 사람들을 위한 링크 관리 유틸리티
+웹에서 지식을 찾는 사람들을 위한 링크 관리 유틸리티   
+https://app.minlife.me/
 
 ## 팀원 소개
 | **[팀장 : 이재용](https://github.com/enigsuss)** | **[팀원 : 김승태](https://github.com/dmdgpdi)** | **[팀원 : 김민규](https://github.com/kimminkyeu)** | **[팀원 : 박수형](https://github.com/Gyaak)** | **[팀원 : 양상원](https://github.com/sangwonsheep)** |
