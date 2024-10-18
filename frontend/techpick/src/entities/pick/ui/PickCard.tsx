@@ -2,6 +2,7 @@
 
 import { PropsWithChildren } from 'react';
 import Image from 'next/image';
+import { useGetPickQuery } from '../api';
 import {
   pickCardLayout,
   cardImageSectionStyle,
@@ -15,18 +16,29 @@ export function PickCard({
   pickId,
 }: PropsWithChildren<PickCardProps>) {
   // 아래 값들은 다음 PR에서 id값으로 api통신을 이용해 값 받아올 예정.
-  const imageUrl =
+  const baseImageUrl =
     'https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_602702633-1024x351-1.png';
-  const titleValue = 'title';
-  const memoValue = 'memo';
 
-  console.log('pickId:', pickId);
+  const { data: pickData, isLoading, isError } = useGetPickQuery(pickId);
+
+  if (isLoading) {
+    return <p>loading</p>;
+  }
+
+  if (isError || !pickData) {
+    return <p>oops! something is wrong</p>;
+  }
+
+  const { linkUrlResponse, memo, title } = pickData;
+  const { imageUrl } = linkUrlResponse;
+
+  console.log('linkUrlResponse imageUrl', imageUrl);
 
   return (
     <div className={pickCardLayout}>
       <div className={cardImageSectionStyle}>
         <Image
-          src={imageUrl}
+          src={baseImageUrl}
           width={280}
           height={64}
           className={cardImageStyle}
@@ -35,10 +47,10 @@ export function PickCard({
       </div>
 
       <div className={cardTitleSectionStyle}>
-        <p>{titleValue}</p>
+        <p>{title}</p>
       </div>
       <div className={cardDescriptionSectionStyle}>
-        <p>{memoValue}</p>
+        <p>{memo}</p>
       </div>
       <div>{children}</div>
     </div>

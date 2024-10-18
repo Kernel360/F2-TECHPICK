@@ -1,19 +1,34 @@
 'use client';
 
-import { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import {
-  useTagStore,
   SelectedTagItem,
   SelectedTagListLayout,
+  tagTypes,
 } from '@/entities/tag';
+import { useGetPickQuery } from '@/entities/pick/api';
 import { TagAutocompleteDialog } from './TagAutocompleteDialog';
 import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 
-export const TagPicker = forwardRef<HTMLDivElement>(
-  function TagPickerWithRef(_props, tabFocusRef) {
+export const TagPicker = forwardRef<HTMLDivElement, TagPickerProps>(
+  function TagPickerWithRef({ pickId }, tabFocusRef) {
     const [open, setOpen] = useState(false);
+    const [selectedTagList, setSelectedTagList] = useState<tagTypes.TagType[]>(
+      []
+    );
     const tagInputContainerRef = useRef<HTMLDivElement>(null);
-    const { selectedTagList } = useTagStore();
+    const { data: pickData } = useGetPickQuery(pickId);
+
+    useEffect(
+      function tagPickerLoad() {
+        if (!pickData) {
+          return;
+        }
+
+        setSelectedTagList(pickData.tagList);
+      },
+      [pickData]
+    );
 
     const openDialog = () => {
       setOpen(true);
@@ -47,8 +62,15 @@ export const TagPicker = forwardRef<HTMLDivElement>(
           open={open}
           onOpenChange={setOpen}
           container={tagInputContainerRef}
+          pickId={pickId}
+          selectedTagList={selectedTagList}
+          setSelectedTagList={setSelectedTagList}
         />
       </div>
     );
   }
 );
+
+interface TagPickerProps {
+  pickId: number;
+}

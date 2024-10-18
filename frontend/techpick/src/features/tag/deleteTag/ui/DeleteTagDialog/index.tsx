@@ -3,6 +3,7 @@
 import { useRef, memo, KeyboardEvent, MouseEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { useQueryClient } from '@tanstack/react-query';
 import { notifyError } from '@/shared/lib';
 import { Text, Button, Gap } from '@/shared/ui';
 import { useTagStore } from '@/entities/tag';
@@ -13,6 +14,7 @@ export const DeleteTagDialog = memo(function DeleteTagDialog() {
   const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
   const { deleteTag } = useTagStore();
   const { deleteTagId, isOpen, setIsOpen } = useDeleteTagDialogStore();
+  const queryClient = useQueryClient();
 
   const closeDialog = () => {
     setIsOpen(false);
@@ -44,6 +46,7 @@ export const DeleteTagDialog = memo(function DeleteTagDialog() {
   const DeleteTagByClick = async (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     await handleDeleteTag();
+    queryClient.invalidateQueries({ queryKey: ['pick'] });
   };
 
   const DeleteTagByEnterKey = async (e: KeyboardEvent<HTMLButtonElement>) => {

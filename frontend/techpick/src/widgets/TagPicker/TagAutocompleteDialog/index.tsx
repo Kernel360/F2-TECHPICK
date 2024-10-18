@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
 import { color } from 'techpick-shared';
 import { useThemeStore } from '@/shared/stores/themeStore';
 import { notifyError, numberToRandomColor } from '@/shared/lib';
+import { useUpdatePickMutation, useGetPickQuery } from '@/entities/pick';
 import {
   SelectedTagItem,
   SelectedTagListLayout,
@@ -34,23 +35,24 @@ export function TagAutocompleteDialog({
   open,
   onOpenChange,
   container,
+  pickId,
+  selectedTagList,
+  setSelectedTagList,
 }: TagSelectionDialogProps) {
+  console.log('pickId', pickId, selectedTagList);
+
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
   const randomNumber = useRef<number>(getRandomInt());
-  const {
-    tagList,
-    selectedTagList,
-    fetchingTagState,
-    selectTag,
-    fetchingTagList,
-    createTag,
-  } = useTagStore();
+  const { tagList, fetchingTagState, fetchingTagList, createTag } =
+    useTagStore();
   const { commandListHeight } =
     useCalculateCommandListHeight(selectedTagListRef);
   const { isDarkMode } = useThemeStore();
+  const { data: pickData } = useGetPickQuery(pickId);
+  const { mutate: updatePickInfo } = useUpdatePickMutation(pickId);
 
   const focusTagInput = () => {
     tagInputRef.current?.focus();
@@ -58,6 +60,26 @@ export function TagAutocompleteDialog({
 
   const clearTagInputValue = () => {
     setTagInputValue('');
+  };
+
+  const selectTag = (tag: tagTypes.TagType) => {
+    const index = selectedTagList.findIndex(
+      (selectedTag) => selectedTag.tagId === tag.tagId
+    );
+
+    if (index !== -1) {
+      return;
+    }
+
+    setSelectedTagList([...selectedTagList, tag]);
+  };
+
+  const deselectTag = (tag: tagTypes.TagType) => {
+    const filteredSelectedTagList = selectedTagList.filter(
+      (selectedTag) => selectedTag.tagId !== tag.tagId
+    );
+
+    setSelectedTagList([...filteredSelectedTagList]);
   };
 
   const onSelectTag = (tag: tagTypes.TagType) => {
@@ -102,7 +124,23 @@ export function TagAutocompleteDialog({
   return (
     <Command.Dialog
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={async (open) => {
+        onOpenChange(open);
+
+        if (!open && pickData) {
+          const { title, memo, id } = pickData;
+
+          updatePickInfo({
+            title,
+            memo,
+            id,
+            tagIdList: selectedTagList.map((selectedTag) => selectedTag.tagId),
+          });
+        }
+
+        // updatePickInfo()
+        // 비동기 api 요청을 보내자!
+      }}
       container={container?.current ?? undefined}
       className={tagDialogPortalLayout}
       filter={filterCommandItems}
@@ -111,7 +149,12 @@ export function TagAutocompleteDialog({
       <SelectedTagListLayout ref={selectedTagListRef} focusStyle="focus">
         {selectedTagList.map((tag) => (
           <SelectedTagItem key={tag.tagId} tag={tag}>
-            <DeselectTagButton tag={tag} onClick={focusTagInput} />
+            <DeselectTagButton
+              onClick={() => {
+                focusTagInput();
+                deselectTag(tag);
+              }}
+            />
           </SelectedTagItem>
         ))}
 
@@ -186,4 +229,7 @@ interface TagSelectionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   container?: React.RefObject<HTMLElement>;
+  pickId: number;
+  selectedTagList: tagTypes.TagType[];
+  setSelectedTagList: Dispatch<React.SetStateAction<tagTypes.TagType[]>>;
 }

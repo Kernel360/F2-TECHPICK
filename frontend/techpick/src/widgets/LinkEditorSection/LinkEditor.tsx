@@ -51,7 +51,7 @@ export const LinkEditor = () => {
           {unClassifiedPicks.map((node, index) => {
             return (
               <PickCard key={index} pickId={node.id}>
-                <TagPicker />
+                <TagPicker pickId={node.id} />
               </PickCard>
             );
           })}
