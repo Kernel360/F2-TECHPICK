@@ -1,6 +1,7 @@
 import { DirectoryNodeProps } from '@/shared/types/NodeData';
 import {
   dirIcFolder,
+  dirName,
   dirNode,
   dirNodeWrapper,
   dirNodeWrapperFocused,
@@ -164,7 +165,7 @@ export const DirectoryNode = ({
               autoFocus
             />
           ) : (
-            node.data.name
+            <div className={dirName}>{node.data.name}</div>
           )}
         </div>
       </TreeContextMenu>

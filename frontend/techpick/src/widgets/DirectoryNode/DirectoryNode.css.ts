@@ -33,6 +33,12 @@ export const dirIcFolder = style({
   marginRight: '8px',
 });
 
+export const dirName = style({
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+});
+
 export const nodeNameInput = style({
   fontSize: '14px',
   fontWeight: 300,
