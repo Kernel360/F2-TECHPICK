@@ -39,8 +39,6 @@ export function TagAutocompleteDialog({
   selectedTagList,
   setSelectedTagList,
 }: TagSelectionDialogProps) {
-  console.log('pickId', pickId, selectedTagList);
-
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
   const tagInputRef = useRef<HTMLInputElement | null>(null);

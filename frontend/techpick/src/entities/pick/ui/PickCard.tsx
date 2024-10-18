@@ -29,10 +29,7 @@ export function PickCard({
     return <p>oops! something is wrong</p>;
   }
 
-  const { linkUrlResponse, memo, title } = pickData;
-  const { imageUrl } = linkUrlResponse;
-
-  console.log('linkUrlResponse imageUrl', imageUrl);
+  const { memo, title } = pickData;
 
   return (
     <div className={pickCardLayout}>
