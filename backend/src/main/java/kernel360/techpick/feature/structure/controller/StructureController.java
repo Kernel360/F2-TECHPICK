@@ -16,7 +16,9 @@ import kernel360.techpick.feature.structure.service.dto.StructureMoveRequest;
 import kernel360.techpick.feature.structure.service.node.client.ClientNode;
 import kernel360.techpick.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/structures")
@@ -62,6 +64,9 @@ public class StructureController implements StructureApi {
 		@PathVariable Long pickId,
 		@RequestBody StructureMoveRequest request
 	) {
+		// ---------------------------------------------
+		log.info(request.structure().serialize());
+		// ---------------------------------------------
 		structureService.movePick(userService.getCurrentUser(), pickId, request);
 
 		return ResponseEntity.noContent().build();
