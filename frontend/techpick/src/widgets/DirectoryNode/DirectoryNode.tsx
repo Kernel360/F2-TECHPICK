@@ -100,7 +100,7 @@ export const DirectoryNode = ({
             exact: true,
           });
 
-          toast.error('이름이 중복됩니다.\n 다른 이름을 입력해주세요.');
+          toast.error('이름이 중복됩니다.\n 다른 이름을 입력해주세요. ');
           node.reset();
         }
       } else node.submit(event.currentTarget.value);
