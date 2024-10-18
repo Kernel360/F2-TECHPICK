@@ -64,7 +64,12 @@ export default function MainPage() {
     <div className={rootLayout}>
       <div className={viewWrapper}>
         {!isLoading && (
-          <div className={viewContainer}>
+          <div
+            className={viewContainer}
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
+          >
             <DirectoryTreeSection defaultFolderIdData={defaultFolderData!} />
             <LinkEditorSection />
             <FeaturedSection />

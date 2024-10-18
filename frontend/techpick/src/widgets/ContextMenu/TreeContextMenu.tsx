@@ -1,14 +1,11 @@
 import React from 'react';
 import * as ContextMenu from '@radix-ui/react-context-menu';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
 
 import {
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
   RightSlot,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
 } from './ContextMenu.css';
 import { useTreeStore } from '@/shared/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
@@ -35,39 +32,47 @@ export function TreeContextMenu({ children }: ContextMenuWrapperProps) {
       <ContextMenu.Portal container={portalContainer}>
         <ContextMenu.Content className={ContextMenuContent}>
           {focusedNode?.data.type === 'folder' && currentTree === 'root' && (
-            <ContextMenu.Sub>
-              <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
-                새로 만들기
-                <div className={RightSlot}>
-                  <ChevronRightIcon />
-                </div>
-              </ContextMenu.SubTrigger>
-              <ContextMenu.Portal container={portalContainer}>
-                <ContextMenu.SubContent
-                  className={ContextMenuSubContent}
-                  sideOffset={2}
-                  alignOffset={-5}
-                >
-                  <ContextMenu.Item
-                    className={ContextMenuItem}
-                    onClick={() => {
-                      treeRef.rootRef.current!.createInternal();
-                    }}
-                  >
-                    Folder <div className={RightSlot}></div>
-                  </ContextMenu.Item>
-
-                  <ContextMenu.Item
-                    className={ContextMenuItem}
-                    onClick={() => {
-                      treeRef.rootRef.current!.createLeaf();
-                    }}
-                  >
-                    Pick
-                  </ContextMenu.Item>
-                </ContextMenu.SubContent>
-              </ContextMenu.Portal>
-            </ContextMenu.Sub>
+            <ContextMenu.Item
+              className={ContextMenuItem}
+              onClick={() => {
+                treeRef.rootRef.current!.createInternal();
+              }}
+            >
+              새 폴더 <div className={RightSlot}></div>
+            </ContextMenu.Item>
+            // <ContextMenu.Sub>
+            //   <ContextMenu.SubTrigger className={ContextMenuSubTrigger}>
+            //     새로 만들기
+            //     <div className={RightSlot}>
+            //       <ChevronRightIcon />
+            //     </div>
+            //   </ContextMenu.SubTrigger>
+            //   <ContextMenu.Portal container={portalContainer}>
+            //     <ContextMenu.SubContent
+            //       className={ContextMenuSubContent}
+            //       sideOffset={2}
+            //       alignOffset={-5}
+            //     >
+            //       <ContextMenu.Item
+            //         className={ContextMenuItem}
+            //         onClick={() => {
+            //           treeRef.rootRef.current!.createInternal();
+            //         }}
+            //       >
+            //         Folder <div className={RightSlot}></div>
+            //       </ContextMenu.Item>
+            //
+            //       <ContextMenu.Item
+            //         className={ContextMenuItem}
+            //         onClick={() => {
+            //           treeRef.rootRef.current!.createLeaf();
+            //         }}
+            //       >
+            //         Pick
+            //       </ContextMenu.Item>
+            //     </ContextMenu.SubContent>
+            //   </ContextMenu.Portal>
+            // </ContextMenu.Sub>
           )}
           {currentTree === 'root' && (
             <ContextMenu.Item
@@ -76,7 +81,7 @@ export function TreeContextMenu({ children }: ContextMenuWrapperProps) {
                 focusedNode!.edit();
               }}
             >
-              이름 변경 <div className={RightSlot}></div>
+              이름 바꾸기 <div className={RightSlot}></div>
             </ContextMenu.Item>
           )}
           {currentTree === 'recycleBin' && (
