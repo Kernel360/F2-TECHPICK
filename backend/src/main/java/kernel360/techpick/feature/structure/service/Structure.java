@@ -43,6 +43,7 @@ public class Structure<T extends Node> {
 	public Structure(List<T> rootFolder, List<T> recycleBinFolder) {
 		this.rootFolder = rootFolder;
 		this.recycleBinFolder = recycleBinFolder;
+		log.info("Input Structure Class : {}", this);
 	}
 
 	public String serialize() {
