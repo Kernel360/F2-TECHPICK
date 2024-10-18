@@ -137,7 +137,7 @@ export const useTreeHandlers = () => {
       await refetchStructure();
     } catch (error) {
       console.error('Folder rename failed:', error);
-      toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+      toast.error('이름이 중복됩니다.\n 다른 이름을 입력해주세요.');
       treeRef.rootRef.current?.root?.reset();
       await refetchStructure();
     }

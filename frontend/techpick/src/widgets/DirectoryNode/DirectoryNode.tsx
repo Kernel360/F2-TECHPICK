@@ -57,7 +57,7 @@ export const DirectoryNode = ({
 
     if (event.key === 'Enter') {
       if (event.currentTarget.value === '') {
-        toast.error('폴더 이름을 입력해주세요.');
+        toast.error('이름을 입력해주세요.');
         return;
       }
 
@@ -100,7 +100,7 @@ export const DirectoryNode = ({
             exact: true,
           });
 
-          toast.error('동일한 이름을 가진 폴더가 존재합니다.');
+          toast.error('이름이 중복됩니다.\n 다른 이름을 입력해주세요');
           node.reset();
         }
       } else node.submit(event.currentTarget.value);
@@ -131,44 +131,46 @@ export const DirectoryNode = ({
         }
       }}
     >
-      <TreeContextMenu>
-        <div className={dirNode}>
-          {node.isOpen ? (
-            <ChevronDown size={13} />
-          ) : node.isLeaf ? (
-            <div style={{ marginLeft: '13px' }}></div>
-          ) : (
-            <ChevronRight size={13} />
-          )}
-          {node.data.type === 'folder' ? (
-            <Image
-              src={`image/ic_folder.svg`}
-              alt={`${node.data.name}'s image`}
-              className={dirIcFolder}
-              width={8}
-              height={8}
-            />
-          ) : (
-            <Image
-              src={`image/ic_doc.svg`}
-              width={8}
-              height={8}
-              alt={`${node.data.name}'s image`}
-              className={dirIcFolder}
-            />
-          )}
-          {node.isEditing ? (
-            <input
-              type="text"
-              className={nodeNameInput}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          ) : (
-            <div className={dirName}>{node.data.name}</div>
-          )}
-        </div>
-      </TreeContextMenu>
+      {node.id !== '-2' && (
+        <TreeContextMenu>
+          <div className={dirNode}>
+            {node.isOpen ? (
+              <ChevronDown size={13} />
+            ) : node.isLeaf ? (
+              <div style={{ marginLeft: '13px' }}></div>
+            ) : (
+              <ChevronRight size={13} />
+            )}
+            {node.data.type === 'folder' ? (
+              <Image
+                src={`image/ic_folder.svg`}
+                alt={`${node.data.name}'s image`}
+                className={dirIcFolder}
+                width={8}
+                height={8}
+              />
+            ) : (
+              <Image
+                src={`image/ic_doc.svg`}
+                width={8}
+                height={8}
+                alt={`${node.data.name}'s image`}
+                className={dirIcFolder}
+              />
+            )}
+            {node.isEditing ? (
+              <input
+                type="text"
+                className={nodeNameInput}
+                onKeyDown={handleKeyDown}
+                autoFocus
+              />
+            ) : (
+              <div className={dirName}>{node.data.name}</div>
+            )}
+          </div>
+        </TreeContextMenu>
+      )}
     </div>
   );
 };
