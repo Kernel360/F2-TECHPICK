@@ -33,6 +33,9 @@ Chrome 북마크바를 대체하는 유틸리티성 SaaS 애플리케이션입�
 #### 메인 페이지
 <img width="1438" alt="스크린샷 2024-10-18 오후 6 25 50" src="https://github.com/user-attachments/assets/20a5b943-6ddf-4977-b97b-b8e5f0aa1ad6">
 
+![web-dnd](https://github.com/user-attachments/assets/a0258a28-a901-40f8-ba21-a4b251e3d597)
+
+
 #### 로그인 페이지
 <img width="674" alt="스크린샷 2024-10-18 오후 6 27 45" src="https://github.com/user-attachments/assets/472bf12c-b5e6-4432-8ad1-049108365481">
 
