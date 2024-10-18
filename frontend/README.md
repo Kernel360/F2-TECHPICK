@@ -44,10 +44,10 @@ Chrome 북마크바를 대체하는 유틸리티성 SaaS 애플리케이션입�
 
 
 ## 기술 스택
-
+<div style="display:flex; flex-direction:column; align-items:flex-start;">
     <div>
         <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/>
         <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"/>
         <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
     </div>
-    
+</div>
