@@ -2,6 +2,7 @@
 
 import { PropsWithChildren } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useGetPickQuery } from '../api';
 import {
   pickCardLayout,
@@ -11,6 +12,7 @@ import {
   cardImageStyle,
   defaultCardImageSectionStyle,
   skeleton,
+  linkStyle,
 } from './pickCard.css';
 
 export function PickCard({
@@ -34,32 +36,34 @@ export function PickCard({
   }
 
   const { memo, title, linkUrlResponse } = pickData;
-  const { imageUrl } = linkUrlResponse;
+  const { imageUrl, url } = linkUrlResponse;
 
   return (
-    <div className={pickCardLayout}>
-      <div className={cardImageSectionStyle}>
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            width={278}
-            height={64}
-            className={cardImageStyle}
-            alt=""
-          />
-        ) : (
-          <div className={defaultCardImageSectionStyle} />
-        )}
-      </div>
+    <Link href={url} target="_blank" className={linkStyle}>
+      <div className={pickCardLayout}>
+        <div className={cardImageSectionStyle}>
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              width={278}
+              height={64}
+              className={cardImageStyle}
+              alt=""
+            />
+          ) : (
+            <div className={defaultCardImageSectionStyle} />
+          )}
+        </div>
 
-      <div className={cardTitleSectionStyle}>
-        <p>{title}</p>
+        <div className={cardTitleSectionStyle}>
+          <p>{title}</p>
+        </div>
+        <div className={cardDescriptionSectionStyle}>
+          <p>{memo}</p>
+        </div>
+        <div>{children}</div>
       </div>
-      <div className={cardDescriptionSectionStyle}>
-        <p>{memo}</p>
-      </div>
-      <div>{children}</div>
-    </div>
+    </Link>
   );
 }
 interface PickCardProps {

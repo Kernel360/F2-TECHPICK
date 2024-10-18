@@ -122,6 +122,11 @@ export function TagAutocompleteDialog({
   return (
     <Command.Dialog
       open={open}
+      onClick={(e) => {
+        console.log('Command.Dialog click');
+        e.stopPropagation();
+        e.preventDefault();
+      }}
       onOpenChange={async (open) => {
         onOpenChange(open);
 
@@ -189,7 +194,11 @@ export function TagAutocompleteDialog({
             keywords={[tag.tagName]}
           >
             <SelectedTagItem key={tag.tagId} tag={tag} />
-            <TagInfoEditPopoverButton tag={tag} />
+            <TagInfoEditPopoverButton
+              tag={tag}
+              selectedTagList={selectedTagList}
+              setSelectedTagList={setSelectedTagList}
+            />
           </Command.Item>
         ))}
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { Dispatch, useRef, useState } from 'react';
 import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import DOMPurify from 'dompurify';
@@ -14,13 +14,17 @@ import {
   tagInfoEditFormLayout,
   tagInputStyle,
 } from './TagInfoEditPopoverButton.css';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function TagInfoEditPopoverButton({
   tag,
+  selectedTagList,
+  setSelectedTagList,
 }: TagInfoEditPopoverButtonProps) {
   const tagNameInputRef = useRef<HTMLInputElement | null>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const updateTag = useTagStore((state) => state.updateTag);
+  const queryClient = useQueryClient();
 
   const { refs, floatingStyles } = useFloating({
     open: isPopoverOpen,
@@ -57,12 +61,31 @@ export function TagInfoEditPopoverButton({
       return;
     }
 
+    const index = selectedTagList.findIndex(
+      (selectedTag) => selectedTag.tagId === tag.tagId
+    );
+
+    if (index !== -1) {
+      const tempSelectedTagList = [...selectedTagList];
+      tempSelectedTagList[index] = {
+        tagId: tag.tagId,
+        tagName: newTagName,
+        colorNumber: tag.colorNumber,
+        tagOrder: tag.tagOrder,
+        userId: tag.userId,
+      };
+      setSelectedTagList(tempSelectedTagList);
+    }
+
     try {
       await updateTag({
         tagId: tag.tagId,
         tagName: newTagName,
         colorNumber: tag.colorNumber,
         tagOrder: tag.tagOrder,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['pick'],
       });
       closePopover();
     } catch (error) {
@@ -73,11 +96,12 @@ export function TagInfoEditPopoverButton({
   };
 
   return (
-    <>
+    <div>
       <PopoverTriggerButton
         ref={refs.setReference}
         onClick={(e) => {
           e.stopPropagation(); // 옵션 버튼을 눌렀을 때, 해당 태그를 선택하는 onSelect를 막기 위헤서 전파 방지
+          e.preventDefault();
           setIsPopoverOpen(true);
         }}
       />
@@ -87,6 +111,7 @@ export function TagInfoEditPopoverButton({
             onClick={(e) => {
               closePopover();
               e.stopPropagation();
+              e.preventDefault();
             }}
           />
           <form
@@ -94,7 +119,10 @@ export function TagInfoEditPopoverButton({
             className={tagInfoEditFormLayout}
             ref={refs.setFloating}
             style={floatingStyles}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
             onKeyDown={(e) => e.stopPropagation()}
           >
             <input
@@ -114,10 +142,12 @@ export function TagInfoEditPopoverButton({
           </form>
         </>
       )}
-    </>
+    </div>
   );
 }
 
 interface TagInfoEditPopoverButtonProps {
   tag: tagTypes.TagType;
+  selectedTagList: tagTypes.TagType[];
+  setSelectedTagList: Dispatch<React.SetStateAction<tagTypes.TagType[]>>;
 }
