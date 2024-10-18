@@ -13,3 +13,10 @@ export type GetPickResponseType = {
 };
 
 type LinkUrlResponse = { id: number; url: string; imageUrl: string | null };
+
+export type UpdatePickRequestType = {
+  id: number;
+  title: string;
+  memo: string;
+  tagIdList: number[];
+};
