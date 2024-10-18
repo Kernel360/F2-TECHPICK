@@ -14,6 +14,7 @@ export function Pick({ node }: { node: NodeApi }) {
       ref={ref as unknown as React.LegacyRef<HTMLDivElement>}
       className={linkWrapper}
     >
+      {/* Todo 카드 하나 렌더링*/}
       <Image
         src={`image/ic_doc.svg`}
         alt={`${node.data.name}'s image`}

@@ -40,6 +40,7 @@ export const LinkEditor = () => {
       )}
       {!!focusedLinkNodeList?.length && (
         <div className={linkViewSection}>
+          {/*todo:  pick id 넘져줘야 함*/}
           {focusedLinkNodeList?.map((node, index) => (
             <Pick key={index} node={node} />
           ))}
@@ -50,7 +51,7 @@ export const LinkEditor = () => {
           {unClassifiedPicks.map((node, index) => {
             return (
               <PickCard key={index} pickId={node.id}>
-                <TagPicker />
+                <TagPicker pickId={node.id} />
               </PickCard>
             );
           })}
