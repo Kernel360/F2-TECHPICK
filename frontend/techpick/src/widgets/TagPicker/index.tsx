@@ -46,7 +46,11 @@ export const TagPicker = forwardRef<HTMLDivElement, TagPickerProps>(
       <div ref={tagInputContainerRef} className={tagPickerLayout}>
         <div
           className={tagDialogTriggerLayout}
-          onClick={openDialog}
+          onClick={(e) => {
+            console.log('tagDialogTriggerLayout click');
+            e.preventDefault();
+            openDialog();
+          }}
           onKeyDown={onEnterKeyDown}
           tabIndex={0}
           ref={tabFocusRef}
