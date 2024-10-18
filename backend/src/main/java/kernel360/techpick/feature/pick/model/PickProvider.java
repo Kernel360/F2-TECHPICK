@@ -59,6 +59,9 @@ public class PickProvider {
 	}
 
 	public List<Pick> findAllByUserAndParentFolderIsNotNull(User user) {
-		return pickRepository.findAllByUserAndParentFolderIsNotNull(user);
+		var list = pickRepository.findAllByUserAndParentFolderIsNotNull(user);
+		return list.stream()
+			.filter(pick -> !pick.getParentFolder().getFolderType().equals(FolderType.UNCLASSIFIED))
+			.toList();
 	}
 }
