@@ -39,4 +39,8 @@ public class ApiFolderException extends ApiException {
 	public static ApiFolderException BASIC_FOLDER_ALREADY_EXISTS() {
 		return new ApiFolderException(ApiFolderErrorCode.BASIC_FOLDER_ALREADY_EXISTS);
 	}
+
+	public static ApiFolderException INVALID_PICK_MOVE_OPERATION() {
+		return new ApiFolderException(ApiFolderErrorCode.INVALID_MOVE_OPERATION);
+	}
 }

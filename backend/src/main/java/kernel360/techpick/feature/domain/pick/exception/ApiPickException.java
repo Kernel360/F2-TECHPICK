@@ -13,11 +13,15 @@ public class ApiPickException extends ApiException {
 		throw new ApiPickException(ApiPickErrorCode.PICK_NOT_FOUND);
 	}
 
-	public static ApiPickException PICK_ALREADY_EXIST() {
+	public static ApiPickException PICK_MUST_BE_UNIQUE_FOR_A_URL() {
 		throw new ApiPickException(ApiPickErrorCode.PICK_ALREADY_EXIST);
 	}
 
 	public static ApiPickException PICK_UNAUTHORIZED_ACCESS() {
+		throw new ApiPickException(ApiPickErrorCode.PICK_UNAUTHORIZED_ACCESS);
+	}
+
+	public static ApiPickException PICK_SET_WITH_UNEXISTING_TAG() {
 		throw new ApiPickException(ApiPickErrorCode.PICK_UNAUTHORIZED_ACCESS);
 	}
 }
