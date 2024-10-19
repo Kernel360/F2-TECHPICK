@@ -14,7 +14,7 @@ public interface TagApiSpecification {
     //   {
     //     "tagId": 0,
     //     "tagName": "string",
-    //     "tagOrder": 0,
+    //     "tagIdList": 0,
     //     "colorNumber": 0
     //   }
     // ]
