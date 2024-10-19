@@ -8,7 +8,7 @@ public class PickCommand {
 
     public record Read(Long userId, Long pickId) {}
 
-    public record Create(Long userId, String title, String memo, List<Long> tagIdList, Long parentFolderId, LinkInfo linkInfo) {}
+    public record Create(Long userId, String title, String memo, List<Long> tagOrder, Long parentFolderId, LinkInfo linkInfo) {}
 
     public record Update(Long userId, Long pickId, String title, String memo, List<Long> tagIdList) {}
 
