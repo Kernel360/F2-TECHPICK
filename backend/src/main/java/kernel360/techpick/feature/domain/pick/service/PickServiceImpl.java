@@ -1,9 +1,9 @@
 package kernel360.techpick.feature.domain.pick.service;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
@@ -58,26 +58,30 @@ public class PickServiceImpl implements PickService {
     public PickResult.Move movePick(PickCommand.Move command) {
         var user = userReader.read(command.userId());
         var pick = pickReader.read(user, command.pickId());
-        var originFolder = pick.getParentFolder();
-        // move without changing folder
-        if (originFolder.getId().equals(command.parentFolderId())) {
-            originFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
+        var originalParentFolder = pick.getParentFolder();
+
+        if (isParentFolderNotChanged(command, originalParentFolder)) {
+            originalParentFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
             return pickMapper.toMoveResult(pick);
         }
-        // move to another folder
-        originFolder.removeChildPickOrder(command.pickId());
-        var destFolder = folderReader.read(user, command.parentFolderId())
-                                     .updateChildPickOrder(command.pickId(), command.orderIdx());
-        pick.updateParentFolder(destFolder);
+        originalParentFolder.removeChildPickOrder(command.pickId());
+        var newParentFolder = folderReader.read(user, command.parentFolderId())
+                                          .updateChildPickOrder(command.pickId(), command.orderIdx());
+        pick.updateParentFolder(newParentFolder);
         return pickMapper.toMoveResult(pick);
     }
 
     @Override
+    @Transactional
     public void deletePick(PickCommand.Delete command) {
         var user = userReader.read(command.userId());
         var pick = pickReader.read(user, command.pickId());
         var folder = pick.getParentFolder();
         folder.removeChildPickOrder(command.pickId());
         pickWriter.remove(pick);
+    }
+
+    private boolean isParentFolderNotChanged(PickCommand.Move command, Folder originalFolder) {
+        return (command.parentFolderId() == null || originalFolder.getId().equals(command.parentFolderId()));
     }
 }

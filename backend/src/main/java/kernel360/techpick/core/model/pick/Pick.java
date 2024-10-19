@@ -62,9 +62,9 @@ public class Pick extends BaseEntity {
 	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> tagOrder = new ArrayList<>();
 
-	// 사용자가 링크에 대해 남기는 메모
-	@Column(name = "memo") // nullable
-	private String memo;
+	// 사용자가 링크에 대해 남기는 메모 (update시 null과 ""를 구분하기 위함)
+	@Column(name = "memo", nullable = false)
+	private String memo = "";
 
 	@Builder
 	private Pick(User user, Link link, Folder parentFolder, String title, List<Long> tagOrder, String memo) {
@@ -77,21 +77,25 @@ public class Pick extends BaseEntity {
 	}
 
 	public Pick updateTagOrder(List<Long> tagOrder) {
+		if (tagOrder == null) return this;
 		this.tagOrder = tagOrder;
 		return this;
 	}
 
 	public Pick updateParentFolder(Folder parentFolder) {
+		if (parentFolder == null) return this;
 		this.parentFolder = parentFolder;
 		return this;
 	}
 
 	public Pick updateTitle(String title) {
+		if (title == null) return this;
 		this.title = title;
 		return this;
 	}
 
 	public Pick updateMemo(String memo) {
+		if (memo == null) return this;
 		this.memo = memo;
 		return this;
 	}

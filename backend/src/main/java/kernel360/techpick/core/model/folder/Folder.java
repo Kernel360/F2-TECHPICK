@@ -66,13 +66,16 @@ public class Folder extends BaseEntity {
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList;
 
-	public Folder updateChildPickOrder(Long pickId, int destination) {
+	public Folder updateChildPickOrder(Long pickId, Integer destination) {
+		if (destination == null) {
+			return this;
+		}
 		if (destination < 0 || childPickOrderList.size() < destination) {
 			throw ApiFolderException.INVALID_PICK_MOVE_OPERATION();
 		}
 
 		List<Long> newOrderList = new ArrayList<>();
-		for (int i=0; i<=childPickOrderList.size(); i++) {
+		for (int i = 0; i<=childPickOrderList.size(); i++) {
 			if (childPickOrderList.get(i).equals(pickId)) {
 				continue;
 			}
