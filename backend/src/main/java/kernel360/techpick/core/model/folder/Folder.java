@@ -21,6 +21,7 @@ import jakarta.persistence.Table;
 import kernel360.techpick.core.model.common.BaseEntity;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.OrderConverter;
+import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,6 +66,32 @@ public class Folder extends BaseEntity {
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList;
 
+	public Folder updateChildPickOrder(Long pickId, int destination) {
+		if (destination < 0 || childPickOrderList.size() < destination) {
+			throw ApiFolderException.INVALID_PICK_MOVE_OPERATION();
+		}
+
+		List<Long> newOrderList = new ArrayList<>();
+		for (int i=0; i<=childPickOrderList.size(); i++) {
+			if (childPickOrderList.get(i).equals(pickId)) {
+				continue;
+			}
+			if (i == destination) {
+				newOrderList.add(pickId);
+				continue;
+			}
+			if (i < childPickOrderList.size()) {
+				newOrderList.add(childPickOrderList.get(i));
+			}
+        }
+		return this;
+	}
+
+	public Folder removeChildPickOrder(Long pickId) {
+		this.childPickOrderList.remove(pickId);
+		return this;
+	}
+
 	private Folder(
 		String name,
 		FolderType folderType,
@@ -80,7 +107,4 @@ public class Folder extends BaseEntity {
 		this.childFolderOrderList = childFolderOrderList;
 		this.childPickOrderList = childPickOrderList;
 	}
-
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-
 }
