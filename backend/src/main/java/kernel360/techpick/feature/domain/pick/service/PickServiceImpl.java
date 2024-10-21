@@ -17,71 +17,71 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PickServiceImpl implements PickService {
-    private final UserReader userReader;
-    private final PickReader pickReader;
-    private final PickWriter pickWriter;
-    private final PickMapper pickMapper;
-    private final LinkWriter linkWriter;
-    private final FolderReader folderReader;
+	private final UserReader userReader;
+	private final PickReader pickReader;
+	private final PickWriter pickWriter;
+	private final PickMapper pickMapper;
+	private final LinkWriter linkWriter;
+	private final FolderReader folderReader;
 
-    @Override
-    @Transactional(readOnly = true)
-    public PickResult.Read getPick(PickCommand.Read command) {
-        var user = userReader.readUser(command.userId());
-        var pick = pickReader.readPick(user, command.pickId());
-        return pickMapper.toReadResult(pick);
-    }
+	@Override
+	@Transactional(readOnly = true)
+	public PickResult.Read getPick(PickCommand.Read command) {
+		var user = userReader.readCurrentUser();
+		var pick = pickReader.readPick(user, command.pickId());
+		return pickMapper.toReadResult(pick);
+	}
 
-    @Override
-    @Transactional
-    public PickResult.Create saveNewPick(PickCommand.Create command) {
-        var user = userReader.readUser(command.userId());
-        var folder = folderReader.readFolder(user, command.parentFolderId());
-        var link = linkWriter.writeLink(command.linkInfo());
-        var pick = pickWriter.writePick(pickMapper.toEntity(command, user, folder, link));
-        return pickMapper.toCreateResult(pick);
-    }
+	@Override
+	@Transactional
+	public PickResult.Create saveNewPick(PickCommand.Create command) {
+		var user = userReader.readCurrentUser();
+		var folder = folderReader.readFolder(user, command.parentFolderId());
+		var link = linkWriter.writeLink(command.linkInfo());
+		var pick = pickWriter.writePick(pickMapper.toEntity(command, user, folder, link));
+		return pickMapper.toCreateResult(pick);
+	}
 
-    @Override
-    @Transactional
-    public PickResult.Update updatePick(PickCommand.Update command) {
-        var user = userReader.readUser(command.userId());
-        var pick = pickReader.readPick(user, command.pickId())
-                             .updateMemo(command.memo())
-                             .updateTagOrder(command.tagIdList())
-                             .updateTitle(command.title());
-        return pickMapper.toUpdateResult(pick);
-    }
+	@Override
+	@Transactional
+	public PickResult.Update updatePick(PickCommand.Update command) {
+		var user = userReader.readCurrentUser();
+		var pick = pickReader.readPick(user, command.pickId())
+			.updateMemo(command.memo())
+			.updateTagOrder(command.tagIdList())
+			.updateTitle(command.title());
+		return pickMapper.toUpdateResult(pick);
+	}
 
-    @Override
-    @Transactional
-    public PickResult.Move movePick(PickCommand.Move command) {
-        var user = userReader.readUser(command.userId());
-        var pick = pickReader.readPick(user, command.pickId());
-        var originalParentFolder = pick.getParentFolder();
+	@Override
+	@Transactional
+	public PickResult.Move movePick(PickCommand.Move command) {
+		var user = userReader.readCurrentUser();
+		var pick = pickReader.readPick(user, command.pickId());
+		var originalParentFolder = pick.getParentFolder();
 
-        if (isParentFolderNotChanged(command, originalParentFolder)) {
-            originalParentFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
-            return pickMapper.toMoveResult(pick);
-        }
-        originalParentFolder.removeChildPickOrder(command.pickId());
-        var newParentFolder = folderReader.readFolder(user, command.parentFolderId())
-                                          .updateChildPickOrder(command.pickId(), command.orderIdx());
-        pick.updateParentFolder(newParentFolder);
-        return pickMapper.toMoveResult(pick);
-    }
+		if (isParentFolderNotChanged(command, originalParentFolder)) {
+			originalParentFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
+			return pickMapper.toMoveResult(pick);
+		}
+		originalParentFolder.removeChildPickOrder(command.pickId());
+		var newParentFolder = folderReader.readFolder(user, command.parentFolderId())
+			.updateChildPickOrder(command.pickId(), command.orderIdx());
+		pick.updateParentFolder(newParentFolder);
+		return pickMapper.toMoveResult(pick);
+	}
 
-    @Override
-    @Transactional
-    public void deletePick(PickCommand.Delete command) {
-        var user = userReader.readUser(command.userId());
-        var pick = pickReader.readPick(user, command.pickId());
-        var folder = pick.getParentFolder();
-        folder.removeChildPickOrder(command.pickId());
-        pickWriter.removePick(pick);
-    }
+	@Override
+	@Transactional
+	public void deletePick(PickCommand.Delete command) {
+		var user = userReader.readCurrentUser();
+		var pick = pickReader.readPick(user, command.pickId());
+		var folder = pick.getParentFolder();
+		folder.removeChildPickOrder(command.pickId());
+		pickWriter.removePick(pick);
+	}
 
-    private boolean isParentFolderNotChanged(PickCommand.Move command, Folder originalFolder) {
-        return (command.parentFolderId() == null || originalFolder.getId().equals(command.parentFolderId()));
-    }
+	private boolean isParentFolderNotChanged(PickCommand.Move command, Folder originalFolder) {
+		return (command.parentFolderId() == null || originalFolder.getId().equals(command.parentFolderId()));
+	}
 }

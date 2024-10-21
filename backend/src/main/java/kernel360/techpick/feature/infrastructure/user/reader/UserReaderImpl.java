@@ -1,5 +1,6 @@
 package kernel360.techpick.feature.infrastructure.user.reader;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.user.User;
@@ -10,10 +11,23 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class UserReaderImpl implements UserReader {
-    UserRepository userRepository;
+	UserRepository userRepository;
 
-    @Override
-    public User readUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
-    }
+	@Override
+	public User readUser(Long userId) {
+		return userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
+	}
+
+	@Override
+	public User readCurrentUser() {
+		var authentication = SecurityContextHolder.getContext().getAuthentication();
+		long userId = (long)authentication.getPrincipal();
+		return userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
+	}
+
+	@Override
+	public Long readCurrentUserId() {
+		var authentication = SecurityContextHolder.getContext().getAuthentication();
+		return (long)authentication.getPrincipal();
+	}
 }
