@@ -2,7 +2,6 @@ package kernel360.techpick.core.model.folder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -22,7 +21,6 @@ import jakarta.persistence.Table;
 import kernel360.techpick.core.model.common.BaseEntity;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.OrderConverter;
-import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,17 +57,34 @@ public class Folder extends BaseEntity {
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "child_folder_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> childFolderOrderList;
+	private List<Long> childFolderOrderList = new ArrayList<>();
 
 	// 폴더에 속한 pick id들을 공백으로 분리된 String으로 변환하여 db에 저장
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> childPickOrderList;
+	private List<Long> childPickOrderList = new ArrayList<>();
+
+	public void updateFolderName(String name) {
+		this.name = name;
+	}
+
+	public void updateParentFolder(Folder parentFolder) {
+		this.parentFolder = parentFolder;
+	}
+
+	public void updateChildFolderOrder(Long pickId, int destination) {
+		childFolderOrderList.remove(pickId);
+		childFolderOrderList.add(destination, pickId);
+	}
 
 	public void updateChildPickOrder(Long pickId, int destination) {
 		childPickOrderList.remove(pickId);
 		childPickOrderList.add(destination, pickId);
+	}
+
+	public void removeChildFolderOrder(Long folderId) {
+		this.childFolderOrderList.remove(folderId);
 	}
 
 	public void removeChildPickOrder(Long pickId) {
