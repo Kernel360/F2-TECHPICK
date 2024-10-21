@@ -2,19 +2,20 @@ package kernel360.techpick.feature.domain.tag.service;
 
 import java.util.List;
 
-import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.tag.dto.TagCommand;
 import kernel360.techpick.feature.domain.tag.dto.TagResult;
 
 public interface TagService {
 
-	TagResult.Read readTag(TagCommand.Read read);
+	TagResult readTag(TagCommand.Read command);
 
-	List<TagResult.Read> readUserTagList();
+	List<TagResult> readUserTagList();
 
-	TagResult.Create createTag(TagCommand.Create create);
+	TagResult createTag(TagCommand.Create command);
 
-	TagResult.Update updateTag(TagCommand.Update update);
+	TagResult updateTag(TagCommand.Update command);
 
-	void deleteTag(TagCommand.Delete delete);
+	void moveUserTag(TagCommand.Move command);
+
+	void deleteTag(TagCommand.Delete command);
 }
