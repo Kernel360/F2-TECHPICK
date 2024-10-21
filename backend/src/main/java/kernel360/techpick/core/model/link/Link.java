@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +32,7 @@ public class Link {
 	@Column(name = "url", nullable = false, columnDefinition = "VARCHAR(600)", unique = true)
 	private String url;
 
-	@Column(name = "title", nullable = false, columnDefinition = "VARCHAR(100)")
+	@Column(name = "title", columnDefinition = "VARCHAR(100)")
 	private String title;
 
 	@Column(name = "description", columnDefinition = "VARCHAR(600)")
@@ -43,6 +44,23 @@ public class Link {
 	@Column(name = "invalidatedAt_at")
 	private LocalDateTime invalidatedAt;
 
+	public Link updateMetadata(String title, String description, String imageUrl) {
+		this.title = title;
+		this.description = description;
+		this.imageUrl = imageUrl;
+		return this;
+	}
+
+	public Link markAsInvalid() {
+		this.invalidatedAt = LocalDateTime.now();
+		return this;
+	}
+
+	public boolean isValidLink() {
+		return (this.invalidatedAt == null);
+	}
+
+	@Builder
 	private Link(String url, String title, String description, String imageUrl, LocalDateTime invalidatedAt) {
 		this.url = url;
 		this.title = title;
@@ -50,7 +68,4 @@ public class Link {
 		this.imageUrl = imageUrl;
 		this.invalidatedAt = invalidatedAt;
 	}
-
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
-
 }

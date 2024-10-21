@@ -12,12 +12,12 @@ public interface PickApiSpecification {
     // [ 나의 픽 상세 조회 ]
     // GET api/picks/{pick_id}
     // -------------------- Request Body = X
-    // -------------------- Response Body = { name, parent_folder_id, 태그, 제목 ... 등등 }
+    // -------------------- Response Body = { parent_folder_id, 태그, 제목 ... 등등 }
 
     // [ 나의 픽 정보 수정 - null이 아닌 값만 업데이트 ]
     // PATCH api/picks/data/{pick_id}
     // -------------------- Request Body = {
-    //                                       name: nullable,
+    //                                       memo: nullable,
     //                                       title: nullable,
     //                                       tags: nullable
     //                                      }
@@ -26,7 +26,7 @@ public interface PickApiSpecification {
     // PATCH api/picks/location/{pick_id}
     // -------------------- Request Body = {
     //                                       parent_folder_id: nullable --> 있다면 해당 폴더로 소속되게, 없으면 변경 없음
-    //                                       order_idx : nullable --> 0이면 픽들 중 최상단 위치, 없으면 변경 없음
+    //                                       order_idx : 호출 된 이상, null일 수 없음!
     //                                      }
 
     // [ 나의 픽 생성 ]

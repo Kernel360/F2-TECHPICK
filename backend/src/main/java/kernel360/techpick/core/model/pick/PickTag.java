@@ -42,7 +42,7 @@ public class PickTag {
 		this.tag = tag;
 	}
 
-	public static PickTag create(Pick pick, Tag tag) {
+	public static PickTag of(Pick pick, Tag tag) {
 		return new PickTag(pick, tag);
 	}
 }

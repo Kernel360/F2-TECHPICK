@@ -1,5 +1,6 @@
 package kernel360.techpick.core.model.pick;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
@@ -21,6 +22,7 @@ import kernel360.techpick.core.model.link.Link;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.OrderConverter;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,48 +47,56 @@ public class Pick extends BaseEntity {
 	@JoinColumn(name = "link_id", nullable = false)
 	private Link link;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	// 부모 폴더가 삭제되면 자식픽 또한 삭제됨, OnDelete 옵션을 위해 FK필요
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "parent_folder_id", nullable = false)
 	private Folder parentFolder;
 
 	// 사용자가 수정 가능한 Pick 제목. 기본값은 원문 제목과 동일
-	@Column(name = "title") // nullable
-	private String title;
+	@Column(name = "title", nullable = false)
+	private String title = "";
 
-	// 사용자가 링크에 대해 남기는 메모
-	@Column(name = "memo") // nullable
-	private String memo;
-
-	// 픽에 속한 tag id들을 공백으로 분리된 String으로 변환하여 db에 저장
-	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
+	// 픽에 속한 tag id들을 공백으로 분리된 String으로 변환하여 db에 저장. Ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> tagOrder;
+	private List<Long> tagOrder = new ArrayList<>();
 
-	// 연결된 링크가 유효하지 않을 때 true
-	@Column(name = "link_invalidated")
-	private boolean linkInvalidated;
+	// 사용자가 링크에 대해 남기는 메모 (update시 null과 ""를 구분하기 위함)
+	@Column(name = "memo", nullable = false)
+	private String memo = "";
 
-	private Pick(
-		User user,
-		Link link,
-		Folder parentFolder,
-		String title,
-		String memo,
-		List<Long> tagOrder,
-		boolean linkInvalidated
-	) {
+	@Builder
+	private Pick(User user, Link link, Folder parentFolder, String title, List<Long> tagOrder, String memo) {
 		this.user = user;
 		this.link = link;
 		this.parentFolder = parentFolder;
 		this.title = title;
-		this.memo = memo;
 		this.tagOrder = tagOrder;
-		this.linkInvalidated = linkInvalidated;
+		this.memo = memo;
 	}
 
-	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+	public Pick updateTagOrder(List<Long> tagOrder) {
+		if (tagOrder == null) return this;
+		this.tagOrder = tagOrder;
+		return this;
+	}
 
+	public Pick updateParentFolder(Folder parentFolder) {
+		if (parentFolder == null) return this;
+		this.parentFolder = parentFolder;
+		return this;
+	}
+
+	public Pick updateTitle(String title) {
+		if (title == null) return this;
+		this.title = title;
+		return this;
+	}
+
+	public Pick updateMemo(String memo) {
+		if (memo == null) return this;
+		this.memo = memo;
+		return this;
+	}
 }
