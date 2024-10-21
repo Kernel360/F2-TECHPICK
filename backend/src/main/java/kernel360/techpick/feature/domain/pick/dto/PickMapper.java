@@ -17,14 +17,17 @@ import kernel360.techpick.core.model.user.User;
 )
 public interface PickMapper {
 
-    PickResult.Create toCreateResult(Pick pick);
+    @Mapping(source = "pick.link", target = "linkInfo")
+    PickResult toCreateResult(Pick pick);
 
     @Mapping(source = "pick.link", target = "linkInfo")
-    PickResult.Read toReadResult(Pick pick);
+    PickResult toReadResult(Pick pick);
 
-    PickResult.Update toUpdateResult(Pick pick);
+    @Mapping(source = "pick.link", target = "linkInfo")
+    PickResult toUpdateResult(Pick pick);
 
-    PickResult.Move toMoveResult(Pick pick);
+    @Mapping(source = "pick.link", target = "linkInfo")
+    PickResult toMoveResult(Pick pick);
 
     @Mapping(source = "command.title", target = "title")
     Pick toEntity(PickCommand.Create command, User user, Folder parentFolder, Link link);
