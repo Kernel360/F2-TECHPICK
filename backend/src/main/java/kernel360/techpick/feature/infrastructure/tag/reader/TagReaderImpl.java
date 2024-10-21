@@ -21,7 +21,7 @@ public class TagReaderImpl implements TagReader {
 		Tag tag = tagRepository.findById(tagId).orElseThrow(ApiTagException::TAG_NOT_FOUND);
 
 		if (ObjectUtils.notEqual(tag.getUser().getId(), userId)) {
-			ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
 
 		return tag;
