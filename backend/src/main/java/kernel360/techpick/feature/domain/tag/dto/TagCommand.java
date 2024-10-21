@@ -7,22 +7,28 @@ import jakarta.validation.constraints.NotNull;
 public class TagCommand {
 
 	public record Create(
-		@NotBlank String name,
-		@NotNull Integer colorNumber) {
+		String name,
+		Integer colorNumber) {
 	}
 
 	public record Read(
-		@NotNull Long tagId) {
+		Long tagId) {
 	}
 
 	public record Update(
-		@NotNull Long tagId,
-		@NotEmpty String name,
-		@NotNull Integer colorNumber) {
+		Long tagId,
+		String name,
+		Integer colorNumber) {
+	}
+
+	public record Move(
+		Long tagId,
+		int orderIdx
+	) {
 	}
 
 	public record Delete(
-		@NotNull Long tagId
+		Long tagId
 	) {
 	}
 }
