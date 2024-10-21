@@ -65,8 +65,8 @@ public class PickServiceImpl implements PickService {
 			return pickMapper.toMoveResult(pick);
 		}
 		originalParentFolder.removeChildPickOrder(command.pickId());
-		var newParentFolder = folderReader.readFolder(user, command.parentFolderId())
-			.updateChildPickOrder(command.pickId(), command.orderIdx());
+		var newParentFolder = folderReader.readFolder(user, command.parentFolderId());
+		newParentFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
 		pick.updateParentFolder(newParentFolder);
 		return pickMapper.toMoveResult(pick);
 	}
