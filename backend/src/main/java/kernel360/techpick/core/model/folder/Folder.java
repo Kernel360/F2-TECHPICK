@@ -67,15 +67,13 @@ public class Folder extends BaseEntity {
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList;
 
-	public Folder updateChildPickOrder(Long pickId, int destination) {
+	public void updateChildPickOrder(Long pickId, int destination) {
 		childPickOrderList.remove(pickId);
 		childPickOrderList.add(destination, pickId);
-		return this;
 	}
 
-	public Folder removeChildPickOrder(Long pickId) {
+	public void removeChildPickOrder(Long pickId) {
 		this.childPickOrderList.remove(pickId);
-		return this;
 	}
 
 	@Builder
