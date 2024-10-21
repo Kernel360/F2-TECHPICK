@@ -2,6 +2,7 @@ package kernel360.techpick.core.model.folder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,6 +24,7 @@ import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.util.OrderConverter;
 import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,8 +47,7 @@ public class Folder extends BaseEntity {
 	private FolderType folderType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// 부모 폴더가 삭제되면 자식폴더 또한 삭제됨, OnDelete 옵션을 위해 FK필요
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OnDelete(action = OnDeleteAction.CASCADE) // 부모 폴더가 삭제 되면 자식 폴더 또한 삭제
 	@JoinColumn(name = "parent_folder_id")
 	private Folder parentFolder;
 
@@ -66,27 +67,9 @@ public class Folder extends BaseEntity {
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList;
 
-	public Folder updateChildPickOrder(Long pickId, Integer destination) {
-		if (destination == null) {
-			return this;
-		}
-		if (destination < 0 || childPickOrderList.size() < destination) {
-			throw ApiFolderException.INVALID_PICK_MOVE_OPERATION();
-		}
-
-		List<Long> newOrderList = new ArrayList<>();
-		for (int i = 0; i<=childPickOrderList.size(); i++) {
-			if (childPickOrderList.get(i).equals(pickId)) {
-				continue;
-			}
-			if (i == destination) {
-				newOrderList.add(pickId);
-				continue;
-			}
-			if (i < childPickOrderList.size()) {
-				newOrderList.add(childPickOrderList.get(i));
-			}
-        }
+	public Folder updateChildPickOrder(Long pickId, int destination) {
+		childPickOrderList.remove(pickId);
+		childPickOrderList.add(destination, pickId);
 		return this;
 	}
 
@@ -95,6 +78,7 @@ public class Folder extends BaseEntity {
 		return this;
 	}
 
+	@Builder
 	private Folder(
 		String name,
 		FolderType folderType,

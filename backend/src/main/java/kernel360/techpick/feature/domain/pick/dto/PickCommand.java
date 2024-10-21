@@ -12,7 +12,7 @@ public class PickCommand {
 
     public record Update(Long userId, Long pickId, String title, String memo, List<Long> tagIdList) {}
 
-    public record Move(Long userId, Long pickId, Long parentFolderId, Integer orderIdx) {}
+    public record Move(Long userId, Long pickId, Long parentFolderId, int orderIdx) {}
 
     public record Delete(Long userId, Long pickId) {}
 }

@@ -22,7 +22,7 @@ public class LinkWriterImpl implements LinkWriter {
 
     @Override
     @Transactional
-    public Link write(LinkInfo info) {
+    public Link writeLink(LinkInfo info) {
         Optional<Link> link = linkRepository.findByUrl(info.url());
         if (link.isPresent()) {
             link.get().updateMetadata(info.title(), info.description(), info.imageUrl());

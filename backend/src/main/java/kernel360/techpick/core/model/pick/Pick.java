@@ -55,7 +55,7 @@ public class Pick extends BaseEntity {
 
 	// 사용자가 수정 가능한 Pick 제목. 기본값은 원문 제목과 동일
 	@Column(name = "title", nullable = false)
-	private String title;
+	private String title = "";
 
 	// 픽에 속한 tag id들을 공백으로 분리된 String으로 변환하여 db에 저장. Ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)

@@ -5,5 +5,5 @@ import kernel360.techpick.core.model.user.User;
 
 public interface PickReader {
 
-    Pick read(User user, Long pickId);
+    Pick readPick(User user, Long pickId);
 }

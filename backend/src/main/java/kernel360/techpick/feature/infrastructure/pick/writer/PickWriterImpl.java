@@ -19,7 +19,7 @@ public class PickWriterImpl implements PickWriter {
     private final TagRepository tagRepository;
 
     @Override
-    public Pick write(Pick pick) throws ApiPickException {
+    public Pick writePick(Pick pick) throws ApiPickException {
         pickRepository.findByUserAndLink(pick.getUser(), pick.getLink())
                       .ifPresent((__) -> { throw ApiPickException.PICK_MUST_BE_UNIQUE_FOR_A_URL(); });
         Pick savedPick = pickRepository.save(pick);
@@ -32,7 +32,7 @@ public class PickWriterImpl implements PickWriter {
     }
 
     @Override
-    public void remove(Pick pick) {
+    public void removePick(Pick pick) {
         pickRepository.delete(pick);
         pickTagRepository.deleteByPick(pick);
     }

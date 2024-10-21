@@ -15,7 +15,7 @@ public class PickReaderImpl implements PickReader {
     private final PickRepository pickRepository;
 
     @Override
-    public Pick read(User user, Long pickId) {
+    public Pick readPick(User user, Long pickId) {
         Pick pick = pickRepository.findById(pickId).orElseThrow(ApiPickException::PICK_NOT_FOUND);
         if (ObjectUtils.notEqual(user, pick.getUser())) {
             throw ApiPickException.PICK_UNAUTHORIZED_ACCESS();

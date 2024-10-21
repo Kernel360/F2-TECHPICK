@@ -15,7 +15,7 @@ public class FolderReaderImpl implements FolderReader {
     FolderRepository folderRepository;
 
     @Override
-    public Folder read(User user, Long folderId) {
+    public Folder readFolder(User user, Long folderId) {
         Folder folder = folderRepository.findById(folderId).orElseThrow(ApiFolderException::FOLDER_NOT_FOUND);
         if (ObjectUtils.notEqual(folder.getUser(), user)) {
             throw ApiFolderException.FOLDER_ACCESS_DENIED();

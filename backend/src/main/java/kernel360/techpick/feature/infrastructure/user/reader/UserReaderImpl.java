@@ -13,7 +13,7 @@ public class UserReaderImpl implements UserReader {
     UserRepository userRepository;
 
     @Override
-    public User read(Long userId) {
+    public User readUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
     }
 }

@@ -26,7 +26,7 @@ public interface PickApiSpecification {
     // PATCH api/picks/location/{pick_id}
     // -------------------- Request Body = {
     //                                       parent_folder_id: nullable --> 있다면 해당 폴더로 소속되게, 없으면 변경 없음
-    //                                       order_idx : nullable --> 0이면 픽들 중 최상단 위치, 없으면 변경 없음
+    //                                       order_idx : 호출 된 이상, null일 수 없음!
     //                                      }
 
     // [ 나의 픽 생성 ]

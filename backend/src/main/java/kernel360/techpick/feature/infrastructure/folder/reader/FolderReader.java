@@ -5,5 +5,5 @@ import kernel360.techpick.core.model.user.User;
 
 public interface FolderReader {
 
-    Folder read(User user, Long folderId);
+    Folder readFolder(User user, Long folderId);
 }

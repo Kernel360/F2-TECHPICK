@@ -5,7 +5,7 @@ import kernel360.techpick.feature.domain.pick.exception.ApiPickException;
 
 public interface PickWriter {
 
-    Pick write(Pick pick) throws ApiPickException;
+    Pick writePick(Pick pick) throws ApiPickException;
 
-    void remove(Pick pick);
+    void removePick(Pick pick);
 }
