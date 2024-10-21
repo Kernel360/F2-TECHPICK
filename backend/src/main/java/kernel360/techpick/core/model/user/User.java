@@ -1,6 +1,7 @@
 package kernel360.techpick.core.model.user;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +72,7 @@ public class User extends BaseEntity /* implements UserDetails --> 시큐리티 
 	// ex) [6,3,2,23,1] -> "6 3 2 23 1"
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "tag_order", columnDefinition = "longblob", nullable = false)
-	private List<Long> tagOrderList;
+	private List<Long> tagOrderList = new ArrayList<>();
 
 	public void updateTagOrderList(List<Long> tagOrderList) {
 		this.tagOrderList = tagOrderList;

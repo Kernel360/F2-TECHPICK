@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import kernel360.techpick.core.model.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,10 +39,20 @@ public class Tag {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@Builder
 	private Tag(String name, Integer colorNumber, User user) {
 		this.name = name;
 		this.colorNumber = colorNumber;
 		this.user = user;
 	}
+
 	// TODO: 엔티티 사용자가 정적 팩토리 메소드로 필요한 함수를 구현 하세요
+
+	public void updateTagName(String name) {
+		this.name = name;
+	}
+
+	public void updateColorNumber(Integer colorNumber) {
+		this.colorNumber = colorNumber;
+	}
 }
