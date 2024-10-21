@@ -1,6 +1,8 @@
 package kernel360.techpick.feature.infrastructure.pick.writer;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.core.model.pick.PickRepository;
@@ -9,6 +11,7 @@ import kernel360.techpick.core.model.pick.PickTagRepository;
 import kernel360.techpick.core.model.tag.Tag;
 import kernel360.techpick.core.model.tag.TagRepository;
 import kernel360.techpick.feature.domain.pick.exception.ApiPickException;
+import kernel360.techpick.feature.domain.tag.exception.ApiTagException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -43,5 +46,4 @@ public class PickWriterImpl implements PickWriter {
 	public void removePickTag(Long tagId) {
 		pickTagRepository.deleteByTagId(tagId);
 	}
-
 }

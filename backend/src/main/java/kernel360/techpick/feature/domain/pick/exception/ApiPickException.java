@@ -20,8 +20,4 @@ public class ApiPickException extends ApiException {
 	public static ApiPickException PICK_UNAUTHORIZED_ACCESS() {
 		throw new ApiPickException(ApiPickErrorCode.PICK_UNAUTHORIZED_ACCESS);
 	}
-
-	public static ApiPickException PICK_SET_WITH_UNEXISTING_TAG() {
-		throw new ApiPickException(ApiPickErrorCode.PICK_UNAUTHORIZED_ACCESS);
-	}
 }

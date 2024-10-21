@@ -5,13 +5,13 @@ import kernel360.techpick.feature.domain.pick.dto.PickResult;
 
 public interface PickService {
 
-    PickResult.Read getPick(PickCommand.Read command);
+    PickResult getPick(PickCommand.Read command);
 
-    PickResult.Create saveNewPick(PickCommand.Create command);
+    PickResult saveNewPick(PickCommand.Create command);
 
-    PickResult.Update updatePick(PickCommand.Update command);
+    PickResult updatePick(PickCommand.Update command);
 
-    PickResult.Move movePick(PickCommand.Move command);
+    PickResult movePick(PickCommand.Move command);
 
     void deletePick(PickCommand.Delete command);
 }

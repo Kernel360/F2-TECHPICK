@@ -18,15 +18,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PickServiceImpl implements PickService {
 	private final UserReader userReader;
+	private final FolderReader folderReader;
+	private final LinkWriter linkWriter;
 	private final PickReader pickReader;
 	private final PickWriter pickWriter;
 	private final PickMapper pickMapper;
-	private final LinkWriter linkWriter;
-	private final FolderReader folderReader;
 
 	@Override
 	@Transactional(readOnly = true)
-	public PickResult.Read getPick(PickCommand.Read command) {
+	public PickResult getPick(PickCommand.Read command) {
 		var user = userReader.readCurrentUser();
 		var pick = pickReader.readPick(user, command.pickId());
 		return pickMapper.toReadResult(pick);
@@ -34,7 +34,7 @@ public class PickServiceImpl implements PickService {
 
 	@Override
 	@Transactional
-	public PickResult.Create saveNewPick(PickCommand.Create command) {
+	public PickResult saveNewPick(PickCommand.Create command) {
 		var user = userReader.readCurrentUser();
 		var folder = folderReader.readFolder(user, command.parentFolderId());
 		var link = linkWriter.writeLink(command.linkInfo());
@@ -44,7 +44,7 @@ public class PickServiceImpl implements PickService {
 
 	@Override
 	@Transactional
-	public PickResult.Update updatePick(PickCommand.Update command) {
+	public PickResult updatePick(PickCommand.Update command) {
 		var user = userReader.readCurrentUser();
 		var pick = pickReader.readPick(user, command.pickId())
 			.updateMemo(command.memo())
@@ -55,7 +55,7 @@ public class PickServiceImpl implements PickService {
 
 	@Override
 	@Transactional
-	public PickResult.Move movePick(PickCommand.Move command) {
+	public PickResult movePick(PickCommand.Move command) {
 		var user = userReader.readCurrentUser();
 		var pick = pickReader.readPick(user, command.pickId());
 		var originalParentFolder = pick.getParentFolder();
