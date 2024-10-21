@@ -1,9 +1,16 @@
 package kernel360.techpick.feature.domain.folder.dto;
 
-public class FolderResult {
+import java.util.List;
 
-    public record Create() {}
-    public record Read() {}
-    public record Update() {}
-    public record Delete() {}
+import kernel360.techpick.core.model.folder.FolderType;
+
+public record FolderResult(
+	Long folderId,
+	String name,
+	FolderType folderType,
+	Long parentFolderId,
+	Long userId,
+	List<Long> childFolderOrderList,
+	List<Long> childPickOrderList
+) {
 }
