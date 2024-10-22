@@ -7,4 +7,6 @@ public interface PickTagRepository extends JpaRepository<PickTag, Long> {
 	void deleteByPick(Pick pick);
 
 	void deleteByTagId(Long tagId);
+
+	void deleteByPickAndTagId(Pick pick, Long tagId);
 }

@@ -1,7 +1,6 @@
 package domain.pick;
 
-// TEST FOR PICK
-// 1. Implement Pick Fixture
+// https://github.com/Kernel360/F2-TECHPICK/issues/295
 public class PickTest {
 
 }
