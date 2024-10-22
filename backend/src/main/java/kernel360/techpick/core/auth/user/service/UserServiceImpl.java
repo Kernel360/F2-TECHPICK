@@ -9,8 +9,15 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     @Override
     public User createNewUser(UserCommand.CreateSocialUser command) {
+        // TODO: implement create new user logic
         return null;
+    }
+
+    @Override
+    public void removeUser(UserCommand command) {
+        // TODO: implement user delete (soft) logic
     }
 }

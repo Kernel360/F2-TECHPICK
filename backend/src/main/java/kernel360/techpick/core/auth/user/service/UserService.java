@@ -6,4 +6,6 @@ import kernel360.techpick.core.model.user.User;
 public interface UserService {
 
     User createNewUser(UserCommand.CreateSocialUser command);
+
+    void removeUser(UserCommand command);
 }

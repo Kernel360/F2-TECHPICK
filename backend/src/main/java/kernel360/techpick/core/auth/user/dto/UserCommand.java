@@ -9,4 +9,6 @@ public class UserCommand {
         String socialProviderId,
         String email
     ) {}
+
+    public record removeUser(Long userId) {}
 }
