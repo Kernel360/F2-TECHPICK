@@ -2,7 +2,6 @@ package kernel360.techpick.feature.infrastructure.pick.writer;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.core.model.pick.PickRepository;
@@ -24,13 +23,14 @@ public class PickWriterImpl implements PickWriter {
 	@Override
 	public Pick writePick(Pick pick) throws ApiPickException {
 		pickRepository.findByUserAndLink(pick.getUser(), pick.getLink())
-			.ifPresent((__) -> {
-				throw ApiPickException.PICK_MUST_BE_UNIQUE_FOR_A_URL();
-			});
+					  .ifPresent((__) -> { throw ApiPickException.PICK_MUST_BE_UNIQUE_FOR_A_URL(); });
 		Pick savedPick = pickRepository.save(pick);
 
 		for (Long tagId : pick.getTagOrder()) {
-			Tag tag = tagRepository.findById(tagId).orElseThrow(ApiPickException::PICK_SET_WITH_UNEXISTING_TAG);
+			Tag tag = tagRepository.findById(tagId).orElseThrow(ApiTagException::TAG_NOT_FOUND);
+			if (ObjectUtils.notEqual(tag.getUser(), savedPick.getUser())) {
+				throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+			}
 			pickTagRepository.save(PickTag.of(savedPick, tag));
 		}
 		return savedPick;
