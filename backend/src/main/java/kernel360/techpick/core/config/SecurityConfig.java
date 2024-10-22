@@ -10,49 +10,75 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import kernel360.techpick.core.auth.TechpickLogoutHandler;
+import kernel360.techpick.core.auth.TechpickOAuth2AuthorizationRequestRepository;
+import kernel360.techpick.core.auth.TechpickOAuth2Service;
+import kernel360.techpick.core.auth.TechpickOAuthSuccessHandler;
+import kernel360.techpick.core.auth.TechpickTokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+	public static final String ACCESS_TOKEN_KEY = "access_token";
+	public static final String REFRESH_TOKEN_KEY = "refresh_token";
+	public static final String LOGIN_FLAG_FOR_FRONTEND = "techPickLogin";
+	public static final String OAUTH_SUCCESS_RETURN_URL_TOKEN_KEY = "return_url";
+
+	private final TechpickLogoutHandler techpickLogoutHandler;
+	private final TechpickOAuthSuccessHandler techpickOAuthSuccessHandler;
+	private final TechpickTokenAuthenticationFilter techpickTokenAuthenticationFilter;
+	private final TechpickOAuth2Service	techpickOAuth2Service;
+	private final TechpickOAuth2AuthorizationRequestRepository techpickOAuth2AuthorizationRequestRepository;
 
 	@Value("${api.base-url}")
 	private String baseUrl;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		// TODO: 이후 설정 추가 필요
 		http
 			.csrf(AbstractHttpConfigurer::disable)
-			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+			.cors(cors -> cors
+				.configurationSource(corsConfigurationSource())
+			)
 			.httpBasic(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
-			.logout(AbstractHttpConfigurer::disable)
-			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authorizeHttpRequests(
-				authRequest -> authRequest
-					.anyRequest().permitAll()
+			.logout(config -> config
+				.addLogoutHandler(techpickLogoutHandler)
+				.logoutSuccessHandler(techpickLogoutHandler)
+				// .clearAuthentication(true)
 			)
-			.oauth2Login(
-				oauth -> oauth
-					.authorizationEndpoint(authorization -> authorization
-							.baseUri("/api/login")
-						// /* 붙이면 안됨
-					)
-					.redirectionEndpoint(
-						redirection -> redirection
-							.baseUri("/api/login/oauth2/code/*")
-						// 반드시 /* 으로 {registrationId}를 받아야 함 스프링 시큐리티의 문제!!
-						// https://github.com/spring-projects/spring-security/issues/13251
-					)
-				// .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2Service))
-				// .successHandler(oAuth2SuccessHandler)
+			.sessionManagement(management -> management
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
+			.addFilterBefore(
+				techpickTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
+			)
+			.authorizeHttpRequests(request -> request
+				.requestMatchers("/api-docs/**").permitAll()
+				.requestMatchers("/swagger-ui/**").permitAll()
+				.requestMatchers("/api/login/**").permitAll()
+				.anyRequest().authenticated()
+			)
+			.oauth2Login(oauth -> oauth
+				.authorizationEndpoint(authorization -> authorization
+					.baseUri("/api/login")
+					.authorizationRequestRepository(techpickOAuth2AuthorizationRequestRepository)
+				)
+				.redirectionEndpoint(redirection -> redirection
+					.baseUri("/api/login/oauth2/code/*")
+				)
+				.userInfoEndpoint(userInfo -> userInfo
+					.userService(techpickOAuth2Service)
+				)
+				.successHandler(techpickOAuthSuccessHandler)
+			);
 		;
 		return http.build();
 	}

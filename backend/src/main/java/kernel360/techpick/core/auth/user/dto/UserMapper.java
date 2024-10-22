@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.domain.user.dto;
+package kernel360.techpick.core.auth.user.dto;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.domain.user.exception;
+package kernel360.techpick.core.auth.user.exception;
 
 import kernel360.techpick.core.exception.base.ApiErrorCode;
 import kernel360.techpick.core.exception.base.ApiException;
