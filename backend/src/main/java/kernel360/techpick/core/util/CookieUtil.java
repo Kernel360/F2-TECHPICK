@@ -1,6 +1,7 @@
 package kernel360.techpick.core.util;
 
 import java.util.Base64;
+import java.util.Optional;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
@@ -8,6 +9,7 @@ import org.springframework.util.SerializationUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kernel360.techpick.core.config.SecurityConfig;
 
 public class CookieUtil {
 
@@ -18,7 +20,7 @@ public class CookieUtil {
 			.path("/")
 			.httpOnly(true)
 			.secure(true)
-			.domain("minlife.me")
+			// .domain("minlife.me")
 			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", responseCookie.toString());
@@ -28,30 +30,37 @@ public class CookieUtil {
 			.maxAge(maxAge)
 			.path("/")
 			.secure(true)
-			.domain("minlife.me")
+			// .domain("minlife.me")
 			// .sameSite("None")
 			.build();
 		response.addHeader("Set-Cookie", techPickLoginCookie.toString());
 
 	}
 
-	//쿠키의 이름을 입력받아 쿠키 삭제
-	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		Cookie[] cookies = request.getCookies();
-
-		if (cookies == null) {
-			return;
-		}
+	public static Optional<Cookie> findCookie(Cookie[] cookies, String name) {
+		if (cookies == null) return Optional.empty();
 
 		for (Cookie cookie : cookies) {
 			if (name.equals(cookie.getName())) {
+				return Optional.of(cookie);
+			}
+		}
+		return Optional.empty();
+	}
+
+	//쿠키의 이름을 입력받아 쿠키 삭제
+	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null) return;
+
+		findCookie(request.getCookies(), name)
+			.ifPresent(cookie -> {
 				cookie.setValue("");
 				cookie.setPath("/");
 				cookie.setMaxAge(0);
 				cookie.setHttpOnly(true);
 				response.addCookie(cookie);
-			}
-		}
+			});
 	}
 
 	//객체를 직렬화해 쿠키의 값으로 변환
@@ -67,5 +76,13 @@ public class CookieUtil {
 				Base64.getUrlDecoder().decode(cookie.getValue())
 			)
 		);
+	}
+
+	public static void clearAll(HttpServletRequest request, HttpServletResponse response) {
+		deleteCookie(request, response, "JSESSIONID");
+		deleteCookie(request, response, SecurityConfig.ACCESS_TOKEN_KEY);
+		deleteCookie(request, response, SecurityConfig.REFRESH_TOKEN_KEY);
+		deleteCookie(request, response, SecurityConfig.LOGIN_FLAG_FOR_FRONTEND);
+		deleteCookie(request, response, SecurityConfig.OAUTH_SUCCESS_RETURN_URL_TOKEN_KEY);
 	}
 }

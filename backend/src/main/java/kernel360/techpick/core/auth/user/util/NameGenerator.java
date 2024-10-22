@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.domain.user.util;
+package kernel360.techpick.core.auth.user.util;
 
 public interface NameGenerator {
     String generateName();

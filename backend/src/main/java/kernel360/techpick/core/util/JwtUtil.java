@@ -13,7 +13,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import kernel360.techpick.core.model.user.Role;
 import kernel360.techpick.core.model.user.User;
 
-// 패키지 위치에 대한 고민 필요
 @Component
 public class JwtUtil {
 
@@ -22,10 +21,7 @@ public class JwtUtil {
 	@Value("${spring.jwt.secret}")
 	private String secret;
 
-	/*
-		userId만 토큰에 포함됨
-	 */
-	public String getToken(User user, Duration expiry) {
+	public String createToken(User user, Duration expiry) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + expiry.toMillis());
 
