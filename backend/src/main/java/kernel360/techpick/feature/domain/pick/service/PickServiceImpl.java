@@ -27,7 +27,7 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional(readOnly = true)
 	public PickResult getPick(PickCommand.Read command) {
-		var user = userReader.readCurrentUser();
+		var user = userReader.readUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
 		return pickMapper.toReadResult(pick);
 	}
