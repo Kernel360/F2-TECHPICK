@@ -4766,7 +4766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4, @types/lodash@npm:^4.14.167":
+"@types/lodash@npm:^4.14.167":
   version: 4.17.10
   resolution: "@types/lodash@npm:4.17.10"
   checksum: 10c0/149b2b9fcc277204393423ed14df28894980c2322ec522fc23f2c6f7edef6ee8d876ee09ed4520f45d128adc0a7a6e618bb0017668349716cd99c6ef54a21621
@@ -8019,6 +8019,18 @@ __metadata:
     is-date-object: "npm:^1.0.1"
     is-symbol: "npm:^1.0.2"
   checksum: 10c0/0886572b8dc075cb10e50c0af62a03d03a68e1e69c388bd4f10c0649ee41b1fbb24840a1b7e590b393011b5cdbe0144b776da316762653685432df37d6de60f1
+  languageName: node
+  linkType: hard
+
+"es-toolkit@npm:^1.25.2":
+  version: 1.25.2
+  resolution: "es-toolkit@npm:1.25.2"
+  dependenciesMeta:
+    "@trivago/prettier-plugin-sort-imports@4.3.0":
+      unplugged: true
+    prettier-plugin-sort-re-exports@0.0.1:
+      unplugged: true
+  checksum: 10c0/a0257f1a8fb670fb5fc3d59b2b0097e41f86481ab90e4c0800fc4394d439a7c84b15b84edf2656098621f6954a00cddf9fe9afb03c09df16f2999fdc87a6973a
   languageName: node
   linkType: hard
 
@@ -14535,7 +14547,6 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.5.0"
     "@testing-library/react": "npm:^16.0.1"
     "@types/dompurify": "npm:^3"
-    "@types/lodash": "npm:^4"
     "@types/node": "npm:^22.5.4"
     "@types/randomcolor": "npm:^0.5.9"
     "@types/react": "npm:^18"
@@ -14548,6 +14559,7 @@ __metadata:
     css-loader: "npm:^7.1.2"
     dompurify: "npm:^3.1.7"
     dotenv-cli: "npm:^7.4.2"
+    es-toolkit: "npm:^1.25.2"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.9"
     eslint-config-prettier: "npm:^9.1.0"
@@ -14558,7 +14570,6 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     ky: "npm:^1.7.2"
-    lodash: "npm:^4.17.21"
     lucide-react: "npm:^0.447.0"
     mini-css-extract-plugin: "npm:^2.9.1"
     next: "npm:14.2.9"

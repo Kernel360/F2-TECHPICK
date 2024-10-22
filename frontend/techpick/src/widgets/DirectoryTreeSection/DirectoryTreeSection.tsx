@@ -48,7 +48,7 @@ import {
   ApiDefaultFolderIdData,
   ApiStructureData,
 } from '@/shared/types/ApiTypes';
-import { debounce } from 'lodash';
+import { debounce } from 'es-toolkit';
 import { useGetPicksByParentId } from '@/features/nodeManagement/api/pick/useGetPicksByParentId';
 
 export function DirectoryTreeSection({
