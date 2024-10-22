@@ -2,18 +2,15 @@ package kernel360.techpick.core.auth;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kernel360.techpick.core.config.SecurityConfig;
-import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.model.user.UserRepository;
 import kernel360.techpick.core.util.CookieUtil;
 import kernel360.techpick.core.util.JwtUtil;
