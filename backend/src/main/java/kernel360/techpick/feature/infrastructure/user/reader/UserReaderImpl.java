@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.model.user.UserRepository;
-import kernel360.techpick.feature.domain.user.exception.ApiUserException;
+import kernel360.techpick.core.auth.user.exception.ApiUserException;
 import lombok.RequiredArgsConstructor;
 
 @Component
