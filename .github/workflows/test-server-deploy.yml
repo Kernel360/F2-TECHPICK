@@ -8,7 +8,7 @@ name: Tech-pick V2 Testing Server Deploy
 on:
   push:
     branches:
-      - "backend-v2" # backend v2 브랜치
+      - "backend-v2-test-deploy"
 env:
   api-version: 'v2' # 브랜치 명과 반드시 동일할 것!!!
 
