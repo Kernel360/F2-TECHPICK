@@ -1,4 +1,4 @@
-import { apiClient } from '@/shared/api';
+import { apiClient } from '@/apis';
 import { TagUpdateType, UpdateTagResponseType } from '../type';
 
 const findTargetTag = (

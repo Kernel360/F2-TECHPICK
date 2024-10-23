@@ -1,4 +1,4 @@
-import { DirectoryNodeProps } from '@/shared/types/NodeData';
+import { DirectoryNodeProps } from '@/types/NodeData';
 import {
   dirIcFolder,
   dirName,
@@ -11,11 +11,11 @@ import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateFolder } from '@/features/nodeManagement/api/folder/useCreateFolder';
-import { ApiStructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
 import toast from 'react-hot-toast';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { TreeContextMenu } from '@/widgets/ContextMenu/TreeContextMenu';
 

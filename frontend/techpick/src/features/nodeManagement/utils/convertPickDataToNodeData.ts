@@ -1,6 +1,6 @@
-import { ApiPickData, ApiStructureData } from '@/shared/types/ApiTypes';
+import { ApiPickData, ApiStructureData } from '@/types/ApiTypes';
 import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
-import { NodeData } from '@/shared/types';
+import { NodeData } from '@/types';
 
 export function convertPickDataToNodeData(
   unClassifiedPickDataList: ApiPickData[],

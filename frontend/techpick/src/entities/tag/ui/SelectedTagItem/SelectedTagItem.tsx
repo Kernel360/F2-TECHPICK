@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
-import { numberToRandomColor } from '@/shared/lib';
-import { useThemeStore } from '@/shared/stores/themeStore';
+import { numberToRandomColor } from '@/utils';
+import { useThemeStore } from '@/stores/themeStore';
 import { tagTypes } from '@/entities/tag';
 import { SelectedTagContent } from './SelectedTagContent';
 import { SelectedTagLayout } from './SelectedTagLayout';

@@ -1,4 +1,4 @@
-import { apiClient } from '@/shared/api';
+import { apiClient } from '@/apis';
 import { TagType } from '../type';
 
 export const deleteTag = async (deleteTagId: TagType['tagId']) => {

@@ -22,11 +22,11 @@ import {
   unClassifiedLabelContainer,
 } from './DirectoryTreeSection.css';
 import Image from 'next/image';
-import { NodeData } from '@/shared/types/NodeData';
+import { NodeData } from '@/types/NodeData';
 import { NodeApi, Tree, TreeApi } from 'react-arborist';
 import useResizeObserver from 'use-resize-observer';
 import { useDragDropManager } from 'react-dnd';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 import {
   ChevronRight,
   CircleAlert,
@@ -44,10 +44,7 @@ import toast from 'react-hot-toast';
 import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
 import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  ApiDefaultFolderIdData,
-  ApiStructureData,
-} from '@/shared/types/ApiTypes';
+import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
 import { debounce } from 'lodash';
 import { useGetPicksByParentId } from '@/features/nodeManagement/api/pick/useGetPicksByParentId';
 

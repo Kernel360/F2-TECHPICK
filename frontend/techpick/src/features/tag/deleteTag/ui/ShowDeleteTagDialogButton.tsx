@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/components';
 import type { tagTypes } from '@/entities/tag';
 import { useDeleteTagDialogStore } from '../deleteTag.model';
 

@@ -1,4 +1,4 @@
-import { NodeData } from '@/shared/types';
+import { NodeData } from '@/types';
 import { NodeApi } from 'react-arborist';
 
 export const moveNode = (

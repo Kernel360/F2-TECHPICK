@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ToastProvider, ThemeProvider } from '@/providers';
-import '@/shared/themes/reset.css';
+import '@/styles/reset.css';
 import { DndProviderWrapper } from '@/providers/DndProviderWrapper';
 import { QueryProvider } from '@/providers/QueryProvider';
 

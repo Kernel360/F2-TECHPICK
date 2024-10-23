@@ -1,5 +1,5 @@
 import { NodeApi, TreeApi } from 'react-arborist';
-import { NodeData } from '@/shared/types';
+import { NodeData } from '@/types';
 
 export const getCurrentTreeTypeByNode = (
   currentNode: NodeApi,

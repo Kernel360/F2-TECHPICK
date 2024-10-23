@@ -2,7 +2,7 @@ import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeB
 import { NodeApi } from 'react-arborist';
 import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
 import { useQueryClient } from '@tanstack/react-query';
-import { ApiStructureData } from '@/shared/types/ApiTypes';
+import { ApiStructureData } from '@/types/ApiTypes';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
 

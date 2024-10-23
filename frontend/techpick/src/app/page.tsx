@@ -9,7 +9,7 @@ import { rootLayout } from '@/app/style.css';
 import { viewContainer, viewWrapper } from './style.css';
 import React, { useEffect, useMemo } from 'react';
 import { NodeApi } from 'react-arborist';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 import { useRouter } from 'next/navigation';
 import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';

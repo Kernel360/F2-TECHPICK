@@ -4,8 +4,8 @@ import { Dispatch, useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
 import { color } from 'techpick-shared';
-import { useThemeStore } from '@/shared/stores/themeStore';
-import { notifyError, numberToRandomColor } from '@/shared/lib';
+import { useThemeStore } from '@/stores/themeStore';
+import { notifyError, numberToRandomColor } from '@/utils';
 import { useUpdatePickMutation, useGetPickQuery } from '@/entities/pick';
 import {
   SelectedTagItem,

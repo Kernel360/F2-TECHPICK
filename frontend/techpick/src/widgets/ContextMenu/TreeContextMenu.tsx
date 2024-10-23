@@ -7,7 +7,7 @@ import {
   ContextMenuItem,
   RightSlot,
 } from './ContextMenu.css';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { useRestoreNode } from '@/features/nodeManagement/hooks/useRestoreNode';
 import toast from 'react-hot-toast';

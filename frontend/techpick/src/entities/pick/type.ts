@@ -1,4 +1,4 @@
-import { ApiTagData } from '@/shared/types/ApiTypes';
+import { ApiTagData } from '@/types/ApiTypes';
 // import { components } from '@/schema';
 // export type GetPickResponseType = components['schemas']['PickResponse'];
 

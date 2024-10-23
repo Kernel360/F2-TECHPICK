@@ -1,4 +1,4 @@
-import { ApiDefaultFolderIdData } from '@/shared/types/ApiTypes';
+import { ApiDefaultFolderIdData } from '@/types/ApiTypes';
 import { useQuery } from '@tanstack/react-query';
 import { getFoldersIdData } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
 

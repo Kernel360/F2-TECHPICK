@@ -1,4 +1,4 @@
-import { NodeData } from '@/shared/types/NodeData';
+import { NodeData } from '@/types/NodeData';
 
 export interface ApiDefaultFolderIdData {
   userId: number;

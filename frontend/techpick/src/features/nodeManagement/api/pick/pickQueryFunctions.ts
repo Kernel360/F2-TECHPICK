@@ -1,5 +1,5 @@
-import { apiClient } from '@/shared/api/apiClient';
-import { ApiPickData, ApiPickRequestType } from '@/shared/types/ApiTypes';
+import { apiClient } from '@/apis/apiClient';
+import { ApiPickData, ApiPickRequestType } from '@/types/ApiTypes';
 
 export const getUnclassifiedPicks = async (): Promise<ApiPickData[]> => {
   try {

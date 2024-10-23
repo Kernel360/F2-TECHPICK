@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import { NodeData } from '@/shared/types';
+import { NodeData } from '@/types';
 import { NodeApi, TreeApi } from 'react-arborist';
 import React, { createRef } from 'react';
-import { ApiDefaultFolderIdData, ApiPickData } from '@/shared/types/ApiTypes';
+import { ApiDefaultFolderIdData, ApiPickData } from '@/types/ApiTypes';
 
 interface TreeState {
   treeData: NodeData[];

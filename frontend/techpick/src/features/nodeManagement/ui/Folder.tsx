@@ -6,7 +6,7 @@ import {
 } from '@/features/nodeManagement/ui/folder.css';
 import { NodeApi } from 'react-arborist';
 import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 
 export function Folder({ node }: { node: NodeApi }) {
   const ref = useDragHook(node);

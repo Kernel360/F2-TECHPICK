@@ -1,4 +1,4 @@
-import { apiClient, returnErrorFromHTTPError } from '@/shared/api';
+import { apiClient, returnErrorFromHTTPError } from '@/apis';
 import { HTTPError } from 'ky';
 import type { GetPickResponseType, UpdatePickRequestType } from '../../type';
 

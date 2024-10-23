@@ -1,4 +1,4 @@
-import { NodeData } from '@/shared/types';
+import { NodeData } from '@/types';
 
 export function removeByIdFromStructure(
   structure: NodeData[],

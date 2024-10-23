@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 
 import { Folder } from '@/features/nodeManagement/ui/Folder';
-import { useTreeStore } from '@/shared/stores/treeStore';
+import { useTreeStore } from '@/stores/treeStore';
 import { useDropHook } from '@/features/nodeManagement/hooks/useDropHook';
 import { folderViewSection } from '@/widgets/LinkEditorSection/LinkEditorSection.css';
 import { PickCard, PickCardGridLayout } from '@/entities/pick';

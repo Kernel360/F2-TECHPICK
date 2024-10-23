@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { HTTPError } from 'ky';
-import { handleHTTPError } from '@/shared/api';
+import { handleHTTPError } from '@/apis';
 import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
 import { getTagList, createTag, deleteTag, updateTag } from '../api';
 

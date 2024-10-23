@@ -4,7 +4,7 @@ import { Dispatch, useRef, useState } from 'react';
 import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import DOMPurify from 'dompurify';
-import { notifyError } from '@/shared/lib';
+import { notifyError } from '@/utils';
 import { tagTypes, useTagStore } from '@/entities/tag';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverTriggerButton } from './PopoverTriggerButton';

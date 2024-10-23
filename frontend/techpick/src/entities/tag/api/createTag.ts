@@ -1,4 +1,4 @@
-import { apiClient } from '@/shared/api';
+import { apiClient } from '@/apis';
 import { CreateTagRequestType, CreateTagResponseType } from '../type';
 
 export const createTag = async (createTag: CreateTagRequestType) => {
