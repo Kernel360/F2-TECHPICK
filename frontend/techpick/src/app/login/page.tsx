@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
-import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
+import { getClientCookie } from '@/utils';
 import {
   googleLoginContainer,
   kakaoLoginContainer,
