@@ -9,7 +9,7 @@ import { notifyError, numberToRandomColor } from '@/utils';
 import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
 import { useTagStore } from '@/stores/tagStore';
 import { SelectedTagItem, SelectedTagListLayout } from '@/components';
-import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
+import { DeleteTagDialog, DeselectTagButton } from '@/components';
 import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
 import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
 import {

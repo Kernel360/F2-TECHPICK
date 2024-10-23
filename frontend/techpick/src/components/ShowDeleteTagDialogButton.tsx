@@ -2,7 +2,7 @@
 
 import { Button } from '@/components';
 import type { TagType } from '@/types';
-import { useDeleteTagDialogStore } from '../deleteTag.model';
+import { useDeleteTagDialogStore } from '@/stores/deleteTagDialogStore';
 
 export function ShowDeleteTagDialogButton({
   tag,

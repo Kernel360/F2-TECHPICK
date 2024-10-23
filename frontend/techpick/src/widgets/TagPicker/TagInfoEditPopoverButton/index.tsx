@@ -6,7 +6,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import DOMPurify from 'dompurify';
 import { notifyError } from '@/utils';
 import { useTagStore } from '@/stores/tagStore';
-import { ShowDeleteTagDialogButton } from '@/features/tag';
+import { ShowDeleteTagDialogButton } from '@/components';
 import { PopoverTriggerButton } from './PopoverTriggerButton';
 import { PopoverOverlay } from './PopoverOverlay';
 import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';

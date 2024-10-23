@@ -6,3 +6,6 @@ export { PickCard } from './PickCard/PickCard';
 export { PickCardGridLayout } from './PickCardGridLayout/PickCardGridLayout';
 export { SelectedTagItem } from './SelectedTagItem';
 export { SelectedTagListLayout } from './SelectedTagListLayout/SelectedTagListLayout';
+export { DeleteTagDialog } from './DeleteTagDialog';
+export { DeselectTagButton } from './DeselectTagButton/DeselectTagButton';
+export { ShowDeleteTagDialogButton } from './ShowDeleteTagDialogButton';
