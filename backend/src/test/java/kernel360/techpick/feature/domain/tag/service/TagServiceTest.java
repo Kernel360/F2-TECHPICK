@@ -174,7 +174,7 @@ class TagServiceTest {
 
 	@Test
 	@DisplayName("태그 저장 동시성 테스트")
-		// @Transactional
+	@Transactional
 	void createTagConcurrencyTest() throws InterruptedException {
 		// given
 		int threadCount = 20;
