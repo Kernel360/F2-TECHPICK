@@ -11,8 +11,7 @@ import kernel360.techpick.feature.domain.tag.dto.TagCommand;
 import kernel360.techpick.feature.domain.tag.dto.TagMapper;
 import kernel360.techpick.feature.domain.tag.dto.TagResult;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
-import kernel360.techpick.feature.infrastructure.tag.reader.TagReader;
-import kernel360.techpick.feature.infrastructure.tag.writer.TagWriter;
+import kernel360.techpick.feature.infrastructure.tag.TagAdaptor;
 import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
 import lombok.RequiredArgsConstructor;
 
@@ -20,42 +19,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
 
-	private final TagReader tagReader;
-	private final TagWriter tagWriter;
+	private final TagAdaptor tagAdaptor;
 	private final TagMapper tagMapper;
 	private final PickAdaptor pickAdaptor;
 	private final UserReader userReader;
 
 	@Override
 	@Transactional(readOnly = true)
-	public TagResult readTag(TagCommand.Read command) {
-		Long userId = userReader.readCurrentUserId();
-		Tag tag = tagReader.readTag(userId, command.tagId());
+	public TagResult getTag(TagCommand.Read command) {
+		Tag tag = tagAdaptor.getTag(command.userId(), command.tagId());
 		return tagMapper.toResult(tag);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<TagResult> readUserTagList() {
-		Long userId = userReader.readCurrentUserId();
-		List<Tag> tagList = tagReader.readTagList(userId);
+	public List<TagResult> getUserTagList(Long userId) {
+		List<Tag> tagList = tagAdaptor.getTagList(userId);
 		return tagList.stream().map(tagMapper::toResult).toList();
 	}
 
 	@Override
 	@Transactional
-	public TagResult createTag(TagCommand.Create command) {
-		User user = userReader.readCurrentUser();
+	public TagResult saveTag(TagCommand.Create command) {
+		User user = userReader.readUser(command.userId());
 		Tag tag = tagMapper.toEntity(command, user);
-		tagWriter.writeTag(tag);
+		tagAdaptor.saveTag(tag);
 		return tagMapper.toResult(tag);
 	}
 
 	@Override
 	@Transactional
 	public TagResult updateTag(TagCommand.Update command) {
-		Long userId = userReader.readCurrentUserId();
-		Tag tag = tagReader.readTag(userId, command.tagId());
+		Tag tag = tagAdaptor.getTag(command.userId(), command.tagId());
 		tag.updateTagName(command.name());
 		tag.updateColorNumber(command.colorNumber());
 		return tagMapper.toResult(tag);
@@ -64,7 +59,7 @@ public class TagServiceImpl implements TagService {
 	@Override
 	@Transactional
 	public void moveUserTag(TagCommand.Move command) {
-		User user = userReader.readCurrentUser();
+		User user = userReader.readUser(command.userId());
 		List<Long> userTagOrderList = user.getTagOrderList();
 
 		userTagOrderList.remove(command.tagId());
@@ -75,7 +70,7 @@ public class TagServiceImpl implements TagService {
 	@Override
 	@Transactional
 	public void deleteTag(TagCommand.Delete command) {
-		tagWriter.removeTag(command.tagId());
+		tagAdaptor.deleteTag(command.tagId(), command.userId());
 		pickAdaptor.detachTagFromEveryPick(command.tagId());
 	}
 }

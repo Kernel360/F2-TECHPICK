@@ -7,11 +7,11 @@ import kernel360.techpick.feature.domain.tag.dto.TagResult;
 
 public interface TagService {
 
-	TagResult readTag(TagCommand.Read command);
+	TagResult getTag(TagCommand.Read command);
 
-	List<TagResult> readUserTagList();
+	List<TagResult> getUserTagList(Long userId);
 
-	TagResult createTag(TagCommand.Create command);
+	TagResult saveTag(TagCommand.Create command);
 
 	TagResult updateTag(TagCommand.Update command);
 
