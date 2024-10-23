@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { numberToRandomColor } from '@/utils';
 import { useThemeStore } from '@/stores/themeStore';
-import { tagTypes } from '@/entities/tag';
+import { TagType } from '@/types';
 import { SelectedTagContent } from './SelectedTagContent';
 import { SelectedTagLayout } from './SelectedTagLayout';
 
@@ -22,6 +22,6 @@ export function SelectedTagItem({ tag, children }: SelectedTagItemProps) {
 }
 
 interface SelectedTagItemProps {
-  tag: tagTypes.TagType;
+  tag: TagType;
   children?: React.ReactNode;
 }

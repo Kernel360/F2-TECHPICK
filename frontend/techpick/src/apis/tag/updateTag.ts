@@ -1,5 +1,5 @@
 import { apiClient } from '@/apis';
-import { TagUpdateType, UpdateTagResponseType } from '../type';
+import { TagUpdateType, UpdateTagResponseType } from '@/types';
 
 const findTargetTag = (
   tagList: UpdateTagResponseType,

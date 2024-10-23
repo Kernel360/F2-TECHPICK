@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { HTTPError } from 'ky';
 import { handleHTTPError } from '@/apis';
-import { TagType, TagUpdateType, CreateTagRequestType } from '../type';
-import { getTagList, createTag, deleteTag, updateTag } from '../api';
+import type { TagType, TagUpdateType, CreateTagRequestType } from '@/types';
+import { getTagList, createTag, deleteTag, updateTag } from '@/apis/tag';
 
 type TagState = {
   tagList: TagType[];

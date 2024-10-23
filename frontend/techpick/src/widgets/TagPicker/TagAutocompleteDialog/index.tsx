@@ -7,12 +7,8 @@ import { color } from 'techpick-shared';
 import { useThemeStore } from '@/stores/themeStore';
 import { notifyError, numberToRandomColor } from '@/utils';
 import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
-import {
-  SelectedTagItem,
-  SelectedTagListLayout,
-  useTagStore,
-  tagTypes,
-} from '@/entities/tag';
+import { useTagStore } from '@/stores/tagStore';
+import { SelectedTagItem, SelectedTagListLayout } from '@/components';
 import { DeleteTagDialog, DeselectTagButton } from '@/features/tag';
 import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
 import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
@@ -30,6 +26,7 @@ import {
   tagListStyle,
   tagListLoadingStyle,
 } from './TagAutocompleteDialog.css';
+import type { TagType } from '@/types';
 
 export function TagAutocompleteDialog({
   open,
@@ -60,7 +57,7 @@ export function TagAutocompleteDialog({
     setTagInputValue('');
   };
 
-  const selectTag = (tag: tagTypes.TagType) => {
+  const selectTag = (tag: TagType) => {
     const index = selectedTagList.findIndex(
       (selectedTag) => selectedTag.tagId === tag.tagId
     );
@@ -72,7 +69,7 @@ export function TagAutocompleteDialog({
     setSelectedTagList([...selectedTagList, tag]);
   };
 
-  const deselectTag = (tag: tagTypes.TagType) => {
+  const deselectTag = (tag: TagType) => {
     const filteredSelectedTagList = selectedTagList.filter(
       (selectedTag) => selectedTag.tagId !== tag.tagId
     );
@@ -80,7 +77,7 @@ export function TagAutocompleteDialog({
     setSelectedTagList([...filteredSelectedTagList]);
   };
 
-  const onSelectTag = (tag: tagTypes.TagType) => {
+  const onSelectTag = (tag: TagType) => {
     selectTag(tag);
     focusTagInput();
     clearTagInputValue();
@@ -254,6 +251,6 @@ interface TagSelectionDialogProps {
   onOpenChange: (open: boolean) => void;
   container?: React.RefObject<HTMLElement>;
   pickId: number;
-  selectedTagList: tagTypes.TagType[];
-  setSelectedTagList: Dispatch<React.SetStateAction<tagTypes.TagType[]>>;
+  selectedTagList: TagType[];
+  setSelectedTagList: Dispatch<React.SetStateAction<TagType[]>>;
 }

@@ -6,7 +6,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { useQueryClient } from '@tanstack/react-query';
 import { notifyError } from '@/utils';
 import { Text, Button, Gap } from '@/components';
-import { useTagStore } from '@/entities/tag';
+import { useTagStore } from '@/stores/tagStore';
 import { useDeleteTagDialogStore } from '../../deleteTag.model';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
 

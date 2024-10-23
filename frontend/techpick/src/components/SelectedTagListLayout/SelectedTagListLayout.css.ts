@@ -1,5 +1,4 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-import { SelectedTagCommonStyle } from './SelectedTagCommonStyle.css';
 import { color } from 'techpick-shared';
 
 export const ListLayoutHeightVariants = styleVariants({
@@ -34,5 +33,5 @@ export const SelectedTagListLayoutStyle = style({
   gap: '4px',
   flexWrap: 'wrap',
   padding: '4px',
-  width: SelectedTagCommonStyle.width,
+  width: '264px',
 });

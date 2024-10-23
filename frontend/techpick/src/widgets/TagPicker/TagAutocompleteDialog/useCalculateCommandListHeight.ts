@@ -1,7 +1,7 @@
 'use client';
 
 import { MutableRefObject, useEffect, useState } from 'react';
-import { useTagStore } from '@/entities/tag';
+import { useTagStore } from '@/stores/tagStore';
 
 export function useCalculateCommandListHeight(
   selectedTagListRef: MutableRefObject<HTMLDivElement | null>

@@ -1,5 +1,5 @@
 import { apiClient } from '@/apis';
-import { CreateTagRequestType, CreateTagResponseType } from '../type';
+import { CreateTagRequestType, CreateTagResponseType } from '@/types';
 
 export const createTag = async (createTag: CreateTagRequestType) => {
   const response = await apiClient.post<CreateTagResponseType>('tag', {

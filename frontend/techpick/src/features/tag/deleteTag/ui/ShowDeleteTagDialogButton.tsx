@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components';
-import type { tagTypes } from '@/entities/tag';
+import type { TagType } from '@/types';
 import { useDeleteTagDialogStore } from '../deleteTag.model';
 
 export function ShowDeleteTagDialogButton({
@@ -24,6 +24,6 @@ export function ShowDeleteTagDialogButton({
 }
 
 interface ShowDeleteTagDialogButtonProps {
-  tag: tagTypes.TagType;
+  tag: TagType;
   onClick?: () => void;
 }

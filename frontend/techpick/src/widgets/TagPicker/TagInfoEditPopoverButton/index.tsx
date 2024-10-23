@@ -5,7 +5,7 @@ import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import DOMPurify from 'dompurify';
 import { notifyError } from '@/utils';
-import { tagTypes, useTagStore } from '@/entities/tag';
+import { useTagStore } from '@/stores/tagStore';
 import { ShowDeleteTagDialogButton } from '@/features/tag';
 import { PopoverTriggerButton } from './PopoverTriggerButton';
 import { PopoverOverlay } from './PopoverOverlay';
@@ -15,6 +15,7 @@ import {
   tagInputStyle,
 } from './TagInfoEditPopoverButton.css';
 import { useQueryClient } from '@tanstack/react-query';
+import { TagType } from '@/types';
 
 export function TagInfoEditPopoverButton({
   tag,
@@ -147,7 +148,7 @@ export function TagInfoEditPopoverButton({
 }
 
 interface TagInfoEditPopoverButtonProps {
-  tag: tagTypes.TagType;
-  selectedTagList: tagTypes.TagType[];
-  setSelectedTagList: Dispatch<React.SetStateAction<tagTypes.TagType[]>>;
+  tag: TagType;
+  selectedTagList: TagType[];
+  setSelectedTagList: Dispatch<React.SetStateAction<TagType[]>>;
 }
