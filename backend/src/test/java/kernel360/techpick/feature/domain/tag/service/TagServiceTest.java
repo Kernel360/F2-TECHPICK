@@ -97,7 +97,8 @@ class TagServiceTest {
 
 		// when, then
 		assertThatThrownBy(() -> getTagCreateResult(0))
-			.isInstanceOf(ApiTagException.class);
+			.isInstanceOf(ApiTagException.class)
+			.hasMessageStartingWith(ApiTagException.TAG_ALREADY_EXIST().getMessage());
 	}
 
 	@Test
@@ -147,6 +148,12 @@ class TagServiceTest {
 		assertThat(user.getTagOrderList().get(1)).isNotEqualTo(originalTagIdList.get(3));
 	}
 
+	// TODO: orderIdx 음수인 경우 테스트 필요
+	@Test
+	@DisplayName("태그 이동 시 Index 음수인 경우 테스트")
+	void moveTagNegativeIndexTest() {
+	}
+
 	@Test
 	@DisplayName("태그 삭제 테스트")
 	@Transactional
@@ -161,17 +168,17 @@ class TagServiceTest {
 
 		// then
 		assertThatThrownBy(() -> tagService.getTag(read))
-			.isInstanceOf(ApiTagException.class);
+			.isInstanceOf(ApiTagException.class)
+			.hasMessageStartingWith(ApiTagException.TAG_NOT_FOUND().getMessage());
 	}
 
 	@Test
 	@DisplayName("태그 저장 동시성 테스트")
-	@Transactional
+		// @Transactional
 	void createTagConcurrencyTest() throws InterruptedException {
 		// given
 		int threadCount = 20;
 		ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
-		executorService = new DelegatingSecurityContextExecutorService(executorService);
 		CountDownLatch countDownLatch = new CountDownLatch(threadCount);
 
 		AtomicInteger successCount = new AtomicInteger();
