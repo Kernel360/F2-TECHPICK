@@ -1,6 +1,6 @@
 import { HTTPError } from 'ky';
 import { apiClient, returnErrorFromHTTPError } from '@/apis';
-import type { GetPickResponseType } from '../../type';
+import type { GetPickResponseType } from '../pickApi.type';
 
 export const getPick = async (pickId: number): Promise<GetPickResponseType> => {
   try {

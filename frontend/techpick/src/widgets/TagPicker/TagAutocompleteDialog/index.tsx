@@ -6,7 +6,7 @@ import { BarLoader } from 'react-spinners';
 import { color } from 'techpick-shared';
 import { useThemeStore } from '@/stores/themeStore';
 import { notifyError, numberToRandomColor } from '@/utils';
-import { useUpdatePickMutation, useGetPickQuery } from '@/entities/pick';
+import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
 import {
   SelectedTagItem,
   SelectedTagListLayout,

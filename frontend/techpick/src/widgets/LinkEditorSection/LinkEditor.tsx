@@ -4,7 +4,7 @@ import { Folder } from '@/features/nodeManagement/ui/Folder';
 import { useTreeStore } from '@/stores/treeStore';
 import { useDropHook } from '@/features/nodeManagement/hooks/useDropHook';
 import { folderViewSection } from '@/widgets/LinkEditorSection/LinkEditorSection.css';
-import { PickCard, PickCardGridLayout } from '@/entities/pick';
+import { PickCard, PickCardGridLayout } from '@/components';
 import { TagPicker } from '@/widgets/TagPicker';
 
 export const LinkEditor = () => {

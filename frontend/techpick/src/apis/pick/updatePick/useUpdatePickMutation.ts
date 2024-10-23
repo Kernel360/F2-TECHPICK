@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updatePick } from './updatePick';
-import type { UpdatePickRequestType } from '../../type';
+import type { UpdatePickRequestType } from '../pickApi.type';
 
 export const useUpdatePickMutation = (pickId: number) => {
   const queryClient = useQueryClient();

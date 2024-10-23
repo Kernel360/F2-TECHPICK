@@ -3,7 +3,7 @@
 import { PropsWithChildren } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useGetPickQuery } from '../api';
+import { useGetPickQuery } from '@/apis/pick';
 import {
   pickCardLayout,
   cardImageSectionStyle,
@@ -17,12 +17,13 @@ import {
 import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
 import { NodeApi } from 'react-arborist';
 
-export function PickCard({
-  children,
-  node,
-}: PropsWithChildren<PickCardProps>) {
-  const { data: pickData, isLoading, isError } = useGetPickQuery(node.data.pickId);
-    const ref = useDragHook(node);
+export function PickCard({ children, node }: PropsWithChildren<PickCardProps>) {
+  const {
+    data: pickData,
+    isLoading,
+    isError,
+  } = useGetPickQuery(node.data.pickId);
+  const ref = useDragHook(node);
 
   if (isLoading) {
     return (
@@ -43,8 +44,9 @@ export function PickCard({
 
   return (
     <Link href={url} target="_blank" className={linkStyle}>
-      <div className={pickCardLayout}
-           ref={ref as unknown as React.LegacyRef<HTMLDivElement>}
+      <div
+        className={pickCardLayout}
+        ref={ref as unknown as React.LegacyRef<HTMLDivElement>}
       >
         <div className={cardImageSectionStyle}>
           {imageUrl ? (

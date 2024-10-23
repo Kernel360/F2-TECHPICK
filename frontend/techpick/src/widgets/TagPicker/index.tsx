@@ -6,7 +6,7 @@ import {
   SelectedTagListLayout,
   tagTypes,
 } from '@/entities/tag';
-import { useGetPickQuery } from '@/entities/pick/api';
+import { useGetPickQuery } from '@/apis/pick';
 import { TagAutocompleteDialog } from './TagAutocompleteDialog';
 import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 
