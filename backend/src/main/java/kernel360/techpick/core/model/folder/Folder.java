@@ -2,6 +2,7 @@ package kernel360.techpick.core.model.folder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -64,6 +65,22 @@ public class Folder extends BaseEntity {
 	@Convert(converter = OrderConverter.class)
 	@Column(name = "pick_order", columnDefinition = "longblob", nullable = false)
 	private List<Long> childPickOrderList = new ArrayList<>();
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Folder folder)) {
+			return false;
+		}
+		return Objects.equals(id, folder.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
+	}
 
 	public void updateFolderName(String name) {
 		this.name = name;
