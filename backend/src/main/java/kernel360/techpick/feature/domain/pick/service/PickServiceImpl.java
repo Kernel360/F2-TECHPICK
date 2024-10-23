@@ -9,7 +9,7 @@ import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
-import kernel360.techpick.feature.infrastructure.folder.reader.FolderReader;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
 import kernel360.techpick.feature.infrastructure.link.writer.LinkWriter;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
@@ -19,10 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PickServiceImpl implements PickService {
 	private final UserReader userReader; // TODO: change to UserAdaptor
-	private final FolderReader folderReader; // TODO: change to FolderAdaptor
 	private final LinkWriter linkWriter;
 	private final PickAdaptor pickAdaptor;
 	private final PickMapper pickMapper;
+	private final FolderAdapter folderAdapter;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class PickServiceImpl implements PickService {
 	@Transactional
 	public PickResult saveNewPick(PickCommand.Create command) {
 		var user = userReader.readUser(command.userId());
-		var folder = folderReader.readFolder(user, command.parentFolderId());
+		var folder = folderAdapter.readFolder(user, command.parentFolderId());
 		var link = linkWriter.writeLink(command.linkInfo());
 		var pick = pickAdaptor.savePick(pickMapper.toEntity(command, user, folder, link));
 		return pickMapper.toCreateResult(pick);
@@ -59,7 +59,7 @@ public class PickServiceImpl implements PickService {
 	public PickResult movePick(PickCommand.Move command) {
 		var user = userReader.readUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
-		var destinationFolder = folderReader.readFolder(user, command.parentFolderId());
+		var destinationFolder = folderAdapter.readFolder(user, command.parentFolderId());
 
 		if (isParentFolderChanged(pick.getParentFolder(), destinationFolder)) {
 			movePickToOtherFolder(pick, destinationFolder, command.orderIdx());
