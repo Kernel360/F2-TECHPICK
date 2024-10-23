@@ -10,13 +10,13 @@ import {
 import Image from 'next/image';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateFolder } from '@/features/nodeManagement/api/folder/useCreateFolder';
+import { useCreateFolder } from '@/components/nodeManagement/api/folder/useCreateFolder';
 import { ApiStructureData } from '@/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
-import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
+import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
 import toast from 'react-hot-toast';
 import { useTreeStore } from '@/stores/treeStore';
-import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { TreeContextMenu } from '@/widgets/ContextMenu/TreeContextMenu';
 
 export const DirectoryNode = ({

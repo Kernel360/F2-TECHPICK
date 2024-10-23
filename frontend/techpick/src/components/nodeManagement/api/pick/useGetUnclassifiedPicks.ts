@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUnclassifiedPicks } from '@/features/nodeManagement/api/pick/pickQueryFunctions';
+import { getUnclassifiedPicks } from '@/components/nodeManagement/api/pick/pickQueryFunctions';
 import { ApiPickData } from '@/types/ApiTypes';
 
 export const useGetUnclassifiedPicks = () => {

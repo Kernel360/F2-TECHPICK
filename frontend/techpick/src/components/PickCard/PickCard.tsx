@@ -14,7 +14,7 @@ import {
   skeleton,
   linkStyle,
 } from './pickCard.css';
-import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
+import { useDragHook } from '@/components/nodeManagement/hooks/useDragHook';
 import { NodeApi } from 'react-arborist';
 
 export function PickCard({ children, node }: PropsWithChildren<PickCardProps>) {

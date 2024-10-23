@@ -35,18 +35,18 @@ import {
   Plus,
   Trash2,
 } from 'lucide-react';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/folder/useGetRootAndRecycleBinData';
-import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
+import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
+import { useTreeHandlers } from '@/components/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
 import { useLogout } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
-import { addNodeToStructure } from '@/features/nodeManagement/utils/addNodeToStructure';
+import { convertPickDataToNodeData } from '@/components/nodeManagement/utils/convertPickDataToNodeData';
+import { addNodeToStructure } from '@/components/nodeManagement/utils/addNodeToStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
 import { debounce } from 'lodash';
-import { useGetPicksByParentId } from '@/features/nodeManagement/api/pick/useGetPicksByParentId';
+import { useGetPicksByParentId } from '@/components/nodeManagement/api/pick/useGetPicksByParentId';
 
 export function DirectoryTreeSection({
   defaultFolderIdData,

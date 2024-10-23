@@ -3,9 +3,9 @@ import Image from 'next/image';
 import {
   folderWrapper,
   folderWrapperFocused,
-} from '@/features/nodeManagement/ui/folder.css';
+} from '@/components/nodeManagement/ui/folder.css';
 import { NodeApi } from 'react-arborist';
-import { useDragHook } from '@/features/nodeManagement/hooks/useDragHook';
+import { useDragHook } from '@/components/nodeManagement/hooks/useDragHook';
 import { useTreeStore } from '@/stores/treeStore';
 
 export function Folder({ node }: { node: NodeApi }) {

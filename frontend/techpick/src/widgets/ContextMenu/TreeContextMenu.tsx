@@ -8,8 +8,8 @@ import {
   RightSlot,
 } from './ContextMenu.css';
 import { useTreeStore } from '@/stores/treeStore';
-import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
-import { useRestoreNode } from '@/features/nodeManagement/hooks/useRestoreNode';
+import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { useRestoreNode } from '@/components/nodeManagement/hooks/useRestoreNode';
 import toast from 'react-hot-toast';
 
 interface ContextMenuWrapperProps {

@@ -10,3 +10,5 @@ export { DeleteTagDialog } from './DeleteTagDialog';
 export { DeselectTagButton } from './DeselectTagButton/DeselectTagButton';
 export { ShowDeleteTagDialogButton } from './ShowDeleteTagDialogButton';
 export { ToggleThemeButton } from './ToggleThemeButton';
+export { Folder } from './nodeManagement/ui/Folder';
+export { Pick } from './nodeManagement/ui/Pick';

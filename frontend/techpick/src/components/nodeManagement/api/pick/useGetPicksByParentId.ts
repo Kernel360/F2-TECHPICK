@@ -1,4 +1,4 @@
-import { getPicksByParentId } from '@/features/nodeManagement/api/pick/pickQueryFunctions';
+import { getPicksByParentId } from '@/components/nodeManagement/api/pick/pickQueryFunctions';
 import { useQuery } from '@tanstack/react-query';
 import { ApiPickData } from '@/types/ApiTypes';
 

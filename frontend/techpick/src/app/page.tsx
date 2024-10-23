@@ -12,7 +12,7 @@ import { NodeApi } from 'react-arborist';
 import { useTreeStore } from '@/stores/treeStore';
 import { useRouter } from 'next/navigation';
 import { getClientCookie } from '@/utils';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
 
 export default function MainPage() {
   const router = useRouter();

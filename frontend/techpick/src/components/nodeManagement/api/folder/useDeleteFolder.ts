@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
+import { deleteFolder } from '@/components/nodeManagement/api/folder/folderQueryFunctions';
 
 export const useDeleteFolder = () => {
   return useMutation({

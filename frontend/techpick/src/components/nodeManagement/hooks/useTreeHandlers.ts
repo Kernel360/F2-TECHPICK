@@ -1,21 +1,21 @@
 import { NodeData } from '@/types';
-import { createNode } from '@/features/nodeManagement/utils/createNode';
-import { moveNode } from '@/features/nodeManagement/utils/moveNode';
-import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/folder/useGetRootAndRecycleBinData';
+import { createNode } from '@/components/nodeManagement/utils/createNode';
+import { moveNode } from '@/components/nodeManagement/utils/moveNode';
+import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
 import { useTreeStore } from '@/stores/treeStore';
 import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/features/nodeManagement/api/folder/useMoveFolder';
-import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
-import { useRenameFolder } from '@/features/nodeManagement/api/folder/useRenameFolder';
-import { removeByIdFromStructure } from '@/features/nodeManagement/utils/removeByIdFromStructure';
-import { getNewIdFromStructure } from '@/features/nodeManagement/utils/getNewIdFromStructure';
+import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
+import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useRenameFolder } from '@/components/nodeManagement/api/folder/useRenameFolder';
+import { removeByIdFromStructure } from '@/components/nodeManagement/utils/removeByIdFromStructure';
+import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
 import { ApiStructureData } from '@/types/ApiTypes';
 import toast from 'react-hot-toast';
-import { getCurrentTreeTypeByNode } from '@/features/nodeManagement/utils/getCurrentTreeTypeByNode';
-import { deleteFolder } from '@/features/nodeManagement/api/folder/folderQueryFunctions';
-import { useMovePick } from '@/features/nodeManagement/api/pick/useMovePick';
-import { deletePick } from '@/features/nodeManagement/api/pick/pickQueryFunctions';
+import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { deleteFolder } from '@/components/nodeManagement/api/folder/folderQueryFunctions';
+import { useMovePick } from '@/components/nodeManagement/api/pick/useMovePick';
+import { deletePick } from '@/components/nodeManagement/api/pick/pickQueryFunctions';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =
