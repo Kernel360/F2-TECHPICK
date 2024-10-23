@@ -7,7 +7,7 @@ import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
-import kernel360.techpick.feature.infrastructure.folder.reader.FolderReader;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
 import kernel360.techpick.feature.infrastructure.link.writer.LinkWriter;
 import kernel360.techpick.feature.infrastructure.pick.reader.PickReader;
 import kernel360.techpick.feature.infrastructure.pick.writer.PickWriter;
@@ -22,7 +22,7 @@ public class PickServiceImpl implements PickService {
 	private final PickWriter pickWriter;
 	private final PickMapper pickMapper;
 	private final LinkWriter linkWriter;
-	private final FolderReader folderReader;
+	private final FolderAdapter folderAdapter;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class PickServiceImpl implements PickService {
 	@Transactional
 	public PickResult.Create saveNewPick(PickCommand.Create command) {
 		var user = userReader.readCurrentUser();
-		var folder = folderReader.readFolder(user, command.parentFolderId());
+		var folder = folderAdapter.readFolder(user, command.parentFolderId());
 		var link = linkWriter.writeLink(command.linkInfo());
 		var pick = pickWriter.writePick(pickMapper.toEntity(command, user, folder, link));
 		return pickMapper.toCreateResult(pick);
@@ -66,7 +66,7 @@ public class PickServiceImpl implements PickService {
 		}
 		// if moving to another folder
 		originalParentFolder.removeChildPickOrder(command.pickId());
-		var newParentFolder = folderReader.readFolder(user, command.parentFolderId());
+		var newParentFolder = folderAdapter.readFolder(user, command.parentFolderId());
 		newParentFolder.updateChildPickOrder(command.pickId(), command.orderIdx());
 		pick.updateParentFolder(newParentFolder);
 		return pickMapper.toMoveResult(pick);
