@@ -10,8 +10,7 @@ import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.tag.dto.TagCommand;
 import kernel360.techpick.feature.domain.tag.dto.TagMapper;
 import kernel360.techpick.feature.domain.tag.dto.TagResult;
-import kernel360.techpick.feature.domain.tag.exception.ApiTagException;
-import kernel360.techpick.feature.infrastructure.pick.writer.PickWriter;
+import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import kernel360.techpick.feature.infrastructure.tag.reader.TagReader;
 import kernel360.techpick.feature.infrastructure.tag.writer.TagWriter;
 import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
@@ -24,7 +23,7 @@ public class TagServiceImpl implements TagService {
 	private final TagReader tagReader;
 	private final TagWriter tagWriter;
 	private final TagMapper tagMapper;
-	private final PickWriter pickWriter;
+	private final PickAdaptor pickAdaptor;
 	private final UserReader userReader;
 
 	@Override
@@ -77,6 +76,6 @@ public class TagServiceImpl implements TagService {
 	@Transactional
 	public void deleteTag(TagCommand.Delete command) {
 		tagWriter.removeTag(command.tagId());
-		pickWriter.removePickTag(command.tagId());
+		pickAdaptor.detachTagFromEveryPick(command.tagId());
 	}
 }
