@@ -11,7 +11,7 @@ import React, { useEffect, useMemo } from 'react';
 import { NodeApi } from 'react-arborist';
 import { useTreeStore } from '@/stores/treeStore';
 import { useRouter } from 'next/navigation';
-import { getClientCookie } from '@/features/userManagement/utils/getClientCookie';
+import { getClientCookie } from '@/utils';
 import { useGetDefaultFolderData } from '@/features/nodeManagement/api/folder/useGetDefaultFolderData';
 
 export default function MainPage() {

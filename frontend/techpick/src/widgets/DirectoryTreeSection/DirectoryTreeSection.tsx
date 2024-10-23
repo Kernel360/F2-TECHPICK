@@ -38,7 +38,7 @@ import {
 import { useGetRootAndRecycleBinData } from '@/features/nodeManagement/api/folder/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/features/nodeManagement/hooks/useTreeHandlers';
 import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
-import { useLogout } from '@/features/userManagement/api/useLogout';
+import { useLogout } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { convertPickDataToNodeData } from '@/features/nodeManagement/utils/convertPickDataToNodeData';
