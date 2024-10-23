@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class UserReaderImpl implements UserReader {
-	UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public User readUser(Long userId) {

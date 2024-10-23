@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 import kernel360.techpick.core.model.common.BaseEntity;
 import kernel360.techpick.core.util.OrderConverter;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -94,6 +95,7 @@ public class User extends BaseEntity /* implements UserDetails --> 시큐리티 
 		return Objects.hashCode(id);
 	}
 
+	@Builder
 	private User(
 		SocialType socialProvider,
 		String socialProviderId,
