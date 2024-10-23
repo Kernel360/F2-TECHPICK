@@ -11,7 +11,7 @@ import { NodeApi } from 'react-arborist';
 import { ArrowDownAZ, Search } from 'lucide-react';
 import { useTreeStore } from '@/stores/treeStore';
 import { LinkEditor } from '@/widgets/LinkEditorSection/LinkEditor';
-import { ToggleThemeButton } from '@/features';
+import { ToggleThemeButton } from '@/components';
 
 export function LinkEditorSection() {
   const { focusedNode, treeRef } = useTreeStore();

@@ -9,3 +9,4 @@ export { SelectedTagListLayout } from './SelectedTagListLayout/SelectedTagListLa
 export { DeleteTagDialog } from './DeleteTagDialog';
 export { DeselectTagButton } from './DeselectTagButton/DeselectTagButton';
 export { ShowDeleteTagDialogButton } from './ShowDeleteTagDialogButton';
+export { ToggleThemeButton } from './ToggleThemeButton';
