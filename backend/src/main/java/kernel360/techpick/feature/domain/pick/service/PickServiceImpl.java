@@ -1,5 +1,7 @@
 package kernel360.techpick.feature.domain.pick.service;
 
+import java.util.List;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,10 +49,8 @@ public class PickServiceImpl implements PickService {
 	public PickResult updatePick(PickCommand.Update command) {
 		var user = userReader.readUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId())
-							  .updateMemo(command.memo())
-							  .updateTagOrder(command.tagIdList())
-							  .updateTitle(command.title());
-		// TODO: detach tag from pick (PickTag relation)
+							  .updateTitle(command.title()).updateMemo(command.memo());
+		updateNewTagIdList(pick, command.tagIdList());
 		return pickMapper.toUpdateResult(pick);
 	}
 
@@ -78,7 +78,9 @@ public class PickServiceImpl implements PickService {
 		pickAdaptor.deletePick(pick);
 	}
 
-	// TODO: implement equals and hashcode of Folder Entity
+	/**
+	 * Internal Helper Functions
+	 **/
 	private boolean isParentFolderChanged(Folder originalFolder, Folder destinationFolder) {
 		return ObjectUtils.notEqual(originalFolder, destinationFolder);
 	}
@@ -87,5 +89,12 @@ public class PickServiceImpl implements PickService {
 		pick.getParentFolder().removeChildPickOrder(pick.getId());
 		destinationFolder.updateChildPickOrder(pick.getId(), orderIndex);
 		pick.updateParentFolder(destinationFolder);
+	}
+
+	private void updateNewTagIdList(Pick pick, List<Long> newTagOrderList) {
+		pick.getTagOrder().stream()
+			.filter(tagId -> !newTagOrderList.contains(tagId))
+			.forEach(tagId -> pickAdaptor.detachTagFromPick(pick, tagId));
+		pick.updateTagOrderList(newTagOrderList);
 	}
 }

@@ -76,7 +76,7 @@ public class Pick extends BaseEntity {
 		this.memo = memo;
 	}
 
-	public Pick updateTagOrder(List<Long> tagOrder) {
+	public Pick updateTagOrderList(List<Long> tagOrder) {
 		if (tagOrder == null) return this;
 		this.tagOrder = tagOrder;
 		return this;
