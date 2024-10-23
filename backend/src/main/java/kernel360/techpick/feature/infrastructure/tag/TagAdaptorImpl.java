@@ -1,4 +1,4 @@
-package kernel360.techpick.feature.infrastructure.tag.reader;
+package kernel360.techpick.feature.infrastructure.tag;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class TagReaderImpl implements TagReader {
+public class TagAdaptorImpl implements TagAdaptor {
 
-	private TagRepository tagRepository;
+	private final TagRepository tagRepository;
 
 	@Override
-	public Tag readTag(Long userId, Long tagId) {
+	public Tag getTag(Long userId, Long tagId) {
 		Tag tag = tagRepository.findById(tagId).orElseThrow(ApiTagException::TAG_NOT_FOUND);
 
 		if (ObjectUtils.notEqual(tag.getUser().getId(), userId)) {
@@ -28,12 +28,29 @@ public class TagReaderImpl implements TagReader {
 	}
 
 	@Override
-	public List<Tag> readTagList(Long userId) {
+	public List<Tag> getTagList(Long userId) {
 		return tagRepository.findAllByUserId(userId);
 	}
 
 	@Override
 	public boolean checkDuplicateTagName(Long userId, String name) {
 		return tagRepository.existsByUserIdAndName(userId, name);
+	}
+
+	@Override
+	public Tag saveTag(Tag tag) {
+		validateDuplicateTagName(tag.getUser().getId(), tag.getName());
+		return tagRepository.save(tag);
+	}
+
+	@Override
+	public void deleteTag(Long tagId, Long userId) {
+		tagRepository.deleteByIdAndUserId(tagId, userId);
+	}
+
+	private void validateDuplicateTagName(Long userId, String name) throws ApiTagException {
+		if (tagRepository.existsByUserIdAndName(userId, name)) {
+			throw ApiTagException.TAG_ALREADY_EXIST();
+		}
 	}
 }
