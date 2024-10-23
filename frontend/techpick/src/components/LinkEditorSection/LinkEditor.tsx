@@ -3,9 +3,9 @@ import React, { useCallback, useRef } from 'react';
 import { Folder } from '@/components';
 import { useTreeStore } from '@/stores/treeStore';
 import { useDropHook } from '@/components/nodeManagement/hooks/useDropHook';
-import { folderViewSection } from '@/widgets/LinkEditorSection/LinkEditorSection.css';
+import { folderViewSection } from './LinkEditorSection.css';
 import { PickCard, PickCardGridLayout } from '@/components';
-import { TagPicker } from '@/widgets/TagPicker';
+import { TagPicker } from '@/components';
 
 export const LinkEditor = () => {
   const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =

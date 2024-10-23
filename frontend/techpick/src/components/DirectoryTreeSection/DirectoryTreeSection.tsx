@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
 import { useTreeHandlers } from '@/components/nodeManagement/hooks/useTreeHandlers';
-import { DirectoryNode } from '@/widgets/DirectoryNode/DirectoryNode';
+import { DirectoryNode } from '@/components';
 import { useLogout } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';

@@ -17,7 +17,7 @@ import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFol
 import toast from 'react-hot-toast';
 import { useTreeStore } from '@/stores/treeStore';
 import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
-import { TreeContextMenu } from '@/widgets/ContextMenu/TreeContextMenu';
+import { TreeContextMenu } from '@/components';
 
 export const DirectoryNode = ({
   node,

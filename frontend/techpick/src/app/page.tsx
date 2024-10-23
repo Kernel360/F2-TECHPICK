@@ -4,7 +4,7 @@ import {
   DirectoryTreeSection,
   LinkEditorSection,
   FeaturedSection,
-} from '@/widgets';
+} from '@/components';
 import { rootLayout } from '@/app/style.css';
 import { viewContainer, viewWrapper } from './style.css';
 import React, { useEffect, useMemo } from 'react';

@@ -10,7 +10,7 @@ import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
 import { useTagStore } from '@/stores/tagStore';
 import { SelectedTagItem, SelectedTagListLayout } from '@/components';
 import { DeleteTagDialog, DeselectTagButton } from '@/components';
-import { TagInfoEditPopoverButton } from '@/widgets/TagPicker/TagInfoEditPopoverButton';
+import { TagInfoEditPopoverButton } from '../TagInfoEditPopoverButton';
 import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
 import {
   filterCommandItems,

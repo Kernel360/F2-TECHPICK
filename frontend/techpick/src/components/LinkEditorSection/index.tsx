@@ -10,7 +10,7 @@ import {
 import { NodeApi } from 'react-arborist';
 import { ArrowDownAZ, Search } from 'lucide-react';
 import { useTreeStore } from '@/stores/treeStore';
-import { LinkEditor } from '@/widgets/LinkEditorSection/LinkEditor';
+import { LinkEditor } from './LinkEditor';
 import { ToggleThemeButton } from '@/components';
 
 export function LinkEditorSection() {
