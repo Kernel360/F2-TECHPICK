@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,10 +59,10 @@ class TagServiceTest {
 	void getTagTest() {
 		// given
 		TagResult tagCreateResult = getTagCreateResult(0);
-		TagCommand.Read read = new TagCommand.Read(1L, tagCreateResult.id());
+		TagCommand.Read commend = new TagCommand.Read(1L, tagCreateResult.id());
 
 		// when
-		TagResult tagReadResult = tagService.getTag(read);
+		TagResult tagReadResult = tagService.getTag(1L, commend);
 
 		// then
 		assertThat(tagReadResult).isNotNull();
@@ -110,7 +109,7 @@ class TagServiceTest {
 		TagCommand.Update update = new TagCommand.Update(1L, tagCreateResult.id(), "태그태그", 2);
 
 		// when
-		TagResult tagUpdateResult = tagService.updateTag(update);
+		TagResult tagUpdateResult = tagService.updateTag(1L, update);
 
 		// then
 		assertThat(tagUpdateResult).isNotNull();
@@ -124,28 +123,29 @@ class TagServiceTest {
 	void moveTagTest() {
 		// given
 		List<Long> tagIdList = new ArrayList<>();
-		List<Long> originalTagIdList = new ArrayList<>();
+		List<Long> expectedOrderList = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			TagResult tagResult = getTagCreateResult(i);
 			tagIdList.add(tagResult.id());
-			originalTagIdList.add(tagResult.id());
+			expectedOrderList.add(tagResult.id());
 		}
 
 		User user = userReader.readUser(1L);
 		user.updateTagOrderList(tagIdList);
 
-		TagCommand.Move move = new TagCommand.Move(1L, tagIdList.get(3), 0);
+		Long targetId = expectedOrderList.get(0);
+		int targetIdx = 3;
+		expectedOrderList.remove(0);
+		expectedOrderList.add(targetIdx, targetId);
+		
+		TagCommand.Move move = new TagCommand.Move(targetId, targetIdx);
 
 		// when
-		tagService.moveUserTag(move);
-
-		log.info("Tag Id List : {}", originalTagIdList);
-		log.info("Move User Order List : {}", user.getTagOrderList());
+		tagService.moveUserTag(1L, move);
 
 		// then
 		assertThat(user.getTagOrderList().size()).isEqualTo(5);
-		assertThat(user.getTagOrderList().get(0)).isNotEqualTo(originalTagIdList.get(0));
-		assertThat(user.getTagOrderList().get(1)).isNotEqualTo(originalTagIdList.get(3));
+		assertThat(user.getTagOrderList()).isEqualTo(expectedOrderList);
 	}
 
 	// TODO: orderIdx 음수인 경우 테스트 필요
@@ -164,10 +164,10 @@ class TagServiceTest {
 		TagCommand.Read read = new TagCommand.Read(1L, tagCreateResult.id());
 
 		// when
-		tagService.deleteTag(delete);
+		tagService.deleteTag(1L, delete);
 
 		// then
-		assertThatThrownBy(() -> tagService.getTag(read))
+		assertThatThrownBy(() -> tagService.getTag(1L, read))
 			.isInstanceOf(ApiTagException.class)
 			.hasMessageStartingWith(ApiTagException.TAG_NOT_FOUND().getMessage());
 	}
@@ -183,13 +183,13 @@ class TagServiceTest {
 
 		AtomicInteger successCount = new AtomicInteger();
 		AtomicInteger failCount = new AtomicInteger();
-
 		// when
+
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
-					TagCommand.Create command = new TagCommand.Create(1L, "태그", 2);
-					tagService.saveTag(command);
+					TagCommand.Create command = new TagCommand.Create(1L, "태그12341", 2);
+					tagService.saveTag(1L, command);
 					successCount.incrementAndGet(); // 성공 카운트
 				} catch (Exception e) {
 					log.info(e.getMessage());
@@ -213,7 +213,7 @@ class TagServiceTest {
 
 	private TagResult getTagCreateResult(int n) {
 		TagCommand.Create create = new TagCommand.Create(1L, "태그" + n, 1);
-		return tagService.saveTag(create);
+		return tagService.saveTag(1L, create);
 	}
 
 }
