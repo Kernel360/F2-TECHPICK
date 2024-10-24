@@ -73,8 +73,9 @@ public class TagAdaptorImpl implements TagAdaptor {
 		User user = userRepository.findById(userId).orElseThrow(ApiUserException::USER_NOT_FOUND);
 		Long tagId = command.tagId();
 		user.getTagOrderList().remove(tagId);
-		pickTagRepository.findByTagId(tagId).stream()
-			.map(pickTag -> pickRepository.findById(pickTag.getId()).orElseThrow(ApiTagException::TAG_NOT_FOUND))
+		pickTagRepository.findAllByTagId(tagId).stream()
+			.map(pickTag -> pickRepository.findById(pickTag.getPick().getId())
+				.orElseThrow(ApiTagException::TAG_NOT_FOUND))
 			.forEach(pick -> pick.getTagOrder().remove(pick.getId()));
 		pickTagRepository.deleteById(tagId);
 		tagRepository.deleteById(tagId);
