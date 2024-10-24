@@ -16,7 +16,7 @@ export const profileSection = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `0 ${commonThemeContract.space.md}`,
+  padding: `0 ${commonThemeContract.space[16]}`,
 });
 
 export const profileContainer = style({
@@ -48,13 +48,13 @@ export const unClassifiedLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space.lg,
+  paddingLeft: commonThemeContract.space[24],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
 export const rightIcon = style({
-  marginRight: commonThemeContract.space.sm,
+  marginRight: commonThemeContract.space[8],
 });
 
 export const directoryLabelContainer = style({
@@ -62,7 +62,7 @@ export const directoryLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space.lg,
+  paddingLeft: commonThemeContract.space[24],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
 });
 
@@ -91,21 +91,21 @@ export const recycleBinLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space.lg,
+  paddingLeft: commonThemeContract.space[24],
   borderTop: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
 export const directoryLabel = style({
   width: '100%',
-  paddingLeft: commonThemeContract.space.sm,
+  paddingLeft: commonThemeContract.space[8],
   color: colorThemeContract.color.font,
   fontWeight: 350,
 });
 
 export const plusButton = style({
   cursor: 'pointer',
-  marginRight: commonThemeContract.space.sm,
+  marginRight: commonThemeContract.space[8],
   zIndex: 100,
 });
 

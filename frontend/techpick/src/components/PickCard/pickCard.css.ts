@@ -24,7 +24,7 @@ export const pickCardLayout = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: space.sm,
+  gap: space[8],
   width: '280px',
   height: '320px',
   border: `1px solid ${color.border}`,

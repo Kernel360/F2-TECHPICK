@@ -12,13 +12,13 @@ export const fontSizeVariants = styleVariants({
 
 export type fontSizeVariantKeyTypes = keyof typeof fontSizeVariants;
 
-const { fontWeight } = commonThemeContract.typography;
+const { fontWeights } = commonThemeContract.typography;
 
 export const fontWeightVariants = styleVariants({
-  regular: { fontWeight: fontWeight.regular },
-  semibold: { fontWeight: fontWeight.semibold },
-  bold: { fontWeight: fontWeight.bold },
-  extrabold: { fontWeight: fontWeight.extrabold },
+  regular: { fontWeight: fontWeights.medium },
+  semibold: { fontWeight: fontWeights.semibold },
+  bold: { fontWeight: fontWeights.bold },
+  extrabold: { fontWeight: fontWeights.extrabold },
 });
 
 export type fontWeightVariantKeyTypes = keyof typeof fontWeightVariants;

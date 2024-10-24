@@ -8,7 +8,7 @@ export const linkWrapper = style({
   alignItems: 'center',
   width: '100px',
   height: '100px',
-  padding: `0 ${commonThemeContract.space.md}`,
+  padding: `0 ${commonThemeContract.space[16]}`,
   fontWeight: 300,
   textAlign: 'center',
   borderRadius: '4px',
