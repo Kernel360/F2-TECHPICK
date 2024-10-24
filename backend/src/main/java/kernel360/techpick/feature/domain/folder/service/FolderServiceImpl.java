@@ -10,20 +10,20 @@ import kernel360.techpick.feature.domain.folder.dto.FolderCommand;
 import kernel360.techpick.feature.domain.folder.dto.FolderMapper;
 import kernel360.techpick.feature.domain.folder.dto.FolderResult;
 import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
-import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class FolderServiceImpl implements FolderService {
 
-	private final FolderAdapter folderAdapter;
+	private final FolderAdaptor folderAdaptor;
 	private final FolderMapper folderMapper;
 
 	@Override
 	@Transactional(readOnly = true)
 	public FolderResult getFolder(FolderCommand.Read command) {
-		Folder folder = folderAdapter.getFolder(command.folderId());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
 		if (!command.userId().equals(folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
@@ -35,13 +35,13 @@ public class FolderServiceImpl implements FolderService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<FolderResult> getChildFolderList(FolderCommand.Read command) {
-		Folder folder = folderAdapter.getFolder(command.folderId());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
 		if (!command.userId().equals(folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 
-		return folderAdapter.getFolderList(folder.getChildFolderOrderList())
+		return folderAdaptor.getFolderList(folder.getChildFolderOrderList())
 			.stream()
 			.map(folderMapper::toResult)
 			.toList();
@@ -50,36 +50,36 @@ public class FolderServiceImpl implements FolderService {
 	@Override
 	@Transactional
 	public FolderResult saveFolder(FolderCommand.Create command) {
-		return folderMapper.toResult(folderAdapter.saveFolder(command));
+		return folderMapper.toResult(folderAdaptor.saveFolder(command));
 	}
 
 	@Override
 	@Transactional
 	public FolderResult updateFolder(FolderCommand.Update command) {
 
-		Folder folder = folderAdapter.getFolder(command.folderId());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
 		if (!command.userId().equals(folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 
-		return folderMapper.toResult(folderAdapter.updateFolder(command));
+		return folderMapper.toResult(folderAdaptor.updateFolder(command));
 	}
 
 	@Override
 	@Transactional
 	public void moveFolder(FolderCommand.Move command) {
 
-		Folder folder = folderAdapter.getFolder(command.folderId());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
 		if (!command.userId().equals(folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 
 		if (isParentFolderNotChanged(command, folder.getParentFolder())) {
-			folderAdapter.moveFolderWithinParent(command);
+			folderAdaptor.moveFolderWithinParent(command);
 		} else {
-			folderAdapter.moveFolderToDifferentParent(command);
+			folderAdaptor.moveFolderToDifferentParent(command);
 		}
 	}
 
@@ -87,13 +87,13 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional
 	public void deleteFolder(FolderCommand.Delete command) {
 
-		Folder folder = folderAdapter.getFolder(command.folderId());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
 		if (!command.userId().equals(folder.getUser().getId())) {
 			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 
-		folderAdapter.deleteFolder(command);
+		folderAdaptor.deleteFolder(command);
 	}
 
 	private boolean isParentFolderNotChanged(FolderCommand.Move command, Folder originalFolder) {
