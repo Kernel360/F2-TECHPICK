@@ -1,9 +1,9 @@
 import { CSSProperties } from 'react';
-import { numberToRandomColor } from '@/utils';
 import { useThemeStore } from '@/stores/themeStore';
-import { TagType } from '@/types';
+import { numberToRandomColor } from '@/utils';
 import { SelectedTagContent } from './SelectedTagContent';
 import { SelectedTagLayout } from './SelectedTagLayout';
+import { TagType } from '@/types';
 
 export function SelectedTagItem({ tag, children }: SelectedTagItemProps) {
   const { isDarkMode } = useThemeStore();

@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@/components';
-import type { TagType } from '@/types';
 import { useDeleteTagDialogStore } from '@/stores/deleteTagDialogStore';
+import type { TagType } from '@/types';
 
 export function ShowDeleteTagDialogButton({
   tag,

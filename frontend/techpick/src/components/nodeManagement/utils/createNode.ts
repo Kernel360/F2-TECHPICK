@@ -1,7 +1,7 @@
 import { NodeApi } from 'react-arborist';
-import { NodeData } from '@/types';
 import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
 import { ApiStructureData } from '@/types/ApiTypes';
+import { NodeData } from '@/types';
 
 export const createNode = (
   structureData: ApiStructureData,

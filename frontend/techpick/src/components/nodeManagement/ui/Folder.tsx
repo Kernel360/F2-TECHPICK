@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
+import { NodeApi } from 'react-arborist';
+import { useDragHook } from '@/components/nodeManagement/hooks/useDragHook';
 import {
   folderWrapper,
   folderWrapperFocused,
 } from '@/components/nodeManagement/ui/folder.css';
-import { NodeApi } from 'react-arborist';
-import { useDragHook } from '@/components/nodeManagement/hooks/useDragHook';
 import { useTreeStore } from '@/stores/treeStore';
 
 export function Folder({ node }: { node: NodeApi }) {

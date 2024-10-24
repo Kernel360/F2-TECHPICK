@@ -1,5 +1,5 @@
-import { NodeApi } from 'react-arborist';
 import { CSSProperties } from 'react';
+import { NodeApi } from 'react-arborist';
 
 export interface NodeData {
   id: string;

@@ -4,10 +4,10 @@ import { useRef, memo, KeyboardEvent, MouseEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { useQueryClient } from '@tanstack/react-query';
-import { notifyError } from '@/utils';
 import { Text, Button, Gap } from '@/components';
-import { useTagStore } from '@/stores/tagStore';
 import { useDeleteTagDialogStore } from '@/stores/deleteTagDialogStore';
+import { useTagStore } from '@/stores/tagStore';
+import { notifyError } from '@/utils';
 import { dialogContentStyle, dialogOverlayStyle } from './DeleteTagDialog.css';
 
 export const DeleteTagDialog = memo(function DeleteTagDialog() {

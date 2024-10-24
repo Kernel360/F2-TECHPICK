@@ -1,7 +1,7 @@
-import { NodeData } from '@/types';
 import { addNodeToStructure } from '@/components/nodeManagement/utils/addNodeToStructure';
 import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
 import { ApiStructureData } from '@/types/ApiTypes';
+import { NodeData } from '@/types';
 
 export function addRecycleBinToStructure(
   structure: ApiStructureData,

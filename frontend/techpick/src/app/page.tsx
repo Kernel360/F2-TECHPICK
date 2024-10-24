@@ -1,18 +1,18 @@
 'use client';
 
+import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { NodeApi } from 'react-arborist';
+import { rootLayout } from '@/app/style.css';
 import {
   DirectoryTreeSection,
   LinkEditorSection,
   FeaturedSection,
 } from '@/components';
-import { rootLayout } from '@/app/style.css';
-import { viewContainer, viewWrapper } from './style.css';
-import React, { useEffect, useMemo } from 'react';
-import { NodeApi } from 'react-arborist';
-import { useTreeStore } from '@/stores/treeStore';
-import { useRouter } from 'next/navigation';
-import { getClientCookie } from '@/utils';
 import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useTreeStore } from '@/stores/treeStore';
+import { getClientCookie } from '@/utils';
+import { viewContainer, viewWrapper } from './style.css';
 
 export default function MainPage() {
   const router = useRouter();

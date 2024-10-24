@@ -1,8 +1,8 @@
 'use client';
 
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import { SelectedTagItem, SelectedTagListLayout } from '@/components';
 import { useGetPickQuery } from '@/apis/pick';
+import { SelectedTagItem, SelectedTagListLayout } from '@/components';
 import { TagAutocompleteDialog } from './TagAutocompleteDialog';
 import { tagPickerLayout, tagDialogTriggerLayout } from './TagPicker.css';
 import type { TagType } from '@/types';

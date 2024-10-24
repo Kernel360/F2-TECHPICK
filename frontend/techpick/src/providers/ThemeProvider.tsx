@@ -1,6 +1,6 @@
 'use client';
-import { useThemeStore } from '@/stores/themeStore';
 import { lightTheme, darkTheme, commonTheme } from 'techpick-shared';
+import { useThemeStore } from '@/stores/themeStore';
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { isDarkMode } = useThemeStore();
 

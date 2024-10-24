@@ -1,21 +1,22 @@
-import { NodeData } from '@/types';
-import { createNode } from '@/components/nodeManagement/utils/createNode';
-import { moveNode } from '@/components/nodeManagement/utils/moveNode';
-import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
-import { useTreeStore } from '@/stores/treeStore';
-import { CreateHandler, MoveHandler, NodeApi } from 'react-arborist';
-import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
-import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
-import { useRenameFolder } from '@/components/nodeManagement/api/folder/useRenameFolder';
-import { removeByIdFromStructure } from '@/components/nodeManagement/utils/removeByIdFromStructure';
-import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
 import { useQueryClient } from '@tanstack/react-query';
-import { ApiStructureData } from '@/types/ApiTypes';
+import { NodeApi } from 'react-arborist';
 import toast from 'react-hot-toast';
-import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
 import { deleteFolder } from '@/components/nodeManagement/api/folder/folderQueryFunctions';
-import { useMovePick } from '@/components/nodeManagement/api/pick/useMovePick';
+import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
+import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
+import { useRenameFolder } from '@/components/nodeManagement/api/folder/useRenameFolder';
 import { deletePick } from '@/components/nodeManagement/api/pick/pickQueryFunctions';
+import { useMovePick } from '@/components/nodeManagement/api/pick/useMovePick';
+import { createNode } from '@/components/nodeManagement/utils/createNode';
+import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
+import { moveNode } from '@/components/nodeManagement/utils/moveNode';
+import { removeByIdFromStructure } from '@/components/nodeManagement/utils/removeByIdFromStructure';
+import { useTreeStore } from '@/stores/treeStore';
+import { ApiStructureData } from '@/types/ApiTypes';
+import type { CreateHandler, MoveHandler } from 'react-arborist';
+import { NodeData } from '@/types';
 
 export const useTreeHandlers = () => {
   const { data: structureData, refetch: refetchStructure } =

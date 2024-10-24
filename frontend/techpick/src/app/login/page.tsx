@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getClientCookie } from '@/utils';
 import {
@@ -11,7 +11,7 @@ import {
   loginContainer,
   loginLink,
   logoContainer,
-} from '@/app/login/page.css';
+} from './page.css';
 
 export default function LoginPage() {
   useEffect(() => {

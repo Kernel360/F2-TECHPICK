@@ -1,5 +1,5 @@
-import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
 import { apiClient } from '@/apis/apiClient';
+import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
 
 export const getRootAndRecycleBinData = async (): Promise<ApiStructureData> => {
   try {

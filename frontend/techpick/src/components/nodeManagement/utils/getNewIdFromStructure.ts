@@ -1,5 +1,5 @@
-import { NodeData } from '@/types';
 import { ApiStructureData } from '@/types/ApiTypes';
+import { NodeData } from '@/types';
 
 function getMaxIdFromNodes(nodes: NodeData[]): number {
   let maxId = 0;

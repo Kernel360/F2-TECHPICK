@@ -1,4 +1,30 @@
 import React, { useRef } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { debounce } from 'lodash';
+import {
+  ChevronRight,
+  CircleAlert,
+  Folder,
+  LogOut,
+  Plus,
+  Trash2,
+} from 'lucide-react';
+import { NodeApi, Tree, TreeApi } from 'react-arborist';
+import { useDragDropManager } from 'react-dnd';
+import toast from 'react-hot-toast';
+import useResizeObserver from 'use-resize-observer';
+import { useLogout } from '@/apis/auth';
+import { DirectoryNode } from '@/components';
+import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
+import { useGetPicksByParentId } from '@/components/nodeManagement/api/pick/useGetPicksByParentId';
+import { useTreeHandlers } from '@/components/nodeManagement/hooks/useTreeHandlers';
+import { addNodeToStructure } from '@/components/nodeManagement/utils/addNodeToStructure';
+import { convertPickDataToNodeData } from '@/components/nodeManagement/utils/convertPickDataToNodeData';
+import { useTreeStore } from '@/stores/treeStore';
+import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
+import { NodeData } from '@/types/NodeData';
 import {
   directoryLabel,
   directoryLabelContainer,
@@ -21,32 +47,6 @@ import {
   rightIcon,
   unClassifiedLabelContainer,
 } from './DirectoryTreeSection.css';
-import Image from 'next/image';
-import { NodeData } from '@/types/NodeData';
-import { NodeApi, Tree, TreeApi } from 'react-arborist';
-import useResizeObserver from 'use-resize-observer';
-import { useDragDropManager } from 'react-dnd';
-import { useTreeStore } from '@/stores/treeStore';
-import {
-  ChevronRight,
-  CircleAlert,
-  Folder,
-  LogOut,
-  Plus,
-  Trash2,
-} from 'lucide-react';
-import { useGetRootAndRecycleBinData } from '@/components/nodeManagement/api/folder/useGetRootAndRecycleBinData';
-import { useTreeHandlers } from '@/components/nodeManagement/hooks/useTreeHandlers';
-import { DirectoryNode } from '@/components';
-import { useLogout } from '@/apis/auth';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import { convertPickDataToNodeData } from '@/components/nodeManagement/utils/convertPickDataToNodeData';
-import { addNodeToStructure } from '@/components/nodeManagement/utils/addNodeToStructure';
-import { useQueryClient } from '@tanstack/react-query';
-import { ApiDefaultFolderIdData, ApiStructureData } from '@/types/ApiTypes';
-import { debounce } from 'lodash';
-import { useGetPicksByParentId } from '@/components/nodeManagement/api/pick/useGetPicksByParentId';
 
 export function DirectoryTreeSection({
   defaultFolderIdData,
