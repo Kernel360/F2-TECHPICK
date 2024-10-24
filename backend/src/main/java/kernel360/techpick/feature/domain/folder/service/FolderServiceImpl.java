@@ -11,7 +11,7 @@ import kernel360.techpick.feature.domain.folder.dto.FolderCommand;
 import kernel360.techpick.feature.domain.folder.dto.FolderMapper;
 import kernel360.techpick.feature.domain.folder.dto.FolderResult;
 import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
-import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
+import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,12 +20,12 @@ public class FolderServiceImpl implements FolderService {
 
 	private final FolderAdapter folderAdapter;
 	private final FolderMapper folderMapper;
-	private final UserReader userReader;
+	private final UserAdaptor userAdaptor;
 
 	@Override
 	@Transactional(readOnly = true)
 	public FolderResult getFolder(FolderCommand.Read command) {
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		return folderMapper.toResult(folderAdapter.readFolder(user, command.folderId()));
 	}
 
@@ -33,7 +33,7 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional(readOnly = true)
 	public List<FolderResult> getFolderListByParentFolderId(FolderCommand.Read command) {
 
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		Folder parentFolder = folderAdapter.readFolder(user, command.folderId());
 
 		return folderAdapter.readFolderList(user, parentFolder)
@@ -46,7 +46,7 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional
 	public FolderResult saveNewFolder(FolderCommand.Create command) {
 
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		Folder parentFolder = folderAdapter.readFolder(user, command.parentFolderId());
 		Folder folder = folderMapper.toEntity(command, user, parentFolder);
 
@@ -57,7 +57,7 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional
 	public FolderResult updateFolder(FolderCommand.Update command) {
 
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
 		targetFolder.updateFolderName(command.name());
 
@@ -67,7 +67,7 @@ public class FolderServiceImpl implements FolderService {
 	@Override
 	@Transactional
 	public FolderResult moveFolder(FolderCommand.Move command) {
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
 		Folder originalParentFolder = targetFolder.getParentFolder();
 
@@ -87,7 +87,7 @@ public class FolderServiceImpl implements FolderService {
 	@Override
 	@Transactional
 	public void deleteFolder(FolderCommand.Delete command) {
-		User user = userReader.readCurrentUser();
+		User user = userAdaptor.getUser(command.userId());
 		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
 		targetFolder.getParentFolder().removeChildFolderOrder(command.folderId());
 		folderAdapter.removeFolder(targetFolder);
