@@ -1,15 +1,15 @@
 import { style } from '@vanilla-extract/css';
-import { colorThemeContract, commonThemeContract } from 'techpick-shared';
+import { colorThemeContract, commonTheme } from 'techpick-shared';
 
 export const linkEditorLabel = style({
   display: 'flex',
-  gap: commonThemeContract.space[8],
+  gap: commonTheme.space[8],
   fontWeight: 370,
 });
 
 export const searchSection = style({
   display: 'flex',
-  gap: commonThemeContract.space[8],
+  gap: commonTheme.space[8],
 });
 
 export const linkEditorSection = style({
@@ -26,7 +26,7 @@ export const linkEditorHeader = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `0 ${commonThemeContract.space[16]}`,
+  padding: `0 ${commonTheme.space[16]}`,
 });
 
 export const linkEditor = style({
@@ -42,14 +42,14 @@ export const folderViewSection = style({
   display: 'flex',
   flexWrap: 'wrap',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `${commonThemeContract.space[24]} ${commonThemeContract.space[16]}`,
+  padding: `${commonTheme.space[24]} ${commonTheme.space[16]}`,
 });
 
 export const linkViewSection = style({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  padding: `${commonThemeContract.space[24]} ${commonThemeContract.space[16]}`,
+  padding: `${commonTheme.space[24]} ${commonTheme.space[16]}`,
 });
 
 export const linkEditorSectionFooter = style({

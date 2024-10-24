@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { colorThemeContract, commonThemeContract } from 'techpick-shared';
+import { colorThemeContract, commonTheme } from 'techpick-shared';
 
 export const leftSidebarSection = style({
   width: '400px',
@@ -16,7 +16,7 @@ export const profileSection = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `0 ${commonThemeContract.space[16]}`,
+  padding: `0 ${commonTheme.space[16]}`,
 });
 
 export const profileContainer = style({
@@ -25,7 +25,7 @@ export const profileContainer = style({
 });
 
 export const logo = style({
-  fontSize: commonThemeContract.typography.fontSize.lg,
+  fontSize: commonTheme.typography.fontSize.lg,
   fontWeight: 400,
   paddingLeft: '12px',
 });
@@ -48,13 +48,13 @@ export const unClassifiedLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space[24],
+  paddingLeft: commonTheme.space[24],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
 export const rightIcon = style({
-  marginRight: commonThemeContract.space[8],
+  marginRight: commonTheme.space[8],
 });
 
 export const directoryLabelContainer = style({
@@ -62,7 +62,7 @@ export const directoryLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space[24],
+  paddingLeft: commonTheme.space[24],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
 });
 
@@ -91,21 +91,21 @@ export const recycleBinLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonThemeContract.space[24],
+  paddingLeft: commonTheme.space[24],
   borderTop: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
 
 export const directoryLabel = style({
   width: '100%',
-  paddingLeft: commonThemeContract.space[8],
+  paddingLeft: commonTheme.space[8],
   color: colorThemeContract.color.font,
   fontWeight: 350,
 });
 
 export const plusButton = style({
   cursor: 'pointer',
-  marginRight: commonThemeContract.space[8],
+  marginRight: commonTheme.space[8],
   zIndex: 100,
 });
 

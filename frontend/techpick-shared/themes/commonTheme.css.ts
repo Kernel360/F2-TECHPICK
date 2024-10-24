@@ -1,7 +1,6 @@
 import { createTheme } from '@vanilla-extract/css';
-import { commonThemeContract } from './commonThemeContract.css';
 
-export const commonTheme = createTheme(commonThemeContract, {
+export const [commonThemeClass, commonTheme] = createTheme({
   space: {
     px: '1px',
     '0.5': '4px', // 0.5 rem -> 4px
@@ -130,3 +129,7 @@ export const commonTheme = createTheme(commonThemeContract, {
     level11: '1800', // 툴팁
   },
 });
+
+export const { borderRadius, breakpoints, sizes, space, typography, zIndex } =
+  commonTheme;
+export const { fontColor, fontSize, fontWeights, lineHeight } = typography;

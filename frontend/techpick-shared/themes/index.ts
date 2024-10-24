@@ -1,6 +1,5 @@
-export { commonTheme } from './commonTheme.css';
 export {
-  commonThemeContract,
+  commonTheme,
   breakpoints,
   space,
   typography,
@@ -11,7 +10,7 @@ export {
   lineHeight,
   sizes,
   zIndex,
-} from './commonThemeContract.css';
+} from './commonTheme.css';
 export { colorThemeContract, color } from './colorThemeContract.css';
 export { darkTheme } from './darkTheme.css';
 export { lightTheme } from './lightTheme.css';

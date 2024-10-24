@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { colorThemeContract, commonThemeContract } from 'techpick-shared';
+import { colorThemeContract, commonTheme } from 'techpick-shared';
 
 export const dirNodeWrapper = style({
   width: '100%',
@@ -23,7 +23,7 @@ export const dirNode = style({
   alignItems: 'center',
   color: colorThemeContract.color.font,
   fontWeight: 300,
-  padding: `0 ${commonThemeContract.space[16]}`,
+  padding: `0 ${commonTheme.space[16]}`,
 });
 
 export const dirIcFolder = style({

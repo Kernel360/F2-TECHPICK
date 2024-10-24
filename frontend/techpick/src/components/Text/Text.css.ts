@@ -1,5 +1,5 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-import { colorThemeContract, commonThemeContract } from 'techpick-shared';
+import { colorThemeContract, commonTheme } from 'techpick-shared';
 
 export const fontSizeVariants = styleVariants({
   xs: { fontSize: '0.75rem' }, // 12
@@ -12,7 +12,7 @@ export const fontSizeVariants = styleVariants({
 
 export type fontSizeVariantKeyTypes = keyof typeof fontSizeVariants;
 
-const { fontWeights } = commonThemeContract.typography;
+const { fontWeights } = commonTheme.typography;
 
 export const fontWeightVariants = styleVariants({
   regular: { fontWeight: fontWeights.medium },
