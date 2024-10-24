@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
@@ -12,16 +13,16 @@ import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
 import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
-import kernel360.techpick.feature.infrastructure.link.writer.LinkWriter;
+import kernel360.techpick.feature.infrastructure.link.LinkAdaptor;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
-import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
+import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class PickServiceImpl implements PickService {
-	private final UserReader userReader; // TODO: change to UserAdaptor
-	private final LinkWriter linkWriter;
+	private final UserAdaptor userAdaptor;
+	private final LinkAdaptor linkAdaptor;
 	private final PickAdaptor pickAdaptor;
 	private final PickMapper pickMapper;
 	private final FolderAdapter folderAdapter;
@@ -29,7 +30,7 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional(readOnly = true)
 	public PickResult getPick(PickCommand.Read command) {
-		var user = userReader.readUser(command.userId());
+		var user = userAdaptor.getUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
 		return pickMapper.toReadResult(pick);
 	}
@@ -37,9 +38,9 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional
 	public PickResult saveNewPick(PickCommand.Create command) {
-		var user = userReader.readUser(command.userId());
+		var user = userAdaptor.getUser(command.userId());
 		var folder = folderAdapter.readFolder(user, command.parentFolderId());
-		var link = linkWriter.writeLink(command.linkInfo());
+		var link = linkAdaptor.saveLink(command.linkInfo());
 		var pick = pickAdaptor.savePick(pickMapper.toEntity(command, user, folder, link));
 		return pickMapper.toCreateResult(pick);
 	}
@@ -47,7 +48,7 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional
 	public PickResult updatePick(PickCommand.Update command) {
-		var user = userReader.readUser(command.userId());
+		var user = userAdaptor.getUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId())
 							  .updateTitle(command.title()).updateMemo(command.memo());
 		updateNewTagIdList(pick, command.tagIdList());
@@ -57,7 +58,7 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional
 	public PickResult movePick(PickCommand.Move command) {
-		var user = userReader.readUser(command.userId());
+		var user = userAdaptor.getUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
 		var destinationFolder = folderAdapter.readFolder(user, command.parentFolderId());
 
@@ -72,7 +73,7 @@ public class PickServiceImpl implements PickService {
 	@Override
 	@Transactional
 	public void deletePick(PickCommand.Delete command) {
-		var user = userReader.readUser(command.userId());
+		var user = userAdaptor.getUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
 		pick.getParentFolder().removeChildPickOrder(command.pickId());
 		pickAdaptor.deletePick(pick);

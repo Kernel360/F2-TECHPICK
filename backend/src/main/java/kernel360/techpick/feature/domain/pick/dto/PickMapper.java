@@ -30,5 +30,7 @@ public interface PickMapper {
     PickResult toMoveResult(Pick pick);
 
     @Mapping(source = "command.title", target = "title")
+    @Mapping(source = "parentFolder", target = "parentFolder")
+    @Mapping(source = "user", target = "user")
     Pick toEntity(PickCommand.Create command, User user, Folder parentFolder, Link link);
 }
