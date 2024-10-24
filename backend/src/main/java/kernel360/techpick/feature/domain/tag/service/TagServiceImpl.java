@@ -22,9 +22,9 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public TagResult getTag(Long userId, TagCommand.Read command) throws ApiTagException {
+	public TagResult getTag(TagCommand.Read command) throws ApiTagException {
 		Tag tag = tagAdaptor.getTag(command.tagId());
-		if (!userId.equals(tag.getUser().getId())) {
+		if (!command.userId().equals(tag.getUser().getId())) {
 			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
 		return tagMapper.toResult(tag);
@@ -39,21 +39,21 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	@Transactional
-	public TagResult saveTag(Long userId, TagCommand.Create command) {
-		if (tagAdaptor.checkDuplicateTagName(userId, command.name())) {
+	public TagResult saveTag(TagCommand.Create command) {
+		if (tagAdaptor.checkDuplicateTagName(command.userId(), command.name())) {
 			throw ApiTagException.TAG_ALREADY_EXIST();
 		}
-		return tagMapper.toResult(tagAdaptor.saveTag(userId, command));
+		return tagMapper.toResult(tagAdaptor.saveTag(command.userId(), command));
 	}
 
 	@Override
 	@Transactional
-	public TagResult updateTag(Long userId, TagCommand.Update command) {
+	public TagResult updateTag(TagCommand.Update command) {
 		Tag tag = tagAdaptor.getTag(command.tagId());
-		if (!userId.equals(tag.getUser().getId())) {
+		if (!command.userId().equals(tag.getUser().getId())) {
 			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
-		if (tagAdaptor.checkDuplicateTagName(userId, command.name())) {
+		if (tagAdaptor.checkDuplicateTagName(command.userId(), command.name())) {
 			throw ApiTagException.TAG_ALREADY_EXIST();
 		}
 		return tagMapper.toResult(tagAdaptor.updateTag(command));
@@ -61,21 +61,21 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	@Transactional
-	public void moveUserTag(Long userId, TagCommand.Move command) {
+	public void moveUserTag(TagCommand.Move command) {
 		Tag tag = tagAdaptor.getTag(command.tagId());
-		if (!userId.equals(tag.getUser().getId())) {
+		if (!command.userId().equals(tag.getUser().getId())) {
 			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
-		tagAdaptor.moveTag(userId, command);
+		tagAdaptor.moveTag(command.userId(), command);
 	}
 
 	@Override
 	@Transactional
-	public void deleteTag(Long userId, TagCommand.Delete command) {
+	public void deleteTag(TagCommand.Delete command) {
 		Tag tag = tagAdaptor.getTag(command.tagId());
-		if (!userId.equals(tag.getUser().getId())) {
+		if (!command.userId().equals(tag.getUser().getId())) {
 			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
 		}
-		tagAdaptor.deleteTag(userId, command);
+		tagAdaptor.deleteTag(command.userId(), command);
 	}
 }

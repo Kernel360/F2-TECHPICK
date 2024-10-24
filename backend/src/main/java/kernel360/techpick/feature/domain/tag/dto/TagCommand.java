@@ -21,6 +21,7 @@ public class TagCommand {
 	}
 
 	public record Move(
+		Long userId,
 		Long tagId,
 		int orderIdx
 	) {

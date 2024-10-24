@@ -59,10 +59,10 @@ class TagServiceTest {
 	void getTagTest() {
 		// given
 		TagResult tagCreateResult = getTagCreateResult(0);
-		TagCommand.Read commend = new TagCommand.Read(1L, tagCreateResult.id());
+		TagCommand.Read command = new TagCommand.Read(1L, tagCreateResult.id());
 
 		// when
-		TagResult tagReadResult = tagService.getTag(1L, commend);
+		TagResult tagReadResult = tagService.getTag(command);
 
 		// then
 		assertThat(tagReadResult).isNotNull();
@@ -109,7 +109,7 @@ class TagServiceTest {
 		TagCommand.Update update = new TagCommand.Update(1L, tagCreateResult.id(), "태그태그", 2);
 
 		// when
-		TagResult tagUpdateResult = tagService.updateTag(1L, update);
+		TagResult tagUpdateResult = tagService.updateTag(update);
 
 		// then
 		assertThat(tagUpdateResult).isNotNull();
@@ -137,11 +137,11 @@ class TagServiceTest {
 		int targetIdx = 3;
 		expectedOrderList.remove(0);
 		expectedOrderList.add(targetIdx, targetId);
-		
-		TagCommand.Move move = new TagCommand.Move(targetId, targetIdx);
+
+		TagCommand.Move move = new TagCommand.Move(1L, targetId, targetIdx);
 
 		// when
-		tagService.moveUserTag(1L, move);
+		tagService.moveUserTag(move);
 
 		// then
 		assertThat(user.getTagOrderList().size()).isEqualTo(5);
@@ -164,10 +164,10 @@ class TagServiceTest {
 		TagCommand.Read read = new TagCommand.Read(1L, tagCreateResult.id());
 
 		// when
-		tagService.deleteTag(1L, delete);
+		tagService.deleteTag(delete);
 
 		// then
-		assertThatThrownBy(() -> tagService.getTag(1L, read))
+		assertThatThrownBy(() -> tagService.getTag(read))
 			.isInstanceOf(ApiTagException.class)
 			.hasMessageStartingWith(ApiTagException.TAG_NOT_FOUND().getMessage());
 	}
@@ -189,7 +189,7 @@ class TagServiceTest {
 			executorService.submit(() -> {
 				try {
 					TagCommand.Create command = new TagCommand.Create(1L, "태그12341", 2);
-					tagService.saveTag(1L, command);
+					tagService.saveTag(command);
 					successCount.incrementAndGet(); // 성공 카운트
 				} catch (Exception e) {
 					log.info(e.getMessage());
@@ -213,7 +213,7 @@ class TagServiceTest {
 
 	private TagResult getTagCreateResult(int n) {
 		TagCommand.Create create = new TagCommand.Create(1L, "태그" + n, 1);
-		return tagService.saveTag(1L, create);
+		return tagService.saveTag(create);
 	}
 
 }

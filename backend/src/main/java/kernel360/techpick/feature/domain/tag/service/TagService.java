@@ -7,15 +7,15 @@ import kernel360.techpick.feature.domain.tag.dto.TagResult;
 
 public interface TagService {
 
-	TagResult getTag(Long userId, TagCommand.Read command);
+	TagResult getTag(TagCommand.Read command);
 
 	List<TagResult> getUserTagList(Long userId);
 
-	TagResult saveTag(Long userId, TagCommand.Create command);
+	TagResult saveTag(TagCommand.Create command);
 
-	TagResult updateTag(Long userId, TagCommand.Update command);
+	TagResult updateTag(TagCommand.Update command);
 
-	void moveUserTag(Long userId, TagCommand.Move command);
+	void moveUserTag(TagCommand.Move command);
 
-	void deleteTag(Long userId, TagCommand.Delete command);
+	void deleteTag(TagCommand.Delete command);
 }
