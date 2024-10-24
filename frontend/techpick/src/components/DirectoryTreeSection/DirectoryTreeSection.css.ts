@@ -16,7 +16,7 @@ export const profileSection = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `0 ${commonTheme.space[16]}`,
+  padding: `0 ${commonTheme.space[8]}`,
 });
 
 export const profileContainer = style({
