@@ -1,4 +1,5 @@
 export {
+  commonThemeClass,
   commonTheme,
   breakpoints,
   space,

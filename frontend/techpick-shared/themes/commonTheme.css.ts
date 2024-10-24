@@ -3,38 +3,38 @@ import { createTheme } from '@vanilla-extract/css';
 export const [commonThemeClass, commonTheme] = createTheme({
   space: {
     px: '1px',
-    '0.5': '4px', // 0.5 rem -> 4px
-    '1': '8px', // 1 rem -> 8px
-    '1.5': '12px', // 1.5 rem -> 12px
-    '2': '16px', // 2 rem -> 16px
-    '2.5': '20px', // 2.5 rem -> 20px
-    '3': '24px', // 3 rem -> 24px
-    '3.5': '28px', // 3.5 rem -> 28px
-    '4': '32px', // 4 rem -> 32px
-    '5': '36px', // 5 rem -> 36px
-    '6': '40px', // 6 rem -> 40px
-    '7': '44px', // 7 rem -> 44px
-    '8': '48px', // 8 rem -> 48px
-    '9': '52px', // 9 rem -> 52px
-    '10': '56px', // 10 rem -> 56px
-    '12': '64px', // 12 rem -> 64px
-    '14': '72px', // 14 rem -> 72px
-    '16': '80px', // 16 rem -> 80px
-    '20': '96px', // 20 rem -> 96px
-    '24': '112px', // 24 rem -> 112px
-    '28': '128px', // 28 rem -> 128px
-    '32': '144px', // 32 rem -> 144px
-    '36': '160px', // 36 rem -> 160px
-    '40': '176px', // 40 rem -> 176px
-    '44': '192px', // 44 rem -> 192px
-    '48': '208px', // 48 rem -> 208px
-    '52': '224px', // 52 rem -> 224px
-    '56': '240px', // 56 rem -> 240px
-    '60': '256px', // 60 rem -> 256px
-    '64': '272px', // 64 rem -> 272px
-    '72': '288px', // 72 rem -> 288px
-    '80': '304px', // 80 rem -> 304px
-    '96': '320px', // 96 rem -> 320px
+    '4': '0.5rem', // 4px -> 0.5rem
+    '8': '1rem', // 8px -> 1rem
+    '12': '1.5rem', // 12px -> 1.5rem
+    '16': '2rem', // 16px -> 2rem
+    '20': '2.5rem', // 20px -> 2.5rem
+    '24': '3rem', // 24px -> 3rem
+    '28': '3.5rem', // 28px -> 3.5rem
+    '32': '4rem', // 32px -> 4rem
+    '36': '4.5rem', // 36px -> 4.5rem
+    '40': '5rem', // 40px -> 5rem
+    '44': '5.5rem', // 44px -> 5.5rem
+    '48': '6rem', // 48px -> 6rem
+    '52': '6.5rem', // 52px -> 6.5rem
+    '56': '7rem', // 56px -> 7rem
+    '64': '8rem', // 64px -> 8rem
+    '72': '9rem', // 72px -> 9rem
+    '80': '10rem', // 80px -> 10rem
+    '96': '12rem', // 96px -> 12rem
+    '112': '14rem', // 112px -> 14rem
+    '128': '16rem', // 128px -> 16rem
+    '144': '18rem', // 144px -> 18rem
+    '160': '20rem', // 160px -> 20rem
+    '176': '22rem', // 176px -> 22rem
+    '192': '24rem', // 192px -> 24rem
+    '208': '26rem', // 208px -> 26rem
+    '224': '28rem', // 224px -> 28rem
+    '240': '30rem', // 240px -> 30rem
+    '256': '32rem', // 256px -> 32rem
+    '272': '34rem', // 272px -> 34rem
+    '288': '36rem', // 288px -> 36rem
+    '304': '38rem', // 304px -> 38rem
+    '320': '40rem', // 320px -> 40rem
   },
   typography: {
     fontColor: '#fff',
@@ -81,20 +81,20 @@ export const [commonThemeClass, commonTheme] = createTheme({
     max: 'max-content',
     min: 'min-content',
     full: '100%',
-    '3xs': '14rem',
-    '2xs': '16rem',
-    xs: '20rem',
-    sm: '24rem',
-    md: '28rem',
-    lg: '32rem',
-    xl: '36rem',
-    '2xl': '42rem',
-    '3xl': '48rem',
-    '4xl': '56rem',
-    '5xl': '64rem',
-    '6xl': '72rem',
-    '7xl': '80rem',
-    '8xl': '90rem',
+    '3xs': '14rem', // 14rem -> 224px
+    '2xs': '16rem', // 16rem -> 256px
+    xs: '20rem', // 20rem -> 320px
+    sm: '24rem', // 24rem -> 384px
+    md: '28rem', // 28rem -> 448px
+    lg: '32rem', // 32rem -> 512px
+    xl: '36rem', // 36rem -> 576px
+    '2xl': '42rem', // 42rem -> 672px
+    '3xl': '48rem', // 48rem -> 768px
+    '4xl': '56rem', // 56rem -> 896px
+    '5xl': '64rem', // 64rem -> 1024px
+    '6xl': '72rem', // 72rem -> 1152px
+    '7xl': '80rem', // 80rem -> 1280px
+    '8xl': '90rem', // 90rem -> 1440px
     container: {
       sm: '640px',
       md: '768px',
