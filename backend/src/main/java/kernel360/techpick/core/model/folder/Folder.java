@@ -158,19 +158,6 @@ public class Folder extends BaseEntity {
 		List<Long> childFolderOrderList,
 		List<Long> childPickOrderList
 	) {
-		// TODO: API 예외로 통일
-		if (user == null) throw new RuntimeException("User is null");
-		if (name == null) throw new RuntimeException("Folder name is null");
-		if (folderType == null) throw new RuntimeException("Folder type is null");
-
-		// TODO: API 예외로 통일
-		if (folderType != FolderType.GENERAL && parentFolder != null)
-			throw new RuntimeException("Root/Recycle/Unclassified folder's parent folder must be null");
-		if (folderType == FolderType.GENERAL && parentFolder == null)
-			throw new RuntimeException("General folder's parent folder cannot be null");
-		if (folderType == FolderType.GENERAL && parentFolder.folderType == FolderType.UNCLASSIFIED)
-			throw new RuntimeException("Unclassified folder cannot have child folders");
-
 		this.name = name;
 		this.folderType = folderType;
 		this.parentFolder = parentFolder;
