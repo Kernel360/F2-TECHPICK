@@ -21,4 +21,64 @@ export const lightTheme = createTheme(colorThemeContract, {
     tagBorder: 'none',
     popoverButtonHover: '#e0e0e0',
   },
+
+  primary: '#8ab4f8',
+  secondary: '#c2c2c2',
+  critical: '#e53935',
+  warning: '#fb8c00',
+  positive: '#2e7d32',
+  neutral: '#9e9e9e',
+  disabled: '#616161',
+  onMedia: '#ffffff',
+  primaryFaded: 'rgba(138, 180, 248, 0.7)',
+  neutralFaded: 'rgba(158, 158, 158, 0.5)',
+
+  borderNeutral: '#bdbdbd',
+  borderNeutralFaded: 'rgba(189, 189, 189, 0.5)',
+  borderPrimary: '#8ab4f8',
+  borderPrimaryFaded: 'rgba(138, 180, 248, 0.5)',
+  borderCritical: '#e53935',
+  borderCriticalFaded: 'rgba(229, 57, 53, 0.5)',
+  borderWarning: '#fb8c00',
+  borderWarningFaded: 'rgba(251, 140, 0, 0.5)',
+  borderPositive: '#2e7d32',
+  borderPositiveFaded: 'rgba(46, 125, 50, 0.5)',
+
+  backgroundNeutral: 'rgb(240, 240, 240)',
+  backgroundNeutralFaded: 'rgba(240, 240, 240, 0.6)',
+
+  backgroundPrimary: 'rgb(0, 120, 255)',
+  backgroundPrimaryFaded: 'rgba(0, 120, 255, 0.6)',
+
+  backgroundPositive: 'rgb(0, 200, 100)',
+  backgroundPositiveFaded: 'rgba(0, 200, 100, 0.5)',
+
+  backgroundCritical: 'rgb(255, 50, 50)',
+  backgroundCriticalFaded: 'rgba(255, 50, 50, 0.4)',
+
+  backgroundDisabled: 'rgb(180, 180, 180)',
+  backgroundDisabledFaded: 'rgba(180, 180, 180, 0.3)',
+
+  backgroundPage: 'rgb(250, 250, 255)',
+  backgroundPageFaded: 'rgba(250, 250, 255, 0.7)',
+
+  backgroundBase: 'rgb(255, 255, 255)',
+  backgroundElevated: 'rgb(245, 245, 245)',
+
+  black: 'rgb(0, 0, 0)',
+  white: 'rgb(255, 255, 255)',
+
+  textPrimary: 'rgb(0, 0, 0)', // 라이트 모드에서는 검은색 텍스트
+  textSecondary: 'rgb(80, 80, 80)',
+  textOnMedia: 'rgb(255, 255, 255)', // 미디어 위 텍스트는 항상 흰색
+
+  elevationBase: '#ffffff', // 기본 배경 (화이트)
+  elevationRaised: '#f5f5f5', // 약간 떠 있는 요소 배경
+  elevationOverlay: '#e0e0e0', // 기본 오버레이 배경
+  elevationOverlayHeavy: '#d6d6d6', // 강조 오버레이
+  elevationOverlayDimmed: 'rgba(0, 0, 0, 0.3)', // 배경 흐림 효과
+  elevationOverlayBlurred: 'rgba(0, 0, 0, 0.5)', // 강한 블러 효과
+
+  borderDisabled: '#c4c4c4', // 연한 회색 테두리
+  foregroundDisabled: '#9e9e9e', // 텍스트 포그라운드 (중간 회색)
 });
