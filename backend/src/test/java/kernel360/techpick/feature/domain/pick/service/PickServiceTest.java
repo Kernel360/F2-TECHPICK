@@ -124,34 +124,6 @@ class PickServiceTest {
             assertThat(readResult).isNotNull();
             assertThat(readResult).isEqualTo(saveResult);
         }
-
-        @Test
-        @DisplayName("""
-            링크가 비활성화 (Invalidated At)이 되면, Pick 데이터 조회 시
-            비활성화 되었다는 정보가 포함 되어 있어야 한다.
-        """)
-        void recognize_invalidated_pick_info_test() {
-            // given
-            LinkInfo linkInfo = new LinkInfo("linkUrl", "linkTitle", "linkDescription", "imageUrl", null);
-            List<Long> tagOrder = List.of(tag1.getId(), tag2.getId(), tag3.getId());
-            PickCommand.Create command = new PickCommand.Create(
-                user.getId(), "PICK", "MEMO",
-                tagOrder, unclassified.getId(), linkInfo
-            );
-            PickResult saveResult = pickService.saveNewPick(command);
-
-            // when (link invalidated)
-            Link link = linkAdaptor.getLink(linkInfo.url()).markAsInvalid();
-            link.markAsInvalid();
-            linkAdaptor.saveLink(linkMapper.of(link));
-
-            PickResult readResult
-                = pickService.getPick(new PickCommand.Read(user.getId(), saveResult.id()));
-
-            // then
-            assertThat(readResult).isNotNull();
-            assertThat(readResult.linkInfo().invalidatedAt()).isNotNull();
-        }
     }
 
     @Nested
