@@ -42,3 +42,7 @@ springdoc:
 
 api:
   base-url: ${TECHPICK_BASE_URL}
+
+#logging: # /* Transaction Logging */
+#  level:
+#    org.springframework.orm.jpa: DEBUG
