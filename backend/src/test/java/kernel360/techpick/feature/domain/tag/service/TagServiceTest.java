@@ -59,10 +59,10 @@ class TagServiceTest {
 	void getTagTest() {
 		// given
 		TagResult tagCreateResult = getTagCreateResult(0);
-		TagCommand.Read read = new TagCommand.Read(1L, tagCreateResult.id());
+		TagCommand.Read command = new TagCommand.Read(1L, tagCreateResult.id());
 
 		// when
-		TagResult tagReadResult = tagService.getTag(read);
+		TagResult tagReadResult = tagService.getTag(command);
 
 		// then
 		assertThat(tagReadResult).isNotNull();
@@ -123,28 +123,29 @@ class TagServiceTest {
 	void moveTagTest() {
 		// given
 		List<Long> tagIdList = new ArrayList<>();
-		List<Long> originalTagIdList = new ArrayList<>();
+		List<Long> expectedOrderList = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			TagResult tagResult = getTagCreateResult(i);
 			tagIdList.add(tagResult.id());
-			originalTagIdList.add(tagResult.id());
+			expectedOrderList.add(tagResult.id());
 		}
 
 		User user = userAdaptor.getUser(1L);
 		user.updateTagOrderList(tagIdList);
 
-		TagCommand.Move move = new TagCommand.Move(1L, tagIdList.get(3), 0);
+		Long targetId = expectedOrderList.get(0);
+		int targetIdx = 3;
+		expectedOrderList.remove(0);
+		expectedOrderList.add(targetIdx, targetId);
+
+		TagCommand.Move move = new TagCommand.Move(1L, targetId, targetIdx);
 
 		// when
 		tagService.moveUserTag(move);
 
-		log.info("Tag Id List : {}", originalTagIdList);
-		log.info("Move User Order List : {}", user.getTagOrderList());
-
 		// then
 		assertThat(user.getTagOrderList().size()).isEqualTo(5);
-		assertThat(user.getTagOrderList().get(0)).isNotEqualTo(originalTagIdList.get(0));
-		assertThat(user.getTagOrderList().get(1)).isNotEqualTo(originalTagIdList.get(3));
+		assertThat(user.getTagOrderList()).isEqualTo(expectedOrderList);
 	}
 
 	// TODO: orderIdx 음수인 경우 테스트 필요
@@ -182,12 +183,12 @@ class TagServiceTest {
 
 		AtomicInteger successCount = new AtomicInteger();
 		AtomicInteger failCount = new AtomicInteger();
-
 		// when
+
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
-					TagCommand.Create command = new TagCommand.Create(1L, "태그", 2);
+					TagCommand.Create command = new TagCommand.Create(1L, "태그12341", 2);
 					tagService.saveTag(command);
 					successCount.incrementAndGet(); // 성공 카운트
 				} catch (Exception e) {

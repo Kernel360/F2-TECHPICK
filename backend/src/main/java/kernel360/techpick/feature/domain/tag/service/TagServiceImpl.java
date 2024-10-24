@@ -6,13 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.tag.Tag;
-import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.tag.dto.TagCommand;
 import kernel360.techpick.feature.domain.tag.dto.TagMapper;
 import kernel360.techpick.feature.domain.tag.dto.TagResult;
-import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
+import kernel360.techpick.feature.domain.tag.exception.ApiTagException;
 import kernel360.techpick.feature.infrastructure.tag.TagAdaptor;
-import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,56 +19,63 @@ public class TagServiceImpl implements TagService {
 
 	private final TagAdaptor tagAdaptor;
 	private final TagMapper tagMapper;
-	private final PickAdaptor pickAdaptor;
-	private final UserAdaptor userAdaptor;
 
 	@Override
 	@Transactional(readOnly = true)
-	public TagResult getTag(TagCommand.Read command) {
-		Tag tag = tagAdaptor.getTag(command.userId(), command.tagId());
+	public TagResult getTag(TagCommand.Read command) throws ApiTagException {
+		Tag tag = tagAdaptor.getTag(command.tagId());
+		if (!command.userId().equals(tag.getUser().getId())) {
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+		}
 		return tagMapper.toResult(tag);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<TagResult> getUserTagList(Long userId) {
-		List<Tag> tagList = tagAdaptor.getTagList(userId);
-		return tagList.stream().map(tagMapper::toResult).toList();
+		return tagAdaptor.getTagList(userId).stream()
+			.map(tagMapper::toResult).toList();
 	}
 
 	@Override
 	@Transactional
 	public TagResult saveTag(TagCommand.Create command) {
-		User user = userAdaptor.getUser(command.userId());
-		Tag tag = tagMapper.toEntity(command, user);
-		tagAdaptor.saveTag(tag);
-		return tagMapper.toResult(tag);
+		if (tagAdaptor.checkDuplicateTagName(command.userId(), command.name())) {
+			throw ApiTagException.TAG_ALREADY_EXIST();
+		}
+		return tagMapper.toResult(tagAdaptor.saveTag(command.userId(), command));
 	}
 
 	@Override
 	@Transactional
 	public TagResult updateTag(TagCommand.Update command) {
-		Tag tag = tagAdaptor.getTag(command.userId(), command.tagId());
-		tag.updateTagName(command.name());
-		tag.updateColorNumber(command.colorNumber());
-		return tagMapper.toResult(tag);
+		Tag tag = tagAdaptor.getTag(command.tagId());
+		if (!command.userId().equals(tag.getUser().getId())) {
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+		}
+		if (tagAdaptor.checkDuplicateTagName(command.userId(), command.name())) {
+			throw ApiTagException.TAG_ALREADY_EXIST();
+		}
+		return tagMapper.toResult(tagAdaptor.updateTag(command));
 	}
 
 	@Override
 	@Transactional
 	public void moveUserTag(TagCommand.Move command) {
-		User user = userAdaptor.getUser(command.userId());
-		List<Long> userTagOrderList = user.getTagOrderList();
-
-		userTagOrderList.remove(command.tagId());
-		userTagOrderList.add(command.orderIdx(), command.tagId());
-		user.updateTagOrderList(userTagOrderList);
+		Tag tag = tagAdaptor.getTag(command.tagId());
+		if (!command.userId().equals(tag.getUser().getId())) {
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+		}
+		tagAdaptor.moveTag(command.userId(), command);
 	}
 
 	@Override
 	@Transactional
 	public void deleteTag(TagCommand.Delete command) {
-		tagAdaptor.deleteTag(command.tagId(), command.userId());
-		pickAdaptor.detachTagFromEveryPick(command.tagId());
+		Tag tag = tagAdaptor.getTag(command.tagId());
+		if (!command.userId().equals(tag.getUser().getId())) {
+			throw ApiTagException.UNAUTHORIZED_TAG_ACCESS();
+		}
+		tagAdaptor.deleteTag(command.userId(), command);
 	}
 }
