@@ -42,14 +42,14 @@ export const folderViewSection = style({
   display: 'flex',
   flexWrap: 'wrap',
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
-  padding: `${commonTheme.space[24]} ${commonTheme.space[16]}`,
+  padding: `${commonTheme.space[8]} ${commonTheme.space[16]}`,
 });
 
 export const linkViewSection = style({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
-  padding: `${commonTheme.space[24]} ${commonTheme.space[16]}`,
+  padding: `${commonTheme.space[8]} ${commonTheme.space[16]}`,
 });
 
 export const linkEditorSectionFooter = style({

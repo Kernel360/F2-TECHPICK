@@ -48,7 +48,7 @@ export const unClassifiedLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonTheme.space[24],
+  paddingLeft: commonTheme.space[8],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });
@@ -62,7 +62,7 @@ export const directoryLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonTheme.space[24],
+  paddingLeft: commonTheme.space[8],
   borderBottom: `1px solid ${colorThemeContract.color.border}`,
 });
 
@@ -91,7 +91,7 @@ export const recycleBinLabelContainer = style({
   height: '28px',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: commonTheme.space[24],
+  paddingLeft: commonTheme.space[8],
   borderTop: `1px solid ${colorThemeContract.color.border}`,
   cursor: 'pointer',
 });

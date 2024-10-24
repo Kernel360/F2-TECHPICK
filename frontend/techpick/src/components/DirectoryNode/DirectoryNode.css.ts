@@ -23,7 +23,7 @@ export const dirNode = style({
   alignItems: 'center',
   color: colorThemeContract.color.font,
   fontWeight: 300,
-  padding: `0 ${commonTheme.space[16]}`,
+  padding: `0 ${commonTheme.space[4]}`,
 });
 
 export const dirIcFolder = style({
