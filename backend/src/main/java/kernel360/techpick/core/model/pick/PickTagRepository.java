@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PickTagRepository extends JpaRepository<PickTag, Long> {
-	
-	List<PickTag> findByTagId(Long tagId);
+
+	List<PickTag> findAllByTagId(Long tagId);
 
 	void deleteByPick(Pick pick);
 
