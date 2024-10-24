@@ -12,7 +12,7 @@ import kernel360.techpick.feature.domain.tag.dto.TagMapper;
 import kernel360.techpick.feature.domain.tag.dto.TagResult;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import kernel360.techpick.feature.infrastructure.tag.TagAdaptor;
-import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
+import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,7 +22,7 @@ public class TagServiceImpl implements TagService {
 	private final TagAdaptor tagAdaptor;
 	private final TagMapper tagMapper;
 	private final PickAdaptor pickAdaptor;
-	private final UserReader userReader;
+	private final UserAdaptor userAdaptor;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -41,7 +41,7 @@ public class TagServiceImpl implements TagService {
 	@Override
 	@Transactional
 	public TagResult saveTag(TagCommand.Create command) {
-		User user = userReader.readUser(command.userId());
+		User user = userAdaptor.getUser(command.userId());
 		Tag tag = tagMapper.toEntity(command, user);
 		tagAdaptor.saveTag(tag);
 		return tagMapper.toResult(tag);
@@ -59,7 +59,7 @@ public class TagServiceImpl implements TagService {
 	@Override
 	@Transactional
 	public void moveUserTag(TagCommand.Move command) {
-		User user = userReader.readUser(command.userId());
+		User user = userAdaptor.getUser(command.userId());
 		List<Long> userTagOrderList = user.getTagOrderList();
 
 		userTagOrderList.remove(command.tagId());
