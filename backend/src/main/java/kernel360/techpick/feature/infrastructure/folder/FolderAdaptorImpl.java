@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class FolderAdapterImpl implements FolderAdapter {
+public class FolderAdaptorImpl implements FolderAdaptor {
 
 	FolderRepository folderRepository;
 

@@ -36,7 +36,7 @@ class TagServiceTest {
 	@Autowired
 	TagService tagService;
 
-	@Autowired // TODO: change to userAdaptor
+	@Autowired
 	UserAdaptor userAdaptor;
 
 	@BeforeAll

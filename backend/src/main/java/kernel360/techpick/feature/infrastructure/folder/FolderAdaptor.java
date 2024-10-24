@@ -6,7 +6,7 @@ import kernel360.techpick.core.model.folder.Folder;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
 
-public interface FolderAdapter {
+public interface FolderAdaptor {
 
 	Folder readFolder(User user, Long folderId);
 

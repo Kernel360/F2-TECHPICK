@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
@@ -12,7 +11,7 @@ import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
-import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdaptor;
 import kernel360.techpick.feature.infrastructure.link.LinkAdaptor;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
@@ -25,7 +24,7 @@ public class PickServiceImpl implements PickService {
 	private final LinkAdaptor linkAdaptor;
 	private final PickAdaptor pickAdaptor;
 	private final PickMapper pickMapper;
-	private final FolderAdapter folderAdapter;
+	private final FolderAdaptor folderAdaptor;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -39,7 +38,7 @@ public class PickServiceImpl implements PickService {
 	@Transactional
 	public PickResult saveNewPick(PickCommand.Create command) {
 		var user = userAdaptor.getUser(command.userId());
-		var folder = folderAdapter.readFolder(user, command.parentFolderId());
+		var folder = folderAdaptor.readFolder(user, command.parentFolderId());
 		var link = linkAdaptor.saveLink(command.linkInfo());
 		var pick = pickAdaptor.savePick(pickMapper.toEntity(command, user, folder, link));
 		return pickMapper.toCreateResult(pick);
@@ -60,7 +59,7 @@ public class PickServiceImpl implements PickService {
 	public PickResult movePick(PickCommand.Move command) {
 		var user = userAdaptor.getUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
-		var destinationFolder = folderAdapter.readFolder(user, command.parentFolderId());
+		var destinationFolder = folderAdaptor.readFolder(user, command.parentFolderId());
 
 		if (isParentFolderChanged(pick.getParentFolder(), destinationFolder)) {
 			movePickToOtherFolder(pick, destinationFolder, command.orderIdx());

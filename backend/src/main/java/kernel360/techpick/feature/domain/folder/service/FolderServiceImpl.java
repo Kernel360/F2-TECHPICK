@@ -10,7 +10,7 @@ import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.folder.dto.FolderCommand;
 import kernel360.techpick.feature.domain.folder.dto.FolderMapper;
 import kernel360.techpick.feature.domain.folder.dto.FolderResult;
-import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdaptor;
 import kernel360.techpick.feature.infrastructure.user.UserAdaptor;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FolderServiceImpl implements FolderService {
 
-	private final FolderAdapter folderAdapter;
+	private final FolderAdaptor folderAdaptor;
 	private final FolderMapper folderMapper;
 	private final UserAdaptor userAdaptor;
 
@@ -26,7 +26,7 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional(readOnly = true)
 	public FolderResult getFolder(FolderCommand.Read command) {
 		User user = userAdaptor.getUser(command.userId());
-		return folderMapper.toResult(folderAdapter.readFolder(user, command.folderId()));
+		return folderMapper.toResult(folderAdaptor.readFolder(user, command.folderId()));
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class FolderServiceImpl implements FolderService {
 	public List<FolderResult> getFolderListByParentFolderId(FolderCommand.Read command) {
 
 		User user = userAdaptor.getUser(command.userId());
-		Folder parentFolder = folderAdapter.readFolder(user, command.folderId());
+		Folder parentFolder = folderAdaptor.readFolder(user, command.folderId());
 
-		return folderAdapter.readFolderList(user, parentFolder)
-			.stream()
-			.map(folderMapper::toResult)
-			.toList();
+		return folderAdaptor.readFolderList(user, parentFolder)
+							.stream()
+							.map(folderMapper::toResult)
+							.toList();
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class FolderServiceImpl implements FolderService {
 	public FolderResult saveNewFolder(FolderCommand.Create command) {
 
 		User user = userAdaptor.getUser(command.userId());
-		Folder parentFolder = folderAdapter.readFolder(user, command.parentFolderId());
+		Folder parentFolder = folderAdaptor.readFolder(user, command.parentFolderId());
 		Folder folder = folderMapper.toEntity(command, user, parentFolder);
 
-		return folderMapper.toResult(folderAdapter.writeFolder(folder));
+		return folderMapper.toResult(folderAdaptor.writeFolder(folder));
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class FolderServiceImpl implements FolderService {
 	public FolderResult updateFolder(FolderCommand.Update command) {
 
 		User user = userAdaptor.getUser(command.userId());
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
+		Folder targetFolder = folderAdaptor.readFolder(user, command.folderId());
 		targetFolder.updateFolderName(command.name());
 
 		return folderMapper.toResult(targetFolder);
@@ -68,7 +68,7 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional
 	public FolderResult moveFolder(FolderCommand.Move command) {
 		User user = userAdaptor.getUser(command.userId());
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
+		Folder targetFolder = folderAdaptor.readFolder(user, command.folderId());
 		Folder originalParentFolder = targetFolder.getParentFolder();
 
 		if (isParentFolderNotChanged(command, originalParentFolder)) {
@@ -77,7 +77,7 @@ public class FolderServiceImpl implements FolderService {
 		}
 
 		originalParentFolder.removeChildFolderOrder(command.folderId());
-		Folder newParentFolder = folderAdapter.readFolder(user, command.parentFolderId());
+		Folder newParentFolder = folderAdaptor.readFolder(user, command.parentFolderId());
 		newParentFolder.updateChildFolderOrder(command.folderId(), command.orderIdx());
 		targetFolder.updateParentFolder(newParentFolder);
 
@@ -88,9 +88,9 @@ public class FolderServiceImpl implements FolderService {
 	@Transactional
 	public void deleteFolder(FolderCommand.Delete command) {
 		User user = userAdaptor.getUser(command.userId());
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
+		Folder targetFolder = folderAdaptor.readFolder(user, command.folderId());
 		targetFolder.getParentFolder().removeChildFolderOrder(command.folderId());
-		folderAdapter.removeFolder(targetFolder);
+		folderAdaptor.removeFolder(targetFolder);
 	}
 
 	private boolean isParentFolderNotChanged(FolderCommand.Move command, Folder originalFolder) {
