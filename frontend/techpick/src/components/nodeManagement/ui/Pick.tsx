@@ -1,9 +1,8 @@
 import React from 'react';
-import { NodeApi } from 'react-arborist';
-
 import Image from 'next/image';
-import { linkWrapper } from '@/components/nodeManagement/ui/pick.css';
+import { NodeApi } from 'react-arborist';
 import { useDragHook } from '@/components/nodeManagement/hooks/useDragHook';
+import { linkWrapper } from '@/components/nodeManagement/ui/pick.css';
 
 // 여기에 PickCard카드될 예정입니다.
 export function Pick({ node }: { node: NodeApi }) {

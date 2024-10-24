@@ -1,5 +1,5 @@
-import { ApiPickData, ApiStructureData } from '@/types/ApiTypes';
 import { getNewIdFromStructure } from '@/components/nodeManagement/utils/getNewIdFromStructure';
+import { ApiPickData, ApiStructureData } from '@/types/ApiTypes';
 import { NodeData } from '@/types';
 
 export function convertPickDataToNodeData(

@@ -1,10 +1,11 @@
 import { RefObject } from 'react';
-import { ConnectDropTarget, useDrop } from 'react-dnd';
-import { DragItem } from 'react-arborist/dist/main/types/dnd';
-import { computeDrop } from 'react-arborist/dist/main/dnd/compute-drop';
-import { actions as dnd } from 'react-arborist/dist/main/state/dnd-slice';
 import { NodeApi } from 'react-arborist';
+import { computeDrop } from 'react-arborist/dist/main/dnd/compute-drop';
 import { NodeApi as ArboristNodeApi } from 'react-arborist/dist/main/interfaces/node-api';
+import { actions as dnd } from 'react-arborist/dist/main/state/dnd-slice';
+import { DragItem } from 'react-arborist/dist/main/types/dnd';
+import { useDrop } from 'react-dnd';
+import type { ConnectDropTarget } from 'react-dnd';
 
 export type DropResult = {
   parentId: string | null;

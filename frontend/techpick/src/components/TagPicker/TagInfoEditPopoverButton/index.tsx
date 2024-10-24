@@ -3,18 +3,18 @@
 import { Dispatch, useRef, useState } from 'react';
 import { useFloating, shift } from '@floating-ui/react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
-import { notifyError } from '@/utils';
-import { useTagStore } from '@/stores/tagStore';
 import { ShowDeleteTagDialogButton } from '@/components';
-import { PopoverTriggerButton } from './PopoverTriggerButton';
+import { useTagStore } from '@/stores/tagStore';
+import { notifyError } from '@/utils';
 import { PopoverOverlay } from './PopoverOverlay';
-import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
+import { PopoverTriggerButton } from './PopoverTriggerButton';
 import {
   tagInfoEditFormLayout,
   tagInputStyle,
 } from './TagInfoEditPopoverButton.css';
-import { useQueryClient } from '@tanstack/react-query';
+import { isEmptyString, isSameValue } from './TagInfoEditPopoverButton.lib';
 import { TagType } from '@/types';
 
 export function TagInfoEditPopoverButton({

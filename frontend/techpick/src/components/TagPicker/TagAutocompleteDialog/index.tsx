@@ -4,19 +4,17 @@ import { Dispatch, useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { BarLoader } from 'react-spinners';
 import { color } from 'techpick-shared';
+import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
+import {
+  SelectedTagItem,
+  SelectedTagListLayout,
+  DeleteTagDialog,
+  DeselectTagButton,
+} from '@/components';
+import { useTagStore } from '@/stores/tagStore';
 import { useThemeStore } from '@/stores/themeStore';
 import { notifyError, numberToRandomColor } from '@/utils';
-import { useUpdatePickMutation, useGetPickQuery } from '@/apis/pick';
-import { useTagStore } from '@/stores/tagStore';
-import { SelectedTagItem, SelectedTagListLayout } from '@/components';
-import { DeleteTagDialog, DeselectTagButton } from '@/components';
 import { TagInfoEditPopoverButton } from '../TagInfoEditPopoverButton';
-import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
-import {
-  filterCommandItems,
-  CREATABLE_TAG_KEYWORD,
-  getRandomInt,
-} from './TagAutocompleteDialog.lib';
 import {
   tagDialogPortalLayout,
   commandInputStyle,
@@ -26,6 +24,12 @@ import {
   tagListStyle,
   tagListLoadingStyle,
 } from './TagAutocompleteDialog.css';
+import {
+  filterCommandItems,
+  CREATABLE_TAG_KEYWORD,
+  getRandomInt,
+} from './TagAutocompleteDialog.lib';
+import { useCalculateCommandListHeight } from './useCalculateCommandListHeight';
 import type { TagType } from '@/types';
 
 export function TagAutocompleteDialog({

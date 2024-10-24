@@ -1,3 +1,14 @@
+import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
+import { ChevronRight, ChevronDown } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { TreeContextMenu } from '@/components';
+import { useCreateFolder } from '@/components/nodeManagement/api/folder/useCreateFolder';
+import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
+import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
+import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
+import { useTreeStore } from '@/stores/treeStore';
+import { ApiStructureData } from '@/types/ApiTypes';
 import { DirectoryNodeProps } from '@/types/NodeData';
 import {
   dirIcFolder,
@@ -7,17 +18,6 @@ import {
   dirNodeWrapperFocused,
   nodeNameInput,
 } from './DirectoryNode.css';
-import Image from 'next/image';
-import { ChevronRight, ChevronDown } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
-import { useCreateFolder } from '@/components/nodeManagement/api/folder/useCreateFolder';
-import { ApiStructureData } from '@/types/ApiTypes';
-import { useGetDefaultFolderData } from '@/components/nodeManagement/api/folder/useGetDefaultFolderData';
-import { useMoveFolder } from '@/components/nodeManagement/api/folder/useMoveFolder';
-import toast from 'react-hot-toast';
-import { useTreeStore } from '@/stores/treeStore';
-import { getCurrentTreeTypeByNode } from '@/components/nodeManagement/utils/getCurrentTreeTypeByNode';
-import { TreeContextMenu } from '@/components';
 
 export const DirectoryNode = ({
   node,

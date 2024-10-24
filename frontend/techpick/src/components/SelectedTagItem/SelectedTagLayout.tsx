@@ -1,5 +1,5 @@
-import { selectedTagLayoutStyle } from './SelectedTagLayout.css';
 import { CSSProperties, ReactNode } from 'react';
+import { selectedTagLayoutStyle } from './SelectedTagLayout.css';
 
 export function SelectedTagLayout({
   style,

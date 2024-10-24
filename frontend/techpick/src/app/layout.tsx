@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ToastProvider, ThemeProvider } from '@/providers';
-import '@/styles/reset.css';
 import { DndProviderWrapper } from '@/providers/DndProviderWrapper';
 import { QueryProvider } from '@/providers/QueryProvider';
+import type { Metadata } from 'next';
+import '@/styles/reset.css';
 
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {

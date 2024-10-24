@@ -1,5 +1,5 @@
-import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
+import { colorThemeContract, commonThemeContract } from 'techpick-shared';
 
 export const leftSidebarSection = style({
   width: '400px',

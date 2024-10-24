@@ -1,11 +1,8 @@
 import React, { useCallback, useRef } from 'react';
-
-import { Folder } from '@/components';
-import { useTreeStore } from '@/stores/treeStore';
+import { Folder, PickCard, PickCardGridLayout, TagPicker } from '@/components';
 import { useDropHook } from '@/components/nodeManagement/hooks/useDropHook';
+import { useTreeStore } from '@/stores/treeStore';
 import { folderViewSection } from './LinkEditorSection.css';
-import { PickCard, PickCardGridLayout } from '@/components';
-import { TagPicker } from '@/components';
 
 export const LinkEditor = () => {
   const { treeRef, focusedNode, focusedFolderNodeList, focusedLinkNodeList } =

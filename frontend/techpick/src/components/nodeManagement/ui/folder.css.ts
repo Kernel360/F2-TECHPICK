@@ -1,5 +1,5 @@
-import { commonThemeContract } from 'techpick-shared';
 import { style } from '@vanilla-extract/css';
+import { commonThemeContract } from 'techpick-shared';
 
 export const folderWrapper = style({
   display: 'flex',
