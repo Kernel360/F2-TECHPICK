@@ -3,16 +3,21 @@ package kernel360.techpick.feature.infrastructure.folder;
 import java.util.List;
 
 import kernel360.techpick.core.model.folder.Folder;
-import kernel360.techpick.core.model.user.User;
-import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
+import kernel360.techpick.feature.domain.folder.dto.FolderCommand;
 
 public interface FolderAdapter {
 
-	Folder readFolder(User user, Long folderId);
+	Folder getFolder(Long folderId);
 
-	List<Folder> readFolderList(User user, Folder parentFolder);
+	List<Folder> getFolderList(List<Long> idList);
 
-	Folder writeFolder(Folder folder) throws ApiFolderException;
+	Folder saveFolder(FolderCommand.Create command);
 
-	void removeFolder(Folder folder);
+	Folder updateFolder(FolderCommand.Update command);
+
+	List<Long> moveFolderWithinParent(FolderCommand.Move command);
+
+	List<Long> moveFolderToDifferentParent(FolderCommand.Move command);
+	
+	void deleteFolder(FolderCommand.Delete command);
 }
