@@ -2,6 +2,7 @@ package kernel360.techpick.feature.infrastructure.pick;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.core.model.pick.PickRepository;
@@ -22,6 +23,7 @@ public class PickAdaptorImpl implements PickAdaptor {
     private final TagRepository tagRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Pick getPick(User user, Long pickId) {
         Pick pick = pickRepository.findById(pickId).orElseThrow(ApiPickException::PICK_NOT_FOUND);
         if (ObjectUtils.notEqual(user, pick.getUser())) {
@@ -31,6 +33,7 @@ public class PickAdaptorImpl implements PickAdaptor {
     }
 
     @Override
+    @Transactional
     public Pick savePick(Pick pick) throws ApiPickException {
         pickRepository.findByUserAndLink(pick.getUser(), pick.getLink())
                       .ifPresent((__) -> { throw ApiPickException.PICK_MUST_BE_UNIQUE_FOR_A_URL(); });
@@ -47,6 +50,7 @@ public class PickAdaptorImpl implements PickAdaptor {
     }
 
     @Override
+    @Transactional
     public void deletePick(Pick pick) {
         pickRepository.delete(pick);
         pickTagRepository.deleteByPick(pick);

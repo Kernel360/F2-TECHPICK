@@ -32,30 +32,24 @@ import kernel360.techpick.core.model.user.SocialType;
 import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.core.model.user.UserRepository;
 import kernel360.techpick.feature.domain.link.dto.LinkInfo;
+import kernel360.techpick.feature.domain.link.dto.LinkMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
 import kernel360.techpick.feature.infrastructure.link.LinkAdaptor;
-import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest(classes = TechpickApplication.class)
 @ActiveProfiles("test")
 class PickServiceTest {
+
     @Autowired PickService pickService;
-    @Autowired PickAdaptor pickAdaptor;
+    @Autowired LinkAdaptor linkAdaptor;
+    @Autowired LinkMapper linkMapper;
 
     User user;
     Folder root, recycleBin, unclassified, general;
     Tag tag1, tag2, tag3;
-    @Autowired
-    private PickRepository pickRepository;
-    @Autowired
-    private PickTagRepository pickTagRepository;
-    @Autowired
-    private LinkAdaptor linkAdaptor;
-    @Autowired
-    private LinkRepository linkRepository;
 
     @BeforeEach // TODO: change to Adaptor
     void setUp(
@@ -148,7 +142,8 @@ class PickServiceTest {
 
             // when (link invalidated)
             Link link = linkAdaptor.getLink(linkInfo.url()).markAsInvalid();
-            linkRepository.saveAndFlush(link);
+            link.markAsInvalid();
+            linkAdaptor.saveLink(linkMapper.of(link));
 
             PickResult readResult
                 = pickService.getPick(new PickCommand.Read(user.getId(), saveResult.id()));
@@ -167,7 +162,7 @@ class PickServiceTest {
         """)
         void create_multiple_pick_concurrent_test() throws InterruptedException {
             // given
-            int threadCount = 2;
+            int threadCount = 10;
             ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
             CountDownLatch countDownLatch = new CountDownLatch(threadCount);
 
@@ -177,8 +172,6 @@ class PickServiceTest {
             LinkInfo linkInfo = new LinkInfo("linkUrl", "linkTitle", "linkDescription", "imageUrl", null);
             List<Long> tagOrder = List.of(tag1.getId(), tag2.getId(), tag3.getId());
 
-            log.info("----------start -------------------");
-
             // when
             for (int i = 0; i < threadCount; i++) {
                 executorService.submit(() -> {
@@ -187,10 +180,6 @@ class PickServiceTest {
                             user.getId(), "PICK", "MEMO",
                             tagOrder, unclassified.getId(), linkInfo
                         );
-                        // NOTE: linkUrl 필드에 unique 제약 조건이 걸려 있기에, DB 예외 발생
-                        //       이 제약 조건이 없다면 같은 픽이 두번 생성 된다.
-                        //       왜냐면 pick 저장 시, pick한 대상 url이 이미 존재하는지 체크하는 과정에서
-                        //       "없다" 고 통과되기 때문.
                         pickService.saveNewPick(command);
                         successCount.incrementAndGet(); // 성공 카운트
                     } catch (Exception e) {
@@ -218,12 +207,32 @@ class PickServiceTest {
     class updatePick {
         @Test
         @DisplayName("""
-           픽의 제목, 메모는 null 값이 들어오면 예외를 발생시킨다.
+           픽의 제목, 메모는 null 값이 들어오면 수정을 하지 않는다.
+           모두 null 값이 들어올 경우 아무 일도 발생하지 않는다.
         """)
         void update_data_with_null_test() {
             // given
+            LinkInfo linkInfo = new LinkInfo("linkUrl", "linkTitle", "linkDescription", "imageUrl", null);
+            List<Long> tagOrder = List.of(tag1.getId(), tag2.getId(), tag3.getId());
+            PickCommand.Create command = new PickCommand.Create(
+                user.getId(), "PICK", "MEMO",
+                tagOrder, unclassified.getId(), linkInfo
+            );
+            PickResult createResult = pickService.saveNewPick(command);
+
             // when
+            String newTitle = "NEW_PICK";
+            List<Long> newTagOrder = List.of(tag3.getId(), tag2.getId(), tag1.getId());
+            PickCommand.Update updateCommand = new PickCommand.Update(
+                user.getId(), createResult.id(),
+                newTitle, null /* memo not changed */, newTagOrder
+            );
+            PickResult updateResult = pickService.updatePick(updateCommand);
+
             // then
+            assertThat(updateResult.title()).isNotEqualTo(createResult.title()).isEqualTo(newTitle); // changed
+            assertThat(updateResult.tagOrder()).isNotEqualTo(createResult.tagOrder()).isEqualTo(newTagOrder); // changed
+            assertThat(updateResult.memo()).isEqualTo(createResult.memo()); // unchanged
         }
     }
 

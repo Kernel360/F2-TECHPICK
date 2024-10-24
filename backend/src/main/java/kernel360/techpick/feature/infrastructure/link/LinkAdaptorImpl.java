@@ -22,21 +22,19 @@ public class LinkAdaptorImpl implements LinkAdaptor {
     private final LinkMapper linkMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Link getLink(String url) {
         return linkRepository.findByUrl(url).orElseThrow(ApiLinkException::LINK_NOT_FOUND);
     }
 
 
     @Override
-    // @Transactional(isolation = Isolation.SERIALIZABLE)
     @Transactional
     public synchronized Link saveLink(LinkInfo info) {
-    // public Link saveLink(LinkInfo info) {
         Optional<Link> link = linkRepository.findByUrl(info.url());
         if (link.isPresent()) {
-            throw ApiLinkException.LINK_ALREADY_EXISTS();
-            // link.get().updateMetadata(info.title(), info.description(), info.imageUrl());
-            // return link.get();
+            link.get().updateMetadata(info.title(), info.description(), info.imageUrl());
+            return link.get();
         }
         return linkRepository.save(linkMapper.of(info));
     }
