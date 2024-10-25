@@ -6,91 +6,112 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kernel360.techpick.core.model.folder.Folder;
-import kernel360.techpick.core.model.user.User;
 import kernel360.techpick.feature.domain.folder.dto.FolderCommand;
 import kernel360.techpick.feature.domain.folder.dto.FolderMapper;
 import kernel360.techpick.feature.domain.folder.dto.FolderResult;
-import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
-import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
+import kernel360.techpick.feature.domain.folder.exception.ApiFolderException;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdaptor;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class FolderServiceImpl implements FolderService {
 
-	private final FolderAdapter folderAdapter;
+	private final FolderAdaptor folderAdaptor;
 	private final FolderMapper folderMapper;
-	private final UserReader userReader;
 
 	@Override
 	@Transactional(readOnly = true)
 	public FolderResult getFolder(FolderCommand.Read command) {
-		User user = userReader.readCurrentUser();
-		return folderMapper.toResult(folderAdapter.readFolder(user, command.folderId()));
+		Folder folder = folderAdaptor.getFolder(command.folderId());
+
+		if (!command.userId().equals(folder.getUser().getId())) {
+			throw ApiFolderException.FOLDER_ACCESS_DENIED();
+		}
+
+		return folderMapper.toResult(folder);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FolderResult> getFolderListByParentFolderId(FolderCommand.Read command) {
+	public List<FolderResult> getChildFolderList(FolderCommand.Read command) {
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
-		User user = userReader.readCurrentUser();
-		Folder parentFolder = folderAdapter.readFolder(user, command.folderId());
+		if (!command.userId().equals(folder.getUser().getId())) {
+			throw ApiFolderException.FOLDER_ACCESS_DENIED();
+		}
 
-		return folderAdapter.readFolderList(user, parentFolder)
+		return folderAdaptor.getFolderList(folder.getChildFolderOrderList())
 			.stream()
 			.map(folderMapper::toResult)
 			.toList();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getRootFolder(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getRootFolder(userId));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getRecycleBin(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getRecycleBin(userId));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getUnclassifiedFolder(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getUnclassifiedFolder(userId));
+	}
+
+	@Override
 	@Transactional
-	public FolderResult saveNewFolder(FolderCommand.Create command) {
-
-		User user = userReader.readCurrentUser();
-		Folder parentFolder = folderAdapter.readFolder(user, command.parentFolderId());
-		Folder folder = folderMapper.toEntity(command, user, parentFolder);
-
-		return folderMapper.toResult(folderAdapter.writeFolder(folder));
+	public FolderResult saveFolder(FolderCommand.Create command) {
+		return folderMapper.toResult(folderAdaptor.saveFolder(command));
 	}
 
 	@Override
 	@Transactional
 	public FolderResult updateFolder(FolderCommand.Update command) {
 
-		User user = userReader.readCurrentUser();
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
-		targetFolder.updateFolderName(command.name());
+		Folder folder = folderAdaptor.getFolder(command.folderId());
 
-		return folderMapper.toResult(targetFolder);
+		if (!command.userId().equals(folder.getUser().getId())) {
+			throw ApiFolderException.FOLDER_ACCESS_DENIED();
+		}
+
+		return folderMapper.toResult(folderAdaptor.updateFolder(command));
 	}
 
 	@Override
 	@Transactional
-	public FolderResult moveFolder(FolderCommand.Move command) {
-		User user = userReader.readCurrentUser();
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
-		Folder originalParentFolder = targetFolder.getParentFolder();
+	public void moveFolder(FolderCommand.Move command) {
 
-		if (isParentFolderNotChanged(command, originalParentFolder)) {
-			originalParentFolder.updateChildFolderOrder(command.folderId(), command.orderIdx());
-			return folderMapper.toResult(targetFolder);
+		Folder folder = folderAdaptor.getFolder(command.folderId());
+
+		if (!command.userId().equals(folder.getUser().getId())) {
+			throw ApiFolderException.FOLDER_ACCESS_DENIED();
 		}
 
-		originalParentFolder.removeChildFolderOrder(command.folderId());
-		Folder newParentFolder = folderAdapter.readFolder(user, command.parentFolderId());
-		newParentFolder.updateChildFolderOrder(command.folderId(), command.orderIdx());
-		targetFolder.updateParentFolder(newParentFolder);
-
-		return folderMapper.toResult(targetFolder);
+		if (isParentFolderNotChanged(command, folder.getParentFolder())) {
+			folderAdaptor.moveFolderWithinParent(command);
+		} else {
+			folderAdaptor.moveFolderToDifferentParent(command);
+		}
 	}
 
 	@Override
 	@Transactional
 	public void deleteFolder(FolderCommand.Delete command) {
-		User user = userReader.readCurrentUser();
-		Folder targetFolder = folderAdapter.readFolder(user, command.folderId());
-		targetFolder.getParentFolder().removeChildFolderOrder(command.folderId());
-		folderAdapter.removeFolder(targetFolder);
+
+		Folder folder = folderAdaptor.getFolder(command.folderId());
+
+		if (!command.userId().equals(folder.getUser().getId())) {
+			throw ApiFolderException.FOLDER_ACCESS_DENIED();
+		}
+
+		folderAdaptor.deleteFolder(command);
 	}
 
 	private boolean isParentFolderNotChanged(FolderCommand.Move command, Folder originalFolder) {

@@ -11,7 +11,7 @@ import kernel360.techpick.core.model.pick.Pick;
 import kernel360.techpick.feature.domain.pick.dto.PickCommand;
 import kernel360.techpick.feature.domain.pick.dto.PickMapper;
 import kernel360.techpick.feature.domain.pick.dto.PickResult;
-import kernel360.techpick.feature.infrastructure.folder.FolderAdapter;
+import kernel360.techpick.feature.infrastructure.folder.FolderAdaptor;
 import kernel360.techpick.feature.infrastructure.link.writer.LinkWriter;
 import kernel360.techpick.feature.infrastructure.pick.PickAdaptor;
 import kernel360.techpick.feature.infrastructure.user.reader.UserReader;
@@ -24,7 +24,7 @@ public class PickServiceImpl implements PickService {
 	private final LinkWriter linkWriter;
 	private final PickAdaptor pickAdaptor;
 	private final PickMapper pickMapper;
-	private final FolderAdapter folderAdapter;
+	private final FolderAdaptor folderAdaptor;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -38,7 +38,7 @@ public class PickServiceImpl implements PickService {
 	@Transactional
 	public PickResult saveNewPick(PickCommand.Create command) {
 		var user = userReader.readUser(command.userId());
-		var folder = folderAdapter.readFolder(user, command.parentFolderId());
+		var folder = folderAdaptor.getFolder(command.parentFolderId());
 		var link = linkWriter.writeLink(command.linkInfo());
 		var pick = pickAdaptor.savePick(pickMapper.toEntity(command, user, folder, link));
 		return pickMapper.toCreateResult(pick);
@@ -49,7 +49,7 @@ public class PickServiceImpl implements PickService {
 	public PickResult updatePick(PickCommand.Update command) {
 		var user = userReader.readUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId())
-							  .updateTitle(command.title()).updateMemo(command.memo());
+			.updateTitle(command.title()).updateMemo(command.memo());
 		updateNewTagIdList(pick, command.tagIdList());
 		return pickMapper.toUpdateResult(pick);
 	}
@@ -59,7 +59,7 @@ public class PickServiceImpl implements PickService {
 	public PickResult movePick(PickCommand.Move command) {
 		var user = userReader.readUser(command.userId());
 		var pick = pickAdaptor.getPick(user, command.pickId());
-		var destinationFolder = folderAdapter.readFolder(user, command.parentFolderId());
+		var destinationFolder = folderAdaptor.getFolder(command.parentFolderId());
 
 		if (isParentFolderChanged(pick.getParentFolder(), destinationFolder)) {
 			movePickToOtherFolder(pick, destinationFolder, command.orderIdx());
