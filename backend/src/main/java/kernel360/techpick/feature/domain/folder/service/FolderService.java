@@ -11,6 +11,12 @@ public interface FolderService {
 
 	List<FolderResult> getChildFolderList(FolderCommand.Read command);
 
+	FolderResult getRootFolder(Long userId);
+
+	FolderResult getRecycleBin(Long userId);
+
+	FolderResult getUnclassifiedFolder(Long userId);
+
 	FolderResult saveFolder(FolderCommand.Create command);
 
 	FolderResult updateFolder(FolderCommand.Update command);

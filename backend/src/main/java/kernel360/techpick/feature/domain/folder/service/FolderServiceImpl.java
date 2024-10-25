@@ -48,6 +48,24 @@ public class FolderServiceImpl implements FolderService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getRootFolder(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getRootFolder(userId));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getRecycleBin(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getRecycleBin(userId));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FolderResult getUnclassifiedFolder(Long userId) {
+		return folderMapper.toResult(folderAdaptor.getUnclassifiedFolder(userId));
+	}
+
+	@Override
 	@Transactional
 	public FolderResult saveFolder(FolderCommand.Create command) {
 		return folderMapper.toResult(folderAdaptor.saveFolder(command));

@@ -11,6 +11,12 @@ public interface FolderAdaptor {
 
 	List<Folder> getFolderList(List<Long> idList);
 
+	Folder getRootFolder(Long userId);
+
+	Folder getRecycleBin(Long userId);
+
+	Folder getUnclassifiedFolder(Long userId);
+
 	Folder saveFolder(FolderCommand.Create command);
 
 	Folder updateFolder(FolderCommand.Update command);

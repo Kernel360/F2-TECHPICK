@@ -36,6 +36,24 @@ public class FolderAdaptorImpl implements FolderAdaptor {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public Folder getRootFolder(Long userId) {
+		return folderRepository.findRootByUserId(userId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Folder getRecycleBin(Long userId) {
+		return folderRepository.findRecycleBinByUserId(userId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Folder getUnclassifiedFolder(Long userId) {
+		return folderRepository.findUnclassifiedByUserId(userId);
+	}
+
+	@Override
 	@Transactional
 	public Folder saveFolder(FolderCommand.Create command) {
 		User user = userRepository.findById(command.userId()).orElseThrow(ApiUserException::USER_NOT_FOUND);
